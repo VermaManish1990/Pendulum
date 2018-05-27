@@ -1,0 +1,130 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="textSize8">8sp</dimen>
+    <dimen name="textSize9">9sp</dimen>
+    <dimen name="textSize10">10sp</dimen>
+    <dimen name="textSize11">11sp</dimen>
+    <dimen name="textSize12">12sp</dimen>
+    <dimen name="textSize13">13sp</dimen>
+    <dimen name="textSize14">14sp</dimen>
+    <dimen name="textSize15">15sp</dimen>
+    <dimen name="textSize16">16sp</dimen>
+    <dimen name="textSize17">17sp</dimen>
+    <dimen name="textSize18">18sp</dimen>
+    <dimen name="textSize19">19sp</dimen>
+    <dimen name="textSize20">20sp</dimen>
+    <dimen name="textSize21">21sp</dimen>
+    <dimen name="textSize22">22sp</dimen>
+    <dimen name="textSize23">23sp</dimen>
+    <dimen name="textSize24">24sp</dimen>
+    <dimen name="textSize25">25sp</dimen>
+    <dimen name="textSize26">26sp</dimen>
+    <dimen name="textSize27">27sp</dimen>
+    <dimen name="textSize28">28sp</dimen>
+    <dimen name="textSize29">29sp</dimen>
+    <dimen name="textSize30">30sp</dimen>
+    <dimen name="textSize34">34sp</dimen>
+
+
+    <dimen name="margin0.5">0.5dp</dimen>
+    <dimen name="margin1">1dp</dimen>
+    <dimen name="margin2">2dp</dimen>
+    <dimen name="margin3">3dp</dimen>
+    <dimen name="margin4">4dp</dimen>
+    <dimen name="margin5">5dp</dimen>
+    <dimen name="margin6">6dp</dimen>
+    <dimen name="margin7">7dp</dimen>
+    <dimen name="margin8">8dp</dimen>
+    <dimen name="margin9">9dp</dimen>
+    <dimen name="margin10">10dp</dimen>
+    <dimen name="margin11">11dp</dimen>
+    <dimen name="margin12">12dp</dimen>
+    <dimen name="margin13">13dp</dimen>
+    <dimen name="margin14">14dp</dimen>
+    <dimen name="margin15">15dp</dimen>
+    <dimen name="margin16">16dp</dimen>
+    <dimen name="margin17">17dp</dimen>
+    <dimen name="margin18">18dp</dimen>
+    <dimen name="margin19">19dp</dimen>
+    <dimen name="margin20">20dp</dimen>
+    <dimen name="margin22">22dp</dimen>
+    <dimen name="margin23">23dp</dimen>
+    <dimen name="margin24">24dp</dimen>
+    <dimen name="margin25">25dp</dimen>
+    <dimen name="margin26">26dp</dimen>
+    <dimen name="margin27">27dp</dimen>
+    <dimen name="margin28">28dp</dimen>
+    <dimen name="margin30">30dp</dimen>
+    <dimen name="margin32">32dp</dimen>
+    <dimen name="margin35">35dp</dimen>
+    <dimen name="margin36">36dp</dimen>
+    <dimen name="margin40">40dp</dimen>
+    <dimen name="margin42">42dp</dimen>
+    <dimen name="margin45">45dp</dimen>
+    <dimen name="margin47">47dp</dimen>
+    <dimen name="margin48">48dp</dimen>
+    <dimen name="margin50">50dp</dimen>
+    <dimen name="margin53">53dp</dimen>
+    <dimen name="margin54">54dp</dimen>
+    <dimen name="margin56">56dp</dimen>
+    <dimen name="margin60">60dp</dimen>
+    <dimen name="margin70">70dp</dimen>
+    <dimen name="margin72">72dp</dimen>
+    <dimen name="margin76">76dp</dimen>
+    <dimen name="margin80">80dp</dimen>
+    <dimen name="margin90">90dp</dimen>
+    <dimen name="margin94">94dp</dimen>
+    <dimen name="margin95">95dp</dimen>
+    <dimen name="margin96">96dp</dimen>
+    <dimen name="margin100">100dp</dimen>
+    <dimen name="margin105">105dp</dimen>
+    <dimen name="margin110">110dp</dimen>
+    <dimen name="margin116">116dp</dimen>
+    <dimen name="margin130">130dp</dimen>
+    <dimen name="margin150">150dp</dimen>
+    <dimen name="margin170">170dp</dimen>
+    <dimen name="margin200">200dp</dimen>
+    <dimen name="margin260">260dp</dimen>
+    <dimen name="margin270">270dp</dimen>
+    <dimen name="margin280">280dp</dimen>
+    <dimen name="margin300">300dp</dimen>
+
+
+    <dimen name="button_elevation_material">2dp</dimen>
+    <!-- Z translation to apply when button is pressed -->
+    <dimen name="button_pressed_z_material">4dp</dimen>
+    <!-- Default insets (outer padding) around buttons -->
+    <dimen name="button_inset_vertical_material">4dp</dimen>
+    <dimen name="button_inset_horizontal_material">@dimen/control_inset_material</dimen>
+    <!-- Default inner padding within buttons -->
+    <dimen name="button_padding_vertical_material">@dimen/control_padding_material</dimen>
+    <dimen name="button_padding_horizontal_material">15dp</dimen>
+
+    <!-- Default insets (outer padding) around controls -->
+    <dimen name="control_inset_material">8dp</dimen>
+    <!-- Default inner padding within controls -->
+    <dimen name="control_padding_material">4dp</dimen>
+    <!-- Default rounded corner for controls -->
+    <dimen name="control_corner_material">2dp</dimen>
+    <dimen name="margin65">65dp</dimen>
+    <dimen name="margin220">220dp</dimen>
+    <dimen name="margin250">250dp</dimen>
+    <dimen name="margin160">160dp</dimen>
+    <dimen name="textSize46">46sp</dimen>
+    <dimen name="margin180">180dp</dimen>
+    <dimen name="margin240">240dp</dimen>
+    <dimen name="margin151">151dp</dimen>
+    <dimen name="margin58">58dp</dimen>
+    <dimen name="margin37">37dp</dimen>
+    <dimen name="textsize52">52sp</dimen>
+    <dimen name="textsize35">35sp</dimen>
+    <dimen name="textsize31">31sp</dimen>
+
+
+</resources>

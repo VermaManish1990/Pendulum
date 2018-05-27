@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2B64A2</color>
+    <color name="colorPrimaryDark">#1F4D7B</color>
+    <color name="colorAccent">#4f4f4f</color>
+    <color name="white">#ffffff</color>
+    <color name="colorLightWhite">#deffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="button_color">#CACACA</color>
+
+    <color name="title_txt_color">#DE353535</color>
+    <color name="hint_title_txt_color">#55353535</color>
+    <color name="color_seperator_grey">#f4f4f4</color>
+    <color name="color_border_grey">#bababa</color>
+
+    <color name="green">#65ab0b</color>
+    <color name="background">#f1f1f1</color>
+    <color name="border_color_blue">#95b9cd</color>
+    <color name="default_text_color">#4f4f4f</color>
+    <color name="transparentblack">#98000000</color>
+    <color name="cart_red">#b3585b</color>
+    <color name="colorRed">#d3232e</color>
+    <color name="colorLightBlack62">#62353535</color>
+    <color name="colorLightBlack52">#52353535</color>
+    <color name="colorLightBlack58">#58353535</color>
+    <color name="colorLightBlack46">#46353535</color>
+    <color name="colorLightBlue">#0066a7</color>
+    <color name="colorLightGreen">#65ab0b</color>
+    <color name="colorLightGray">#f2f2f2</color>
+        <color name="colorView45">#45979797</color>
+    <color name="colorLightView">#e0e0e0</color>
+    <color name="colorLightBlack">#353535</color>
+    <color name="colorGray37">#37d8d8d8</color>
+    <color name="colorGray39">#39d8d8d8</color>
+    <color name="colorGray30">#30d8d8d8</color>
+    <color name="black_87">#de353535</color>
+    <color name="light_black_87">#52353535</color>
+    <color name="light_black_75">#75353535</color>
+    <color name="light_blue">#006595</color>
+    <color name="light_grey">#353535</color>
+    <color name="textColorBlack80">#80353535</color>
+    <color name="light_blue_txt_color">#de0066a7</color>
+    <color name="lighter_blue_txt_color">#320066a7</color>
+    <color name="grey_underline">#979797</color>
+    <color name="light_black_txt_color">#de686868</color>
+    <color name="grey_bg">#d8d8d8</color>
+    <color name="grey_56">#56d8d8d8</color>
+    <color name="colorLightBlackTextColor">#032941</color>
+    <color name="light_gray_72">#72eaeaea</color>
+    <color name="colorSkyBlue">#cde6f6</color>
+    <color name="colorDarkGray">#de515151</color>
+
+    <color name="transparentblue">#38006595</color>
+    <color name="transparenlighttblue">#660066a7</color>
+    <color name="transparentwhite">#F1FFFFFF</color>
+    <color name="colorLightRed">#deb20d0d</color>
+    <color name="text_color_red">#8a220a</color>
+    <color name="text_blackish">#de000000</color>
+    <color name="red">#e21836</color>
+    <color name="colorGrayTextColor">#dd7a7a7a</color>
+    <color name="colorWhiteText">#ddffffff</color>
+    <color name="colorWhiteText45">#45ffffff</color>
+    <color name="colorWhiteText29">#29ffffff</color>
+    <color name="colorBlue">#095c91</color>
+    <color name="color_blue">#005191</color>
+    <color name="offwhite">#f7f7f7</color>
+    <color name="colorGrayLight">#aaada7</color>
+    <color name="colorLightBlueDD">#dd0066a7</color>
+    <color name="colorBottomGray">#a9a7a7</color>
+    <color name="colorBottomBlue">#1f78b0</color>
+    <color name="colorGreen">#00cbbc</color>
+        <color name="colorHintRate">#dd353535</color>
+    <color name="colorHintbg">#60353535</color>
+
+    <color name="txt_black_color">#dd151515</color>
+    <color name="txt_green_color">#649b1c</color>
+    <color name="txt_disable_black">#30151515</color>
+    <color name="color_blue_dark">#004d7f</color>
+    <color name="color_off_white">#38ffffff</color>
+    <color name="grey_border_color">#35dfdfdf</color>
+    <color name="colorBlack7">#07000000</color>
+    <color name="colorWhite80">#80ffffff</color>
+
+    <color name="sky_blue">#0085f5</color>
+    <color name="orange">#ff9c00</color>
+    <color name="light_red">#ff3c3c</color>
+    <color name="purple">#8d20a5</color>
+    <color name="light_dark">#45353535</color>
+    <color name ="unselected_tab_color">#b2ffffff</color>
+
+    <color name="off_white_border">#f0f0f0</color>
+    <color name="alpha_off_white_border">#60f0f0f0</color>
+    <color name="colorBlackGray">#dda9a9a9</color>
+
+    <color name="light_grey_bg">#40d8d8d8</color>
+    <color name="textcolorLoightBlack62">#62232323</color>
+    <color name="colortrans_white">#45ffffff</color>
+    <color name="light_red_bg">#90bd0a0a</color>
+
+    <color name="blue_light_bg">#96CDF1</color>
+    <color name="green_light_bg">#95DEC5</color>
+    <color name="txt_color_pnr">#677b8e</color>
+    <color name="txt_color_green">#36a327</color>
+    <color name="txt_color_off_white">#d1ecff</color>
+    <color name="txt_green">#64ed3d</color>
+    <color name="seprator_light_blue">#55a1d2</color>
+    <color name="txt_color_light_blue">#87d0ff</color>
+    <color name="bg">#e7e7e7</color>
+    <color name="green_line">#35cf8f</color>
+    <color name="light_black_station">#405160</color>
+    <color name="light_green">#61e93a</color>
+    <color name="heading_bg">#ecf1ff</color>
+    <color name="heading_txt_color">#3d5062</color>
+    <color name="station_txt_color">#22b31f</color>
+    <color name="dark_txt_color">#405160</color>
+    <color name="cheese_txt_color">#de7a7a7a</color>
+    <color name="cheese_bg_color">#efecec</color>
+    <color name="added_topping_txt">#898989</color>
+    <color name="red_color">#d53915</color>
+    <color name="light_blue_bg">#bde6f3</color>
+    <color name="grey_bg_light">#b3bac0</color>
+
+
+
+
+    <!-- Bootstrap Brand Colors (Universal) -->
+
+    <!-- Grayscale -->
+    <color name="bootstrap_gray_dark">#373a3c</color>
+    <color name="bootstrap_gray">#55595c</color>
+    <color name="bootstrap_gray_light">#005e95</color>
+    <color name="bootstrap_gray_lighter">#eceeef</color>
+    <color name="bootstrap_gray_lightest">#f7f7f9</color>
+
+
+    <!-- Brand -->
+    <color name="bootstrap_brand_primary">#75ffffff</color>
+    <color name="bootstrap_brand_success">#5cb85c</color>
+    <color name="bootstrap_brand_info">#5bc0de</color>
+    <color name="bootstrap_brand_warning">#f0ad4e</color>
+    <color name="bootstrap_brand_danger">#d9534f</color>
+
+    <!-- Buttons -->
+    <color name="bootstrap_brand_secondary_fill">#ffffff</color>
+    <color name="bootstrap_brand_secondary_border">#cccccc</color>
+    <color name="bootstrap_brand_secondary_text">#373a3c</color>
+    <color name="colorBlack90">#EE000000</color>
+    <color name="colorBlueLight">#9C9C9C</color>
+    <color name="light_blue_loc">#9dc8f3</color>
+
+
+</resources>
