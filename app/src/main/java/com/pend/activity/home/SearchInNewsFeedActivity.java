@@ -1,18 +1,16 @@
-package com.pend;
+package com.pend.activity.home;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
-import com.pend.util.NetworkUtil;
+import com.pend.BaseActivity;
+import com.pend.R;
 
-public class SplashActivity extends BaseActivity {
-
+public class SearchInNewsFeedActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-        NetworkUtil.getDeviceId(this);
+        setContentView(R.layout.activity_search_in_news_feed);
     }
 
     @Override

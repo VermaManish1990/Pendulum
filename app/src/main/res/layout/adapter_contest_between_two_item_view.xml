@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/custom_rounded_grey_border"
+    android:padding="@dimen/_10sdp">
+
+    <RelativeLayout
+        android:id="@+id/rl_top_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="@dimen/_36sdp"
+            android:layout_height="@dimen/_36sdp" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_toEndOf="@+id/iv_profile"
+            android:layout_toLeftOf="@+id/bt_share_on_facebook"
+            android:layout_toRightOf="@+id/iv_profile"
+            android:layout_toStartOf="@+id/bt_share_on_facebook"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="Manmohan Singh"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/bt_share_on_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/custom_rounded_grey_border"
+            android:paddingEnd="@dimen/_5sdp"
+            android:paddingStart="@dimen/_5sdp"
+            android:text="@string/share_on_facebook"
+            android:textAllCaps="false"
+            android:textSize="@dimen/_12sdp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_top_view"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="Who is the best player in indian cricket team?"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_14sdp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_tap_here_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_title"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="@string/tap_here_to_vote" />
+
+    <RelativeLayout
+        android:id="@+id/rl_bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_tap_here_text"
+        android:padding="@dimen/_10sdp">
+
+        <LinearLayout
+            android:id="@+id/ll_left_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_mirror1_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_11sdp"
+                android:text="Rohit Sharma" />
+
+            <TextView
+                android:id="@+id/tv_mirror2_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:text="Virat Kohli" />
+
+            <TextView
+                android:id="@+id/tv_mirror3_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:text="MS Dhoni" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_right_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_toEndOf="@+id/ll_left_view"
+            android:layout_toRightOf="@+id/ll_left_view"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_mirror1_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/custom_rounded_sky_blue_view"
+                android:gravity="center"
+                android:text="33%" />
+
+            <TextView
+                android:id="@+id/tv_mirror2_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:background="@drawable/custom_rounded_pink_view"
+                android:gravity="center"
+                android:text="33%" />
+
+            <TextView
+                android:id="@+id/tv_mirror3_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:background="@drawable/custom_rounded_royal_blue_view"
+                android:gravity="center"
+                android:text="34%" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_created_by"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_below="@+id/rl_bottom_view"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:background="@drawable/custom_rounded_grey_border"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/_10sdp"
+        android:paddingStart="@dimen/_10sdp"
+        android:text="Created by Jil Delhberg"
+        android:textAllCaps="false" />
+
+    <ImageView
+        android:id="@+id/iv_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_created_by"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/tv_created_by"
+        android:contentDescription="@string/image" />
+
+    <TextView
+        android:id="@+id/tv_comment_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/iv_comment"
+        android:layout_toStartOf="@+id/iv_comment"
+        android:layout_alignTop="@+id/tv_created_by"
+        android:layout_alignBottom="@+id/tv_created_by"
+        android:gravity="center"
+        android:text="20" />
+
+</RelativeLayout>

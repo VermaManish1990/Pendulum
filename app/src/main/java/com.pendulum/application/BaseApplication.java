@@ -8,16 +8,11 @@
 
 package com.pendulum.application;
 
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
-import android.support.v4.BuildConfig;
 import android.util.Log;
 
-import com.taxi.database.*;
+import com.pend.BuildConfig;
 
 import java.util.HashSet;
 import java.util.Timer;
@@ -29,7 +24,8 @@ import java.util.TimerTask;
 public abstract class BaseApplication extends MultiDexApplication {
 
     private static final String LOG_TAG = "BaseApplication";
-    private DBHelper mBaseDbHelper;
+    public static boolean IS_LOG_ENABLE = true;
+//    private DBHelper mBaseDbHelper;
     private Timer mActivityTransitionTimer;
     private TimerTask mActivityTransitionTimerTask;
     public boolean mAppInBackground;
@@ -143,37 +139,6 @@ public abstract class BaseApplication extends MultiDexApplication {
         };
 
         this.mActivityTransitionTimer.schedule(mActivityTransitionTimerTask, MAX_ACTIVITY_TRANSITION_TIME_MS);
-    }
-
-    /**
-     * Get the BaseDbHelper instance.
-     *
-     * @return mBaseDbHelper
-     */
-    public DBHelper getBaseDbHelper() {
-        String dbName = null;
-        int dbVersion = -1;
-        try {
-            ApplicationInfo ai = getApplicationMetaData();
-            Bundle bundle = ai.metaData;
-            dbName = bundle.getString("DB_NAME");
-            dbVersion = bundle.getInt("DB_VERSION");
-        } catch (NameNotFoundException e) {
-        } catch (NullPointerException e) {
-        }
-        if (dbName == null || dbVersion <= 0) {
-            throw new IllegalStateException("DB name or version is not configured. Please check <meta-data> in manifest file");
-        }
-        if (mBaseDbHelper == null) {
-            mBaseDbHelper = new DBHelper(this, dbName, null, dbVersion);
-        }
-        return mBaseDbHelper;
-    }
-
-    public ApplicationInfo getApplicationMetaData()
-            throws NameNotFoundException {
-        ApplicationInfo ai = getPackageManager().getApplicationInfo(this.getPackageName(), PackageManager.GET_META_DATA);
-        return ai;
     }
 
 

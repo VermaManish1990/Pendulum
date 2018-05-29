@@ -15,7 +15,7 @@ import android.util.Log;
 
 
 import com.jakewharton.disklrucache.DiskLruCache;
-import com.premiumtaxi.loosta.BuildConfig;
+import com.pend.BuildConfig;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

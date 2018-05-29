@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/custom_rounded_grey_border"
+    android:padding="@dimen/_10sdp">
+
+    <Button
+        android:id="@+id/bt_share_on_facebook"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/custom_rounded_grey_border"
+        android:paddingEnd="@dimen/_5sdp"
+        android:paddingStart="@dimen/_5sdp"
+        android:text="@string/share_on_facebook"
+        android:textAllCaps="false"
+        android:textSize="@dimen/_12sdp" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bt_share_on_facebook"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:text="Who would make a better PM"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/rl_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_title"
+        android:layout_marginTop="@dimen/_15sdp">
+
+        <ImageView
+            android:id="@+id/iv_left_profile"
+            android:layout_width="@dimen/_96sdp"
+            android:layout_height="@dimen/_96sdp"
+            android:contentDescription="@string/image" />
+
+        <ImageView
+            android:id="@+id/iv_right_profile"
+            android:layout_width="@dimen/_96sdp"
+            android:layout_height="@dimen/_96sdp"
+            android:layout_alignBottom="@+id/iv_left_profile"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/iv_left_profile"
+            android:contentDescription="@string/image" />
+
+        <ImageView
+            android:layout_width="@dimen/_36sdp"
+            android:layout_height="@dimen/_36sdp"
+            android:layout_alignTop="@+id/iv_left_profile"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:contentDescription="@string/image" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/iv_left_profile"
+            android:layout_alignLeft="@+id/iv_left_profile"
+            android:layout_alignRight="@+id/iv_left_profile"
+            android:layout_alignStart="@+id/iv_left_profile"
+            android:layout_below="@+id/iv_left_profile"
+            android:gravity="center"
+            android:text="Kejriwal"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/iv_right_profile"
+            android:layout_alignLeft="@+id/iv_right_profile"
+            android:layout_alignRight="@+id/iv_right_profile"
+            android:layout_alignStart="@+id/iv_right_profile"
+            android:layout_below="@+id/iv_right_profile"
+            android:gravity="center"
+            android:text="Modi"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_created_by"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_below="@+id/rl_view"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:background="@drawable/custom_rounded_grey_border"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/_10sdp"
+        android:paddingStart="@dimen/_10sdp"
+        android:text="Created by Jil Delhberg"
+        android:textAllCaps="false" />
+
+    <ImageView
+        android:id="@+id/iv_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_created_by"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/tv_created_by"
+        android:contentDescription="@string/image" />
+
+    <TextView
+        android:id="@+id/tv_comment_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_created_by"
+        android:layout_alignTop="@+id/tv_created_by"
+        android:layout_toLeftOf="@+id/iv_comment"
+        android:layout_toStartOf="@+id/iv_comment"
+        android:gravity="center"
+        android:text="20" />
+
+</RelativeLayout>

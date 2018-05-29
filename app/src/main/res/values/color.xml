@@ -3,6 +3,15 @@
     <color name="colorPrimary">#2B64A2</color>
     <color name="colorPrimaryDark">#1F4D7B</color>
     <color name="colorAccent">#4f4f4f</color>
+
+    <color name="black">#000000</color>
+    <color name="colorDarkBlue">#2a3040</color>
+    <color name="lightGreyBackground">#40ffffff</color>
+    <color name="dark_grey_font">#90000000</color>
+    <color name="pink">#FF1493</color>
+    <color name="skyBlue">#00BFFF</color>
+    <color name="royalBlue">#4169E1</color>
+
     <color name="white">#ffffff</color>
     <color name="colorLightWhite">#deffffff</color>
     <color name="transparent">#00000000</color>
@@ -27,7 +36,7 @@
     <color name="colorLightBlue">#0066a7</color>
     <color name="colorLightGreen">#65ab0b</color>
     <color name="colorLightGray">#f2f2f2</color>
-        <color name="colorView45">#45979797</color>
+    <color name="colorView45">#45979797</color>
     <color name="colorLightView">#e0e0e0</color>
     <color name="colorLightBlack">#353535</color>
     <color name="colorGray37">#37d8d8d8</color>
@@ -69,7 +78,7 @@
     <color name="colorBottomGray">#a9a7a7</color>
     <color name="colorBottomBlue">#1f78b0</color>
     <color name="colorGreen">#00cbbc</color>
-        <color name="colorHintRate">#dd353535</color>
+    <color name="colorHintRate">#dd353535</color>
     <color name="colorHintbg">#60353535</color>
 
     <color name="txt_black_color">#dd151515</color>
@@ -86,7 +95,7 @@
     <color name="light_red">#ff3c3c</color>
     <color name="purple">#8d20a5</color>
     <color name="light_dark">#45353535</color>
-    <color name ="unselected_tab_color">#b2ffffff</color>
+    <color name="unselected_tab_color">#b2ffffff</color>
 
     <color name="off_white_border">#f0f0f0</color>
     <color name="alpha_off_white_border">#60f0f0f0</color>
@@ -119,8 +128,6 @@
     <color name="red_color">#d53915</color>
     <color name="light_blue_bg">#bde6f3</color>
     <color name="grey_bg_light">#b3bac0</color>
-
-
 
 
     <!-- Bootstrap Brand Colors (Universal) -->

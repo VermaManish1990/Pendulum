@@ -7,7 +7,7 @@
 
 package com.pendulum.parser;
 
-import com.taxi.model.IModel;
+import com.pendulum.model.IModel;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

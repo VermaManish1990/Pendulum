@@ -5,7 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings;
 
-import com.pend.Constants;
+import com.pend.interfaces.Constants;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

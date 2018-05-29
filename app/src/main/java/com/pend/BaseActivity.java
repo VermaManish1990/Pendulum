@@ -9,8 +9,6 @@ import android.view.WindowManager;
 
 import com.pendulum.ui.IScreen;
 
-import pendulum.com.pend.R;
-
 public abstract class BaseActivity extends AppCompatActivity implements IScreen {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

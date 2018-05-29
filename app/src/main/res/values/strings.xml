@@ -1,3 +1,38 @@
 <resources>
     <string name="app_name">Pendulum</string>
+    <string name="image">image</string>
+    <string name="email_id">EMAIL ID</string>
+    <string name="password">PASSWORD</string>
+    <string name="need_account">Need Account?</string>
+    <string name="sign_in">Sign in</string>
+    <string name="forgot">Forgot?</string>
+    <string name="name">Name</string>
+    <string name="age">Age</string>
+    <string name="gender">Gender</string>
+    <string name="location">Location</string>
+    <string name="upload_photo">Upload photo</string>
+    <string name="save">Save</string>
+    <string name="account">Account</string>
+    <string name="email">Email</string>
+    <string name="mirror">Mirror</string>
+    <string name="invisiblity_in_reflection">Invisiblity in Reflection</string>
+    <string name="arena">Arena</string>
+    <string name="don_t_show_me_in_open_search">Don\'t show me in open search</string>
+    <string name="about">About</string>
+    <string name="log_out">Log out</string>
+    <string name="password_small">Password</string>
+    <string name="phone_number">Phone number</string>
+    <string name="contest">Contest</string>
+    <string name="see_more">See more</string>
+    <string name="no_result_found">No result found.</string>
+    <string name="create_mirror">Create mirror</string>
+    <string name="search_result">Search result</string>
+    <string name="share_on_facebook">Share on Facebook</string>
+    <string name="tap_here_to_vote">Tap here to vote</string>
+    <string name="network_connection">Network Connection is not available</string>
+    <string name="server_error_from_api">Something went wrong. Please try again!</string>
+    <string name="status_is_false">Status is false</string>
+    <string name="wrong_case_selection">Wrong case selection</string>
+
+
 </resources>
