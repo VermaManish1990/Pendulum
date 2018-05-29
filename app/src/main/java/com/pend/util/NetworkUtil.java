@@ -16,7 +16,6 @@ public class NetworkUtil {
     public static final String getSecurityKey(Context context) {
         String deviceId = "";
         String securityKey = getDeviceId(context) + Constants.SECURITY_CONSTANT;
-        //TODO :: MD5 Encryption
         return getMd5Encryption(securityKey);
     }
 
