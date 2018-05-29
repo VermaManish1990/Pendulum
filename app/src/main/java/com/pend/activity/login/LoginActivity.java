@@ -19,13 +19,15 @@ import com.pendulum.volley.ext.RequestManager;
 
 public class LoginActivity extends BaseActivity {
     private final String TAG = LoginActivity.class.getSimpleName();
-    private String mUserName;
-    private String mPassword;
+    private String mUserName = "12345";
+    private String mPassword = "12345";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        getData(IApiEvent.REQUEST_LOGIN_CODE);
     }
 
     @Override
@@ -76,7 +78,7 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     protected void deliverResponse(LoginResponseModel response) {
-                        updateUi(false, actionID, response);
+                        updateUi(true, actionID, response);
 
                     }
                 });

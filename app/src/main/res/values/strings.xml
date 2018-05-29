@@ -33,6 +33,7 @@
     <string name="server_error_from_api">Something went wrong. Please try again!</string>
     <string name="status_is_false">Status is false</string>
     <string name="wrong_case_selection">Wrong case selection</string>
+    <string name="data_data_DSD_pics"><![CDATA[<string name=\"data_data_DSD_pics\">data/data/DSD/pics</string>]]></string>
 
 
 </resources>
