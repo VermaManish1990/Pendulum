@@ -80,7 +80,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             case IApiEvent.REQUEST_SIGN_UP_CODE:
                 if (status) {
                     BaseResponseModel baseesponseModel = (BaseResponseModel) serviceResponse;
-                    if (baseesponseModel != null && baseesponseModel.status == 1) {
+                    if (baseesponseModel != null && baseesponseModel.status) {
                         LoggerUtil.d(TAG, baseesponseModel.statusCode);
 
                         Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
@@ -150,7 +150,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             case R.id.bt_sign_up:
 
                 if (isAllFieldsValid()) {
-
                     if (isPasswordMatch()) {
                         getData(IApiEvent.REQUEST_SIGN_UP_CODE);
                     } else {

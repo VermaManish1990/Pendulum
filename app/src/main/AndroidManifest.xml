@@ -21,12 +21,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.login.SignUpActivity" />
-        <activity android:name=".activity.login.EditMyProfileActivity" />
-        <activity android:name=".activity.login.SettingActivity" />
-        <activity android:name=".activity.home.SearchInNewsFeedActivity" />
-        <activity android:name=".activity.login.ProfileActivity" />
-        <activity android:name=".SplashActivity" />
+        <activity
+            android:name=".activity.login.SignUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.login.EditMyProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.login.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.home.SearchInNewsFeedActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.login.ProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SplashActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

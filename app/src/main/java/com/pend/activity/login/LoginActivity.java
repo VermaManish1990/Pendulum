@@ -61,7 +61,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case IApiEvent.REQUEST_LOGIN_CODE:
                 if (status) {
                     LoginResponseModel loginResponseModel = (LoginResponseModel) serviceResponse;
-                    if (loginResponseModel != null && loginResponseModel.status == 1) {
+                    if (loginResponseModel != null && loginResponseModel.status ) {
                         LoggerUtil.d(TAG, loginResponseModel.statusCode);
 
                         SharedPrefUtils.setUserLoggedIn(LoginActivity.this,true);
