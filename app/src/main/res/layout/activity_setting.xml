@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -26,31 +27,40 @@
                 android:textSize="@dimen/_15sdp" />
 
             <ImageView
+                android:id="@+id/iv_account_dropdown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/tv_account_text"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/down"
                 android:layout_alignTop="@+id/tv_account_text"
-                android:contentDescription="@string/image" />
+                android:contentDescription="@string/image"
+                android:src="@drawable/down" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_account_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp">
 
             <TextView
                 android:id="@+id/tv_email_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_account_text"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/email" />
 
-            <TextView
-                android:id="@+id/tv_email"
+            <EditText
+                android:id="@+id/et_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/tv_email_text"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/tv_email_text"
+                android:background="null"
+                android:textSize="@dimen/_13sdp"
                 android:text="shubham.chauhan@kelltontech.com" />
 
             <View
@@ -69,13 +79,15 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/phone_number" />
 
-            <TextView
-                android:id="@+id/tv_phone_number"
+            <EditText
+                android:id="@+id/et_phone_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/tv_phone_number_text"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
+                android:background="null"
+                android:textSize="@dimen/_13sdp"
                 android:layout_alignTop="@+id/tv_phone_number_text"
                 android:text="8445123526" />
 
@@ -95,8 +107,8 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/password_small" />
 
-            <TextView
-                android:id="@+id/tv_password"
+            <EditText
+                android:id="@+id/et_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/tv_password_text"
@@ -104,10 +116,10 @@
                 android:layout_alignParentRight="true"
                 android:inputType="textPassword"
                 android:text="123456789"
+                android:background="null"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15sdp"
-                android:textStyle="bold"
-                tools:ignore="TextViewEdits" />
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
@@ -131,31 +143,38 @@
                 android:textSize="@dimen/_15sdp" />
 
             <ImageView
+                android:id="@+id/iv_mirror_dropdown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/tv_mirror_text"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/down"
                 android:layout_alignTop="@+id/tv_mirror_text"
-                android:contentDescription="@string/image" />
+                android:contentDescription="@string/image"
+                android:src="@drawable/down" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_mirror_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp">
 
             <TextView
-                android:id="@+id/tv_invisiblity_reflection_text"
+                android:id="@+id/tv_invisibility_reflection_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_mirror_text"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:text="@string/invisiblity_in_reflection" />
+                android:text="@string/invisibility_in_reflection" />
 
             <CheckBox
+                android:id="@+id/cb_invisibility_in_reflection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/tv_invisiblity_reflection_text"
+                android:layout_alignBottom="@+id/tv_invisibility_reflection_text"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/tv_invisiblity_reflection_text" />
-
+                android:layout_alignTop="@+id/tv_invisibility_reflection_text" />
         </RelativeLayout>
 
         <View
@@ -178,31 +197,38 @@
                 android:textSize="@dimen/_15sdp" />
 
             <ImageView
+                android:id="@+id/iv_arena_dropdown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/tv_arena_text"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/down"
                 android:layout_alignTop="@+id/tv_arena_text"
-                android:contentDescription="@string/image" />
+                android:contentDescription="@string/image"
+                android:src="@drawable/down" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_arena_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp">
 
             <TextView
                 android:id="@+id/tv_don_t_show_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_arena_text"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/don_t_show_me_in_open_search" />
 
             <CheckBox
+                android:id="@+id/cb_open_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/tv_don_t_show_text"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/tv_don_t_show_text" />
-
         </RelativeLayout>
 
         <View
@@ -225,16 +251,24 @@
                 android:textSize="@dimen/_15sdp" />
 
             <ImageView
+                android:id="@+id/iv_about_dropdown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/tv_about_text"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/right"
                 android:layout_alignTop="@+id/tv_about_text"
-                android:contentDescription="@string/image" />
+                android:contentDescription="@string/image"
+                android:src="@drawable/right" />
 
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"
@@ -243,6 +277,7 @@
             android:background="@color/lightGreyBackground" />
 
         <TextView
+            android:id="@+id/tv_logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"

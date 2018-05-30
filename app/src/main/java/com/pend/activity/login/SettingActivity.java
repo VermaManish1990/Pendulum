@@ -1,6 +1,11 @@
 package com.pend.activity.login;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
@@ -17,9 +22,28 @@ import com.pendulum.utils.ConnectivityUtils;
 import com.pendulum.volley.ext.GsonObjectRequest;
 import com.pendulum.volley.ext.RequestManager;
 
-public class SettingActivity extends BaseActivity {
+public class SettingActivity extends BaseActivity implements View.OnClickListener {
 
     private final String TAG = SettingActivity.class.getSimpleName();
+    private View mRootView;
+    private View mRlAccountView;
+    private View mRlArenaView;
+    private View mRlMirrorView;
+
+    private TextView mTvLogout;
+    private TextView mTvAbout;
+
+    private ImageView mIvAboutDropdown;
+    private ImageView mIvArenaDropdown;
+    private ImageView mIvAccountDropdown;
+    private ImageView mIvMirrorDropdown;
+
+    private EditText mEtPassword;
+    private EditText mEtPhoneNumber;
+    private EditText mEtEmail;
+
+    private CheckBox mCbOpenSearch;
+    private CheckBox mCbInvisibilityInReflection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +56,30 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void initUI() {
 
+        mRootView = findViewById(R.id.root_view);
+        mRlAccountView = findViewById(R.id.rl_account_view);
+        mRlArenaView = findViewById(R.id.rl_arena_view);
+        mRlMirrorView = findViewById(R.id.rl_mirror_view);
+
+        mIvAboutDropdown = findViewById(R.id.iv_about_dropdown);
+        mIvArenaDropdown = findViewById(R.id.iv_arena_dropdown);
+        mIvAccountDropdown = findViewById(R.id.iv_account_dropdown);
+        mIvMirrorDropdown = findViewById(R.id.iv_mirror_dropdown);
+
+        mEtPassword = findViewById(R.id.et_password);
+        mEtPhoneNumber = findViewById(R.id.et_phone_number);
+        mEtEmail = findViewById(R.id.et_email);
+
+        mCbOpenSearch = findViewById(R.id.cb_open_search);
+        mCbInvisibilityInReflection = findViewById(R.id.cb_invisibility_in_reflection);
+
+        mTvAbout = findViewById(R.id.tv_about);
+        findViewById(R.id.tv_logout).setOnClickListener(this);
+
+        mIvAboutDropdown.setOnClickListener(this);
+        mIvArenaDropdown.setOnClickListener(this);
+        mIvAccountDropdown.setOnClickListener(this);
+        mIvMirrorDropdown.setOnClickListener(this);
     }
 
     @Override
@@ -133,5 +181,30 @@ public class SettingActivity extends BaseActivity {
     @Override
     public void onAuthError() {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_logout:
+                getData(IApiEvent.REQUEST_USER_LOGOUT_CODE);
+                break;
+
+            case R.id.iv_about_dropdown:
+                break;
+
+            case R.id.iv_arena_dropdown:
+                break;
+
+            case R.id.iv_mirror_dropdown:
+                break;
+
+            case R.id.iv_account_dropdown:
+                break;
+
+            default:
+                LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
+                break;
+        }
     }
 }
