@@ -25,9 +25,20 @@ public abstract class BaseActivity extends AppCompatActivity implements IScreen 
         super.onCreate(savedInstanceState);
         //opening transition animations
 //        overridePendingTransitionEnter();
+    }
 
+    /**
+     * Method is used to initialize view.
+     */
+    protected void initUI(){
 
-//
+    }
+
+    /**
+     * Method is used to set Initial Data.
+     */
+    protected void setInitialData(){
+
     }
 
 

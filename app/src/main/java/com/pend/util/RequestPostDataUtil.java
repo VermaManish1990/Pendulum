@@ -21,4 +21,26 @@ public class RequestPostDataUtil {
         LoggerUtil.d(RequestPostDataUtil.class.getSimpleName(), requestParameters.toString());
         return requestParameters;
     }
+
+    /**
+     * Method to get Request Parameters for Sign Up Api
+     *
+     * @param userFullName userFullName
+     * @param userEmail userEmail
+     * @param userPhone userPhone
+     * @param userPassword userPassword
+     * @return JsonObject
+     */
+    public static JsonObject signUpApiRegParam(String userFullName,String userEmail,String userPhone,String userPassword) {
+        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "loginApiRegParam");
+
+        JsonObject requestParameters = new JsonObject();
+        requestParameters.addProperty("userFullName", userFullName);
+        requestParameters.addProperty("userEmail", userEmail);
+        requestParameters.addProperty("userPhone", userPhone);
+        requestParameters.addProperty("userPassword", userPassword);
+
+        LoggerUtil.d(RequestPostDataUtil.class.getSimpleName(), requestParameters.toString());
+        return requestParameters;
+    }
 }

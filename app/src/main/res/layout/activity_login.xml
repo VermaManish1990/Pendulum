@@ -56,6 +56,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <TextView
+        android:id="@+id/tv_forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/input_layout_password"
@@ -79,6 +80,7 @@
         android:textSize="@dimen/_15sdp" />
 
     <TextView
+        android:id="@+id/bt_sign_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bt_sign_in"

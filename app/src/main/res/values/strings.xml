@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Pendulum</string>
     <string name="image">image</string>
+    <string name="name_capital">NAME</string>
     <string name="email_id">EMAIL ID</string>
     <string name="password">PASSWORD</string>
     <string name="need_account">Need Account?</string>
@@ -34,6 +35,12 @@
     <string name="status_is_false">Status is false</string>
     <string name="wrong_case_selection">Wrong case selection</string>
     <string name="data_data_DSD_pics"><![CDATA[<string name=\"data_data_DSD_pics\">data/data/DSD/pics</string>]]></string>
+    <string name="phone_number_capital">PHONE NUMBER</string>
+    <string name="password_capital">PASSWORD</string>
+    <string name="confirm_password_capital">CONFIRM PASSWORD</string>
+    <string name="sign_up">Sign up</string>
+    <string name="already_have_an_account_sign_in">Already have an account? Sign in</string>
+    <string name="password_not_match">Password did not match</string>
 
 
 </resources>
