@@ -26,6 +26,23 @@ public class NetworkUtil {
         return headers;
     }
 
+    public static final HashMap<String, String> getHeadersWithUserId(Context context) {
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put(Constants.PARAM_SECURITY_KEY, getSecurityKey(context));
+        headers.put(Constants.PARAM_DEVICE_ID, getDeviceId(context));
+        headers.put(Constants.PARAM_USER_ID, "12345");
+        return headers;
+    }
+
+    public static final HashMap<String, String> getHeadersWithUserIdAndPageNumber(Context context, String pageNumber) {
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put(Constants.PARAM_SECURITY_KEY, getSecurityKey(context));
+        headers.put(Constants.PARAM_DEVICE_ID, getDeviceId(context));
+        headers.put(Constants.PARAM_USER_ID, "12345");
+        headers.put(Constants.PREF_PAGE_NUMBER, pageNumber);
+        return headers;
+    }
+
     public static String getDeviceId(Context mContext) {
         String deviceId = Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
         return deviceId;

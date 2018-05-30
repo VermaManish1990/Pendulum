@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
+import com.pend.BaseResponseModel;
 import com.pend.R;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
@@ -26,8 +27,8 @@ import com.pendulum.volley.ext.RequestManager;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, TextWatcher {
     private final String TAG = LoginActivity.class.getSimpleName();
-    private String mUserName ;
-    private String mPassword ;
+    private String mUserName;
+    private String mPassword;
     private EditText mEtEmail;
     private EditText mEtPassword;
     private boolean mIsChecked = true;
@@ -64,10 +65,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     if (loginResponseModel != null && loginResponseModel.status ) {
                         LoggerUtil.d(TAG, loginResponseModel.statusCode);
 
-                        SharedPrefUtils.setUserLoggedIn(LoginActivity.this,true);
+                        SharedPrefUtils.setUserLoggedIn(LoginActivity.this, true);
                         Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
                         startActivity(intent);
                         finish();
+
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                    }
+                } else {
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
+                break;
+
+            case IApiEvent.REQUEST_FORGOT_PASSWORD_CODE:
+                if (status) {
+                    BaseResponseModel baseResponseModel = (BaseResponseModel) serviceResponse;
+                    if (baseResponseModel != null && baseResponseModel.status) {
+                        LoggerUtil.d(TAG, baseResponseModel.statusCode);
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -96,17 +111,36 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
 //        showProgressDialog(getResources().getString(R.string.pleaseWait), false);
 
+        JsonObject requestObject;
+        String request;
+
         switch (actionID) {
             case IApiEvent.REQUEST_LOGIN_CODE:
 
-                JsonObject requestObject = RequestPostDataUtil.loginApiRegParam(mUserName, mPassword);
-                String request = requestObject.toString();
+                requestObject = RequestPostDataUtil.loginApiRegParam(mUserName, mPassword);
+                request = requestObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<LoginResponseModel>(IWebServices.REQUEST_LOGIN_URL, NetworkUtil.getHeaders(this),
                         request, LoginResponseModel.class, new
                         VolleyErrorListener(this, actionID)) {
 
                     @Override
                     protected void deliverResponse(LoginResponseModel response) {
+                        updateUi(true, actionID, response);
+
+                    }
+                });
+                break;
+
+            case IApiEvent.REQUEST_FORGOT_PASSWORD_CODE:
+
+                requestObject = RequestPostDataUtil.forgotPasswordApiRegParam("rahulchauhan9927@gmail.com");
+                request = requestObject.toString();
+                RequestManager.addRequest(new GsonObjectRequest<BaseResponseModel>(IWebServices.REQUEST_FORGOT_PASSWORD_URL, NetworkUtil.getHeaders(this),
+                        request, BaseResponseModel.class, new
+                        VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(BaseResponseModel response) {
                         updateUi(true, actionID, response);
 
                     }
@@ -130,7 +164,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         switch (view.getId()) {
             case R.id.bt_sign_in:
 
-                if(isAllFieldsValid()){
+                if (isAllFieldsValid()) {
                     getData(IApiEvent.REQUEST_LOGIN_CODE);
                 }
                 break;
@@ -144,6 +178,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 break;
 
             case R.id.tv_forgot_password:
+                getData(IApiEvent.REQUEST_LOGIN_CODE);
+
                 break;
 
             default:
