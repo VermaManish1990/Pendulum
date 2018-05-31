@@ -30,7 +30,7 @@ public class NetworkUtil {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Constants.PARAM_SECURITY_KEY, getSecurityKey(context));
         headers.put(Constants.PARAM_DEVICE_ID, getDeviceId(context));
-        headers.put(Constants.PARAM_USER_ID, "12345");
+        headers.put(Constants.PARAM_USER_ID, SharedPrefUtils.getUserId(context));
         return headers;
     }
 
@@ -38,7 +38,7 @@ public class NetworkUtil {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Constants.PARAM_SECURITY_KEY, getSecurityKey(context));
         headers.put(Constants.PARAM_DEVICE_ID, getDeviceId(context));
-        headers.put(Constants.PARAM_USER_ID, "12345");
+        headers.put(Constants.PARAM_USER_ID, SharedPrefUtils.getUserId(context));
         headers.put(Constants.PREF_PAGE_NUMBER, pageNumber);
         return headers;
     }

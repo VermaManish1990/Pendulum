@@ -1,5 +1,6 @@
 package com.pend;
 
+import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,8 @@ import android.view.WindowManager;
 import com.pendulum.ui.IScreen;
 
 public abstract class BaseActivity extends AppCompatActivity implements IScreen {
+    private Dialog customProgressDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -30,15 +33,50 @@ public abstract class BaseActivity extends AppCompatActivity implements IScreen 
     /**
      * Method is used to initialize view.
      */
-    protected void initUI(){
+    protected void initUI() {
 
     }
 
     /**
      * Method is used to set Initial Data.
      */
-    protected void setInitialData(){
+    protected void setInitialData() {
 
+    }
+
+    /**
+     * Shows a simple native progress dialog<br/>
+     * Subclass can override below two methods for custom dialogs- <br/>
+     * 1. showProgressDialog <br/>
+     * 2. removeProgressDialog
+     */
+    public void showProgressDialog() {
+        if (isFinishing()) {
+            return;
+        }
+        if (customProgressDialog == null) {
+            customProgressDialog = new Dialog(this);
+            customProgressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            customProgressDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
+            customProgressDialog.setContentView(R.layout.custom_progress_bar);
+            customProgressDialog.setCancelable(false);
+        }
+
+        if (!customProgressDialog.isShowing()) {
+            customProgressDialog.show();
+        }
+    }
+
+    /**
+     * Removes the simple native progress dialog shown via showProgressDialog <br/>
+     * Subclass can override below two methods for custom dialogs- <br/>
+     * 1. showProgressDialog <br/>
+     * 2. removeProgressDialog
+     */
+    public void removeProgressDialog() {
+        if (customProgressDialog != null && customProgressDialog.isShowing()) {
+            customProgressDialog.dismiss();
+        }
     }
 
 

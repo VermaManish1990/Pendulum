@@ -2,6 +2,7 @@ package com.pend.activity.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,6 +13,7 @@ import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
 import com.pend.BaseResponseModel;
 import com.pend.R;
+import com.pend.activity.home.HomeActivity;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
@@ -34,6 +36,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private boolean mIsChecked = true;
     private TextInputLayout mInputLayoutEmail;
     private TextInputLayout mInputLayoutPassword;
+    private View mRootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void initUI() {
+        mRootView = findViewById(R.id.root_view);
         mEtEmail = findViewById(R.id.et_email);
         mEtPassword = findViewById(R.id.et_password);
         findViewById(R.id.bt_sign_in).setOnClickListener(this);
@@ -66,7 +70,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         LoggerUtil.d(TAG, loginResponseModel.statusCode);
 
                         SharedPrefUtils.setUserLoggedIn(LoginActivity.this, true);
-                        Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                        SharedPrefUtils.setUserId(LoginActivity.this,String.valueOf(loginResponseModel.Data.userData.userID));
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();
 
@@ -96,6 +101,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
+        removeProgressDialog();
     }
 
     @Override
@@ -106,10 +112,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void getData(final int actionID) {
         if (!ConnectivityUtils.isNetworkEnabled(this)) {
-//            showSnake(getString(R.string.network_connection));
+            Snackbar.make(mRootView,getString(R.string.network_connection),Snackbar.LENGTH_LONG);
             return;
         }
-//        showProgressDialog(getResources().getString(R.string.pleaseWait), false);
+        showProgressDialog();
 
         JsonObject requestObject;
         String request;
@@ -133,7 +139,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
             case IApiEvent.REQUEST_FORGOT_PASSWORD_CODE:
 
-                requestObject = RequestPostDataUtil.forgotPasswordApiRegParam("rahulchauhan9927@gmail.com");
+                requestObject = RequestPostDataUtil.forgotPasswordApiRegParam("rahul9927chauhan@gmail.com");
                 request = requestObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<BaseResponseModel>(IWebServices.REQUEST_FORGOT_PASSWORD_URL, NetworkUtil.getHeaders(this),
                         request, BaseResponseModel.class, new

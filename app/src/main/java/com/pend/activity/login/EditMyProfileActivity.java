@@ -2,6 +2,7 @@ package com.pend.activity.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -133,6 +134,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
+        removeProgressDialog();
     }
 
     @Override
@@ -143,11 +145,10 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
     @Override
     public void getData(final int actionID) {
         if (!NetworkUtil.isInternetConnected(this)) {
-//            showSnake(getString(R.string.network_connection));
+            Snackbar.make(mRootView, getString(R.string.network_connection), Snackbar.LENGTH_LONG);
             return;
         }
-//        showProgressDialog(getResources().getString(R.string.pleaseWait), false);
-
+        showProgressDialog();
         JsonObject requestObject;
         String request;
 

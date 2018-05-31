@@ -1,6 +1,7 @@
 package com.pend.activity.login;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -117,7 +118,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
-
+        removeProgressDialog();
     }
 
     @Override
@@ -129,10 +130,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void getData(final int actionID) {
 
         if (!ConnectivityUtils.isNetworkEnabled(this)) {
-//            showSnake(getString(R.string.network_connection));
+            Snackbar.make(mRootView, getString(R.string.network_connection), Snackbar.LENGTH_LONG);
             return;
         }
-//        showProgressDialog(getResources().getString(R.string.pleaseWait), false);
+        showProgressDialog();
 
         JsonObject requestObject;
         String request;

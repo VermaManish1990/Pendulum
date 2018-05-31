@@ -2,6 +2,7 @@ package com.pend.activity.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -44,6 +45,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private String mUserEmail;
     private String mFullName;
     private TextView mTvSignIn;
+    private View mRootView;
 
 
     @Override
@@ -57,6 +59,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void initUI() {
 
+        mRootView = findViewById(R.id.root_view);
         mEtName = findViewById(R.id.et_name);
         mEtMobileNumber = findViewById(R.id.et_mobile_number);
         mEtEmail = findViewById(R.id.et_email);
@@ -99,6 +102,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
+
+        removeProgressDialog();
     }
 
     @Override
@@ -109,11 +114,10 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void getData(final int actionID) {
         if (!NetworkUtil.isInternetConnected(this)) {
-//            showSnake(getString(R.string.network_connection));
+            Snackbar.make(mRootView, getString(R.string.network_connection), Snackbar.LENGTH_LONG);
             return;
         }
-//        showProgressDialog(getResources().getString(R.string.pleaseWait), false);
-
+        showProgressDialog();
         switch (actionID) {
             case IApiEvent.REQUEST_SIGN_UP_CODE:
 

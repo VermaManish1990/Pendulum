@@ -1,6 +1,8 @@
 package com.pend.activity.login;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +26,7 @@ import com.pendulum.volley.ext.RequestManager;
 
 import java.util.ArrayList;
 
-public class ProfileActivity extends BaseActivity {
+public class ProfileActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = ProfileActivity.class.getSimpleName();
     private ViewPager mViewpagerProfile;
@@ -38,8 +40,6 @@ public class ProfileActivity extends BaseActivity {
     private TextView mTvAge;
     private TextView mTvCity;
     private TextView mTvToken;
-    private ImageView mIvSetting;
-    private ImageView mIvEdit;
     private RecyclerView mRecyclerViewTimeSheet;
 
     @Override
@@ -61,9 +61,10 @@ public class ProfileActivity extends BaseActivity {
         mTvAge = findViewById(R.id.tv_age);
         mTvCity = findViewById(R.id.tv_city);
         mTvToken = findViewById(R.id.tv_token);
-        mIvSetting = findViewById(R.id.iv_setting);
-        mIvEdit = findViewById(R.id.iv_edit);
         mRecyclerViewTimeSheet = findViewById(R.id.recycler_view_time_sheet);
+
+        findViewById(R.id.iv_setting).setOnClickListener(this);
+        findViewById(R.id.iv_edit).setOnClickListener(this);
     }
 
     @Override
@@ -111,8 +112,7 @@ public class ProfileActivity extends BaseActivity {
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
-
-
+        removeProgressDialog();
     }
 
     @Override
@@ -123,10 +123,10 @@ public class ProfileActivity extends BaseActivity {
     @Override
     public void getData(final int actionID) {
         if (!ConnectivityUtils.isNetworkEnabled(this)) {
-//            showSnake(getString(R.string.network_connection));
+            Snackbar.make(mRootView, getString(R.string.network_connection), Snackbar.LENGTH_LONG);
             return;
         }
-//        showProgressDialog(getResources().getString(R.string.pleaseWait), false);
+        showProgressDialog();
 
         switch (actionID) {
             case IApiEvent.REQUEST_GET_USER_PROFILE_CODE:
@@ -166,5 +166,24 @@ public class ProfileActivity extends BaseActivity {
     @Override
     public void onAuthError() {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_setting:
+                Intent intentSetting = new Intent(ProfileActivity.this, SettingActivity.class);
+                startActivity(intentSetting);
+                break;
+
+            case R.id.iv_edit:
+                Intent intentEdit = new Intent(ProfileActivity.this, EditMyProfileActivity.class);
+                startActivity(intentEdit);
+                break;
+
+            default:
+                LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
+                break;
+        }
     }
 }
