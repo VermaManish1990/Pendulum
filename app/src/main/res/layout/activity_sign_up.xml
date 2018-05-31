@@ -76,6 +76,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/phone_number_capital"
                 android:paddingTop="@dimen/_7sdp"
+                android:inputType="number"
                 android:singleLine="true"
                 android:textColor="@color/black_87"
                 android:textColorHint="@color/button_color"
@@ -139,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_40sdp"
             android:layout_marginTop="@dimen/_15sdp"
             android:text="@string/already_have_an_account_sign_in"
             android:textSize="@dimen/textSize15" />

@@ -77,6 +77,11 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
         mInputLayoutGender = findViewById(R.id.input_layout_gender);
         mInputLayoutLocation = findViewById(R.id.input_layout_location);
 
+        mEtName.addTextChangedListener(EditMyProfileActivity.this);
+        mEtAge.addTextChangedListener(EditMyProfileActivity.this);
+        mEtGender.addTextChangedListener(EditMyProfileActivity.this);
+        mEtLocation.addTextChangedListener(EditMyProfileActivity.this);
+
         findViewById(R.id.bt_save).setOnClickListener(this);
         mIvUploadPhoto.setOnClickListener(this);
 
@@ -186,7 +191,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
     @Override
     public void getData(final int actionID) {
         if (!NetworkUtil.isInternetConnected(this)) {
-            Snackbar.make(mRootView, getString(R.string.network_connection), Snackbar.LENGTH_LONG);
+            Snackbar.make(mRootView, getString(R.string.network_connection), Snackbar.LENGTH_LONG).show();
             return;
         }
         showProgressDialog();

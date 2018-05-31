@@ -41,7 +41,7 @@
                 android:id="@+id/et_age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="number"
                 android:maxLength="55"
                 android:singleLine="true"
                 android:textColor="@color/black"

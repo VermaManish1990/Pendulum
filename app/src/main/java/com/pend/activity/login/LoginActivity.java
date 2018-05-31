@@ -59,6 +59,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         mInputLayoutEmail = findViewById(R.id.input_layout_email);
         mInputLayoutPassword = findViewById(R.id.input_layout_password);
+
+        mEtEmail.addTextChangedListener(LoginActivity.this);
+        mEtPassword.addTextChangedListener(LoginActivity.this);
+
     }
 
     @Override
@@ -187,7 +191,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
             case R.id.tv_forgot_password:
 
-                Snackbar.make(mRootView, R.string.under_development, Snackbar.LENGTH_LONG);
+                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
 
 //                getData(IApiEvent.REQUEST_LOGIN_CODE);
 

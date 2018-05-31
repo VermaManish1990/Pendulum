@@ -73,13 +73,20 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         mInputLayoutPassword = findViewById(R.id.input_layout_password);
         mInputLayoutConfirmPassword = findViewById(R.id.input_layout_confirm_password);
 
+        mEtName.addTextChangedListener(SignUpActivity.this);
+        mEtMobileNumber.addTextChangedListener(SignUpActivity.this);
+        mEtEmail.addTextChangedListener(SignUpActivity.this);
+        mEtPassword.addTextChangedListener(SignUpActivity.this);
+        mEtConfirmPassword.addTextChangedListener(SignUpActivity.this);
+
+
         findViewById(R.id.bt_sign_up).setOnClickListener(this);
     }
 
     @Override
     protected void setInitialData() {
 
-        OtherUtil.setSpannableClick(SignUpActivity.this, (TextView) findViewById(R.id.tv_sign_in), 26, 33, 1.0f, R.color.colorBlue, new OtherUtil.IClickAbleSpanCallback() {
+        OtherUtil.setSpannableClick(SignUpActivity.this, (TextView) findViewById(R.id.tv_sign_in), 25, 32, 1.0f, R.color.colorBlue, new OtherUtil.IClickAbleSpanCallback() {
             @Override
             public void onSpanClick() {
                 startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
@@ -124,7 +131,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void getData(final int actionID) {
         if (!NetworkUtil.isInternetConnected(this)) {
-            Snackbar.make(mRootView, getString(R.string.network_connection), Snackbar.LENGTH_LONG);
+            Snackbar.make(mRootView, getString(R.string.network_connection), Snackbar.LENGTH_LONG).show();
             return;
         }
         showProgressDialog();
@@ -261,11 +268,11 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             mInputLayoutEmail.setError(Constants.EMAIL_ID_VALIDATION_ERROR);
             mInputLayoutEmail.setErrorEnabled(true);
             mIsChecked = false;
-        }/* else if (!mEtEmail.getText().toString().trim().matches(Constants.EMAIL_PATTERN)) {
+        } else if (!mEtEmail.getText().toString().trim().matches(Constants.EMAIL_PATTERN)) {
             mInputLayoutEmail.setError(Constants.NOT_VALID_EMAIL_ID_ERROR);
             mInputLayoutEmail.setErrorEnabled(true);
             mIsChecked = false;
-        }*/ else {
+        } else {
             mUserEmail = mEtEmail.getText().toString().trim();
             mInputLayoutEmail.setErrorEnabled(false);
         }
@@ -289,12 +296,12 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
      * This method will check validation for Name.
      */
     private void checkValidationForConfirmPassword() {
-        if (mEtPassword.getText().toString().trim().length() == 0) {
-            mInputLayoutPassword.setError(Constants.PASSWORD_VALIDATION_ERROR);
-            mInputLayoutPassword.setErrorEnabled(true);
+        if (mEtConfirmPassword.getText().toString().trim().length() == 0) {
+            mInputLayoutConfirmPassword.setError(Constants.PASSWORD_VALIDATION_ERROR);
+            mInputLayoutConfirmPassword.setErrorEnabled(true);
             mIsChecked = false;
         } else {
-            mInputLayoutPassword.setErrorEnabled(false);
+            mInputLayoutConfirmPassword.setErrorEnabled(false);
         }
     }
 

@@ -153,7 +153,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void getData(final int actionID) {
         if (!ConnectivityUtils.isNetworkEnabled(this)) {
-            Snackbar.make(mRootView, getString(R.string.network_connection), Snackbar.LENGTH_LONG);
+            Snackbar.make(mRootView, getString(R.string.network_connection), Snackbar.LENGTH_LONG).show();
             return;
         }
         showProgressDialog();
@@ -210,7 +210,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     intentSetting.putExtra(Constants.USER_DETAILS_KEY, mUserProfileResponseModel.Data.userData);
                     startActivity(intentSetting);
                 } else {
-                    Snackbar.make(mRootView, R.string.user_details_not_available, Snackbar.LENGTH_LONG);
+                    Snackbar.make(mRootView, getString(R.string.user_details_not_available), Snackbar.LENGTH_LONG).show();
                 }
                 break;
 
@@ -221,7 +221,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     intentEdit.putExtra(Constants.USER_DATA_MODEL_KEY, mUserProfileResponseModel.Data);
                     startActivity(intentEdit);
                 } else {
-                    Snackbar.make(mRootView, R.string.user_profile_details_not_available, Snackbar.LENGTH_LONG);
+                    Snackbar.make(mRootView, getString(R.string.user_profile_details_not_available), Snackbar.LENGTH_LONG).show();
                 }
                 break;
 

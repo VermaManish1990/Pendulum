@@ -84,6 +84,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         mCbInvisibilityInReflection = findViewById(R.id.cb_invisibility_in_reflection);
 
         mTvAbout = findViewById(R.id.tv_about);
+
         findViewById(R.id.tv_logout).setOnClickListener(this);
         findViewById(R.id.bt_save).setOnClickListener(this);
         findViewById(R.id.iv_back).setOnClickListener(this);
@@ -172,7 +173,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void getData(final int actionID) {
 
         if (!ConnectivityUtils.isNetworkEnabled(this)) {
-            Snackbar.make(mRootView, getString(R.string.network_connection), Snackbar.LENGTH_LONG);
+            Snackbar.make(mRootView, getString(R.string.network_connection), Snackbar.LENGTH_LONG).show();
             return;
         }
         showProgressDialog();
@@ -259,7 +260,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 if (isAllFieldsValid()) {
                     getData(IApiEvent.REQUEST_UPDATE_USER_SEETING_CODE);
                 } else {
-                    Snackbar.make(mRootView, R.string.Please_fill_all_fields, Snackbar.LENGTH_LONG);
+                    Snackbar.make(mRootView, getString(R.string.Please_fill_all_fields), Snackbar.LENGTH_LONG).show();
                 }
                 break;
 

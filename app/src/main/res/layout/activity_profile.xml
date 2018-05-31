@@ -84,23 +84,23 @@
 
             <ImageView
                 android:id="@+id/iv_setting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
                 android:contentDescription="@string/image"
-                android:src="@drawable/search" />
+                android:src="@drawable/setting" />
 
             <ImageView
                 android:id="@+id/iv_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
                 android:layout_alignBottom="@+id/iv_setting"
                 android:layout_alignTop="@+id/iv_setting"
-                android:layout_marginEnd="@dimen/_30sdp"
-                android:layout_marginRight="@dimen/_20sdp"
-                android:layout_toLeftOf="@+id/iv_setting"
-                android:layout_toStartOf="@+id/iv_setting"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_toEndOf="@+id/iv_setting"
+                android:layout_toRightOf="@+id/iv_setting"
                 android:contentDescription="@string/image"
-                android:src="@drawable/search" />
+                android:src="@drawable/edit" />
         </RelativeLayout>
 
         <View
@@ -123,6 +123,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:paddingEnd="@dimen/_20sdp"
+            android:paddingStart="@dimen/_20sdp"
             android:scrollbars="vertical" />
 
     </LinearLayout>
