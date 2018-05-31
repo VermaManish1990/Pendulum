@@ -28,6 +28,10 @@ public class ProfileViewPagerAdapter extends PagerAdapter {
 
     }
 
+    public void setImageDetailsList(ArrayList<UserProfileResponseModel.ImageDetails> imageDetailsList) {
+        this.mImageDetailsList = imageDetailsList;
+    }
+
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {

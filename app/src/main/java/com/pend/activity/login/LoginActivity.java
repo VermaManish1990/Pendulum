@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
@@ -20,6 +21,7 @@ import com.pend.interfaces.IWebServices;
 import com.pend.models.LoginResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.OtherUtil;
 import com.pend.util.RequestPostDataUtil;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
@@ -66,11 +68,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case IApiEvent.REQUEST_LOGIN_CODE:
                 if (status) {
                     LoginResponseModel loginResponseModel = (LoginResponseModel) serviceResponse;
-                    if (loginResponseModel != null && loginResponseModel.status ) {
+                    if (loginResponseModel != null && loginResponseModel.status) {
                         LoggerUtil.d(TAG, loginResponseModel.statusCode);
 
                         SharedPrefUtils.setUserLoggedIn(LoginActivity.this, true);
-                        SharedPrefUtils.setUserId(LoginActivity.this,String.valueOf(loginResponseModel.Data.userData.userID));
+                        SharedPrefUtils.setUserId(LoginActivity.this, String.valueOf(loginResponseModel.Data.userData.userID));
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();
@@ -112,7 +114,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void getData(final int actionID) {
         if (!ConnectivityUtils.isNetworkEnabled(this)) {
-            Snackbar.make(mRootView,getString(R.string.network_connection),Snackbar.LENGTH_LONG);
+            Snackbar.make(mRootView, getString(R.string.network_connection), Snackbar.LENGTH_LONG);
             return;
         }
         showProgressDialog();
@@ -184,7 +186,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 break;
 
             case R.id.tv_forgot_password:
-                getData(IApiEvent.REQUEST_LOGIN_CODE);
+
+                Snackbar.make(mRootView, R.string.under_development, Snackbar.LENGTH_LONG);
+
+//                getData(IApiEvent.REQUEST_LOGIN_CODE);
 
                 break;
 

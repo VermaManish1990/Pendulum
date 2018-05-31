@@ -11,12 +11,57 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/_15sdp">
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@color/color_blue_dark"
+            android:minHeight="?android:attr/actionBarSize">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:backgroundTint="@color/white"
+                android:paddingLeft="10dp"
+                android:paddingStart="10dp"
+                android:src="@drawable/back"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_toRightOf="@+id/iv_back"
+                android:text="@string/settings"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/bt_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/custom_blue_button"
+                android:text="@string/save"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:paddingStart="@dimen/_15sdp">
 
             <TextView
                 android:id="@+id/tv_account_text"
@@ -43,7 +88,9 @@
             android:id="@+id/rl_account_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp">
+            android:layout_marginTop="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:paddingStart="@dimen/_15sdp">
 
             <TextView
                 android:id="@+id/tv_email_text"
@@ -60,8 +107,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/tv_email_text"
                 android:background="@null"
-                android:textSize="@dimen/_13sdp"
-                android:text="shubham.chauhan@kelltontech.com" />
+                android:text="shubham.chauhan@kelltontech.com"
+                android:textSize="@dimen/_13sdp" />
 
             <View
                 android:id="@+id/view1"
@@ -86,10 +133,10 @@
                 android:layout_alignBottom="@+id/tv_phone_number_text"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:background="@null"
-                android:textSize="@dimen/_13sdp"
                 android:layout_alignTop="@+id/tv_phone_number_text"
-                android:text="8445123526" />
+                android:background="@null"
+                android:text="8445123526"
+                android:textSize="@dimen/_13sdp" />
 
             <View
                 android:id="@+id/view2"
@@ -114,9 +161,9 @@
                 android:layout_alignBottom="@+id/tv_password_text"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
+                android:background="@null"
                 android:inputType="textPassword"
                 android:text="123456789"
-                android:background="@null"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15sdp"
                 android:textStyle="bold" />
@@ -127,12 +174,16 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/lightGreyBackground" />
+            android:background="@color/lightGreyBackground"
+            android:paddingEnd="@dimen/_15sdp"
+            android:paddingStart="@dimen/_15sdp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp">
+            android:layout_marginTop="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:paddingStart="@dimen/_15sdp">
 
             <TextView
                 android:id="@+id/tv_mirror_text"
@@ -159,7 +210,9 @@
             android:id="@+id/rl_mirror_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp">
+            android:layout_marginTop="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:paddingStart="@dimen/_15sdp">
 
             <TextView
                 android:id="@+id/tv_invisibility_reflection_text"
@@ -181,12 +234,16 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/lightGreyBackground" />
+            android:background="@color/lightGreyBackground"
+            android:paddingEnd="@dimen/_15sdp"
+            android:paddingStart="@dimen/_15sdp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp">
+            android:layout_marginTop="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:paddingStart="@dimen/_15sdp">
 
             <TextView
                 android:id="@+id/tv_arena_text"
@@ -213,7 +270,9 @@
             android:id="@+id/rl_arena_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp">
+            android:layout_marginTop="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:paddingStart="@dimen/_15sdp">
 
             <TextView
                 android:id="@+id/tv_don_t_show_text"
@@ -235,12 +294,16 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/lightGreyBackground" />
+            android:background="@color/lightGreyBackground"
+            android:paddingEnd="@dimen/_15sdp"
+            android:paddingStart="@dimen/_15sdp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp">
+            android:layout_marginTop="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:paddingStart="@dimen/_15sdp">
 
             <TextView
                 android:id="@+id/tv_about_text"
@@ -268,19 +331,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:paddingStart="@dimen/_15sdp"
             android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/lightGreyBackground" />
+            android:background="@color/lightGreyBackground"
+            android:paddingEnd="@dimen/_15sdp"
+            android:paddingStart="@dimen/_15sdp" />
 
         <TextView
             android:id="@+id/tv_logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:paddingStart="@dimen/_15sdp"
             android:text="@string/log_out"
             android:textColor="@color/black"
             android:textSize="@dimen/_15sdp" />
@@ -289,7 +358,9 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/lightGreyBackground" />
+            android:background="@color/lightGreyBackground"
+            android:paddingEnd="@dimen/_15sdp"
+            android:paddingStart="@dimen/_15sdp" />
     </LinearLayout>
 
 </ScrollView>

@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.adapters.ProfileViewPagerAdapter;
+import com.pend.adapters.TimeSheetAdapter;
+import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.UserProfileResponseModel;
@@ -35,12 +37,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     private UserProfileResponseModel mUserProfileResponseModel;
     private ArrayList<UserProfileResponseModel.ImageDetails> mImageDetailsList;
+    private ArrayList<UserTimeSheetResponseModel.UserTimeSheetDetails> mTimeSheetDetailsList;
     private ProfileViewPagerAdapter mProfileViewPagerAdapter;
     private TextView mTvName;
     private TextView mTvAge;
     private TextView mTvCity;
     private TextView mTvToken;
     private RecyclerView mRecyclerViewTimeSheet;
+    private TimeSheetAdapter mTimeSheetAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         initUI();
         setInitialData();
+
+        getData(IApiEvent.REQUEST_GET_USER_PROFILE_CODE);
     }
 
     @Override
@@ -75,6 +81,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         mTabLayout.setupWithViewPager(mViewpagerProfile, true);
         mProfileViewPagerAdapter = new ProfileViewPagerAdapter(this, mImageDetailsList);
         mViewpagerProfile.setAdapter(mProfileViewPagerAdapter);
+
+        mTimeSheetAdapter = new TimeSheetAdapter(this,mTimeSheetDetailsList);
+        mRecyclerViewTimeSheet.setAdapter(mTimeSheetAdapter);
     }
 
     @Override
@@ -82,9 +91,22 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         switch (actionID) {
             case IApiEvent.REQUEST_GET_USER_PROFILE_CODE:
                 if (status) {
-                    UserProfileResponseModel userProfileResponseModel = (UserProfileResponseModel) serviceResponse;
-                    if (userProfileResponseModel != null && userProfileResponseModel.status) {
-                        LoggerUtil.d(TAG, userProfileResponseModel.statusCode);
+                    mUserProfileResponseModel = (UserProfileResponseModel) serviceResponse;
+                    if (mUserProfileResponseModel != null && mUserProfileResponseModel.status) {
+                        LoggerUtil.d(TAG, mUserProfileResponseModel.statusCode);
+
+                        if (mUserProfileResponseModel.Data != null && mUserProfileResponseModel.Data.imageData != null) {
+                            mImageDetailsList = mUserProfileResponseModel.Data.imageData;
+                            mProfileViewPagerAdapter.setImageDetailsList(mImageDetailsList);
+                            mProfileViewPagerAdapter.notifyDataSetChanged();
+                        }
+
+                        if (mUserProfileResponseModel.Data != null && mUserProfileResponseModel.Data.userData != null) {
+
+                            mTvName.setText(mUserProfileResponseModel.Data.userData.userName != null ? mUserProfileResponseModel.Data.userData.userName : "");
+                            mTvAge.setText(String.valueOf(mUserProfileResponseModel.Data.userData.userAge + " year " + mUserProfileResponseModel.Data.userData.userGender));
+                            mTvCity.setText(mUserProfileResponseModel.Data.userData.cityName != null ? mUserProfileResponseModel.Data.userData.cityName : "");
+                        }
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -92,13 +114,21 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
-
+                getData(IApiEvent.REQUEST_GET_USER_TIME_SHEET_CODE);
+                break;
 
             case IApiEvent.REQUEST_GET_USER_TIME_SHEET_CODE:
                 if (status) {
                     UserTimeSheetResponseModel userTimeSheetResponseModel = (UserTimeSheetResponseModel) serviceResponse;
                     if (userTimeSheetResponseModel != null && userTimeSheetResponseModel.status) {
                         LoggerUtil.d(TAG, userTimeSheetResponseModel.statusCode);
+
+                        //TODO Pagination
+
+                        if(userTimeSheetResponseModel.Data!=null&&userTimeSheetResponseModel.Data.timeSheetData!=null){
+                            mTimeSheetAdapter.setTimeSheetDetailsList(userTimeSheetResponseModel.Data.timeSheetData);
+                            mTimeSheetAdapter.notifyDataSetChanged();
+                        }
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -145,6 +175,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
             case IApiEvent.REQUEST_GET_USER_TIME_SHEET_CODE:
 
+                //TODO Pagination
                 RequestManager.addRequest(new GsonObjectRequest<UserTimeSheetResponseModel>(IWebServices.REQUEST_GET_USER_TIME_SHEET_URL,
                         NetworkUtil.getHeadersWithUserIdAndPageNumber(this, "1"),
                         null, UserTimeSheetResponseModel.class, new VolleyErrorListener(this, actionID)) {
@@ -172,13 +203,26 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_setting:
-                Intent intentSetting = new Intent(ProfileActivity.this, SettingActivity.class);
-                startActivity(intentSetting);
+
+                if (mUserProfileResponseModel != null && mUserProfileResponseModel.Data != null && mUserProfileResponseModel.Data.userData != null) {
+
+                    Intent intentSetting = new Intent(ProfileActivity.this, SettingActivity.class);
+                    intentSetting.putExtra(Constants.USER_DETAILS_KEY, mUserProfileResponseModel.Data.userData);
+                    startActivity(intentSetting);
+                } else {
+                    Snackbar.make(mRootView, R.string.user_details_not_available, Snackbar.LENGTH_LONG);
+                }
                 break;
 
             case R.id.iv_edit:
-                Intent intentEdit = new Intent(ProfileActivity.this, EditMyProfileActivity.class);
-                startActivity(intentEdit);
+
+                if (mUserProfileResponseModel != null && mUserProfileResponseModel.Data != null) {
+                    Intent intentEdit = new Intent(ProfileActivity.this, EditMyProfileActivity.class);
+                    intentEdit.putExtra(Constants.USER_DATA_MODEL_KEY, mUserProfileResponseModel.Data);
+                    startActivity(intentEdit);
+                } else {
+                    Snackbar.make(mRootView, R.string.user_profile_details_not_available, Snackbar.LENGTH_LONG);
+                }
                 break;
 
             default:

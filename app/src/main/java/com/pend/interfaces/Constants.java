@@ -5,6 +5,10 @@ public interface Constants {
 
     String SECURITY_CONSTANT = "PendulumApp";
 
+    //Intent Keys
+    String USER_DETAILS_KEY = "USER_DETAILS_KEY";
+    String USER_DATA_MODEL_KEY = "USER_DATA_MODEL_KEY";
+
     //Header Keys
     String PARAM_SECURITY_KEY = "SecurityKey";
     String PARAM_DEVICE_ID = "DeviceID";

@@ -25,6 +25,10 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.View
         mContext = context;
     }
 
+    public void setTimeSheetDetailsList(ArrayList<UserTimeSheetResponseModel.UserTimeSheetDetails> timeSheetDetailsList) {
+        this.mTimeSheetDetailsList = timeSheetDetailsList;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -37,7 +41,7 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.View
     public void onBindViewHolder(@NonNull TimeSheetAdapter.ViewHolder holder, int position) {
         UserTimeSheetResponseModel.UserTimeSheetDetails timeSheetDetails = mTimeSheetDetailsList.get(position);
 
-        //TODO update ui with data
+        holder.tvMessage.setText(timeSheetDetails.mirrorName != null ? timeSheetDetails.mirrorName : "");
     }
 
     @Override

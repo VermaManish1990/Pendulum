@@ -19,6 +19,7 @@ import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.OtherUtil;
 import com.pend.util.RequestPostDataUtil;
 import com.pend.util.VolleyErrorListener;
 import com.pendulum.utils.ToastUtils;
@@ -44,7 +45,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private String mPhoneNumber;
     private String mUserEmail;
     private String mFullName;
-    private TextView mTvSignIn;
     private View mRootView;
 
 
@@ -54,6 +54,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         setContentView(R.layout.activity_sign_up);
 
         initUI();
+        setInitialData();
     }
 
     @Override
@@ -66,15 +67,24 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         mEtPassword = findViewById(R.id.et_password);
         mEtConfirmPassword = findViewById(R.id.et_confirm_password);
 
-        mTvSignIn = findViewById(R.id.tv_sign_in);
-        mTvSignIn.setOnClickListener(this);
-        findViewById(R.id.bt_sign_up).setOnClickListener(this);
-
         mInputLayoutName = findViewById(R.id.input_layout_name);
         mInputLayoutEmail = findViewById(R.id.input_layout_email);
         mInputLayoutMobileNumber = findViewById(R.id.input_layout_mobile_number);
         mInputLayoutPassword = findViewById(R.id.input_layout_password);
         mInputLayoutConfirmPassword = findViewById(R.id.input_layout_confirm_password);
+
+        findViewById(R.id.bt_sign_up).setOnClickListener(this);
+    }
+
+    @Override
+    protected void setInitialData() {
+
+        OtherUtil.setSpannableClick(SignUpActivity.this, (TextView) findViewById(R.id.tv_sign_in), 26, 33, 1.0f, R.color.colorBlue, new OtherUtil.IClickAbleSpanCallback() {
+            @Override
+            public void onSpanClick() {
+                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+            }
+        });
     }
 
     @Override
@@ -163,13 +173,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 }
                 break;
 
-            case R.id.tv_sign_in:
-
-                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
@@ -236,7 +239,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
      * This method will check validation for Mobile Number.
      */
     private void checkValidationForMobileNumber() {
-        checkValidationForName();
         if (mEtMobileNumber.getText().toString().trim().length() == 0) {
             mInputLayoutMobileNumber.setError(Constants.MOBILE_NUMBER_VALIDATION_ERROR);
             mInputLayoutMobileNumber.setErrorEnabled(true);
@@ -255,7 +257,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
      * This method will check validation for Email Id.
      */
     private void checkValidationForEmail() {
-        checkValidationForMobileNumber();
         if (mEtEmail.getText().toString().trim().length() == 0) {
             mInputLayoutEmail.setError(Constants.EMAIL_ID_VALIDATION_ERROR);
             mInputLayoutEmail.setErrorEnabled(true);
