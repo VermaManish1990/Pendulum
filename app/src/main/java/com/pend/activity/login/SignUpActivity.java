@@ -1,11 +1,15 @@
 package com.pend.activity.login;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -68,6 +72,10 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
         mTvSignIn = findViewById(R.id.tv_sign_in);
         mTvSignIn.setOnClickListener(this);
+        Spannable wordtoSpan = new SpannableString(getResources().getString(R.string.already_have_an_account_sign_in));
+        wordtoSpan.setSpan(new ForegroundColorSpan(Color.BLACK), 0, 25, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        wordtoSpan.setSpan(new ForegroundColorSpan(Color.BLUE), 25, 32, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mTvSignIn.setText(wordtoSpan);
         findViewById(R.id.bt_sign_up).setOnClickListener(this);
 
         mInputLayoutName = findViewById(R.id.input_layout_name);
