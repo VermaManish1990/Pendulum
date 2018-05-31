@@ -13,11 +13,22 @@
         android:layout_height="@dimen/_105sdp"
         android:layout_above="@+id/input_layout_email"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/_25sdp"
+        android:layout_marginBottom="@dimen/_30sdp"
         android:contentDescription="@string/image"
-        app:civ_border_color="@color/white"
         android:src="@drawable/profile"
+        android:visibility="gone"
+        app:civ_border_color="@color/white"
         app:civ_border_width="2dp" />
+
+    <ImageView
+        android:id="@+id/iv_profile_logo"
+        android:layout_width="@dimen/_105sdp"
+        android:layout_height="@dimen/_105sdp"
+        android:layout_above="@+id/input_layout_email"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/_30sdp"
+        android:contentDescription="@string/image"
+        android:src="@drawable/logo" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_layout_email"
@@ -34,6 +45,7 @@
             android:maxLength="55"
             android:singleLine="true"
             android:textColor="@color/black"
+            android:textSize="@dimen/textSize14"
             tools:ignore="LabelFor" />
     </android.support.design.widget.TextInputLayout>
 
@@ -53,6 +65,7 @@
             android:maxLength="55"
             android:singleLine="true"
             android:textColor="@color/black"
+            android:textSize="@dimen/textSize14"
             tools:ignore="LabelFor" />
     </android.support.design.widget.TextInputLayout>
 
@@ -66,19 +79,20 @@
         android:layout_marginBottom="@dimen/_7sdp"
         android:padding="@dimen/_5sdp"
         android:text="@string/forgot"
-        android:textColor="@color/colorDarkBlue" />
+        android:textColor="@color/colorDarkBlue"
+        android:textSize="@dimen/textSize13" />
 
     <Button
         android:id="@+id/bt_sign_in"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/input_layout_password"
-        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_25sdp"
         android:background="@drawable/custom_rounded_button"
         android:text="@string/sign_in"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="@dimen/_15sdp" />
+        android:textSize="@dimen/textSize17" />
 
     <TextView
         android:id="@+id/bt_sign_up"
@@ -86,9 +100,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bt_sign_in"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         android:text="@string/need_account"
         android:textColor="@color/colorDarkBlue"
-        android:textSize="@dimen/_15sdp" />
+        android:textSize="@dimen/textSize15" />
 
 </RelativeLayout>

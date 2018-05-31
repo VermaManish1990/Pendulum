@@ -15,12 +15,12 @@
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="@dimen/_96sdp"
-            android:layout_height="@dimen/_126sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_15sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_15sdp"
-            android:background="@color/colorAccent"
+            android:background="@drawable/sign_up_logo"
             android:contentDescription="@string/image" />
 
         <android.support.design.widget.TextInputLayout
@@ -127,21 +127,22 @@
             android:id="@+id/bt_sign_up"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_25sdp"
             android:background="@drawable/custom_rounded_button"
             android:text="@string/sign_up"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="@dimen/_15sdp" />
+            android:textSize="@dimen/textSize17" />
 
         <TextView
             android:id="@+id/tv_sign_in"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:text="@string/already_have_an_account_sign_in"
-            android:textSize="@dimen/_15sdp" />
+            android:textSize="@dimen/textSize15" />
 
     </LinearLayout>
 </ScrollView>
