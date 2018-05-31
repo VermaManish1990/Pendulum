@@ -7,11 +7,11 @@ import java.io.Serializable;
 public class AddUserImageResponseModel extends BaseResponseModel {
     public AddUserImageData Data;
 
-    private static class AddUserImageData implements Serializable {
+    public static class AddUserImageData implements Serializable {
         public AddUserImageDetails imageData;
     }
 
-    private static class AddUserImageDetails implements Serializable{
+    public static class AddUserImageDetails implements Serializable{
         public int userID;
         public int imageID;
         public String imageUrl;

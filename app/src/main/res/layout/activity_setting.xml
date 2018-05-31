@@ -59,7 +59,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/tv_email_text"
-                android:background="null"
+                android:background="@null"
                 android:textSize="@dimen/_13sdp"
                 android:text="shubham.chauhan@kelltontech.com" />
 
@@ -86,7 +86,7 @@
                 android:layout_alignBottom="@+id/tv_phone_number_text"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:background="null"
+                android:background="@null"
                 android:textSize="@dimen/_13sdp"
                 android:layout_alignTop="@+id/tv_phone_number_text"
                 android:text="8445123526" />
@@ -116,7 +116,7 @@
                 android:layout_alignParentRight="true"
                 android:inputType="textPassword"
                 android:text="123456789"
-                android:background="null"
+                android:background="@null"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15sdp"
                 android:textStyle="bold" />

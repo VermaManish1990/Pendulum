@@ -8,12 +8,12 @@ import java.util.ArrayList;
 public class UserProfileResponseModel extends BaseResponseModel {
     public UserProfileData Data;
 
-    private static class UserProfileData implements Serializable{
+    public static class UserProfileData implements Serializable{
         public UserProfileDetails userData;
         public ArrayList<ImageDetails> imageData;
     }
 
-    private static class UserProfileDetails implements Serializable{
+    public static class UserProfileDetails implements Serializable{
         public int userID;
         public int cityID;
         public int userAge;
@@ -28,7 +28,7 @@ public class UserProfileResponseModel extends BaseResponseModel {
         public boolean isVisibleInReflection;
     }
 
-    private static class ImageDetails implements Serializable{
+    public static class ImageDetails implements Serializable{
         public int imageID;
         public String imageName;
         public String imageURL;

@@ -7,11 +7,11 @@ import java.io.Serializable;
 public class UpdateUserSettingResponseModel extends BaseResponseModel {
     public UpdateUserSettingData Data;
 
-    private static class UpdateUserSettingData implements Serializable{
+    public static class UpdateUserSettingData implements Serializable{
         public UpdateUserSettingDetails userData;
     }
 
-    private static class UpdateUserSettingDetails implements Serializable{
+    public static class UpdateUserSettingDetails implements Serializable{
         public int userID;
         public String userEmail;
         public String userPhone;

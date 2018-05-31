@@ -1,10 +1,16 @@
 package com.pend.activity.login;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.pend.BaseActivity;
-import com.pend.BaseResponseModel;
 import com.pend.R;
+import com.pend.adapters.ProfileViewPagerAdapter;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.UserProfileResponseModel;
@@ -16,14 +22,58 @@ import com.pendulum.utils.ConnectivityUtils;
 import com.pendulum.volley.ext.GsonObjectRequest;
 import com.pendulum.volley.ext.RequestManager;
 
+import java.util.ArrayList;
+
 public class ProfileActivity extends BaseActivity {
 
     private static final String TAG = ProfileActivity.class.getSimpleName();
+    private ViewPager mViewpagerProfile;
+    private TabLayout mTabLayout;
+    private View mRootView;
+
+    private UserProfileResponseModel mUserProfileResponseModel;
+    private ArrayList<UserProfileResponseModel.ImageDetails> mImageDetailsList;
+    private ProfileViewPagerAdapter mProfileViewPagerAdapter;
+    private TextView mTvName;
+    private TextView mTvAge;
+    private TextView mTvCity;
+    private TextView mTvToken;
+    private ImageView mIvSetting;
+    private ImageView mIvEdit;
+    private RecyclerView mRecyclerViewTimeSheet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        initUI();
+        setInitialData();
+    }
+
+    @Override
+    protected void initUI() {
+
+        mRootView = findViewById(R.id.root_view);
+        mViewpagerProfile = findViewById(R.id.viewpager_profile);
+        mTabLayout = findViewById(R.id.tab_layout);
+        mTvName = findViewById(R.id.tv_name);
+        mTvAge = findViewById(R.id.tv_age);
+        mTvCity = findViewById(R.id.tv_city);
+        mTvToken = findViewById(R.id.tv_token);
+        mIvSetting = findViewById(R.id.iv_setting);
+        mIvEdit = findViewById(R.id.iv_edit);
+        mRecyclerViewTimeSheet = findViewById(R.id.recycler_view_time_sheet);
+    }
+
+    @Override
+    protected void setInitialData() {
+
+        mImageDetailsList = new ArrayList<>();
+
+        mTabLayout.setupWithViewPager(mViewpagerProfile, true);
+        mProfileViewPagerAdapter = new ProfileViewPagerAdapter(this, mImageDetailsList);
+        mViewpagerProfile.setAdapter(mProfileViewPagerAdapter);
     }
 
     @Override
@@ -81,8 +131,8 @@ public class ProfileActivity extends BaseActivity {
         switch (actionID) {
             case IApiEvent.REQUEST_GET_USER_PROFILE_CODE:
 
-                RequestManager.addRequest(new GsonObjectRequest<UserProfileResponseModel>(IWebServices.REQUEST_GET_USER_PROFILE_URL, NetworkUtil.getHeadersWithUserId(this),
-                        null, UserProfileResponseModel.class, new
+                RequestManager.addRequest(new GsonObjectRequest<UserProfileResponseModel>(IWebServices.REQUEST_GET_USER_PROFILE_URL,
+                        NetworkUtil.getHeadersWithUserId(this), null, UserProfileResponseModel.class, new
                         VolleyErrorListener(this, actionID)) {
 
                     @Override

@@ -7,11 +7,11 @@ import java.io.Serializable;
 public class DeleteUserImageResponseModel extends BaseResponseModel {
     public DeleteUserImageData Data;
 
-    private static class DeleteUserImageData implements Serializable {
+    public static class DeleteUserImageData implements Serializable {
         public DeleteUserImageDetails imageData;
     }
 
-    private static class DeleteUserImageDetails implements Serializable{
+    public static class DeleteUserImageDetails implements Serializable{
         public int userID;
         public int imageID;
     }
