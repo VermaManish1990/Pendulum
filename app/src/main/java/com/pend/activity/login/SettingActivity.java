@@ -173,7 +173,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void getData(final int actionID) {
 
         if (!ConnectivityUtils.isNetworkEnabled(this)) {
-            Snackbar.make(mRootView, getString(R.string.network_connection), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
             return;
         }
         showProgressDialog();

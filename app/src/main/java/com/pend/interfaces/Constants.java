@@ -34,4 +34,5 @@ public interface Constants {
     String NOT_VALID_MOBILE_NUMBER_ERROR = "please enter valid Phone Number";
 
 
+    long SPLASH_TIME_OUT = 2000;
 }

@@ -1,13 +1,11 @@
 package com.pend.activity.login;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -191,7 +189,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
     @Override
     public void getData(final int actionID) {
         if (!NetworkUtil.isInternetConnected(this)) {
-            Snackbar.make(mRootView, getString(R.string.network_connection), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
             return;
         }
         showProgressDialog();

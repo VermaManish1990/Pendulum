@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pend.BaseActivity;
@@ -87,10 +86,26 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     if (mUserProfileResponseModel != null && mUserProfileResponseModel.status) {
                         LoggerUtil.d(TAG, mUserProfileResponseModel.statusCode);
 
-                        if (mUserProfileResponseModel.Data != null && mUserProfileResponseModel.Data.imageData != null) {
+                        ArrayList<UserProfileResponseModel.ImageDetails> imageData = new ArrayList<>();
+                        UserProfileResponseModel.ImageDetails imageDetails = new UserProfileResponseModel.ImageDetails();
+                        imageDetails.imageURL = "https://tineye.com/images/widgets/mona.jpg";
+                        imageData.add(imageDetails);
+                        imageData.add(imageDetails);
+                        imageData.add(imageDetails);
+                        imageData.add(imageDetails);
+                        imageData.add(imageDetails);
+                        imageData.add(imageDetails);
+                        imageData.add(imageDetails);
+                        imageData.add(imageDetails);
+                        imageData.add(imageDetails);
+
+                        mViewpagerProfile.setAdapter( new ProfileViewPagerAdapter(this, imageData));
+
+
+                        /*if (mUserProfileResponseModel.Data != null && mUserProfileResponseModel.Data.imageData != null) {
 
                             mViewpagerProfile.setAdapter( new ProfileViewPagerAdapter(this, mUserProfileResponseModel.Data.imageData));
-                        }
+                        }*/
 
                         if (mUserProfileResponseModel.Data != null && mUserProfileResponseModel.Data.userData != null) {
 
@@ -101,9 +116,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                        Snackbar.make(mRootView, getString(R.string.server_error_from_api), Snackbar.LENGTH_LONG).show();
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                    Snackbar.make(mRootView, getString(R.string.server_error_from_api), Snackbar.LENGTH_LONG).show();
                 }
                 getData(IApiEvent.REQUEST_GET_USER_TIME_SHEET_CODE);
                 break;
@@ -124,9 +141,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                        Snackbar.make(mRootView, getString(R.string.server_error_from_api), Snackbar.LENGTH_LONG).show();
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                    Snackbar.make(mRootView, getString(R.string.server_error_from_api), Snackbar.LENGTH_LONG).show();
                 }
                 break;
 
@@ -145,7 +164,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void getData(final int actionID) {
         if (!ConnectivityUtils.isNetworkEnabled(this)) {
-            Snackbar.make(mRootView, getString(R.string.network_connection), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
             return;
         }
         showProgressDialog();

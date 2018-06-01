@@ -116,7 +116,7 @@
                 android:layout_height="@dimen/_1sdp"
                 android:layout_below="@+id/tv_email_text"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:background="@color/lightGreyBackground" />
+                android:background="@color/darkGreyBackground" />
 
             <TextView
                 android:id="@+id/tv_phone_number_text"
@@ -144,7 +144,7 @@
                 android:layout_height="@dimen/_1sdp"
                 android:layout_below="@+id/tv_phone_number_text"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:background="@color/lightGreyBackground" />
+                android:background="@color/darkGreyBackground" />
 
             <TextView
                 android:id="@+id/tv_password_text"
@@ -173,10 +173,10 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/lightGreyBackground"
-            android:paddingEnd="@dimen/_15sdp"
-            android:paddingStart="@dimen/_15sdp" />
+            android:background="@color/darkGreyBackground" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -233,10 +233,10 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/lightGreyBackground"
-            android:paddingEnd="@dimen/_15sdp"
-            android:paddingStart="@dimen/_15sdp" />
+            android:background="@color/darkGreyBackground" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -293,10 +293,10 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/lightGreyBackground"
-            android:paddingEnd="@dimen/_15sdp"
-            android:paddingStart="@dimen/_15sdp" />
+            android:background="@color/darkGreyBackground" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -338,10 +338,10 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/lightGreyBackground"
-            android:paddingEnd="@dimen/_15sdp"
-            android:paddingStart="@dimen/_15sdp" />
+            android:background="@color/darkGreyBackground" />
 
         <TextView
             android:id="@+id/tv_logout"
@@ -357,10 +357,10 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/lightGreyBackground"
-            android:paddingEnd="@dimen/_15sdp"
-            android:paddingStart="@dimen/_15sdp" />
+            android:background="@color/darkGreyBackground" />
     </LinearLayout>
 
 </ScrollView>

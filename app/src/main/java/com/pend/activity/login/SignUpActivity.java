@@ -131,7 +131,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void getData(final int actionID) {
         if (!NetworkUtil.isInternetConnected(this)) {
-            Snackbar.make(mRootView, getString(R.string.network_connection), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
             return;
         }
         showProgressDialog();

@@ -5,17 +5,18 @@
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     android:weightSum="9"
     tools:context=".activity.login.ProfileActivity">
 
-    <android.support.v4.view.ViewPager
+    <com.pend.util.CustomViewPager
         android:id="@+id/viewpager_profile"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3">
 
-    </android.support.v4.view.ViewPager>
+    </com.pend.util.CustomViewPager>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
@@ -73,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
             android:layout_marginTop="@dimen/_4sdp"
-            android:background="@color/lightGreyBackground" />
+            android:background="@color/darkGreyBackground" />
 
         <RelativeLayout
             android:id="@+id/rl_setting_and_edit"
@@ -108,12 +109,12 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
             android:layout_marginTop="@dimen/_4sdp"
-            android:background="@color/lightGreyBackground" />
+            android:background="@color/darkGreyBackground" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:paddingLeft="@dimen/_20sdp"
             android:paddingStart="@dimen/_20sdp"
             android:text="@string/time_sheet" />
@@ -122,9 +123,10 @@
             android:id="@+id/recycler_view_time_sheet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_20sdp"
             android:orientation="vertical"
-            android:paddingEnd="@dimen/_20sdp"
-            android:paddingStart="@dimen/_20sdp"
+            android:paddingBottom="@dimen/_10sdp"
             android:scrollbars="vertical" />
 
     </LinearLayout>

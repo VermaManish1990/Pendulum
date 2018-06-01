@@ -45,7 +45,7 @@ public class ProfileViewPagerAdapter extends PagerAdapter {
                 .load(imageDetails.imageURL)
 //                .placeholder(R.drawable.ic_placeholder)   // optional
 //                .error(R.drawable.ic_error_fallback)      // optional
-                .resize(250, 200)                        // optional
+//                .resize(250, 200)                        // optional
 //                .rotate(90)                             // optional
                 .into(imageView);
 

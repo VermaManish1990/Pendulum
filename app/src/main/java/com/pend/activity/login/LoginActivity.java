@@ -8,7 +8,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
@@ -21,7 +20,6 @@ import com.pend.interfaces.IWebServices;
 import com.pend.models.LoginResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
-import com.pend.util.OtherUtil;
 import com.pend.util.RequestPostDataUtil;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
@@ -118,7 +116,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void getData(final int actionID) {
         if (!ConnectivityUtils.isNetworkEnabled(this)) {
-            Snackbar.make(mRootView, getString(R.string.network_connection), Snackbar.LENGTH_LONG);
+            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
             return;
         }
         showProgressDialog();
