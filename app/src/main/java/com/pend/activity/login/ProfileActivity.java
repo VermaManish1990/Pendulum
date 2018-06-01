@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,16 +38,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private View mRootView;
 
     private UserProfileResponseModel mUserProfileResponseModel;
-    private ArrayList<UserProfileResponseModel.ImageDetails> mImageDetailsList;
-    private ArrayList<UserTimeSheetResponseModel.UserTimeSheetDetails> mTimeSheetDetailsList;
-    private ProfileViewPagerAdapter mProfileViewPagerAdapter;
     private TextView mTvName;
     private TextView mTvAge;
     private TextView mTvCity;
     private TextView mTvToken;
     int mPageNumber;
     private RecyclerView mRecyclerViewTimeSheet;
-    private TimeSheetAdapter mTimeSheetAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,12 +75,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void setInitialData() {
 
-        mImageDetailsList = new ArrayList<>();
-        mTimeSheetDetailsList = new ArrayList<>();
-
         mTabLayout.setupWithViewPager(mViewpagerProfile, true);
-        mProfileViewPagerAdapter = new ProfileViewPagerAdapter(this, mImageDetailsList);
-        mViewpagerProfile.setAdapter(mProfileViewPagerAdapter);
     }
 
     @Override
@@ -96,9 +88,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                         LoggerUtil.d(TAG, mUserProfileResponseModel.statusCode);
 
                         if (mUserProfileResponseModel.Data != null && mUserProfileResponseModel.Data.imageData != null) {
-                            mImageDetailsList = mUserProfileResponseModel.Data.imageData;
-                            mProfileViewPagerAdapter.setImageDetailsList(mImageDetailsList);
-                            mProfileViewPagerAdapter.notifyDataSetChanged();
+
+                            mViewpagerProfile.setAdapter( new ProfileViewPagerAdapter(this, mUserProfileResponseModel.Data.imageData));
                         }
 
                         if (mUserProfileResponseModel.Data != null && mUserProfileResponseModel.Data.userData != null) {
@@ -126,13 +117,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                         //TODO Pagination
 
                         if (userTimeSheetResponseModel.Data != null && userTimeSheetResponseModel.Data.timeSheetData != null) {
-                            mTimeSheetDetailsList = userTimeSheetResponseModel.Data.timeSheetData;
 
-                            mTimeSheetAdapter = new TimeSheetAdapter(this, mTimeSheetDetailsList);
-                            mRecyclerViewTimeSheet.setAdapter(mTimeSheetAdapter);
-
-//                            mTimeSheetAdapter.setTimeSheetDetailsList(mTimeSheetDetailsList);
-//                            mTimeSheetAdapter.notifyDataSetChanged();
+                            mRecyclerViewTimeSheet.setLayoutManager(new LinearLayoutManager(this));
+                            mRecyclerViewTimeSheet.setAdapter(new TimeSheetAdapter(this, userTimeSheetResponseModel.Data.timeSheetData));
                         }
 
                     } else {
