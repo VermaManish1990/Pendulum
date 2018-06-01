@@ -50,6 +50,7 @@
     <string name="please_enter_location">Please enter Location</string>
     <string name="please_enter_gender">Please enter Gender</string>
     <string name="please_enter_age">Please enter Age</string>
+    <string name="token">Token</string>
 
 
 </resources>

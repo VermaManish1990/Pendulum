@@ -86,7 +86,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     if (mUserProfileResponseModel != null && mUserProfileResponseModel.status) {
                         LoggerUtil.d(TAG, mUserProfileResponseModel.statusCode);
 
-                        ArrayList<UserProfileResponseModel.ImageDetails> imageData = new ArrayList<>();
+                      /*  ArrayList<UserProfileResponseModel.ImageDetails> imageData = new ArrayList<>();
                         UserProfileResponseModel.ImageDetails imageDetails = new UserProfileResponseModel.ImageDetails();
                         imageDetails.imageURL = "https://tineye.com/images/widgets/mona.jpg";
                         imageData.add(imageDetails);
@@ -100,12 +100,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                         imageData.add(imageDetails);
 
                         mViewpagerProfile.setAdapter( new ProfileViewPagerAdapter(this, imageData));
+*/
 
+                        if (mUserProfileResponseModel.Data != null && mUserProfileResponseModel.Data.imageData != null) {
 
-                        /*if (mUserProfileResponseModel.Data != null && mUserProfileResponseModel.Data.imageData != null) {
-
-                            mViewpagerProfile.setAdapter( new ProfileViewPagerAdapter(this, mUserProfileResponseModel.Data.imageData));
-                        }*/
+                            mViewpagerProfile.setAdapter(new ProfileViewPagerAdapter(this, mUserProfileResponseModel.Data.imageData));
+                        }
 
                         if (mUserProfileResponseModel.Data != null && mUserProfileResponseModel.Data.userData != null) {
 
@@ -137,6 +137,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
                             mRecyclerViewTimeSheet.setLayoutManager(new LinearLayoutManager(this));
                             mRecyclerViewTimeSheet.setAdapter(new TimeSheetAdapter(this, userTimeSheetResponseModel.Data.timeSheetData));
+                            mTvToken.setText(String.valueOf(getString(R.string.token) +" "+ userTimeSheetResponseModel.Data.timeSheetData.size()));
                         }
 
                     } else {
