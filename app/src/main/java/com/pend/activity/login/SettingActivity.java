@@ -134,7 +134,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
-
+                break;
 
             case IApiEvent.REQUEST_UPDATE_USER_SEETING_CODE:
                 if (status) {
@@ -254,14 +254,15 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
 
             case R.id.bt_save:
-                break;
-
-            case R.id.iv_back:
                 if (isAllFieldsValid()) {
                     getData(IApiEvent.REQUEST_UPDATE_USER_SEETING_CODE);
                 } else {
                     Snackbar.make(mRootView, getString(R.string.Please_fill_all_fields), Snackbar.LENGTH_LONG).show();
                 }
+                break;
+
+            case R.id.iv_back:
+                onBackPressed();
                 break;
 
             default:

@@ -21,6 +21,7 @@ import com.pend.models.UserProfileResponseModel;
 import com.pend.models.UserTimeSheetResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
 import com.pendulum.utils.ConnectivityUtils;
 import com.pendulum.volley.ext.GsonObjectRequest;
@@ -43,6 +44,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private TextView mTvAge;
     private TextView mTvCity;
     private TextView mTvToken;
+    int mPageNumber;
     private RecyclerView mRecyclerViewTimeSheet;
     private TimeSheetAdapter mTimeSheetAdapter;
 
@@ -77,13 +79,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     protected void setInitialData() {
 
         mImageDetailsList = new ArrayList<>();
+        mTimeSheetDetailsList = new ArrayList<>();
 
         mTabLayout.setupWithViewPager(mViewpagerProfile, true);
         mProfileViewPagerAdapter = new ProfileViewPagerAdapter(this, mImageDetailsList);
         mViewpagerProfile.setAdapter(mProfileViewPagerAdapter);
-
-        mTimeSheetAdapter = new TimeSheetAdapter(this,mTimeSheetDetailsList);
-        mRecyclerViewTimeSheet.setAdapter(mTimeSheetAdapter);
     }
 
     @Override
@@ -125,9 +125,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
                         //TODO Pagination
 
-                        if(userTimeSheetResponseModel.Data!=null&&userTimeSheetResponseModel.Data.timeSheetData!=null){
-                            mTimeSheetAdapter.setTimeSheetDetailsList(userTimeSheetResponseModel.Data.timeSheetData);
-                            mTimeSheetAdapter.notifyDataSetChanged();
+                        if (userTimeSheetResponseModel.Data != null && userTimeSheetResponseModel.Data.timeSheetData != null) {
+                            mTimeSheetDetailsList = userTimeSheetResponseModel.Data.timeSheetData;
+
+                            mTimeSheetAdapter = new TimeSheetAdapter(this, mTimeSheetDetailsList);
+                            mRecyclerViewTimeSheet.setAdapter(mTimeSheetAdapter);
+
+//                            mTimeSheetAdapter.setTimeSheetDetailsList(mTimeSheetDetailsList);
+//                            mTimeSheetAdapter.notifyDataSetChanged();
                         }
 
                     } else {
@@ -161,9 +166,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         switch (actionID) {
             case IApiEvent.REQUEST_GET_USER_PROFILE_CODE:
 
-                RequestManager.addRequest(new GsonObjectRequest<UserProfileResponseModel>(IWebServices.REQUEST_GET_USER_PROFILE_URL,
-                        NetworkUtil.getHeadersWithUserId(this), null, UserProfileResponseModel.class, new
-                        VolleyErrorListener(this, actionID)) {
+                String userProfileUrl = IWebServices.REQUEST_GET_USER_PROFILE_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this);
+                RequestManager.addRequest(new GsonObjectRequest<UserProfileResponseModel>(userProfileUrl, NetworkUtil.getHeaders(this), null,
+                        UserProfileResponseModel.class, new VolleyErrorListener(this, actionID)) {
 
                     @Override
                     protected void deliverResponse(UserProfileResponseModel response) {
@@ -176,9 +181,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             case IApiEvent.REQUEST_GET_USER_TIME_SHEET_CODE:
 
                 //TODO Pagination
-                RequestManager.addRequest(new GsonObjectRequest<UserTimeSheetResponseModel>(IWebServices.REQUEST_GET_USER_TIME_SHEET_URL,
-                        NetworkUtil.getHeadersWithUserIdAndPageNumber(this, "1"),
-                        null, UserTimeSheetResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                mPageNumber = 1;
+                String userTimeSheetUrl = IWebServices.REQUEST_GET_USER_TIME_SHEET_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this) + "&" +
+                        Constants.PREF_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
+                RequestManager.addRequest(new GsonObjectRequest<UserTimeSheetResponseModel>(userTimeSheetUrl, NetworkUtil.getHeaders(this), null,
+                        UserTimeSheetResponseModel.class, new VolleyErrorListener(this, actionID)) {
 
                     @Override
                     protected void deliverResponse(UserTimeSheetResponseModel response) {
