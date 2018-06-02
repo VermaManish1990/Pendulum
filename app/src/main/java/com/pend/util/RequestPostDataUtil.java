@@ -55,8 +55,7 @@ public class RequestPostDataUtil {
      * @param address      address
      * @return JsonObject
      */
-    public static JsonObject updateUserProfileApiRegParam(int userID, String userFullName, int userAge, String userGender, int cityID,
-                                                          String address) {
+    public static JsonObject updateUserProfileApiRegParam(int userID, String userFullName, int userAge, String userGender, int cityID, String address) {
         LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "updateUserProfileApiRegParam");
 
         JsonObject requestParameters = new JsonObject();

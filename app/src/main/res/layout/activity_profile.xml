@@ -121,8 +121,6 @@
             android:id="@+id/recycler_view_time_sheet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:layout_marginStart="@dimen/_20sdp"
             android:orientation="vertical"
             android:paddingBottom="@dimen/_10sdp"
             android:scrollbars="vertical" />

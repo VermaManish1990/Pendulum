@@ -111,7 +111,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
                         if (mUserProfileResponseModel.Data != null && mUserProfileResponseModel.Data.userData != null) {
 
-                            mTvName.setText(mUserProfileResponseModel.Data.userData.userName != null ? mUserProfileResponseModel.Data.userData.userName : "");
+                            mTvName.setText(mUserProfileResponseModel.Data.userData.userFullName != null ? mUserProfileResponseModel.Data.userData.userFullName : "");
                             mTvAge.setText(String.valueOf(mUserProfileResponseModel.Data.userData.userAge + " year " + mUserProfileResponseModel.Data.userData.userGender));
                             mTvCity.setText(mUserProfileResponseModel.Data.userData.cityName != null ? mUserProfileResponseModel.Data.userData.cityName : "");
                         }

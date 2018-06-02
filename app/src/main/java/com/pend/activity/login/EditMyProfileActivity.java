@@ -207,7 +207,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
             case IApiEvent.REQUEST_UPDATE_USER_PROFILE_CODE:
 
                 //TODO CityId
-                requestObject = RequestPostDataUtil.updateUserProfileApiRegParam(userId, "", mAge, mGender, 1, mLocation);
+                requestObject = RequestPostDataUtil.updateUserProfileApiRegParam(userId, mFullName, mAge, mGender, 1, mLocation);
                 request = requestObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<UpdateUserProfileResponseModel>(IWebServices.REQUEST_UPDATE_USER_PROFILE_URL, NetworkUtil.getHeaders(this),
                         request, UpdateUserProfileResponseModel.class, new VolleyErrorListener(this, actionID)) {
