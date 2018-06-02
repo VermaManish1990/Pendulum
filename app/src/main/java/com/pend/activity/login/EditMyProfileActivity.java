@@ -295,6 +295,8 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
                 break;
 
             case R.id.iv_upload_photo:
+                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+
                 break;
 
             default:
