@@ -26,13 +26,16 @@ public interface Constants {
 
     // Validation Message
     String EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-    String EMAIL_ID_VALIDATION_ERROR = "please enter Email Address";
-    String NOT_VALID_EMAIL_ID_ERROR = "please enter valid Email Address";
-    String PASSWORD_VALIDATION_ERROR = "please enter PASSWORD";
-    String NAME_VALIDATION_ERROR = "please enter Name";
-    String MOBILE_NUMBER_VALIDATION_ERROR = "please enter Phone Number";
-    String NOT_VALID_MOBILE_NUMBER_ERROR = "please enter valid Phone Number";
+//    String EMAIL_ID_VALIDATION_ERROR = "please enter Email Address";
+//    String NOT_VALID_EMAIL_ID_ERROR = "please enter valid Email Address";
+//    String PASSWORD_VALIDATION_ERROR = "please enter PASSWORD";
+//    String NAME_VALIDATION_ERROR = "please enter Name";
+//    String MOBILE_NUMBER_VALIDATION_ERROR = "please enter Phone Number";
+//    String NOT_VALID_MOBILE_NUMBER_ERROR = "please enter valid Phone Number";
 
 
     long SPLASH_TIME_OUT = 2000;
+    int REQUEST_SELECT_IMAGE_FROM_ALBUM = 1;
+    int REQUEST_TAKE_PHOTO = 2;
+    int ALL_PERMISSION_REQUEST_CODE = 3;
 }

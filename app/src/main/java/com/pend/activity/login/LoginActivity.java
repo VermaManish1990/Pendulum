@@ -238,11 +238,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
      */
     void checkValidationForEmail() {
         if (mEtEmail.getText().toString().trim().length() == 0) {
-            mInputLayoutEmail.setError(Constants.EMAIL_ID_VALIDATION_ERROR);
+            mInputLayoutEmail.setError(getString(R.string.please_enter_mail_id));
             mInputLayoutEmail.setErrorEnabled(true);
             mIsChecked = false;
-        }/* else if (!mEtEmail.getText().toString().trim().matches(Constants.EMAIL_PATTERN)) {
-            mInputLayoutEmail.setError(Constants.NOT_VALID_EMAIL_ID_ERROR);
+        } /*else if (!mEtEmail.getText().toString().trim().matches(Constants.EMAIL_PATTERN)) {
+            mInputLayoutEmail.setError(getString(R.string.please_enter_valid_mail_id));
             mInputLayoutEmail.setErrorEnabled(true);
             mIsChecked = false;
         }*/ else {
@@ -256,7 +256,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
      */
     void checkValidationForPassword() {
         if (mEtPassword.getText().toString().trim().length() == 0) {
-            mInputLayoutPassword.setError(Constants.PASSWORD_VALIDATION_ERROR);
+            mInputLayoutPassword.setError(getString(R.string.please_enter_password));
             mInputLayoutPassword.setErrorEnabled(true);
             mIsChecked = false;
         } else {
