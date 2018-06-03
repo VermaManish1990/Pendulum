@@ -243,13 +243,13 @@ public class RequestPostDataUtil {
     /**
      * Method is used to get Request Parameters for Add Comment Api.
      *
-     * @param userID userID
-     * @param postID postID
+     * @param userID      userID
+     * @param postID      postID
      * @param commentText commentText
      * @return JsonObject
      */
-    public static JsonObject AddCommentApiRegParam(int userID, int postID, String commentText) {
-        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "AddCommentApiRegParam");
+    public static JsonObject addCommentApiRegParam(int userID, int postID, String commentText) {
+        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "addCommentApiRegParam");
 
         JsonObject requestParameters = new JsonObject();
         requestParameters.addProperty("userID", userID);
@@ -263,14 +263,14 @@ public class RequestPostDataUtil {
     /**
      * Method is used to get Request Parameters for Update Comment Api.
      *
-     * @param userID userID
-     * @param postID postID
-     * @param commentID commentID
+     * @param userID      userID
+     * @param postID      postID
+     * @param commentID   commentID
      * @param commentText commentText
      * @return JsonObject
      */
-    public static JsonObject UpdateCommentApiRegParam(int userID, int postID,int commentID, String commentText) {
-        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "UpdateCommentApiRegParam");
+    public static JsonObject updateCommentApiRegParam(int userID, int postID, int commentID, String commentText) {
+        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "updateCommentApiRegParam");
 
         JsonObject requestParameters = new JsonObject();
         requestParameters.addProperty("userID", userID);
@@ -285,13 +285,13 @@ public class RequestPostDataUtil {
     /**
      * Method is used to get Request Parameters for Remove Comment Api.
      *
-     * @param userID userID
-     * @param postID postID
+     * @param userID    userID
+     * @param postID    postID
      * @param commentID commentID
      * @return JsonObject
      */
-    public static JsonObject RemoveCommentApiRegParam(int userID, int postID,int commentID) {
-        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "RemoveCommentApiRegParam");
+    public static JsonObject removeCommentApiRegParam(int userID, int postID, int commentID) {
+        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "removeCommentApiRegParam");
 
         JsonObject requestParameters = new JsonObject();
         requestParameters.addProperty("userID", userID);
@@ -305,14 +305,14 @@ public class RequestPostDataUtil {
     /**
      * Method is used to get Request Parameters for Post Like Api.
      *
-     * @param userID userID
-     * @param postID postID
-     * @param  isLike
-     * @param  isUnLike
+     * @param userID   userID
+     * @param postID   postID
+     * @param isLike   isLike
+     * @param isUnLike isUnLike
      * @return JsonObject
      */
-    public static JsonObject PostLikeApiRegParam(int userID, int postID,boolean isLike,boolean isUnLike) {
-        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "PostLikeApiRegParam");
+    public static JsonObject postLikeApiRegParam(int userID, int postID, boolean isLike, boolean isUnLike) {
+        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "postLikeApiRegParam");
 
         JsonObject requestParameters = new JsonObject();
         requestParameters.addProperty("userID", userID);
@@ -324,4 +324,74 @@ public class RequestPostDataUtil {
         return requestParameters;
     }
 
+    /**
+     * Method is used to get Request Parameters for Add Post Api.
+     *
+     * @param userID   userID
+     * @param mirrorID mirrorID
+     * @param postInfo postInfo
+     * @param image
+     * @return JsonObject
+     */
+    public static JsonObject addPostApiRegParam(int userID, int mirrorID, String postInfo, String image) {
+        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "addPostApiRegParam");
+
+        JsonObject requestParameters = new JsonObject();
+        requestParameters.addProperty("userID", userID);
+        requestParameters.addProperty("mirrorID", mirrorID);
+        requestParameters.addProperty("postInfo", postInfo);
+        requestParameters.addProperty("image", image);
+
+        LoggerUtil.d(RequestPostDataUtil.class.getSimpleName(), requestParameters.toString());
+        return requestParameters;
+    }
+
+    /**
+     * Method is used to get Request Parameters for Update Post Api.
+     *
+     * @param userID     userID
+     * @param postID     postID
+     * @param mirrorID   mirrorID
+     * @param postInfo   postInfo
+     * @param image      image
+     * @param isNewImage isNewImage
+     * @param isOldImage isOldImage
+     * @return JsonObject
+     */
+    public static JsonObject updatePostApiRegParam(int userID, int postID, int mirrorID, String postInfo, String image,
+                                                   boolean isNewImage, boolean isOldImage) {
+        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "updatePostApiRegParam");
+
+        JsonObject requestParameters = new JsonObject();
+        requestParameters.addProperty("userID", userID);
+        requestParameters.addProperty("postID", postID);
+        requestParameters.addProperty("mirrorID", mirrorID);
+        requestParameters.addProperty("postInfo", postInfo);
+        requestParameters.addProperty("image", image);
+        requestParameters.addProperty("isNewImage", isNewImage);
+        requestParameters.addProperty("isOldImage", isOldImage);
+
+        LoggerUtil.d(RequestPostDataUtil.class.getSimpleName(), requestParameters.toString());
+        return requestParameters;
+    }
+
+    /**
+     * Method is used to get Request Parameters for Delete Post Api.
+     *
+     * @param userID   userID
+     * @param postID   postID
+     * @param mirrorID mirrorID
+     * @return JsonObject
+     */
+    public static JsonObject deletePostApiRegParam(int userID, int postID, int mirrorID) {
+        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "deletePostApiRegParam");
+
+        JsonObject requestParameters = new JsonObject();
+        requestParameters.addProperty("userID", userID);
+        requestParameters.addProperty("postID", postID);
+        requestParameters.addProperty("mirrorID", mirrorID);
+
+        LoggerUtil.d(RequestPostDataUtil.class.getSimpleName(), requestParameters.toString());
+        return requestParameters;
+    }
 }
