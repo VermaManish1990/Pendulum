@@ -66,5 +66,12 @@
     <string name="cancel">Cancel</string>
     <string name="add_photo">Add Photo!</string>
     <string name="my_images">MyImages</string>
+    <string name="profile_uploaded_successfully">Profile Uploaded Successfully</string>
+    <string name="update_image">Update Image</string>
+    <string name="delete_image">Delete Image</string>
+    <string name="can_t_delete">Can\'t Delete</string>
+    <string name="can_t_update">Can\'t Update</string>
+    <string name="profile_deleted_successfully">Profile Deleted Successfully</string>
+    <string name="profile_updated_successfully">Profile Updated Successfully</string>
 
 </resources>

@@ -1,6 +1,8 @@
 package com.pend.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
@@ -8,8 +10,11 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
+import android.util.Base64;
 import android.view.View;
 import android.widget.TextView;
+
+import java.io.ByteArrayOutputStream;
 
 public class OtherUtil {
 
@@ -87,5 +92,14 @@ public class OtherUtil {
      */
     public interface IClickAbleSpanCallback {
         void onSpanClick();
+    }
+
+    public static String getBase64Formate(String imagePath){
+        Bitmap bm = BitmapFactory.decodeFile(imagePath);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+        byte[] byteArrayImage = baos.toByteArray();
+
+        return Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/root_view"
     android:background="@color/white"
     tools:context=".activity.login.EditMyProfileActivity">
 
@@ -92,29 +92,29 @@
             android:text="@string/upload_photo"
             android:textSize="@dimen/_15sdp" />
 
-        <HorizontalScrollView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:scrollbars="horizontal">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:id="@+id/ll_upload_photos"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/iv_upload_photo"
+                android:layout_width="@dimen/_76sdp"
+                android:layout_height="@dimen/_76sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:contentDescription="@string/image"
+                android:src="@drawable/upload_photo" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_profile"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:scrollbars="horizontal"
+                android:orientation="horizontal"
+                android:layout_toEndOf="@+id/iv_upload_photo"
+                android:layout_toRightOf="@+id/iv_upload_photo" />
 
-                <ImageView
-                    android:id="@+id/iv_upload_photo"
-                    android:layout_width="@dimen/_76sdp"
-                    android:layout_height="@dimen/_76sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:contentDescription="@string/image"
-                    android:src="@drawable/upload_photo" />
+        </RelativeLayout>
 
-            </LinearLayout>
-        </HorizontalScrollView>
     </LinearLayout>
 
     <Button

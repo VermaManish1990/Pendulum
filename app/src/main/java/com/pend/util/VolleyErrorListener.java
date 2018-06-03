@@ -9,7 +9,9 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 
+import com.google.gson.Gson;
 import com.pend.interfaces.Constants;
+import com.pend.models.ErrorResponseModel;
 import com.pendulum.ui.IScreen;
 
 import java.io.UnsupportedEncodingException;
@@ -24,6 +26,7 @@ public class VolleyErrorListener implements Response.ErrorListener {
     private final int ACTION;
     private final IScreen SCREEN;
     private final String TAG = VolleyErrorListener.class.getSimpleName();
+    private ErrorResponseModel mErrorResponseModel;
 
     public VolleyErrorListener(final IScreen SCREEN, final int ACTION) {
         LoggerUtil.v(TAG, "VolleyErrorListener");
@@ -44,35 +47,50 @@ public class VolleyErrorListener implements Response.ErrorListener {
 
             try {
                 str = new String(error.networkResponse.data, "UTF-8");
+                LoggerUtil.e(TAG, str);
+
+                Gson gson = new Gson();
+                mErrorResponseModel = gson.fromJson(str, ErrorResponseModel.class);
+
             } catch (UnsupportedEncodingException ex) {
-                LoggerUtil.d(TAG, ex.toString());
+                LoggerUtil.e(TAG, ex.toString());
                 return;
             }
 
             code = error.networkResponse.statusCode;
 
-            LoggerUtil.d(TAG, "Code=" + code + " str=" + str);
+            LoggerUtil.e(TAG, "Code=" + code + " str=" + str);
 
-            LoggerUtil.d(TAG, "errorModelArrayList=Null");
+            LoggerUtil.e(TAG, "errorModelArrayList=Null");
             if (code >= 400 && code < 500) {
 
-                LoggerUtil.d(TAG, "ACTION = Bad Request");
-                SCREEN.updateUi(false, ACTION, "Bad Request");
+                LoggerUtil.e(TAG, "ACTION = Bad Request");
+                if (mErrorResponseModel != null) {
+                    SCREEN.updateUi(false, ACTION, mErrorResponseModel);
+
+                } else {
+                    SCREEN.updateUi(false, ACTION, "Bad Request");
+                }
             } else if (code >= 500) {
 
-                LoggerUtil.d(TAG, "ACTION = Server error");
-                SCREEN.updateUi(false, ACTION, "Server error");
+                LoggerUtil.e(TAG, "ACTION = Server error");
+                if (mErrorResponseModel != null) {
+                    SCREEN.updateUi(false, ACTION, mErrorResponseModel);
+
+                } else {
+                    SCREEN.updateUi(false, ACTION, "Server error");
+                }
             }
 
         } else if (SCREEN != null) {
 
             if (error instanceof NoConnectionError) {
-                LoggerUtil.d(TAG, "Response=" + error);
+                LoggerUtil.e(TAG, "Response=" + error);
                 try {
                     str = new String(error.networkResponse.data, "UTF-8");
-                    LoggerUtil.d(TAG, "VolleyError=" + str);
+                    LoggerUtil.e(TAG, "VolleyError=" + str);
                 } catch (UnsupportedEncodingException | NullPointerException e) {
-                    LoggerUtil.d(TAG, e.toString());
+                    LoggerUtil.e(TAG, e.toString());
                 }
 
 

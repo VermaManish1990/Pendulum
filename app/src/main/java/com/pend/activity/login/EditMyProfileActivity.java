@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,8 +18,11 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,6 +31,7 @@ import android.widget.LinearLayout;
 import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
 import com.pend.R;
+import com.pend.adapters.UploadImageAdapter;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
@@ -38,6 +44,7 @@ import com.pend.util.AndroidPermissionUtils;
 import com.pend.util.ImageFilePathUtil;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.OtherUtil;
 import com.pend.util.RequestPostDataUtil;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
@@ -45,18 +52,18 @@ import com.pendulum.volley.ext.GsonObjectRequest;
 import com.pendulum.volley.ext.RequestManager;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
 
-public class EditMyProfileActivity extends BaseActivity implements TextWatcher, View.OnClickListener {
+public class EditMyProfileActivity extends BaseActivity implements TextWatcher, View.OnClickListener, UploadImageAdapter.IUploadImageAdapterCallback {
 
     private static final String TAG = EditMyProfileActivity.class.getSimpleName();
     private View mRootView;
-    private LinearLayout mLlUploadPhotos;
     private EditText mEtName;
     private EditText mEtAge;
     private EditText mEtGender;
     private EditText mEtLocation;
-    private ImageView mIvUploadPhoto;
     private TextInputLayout mInputLayoutName;
     private TextInputLayout mInputLayoutAge;
     private TextInputLayout mInputLayoutGender;
@@ -67,6 +74,9 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
     private String mGender;
     private String mLocation;
     private File mPhotoPath;
+    private RecyclerView mRecyclerViewProfile;
+    private String mEncodedImage;
+    private AddUserImageResponseModel.AddUserImageDetails mDeleteImageDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,12 +91,11 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
     protected void initUI() {
 
         mRootView = findViewById(R.id.root_view);
-        mLlUploadPhotos = findViewById(R.id.ll_upload_photos);
         mEtName = findViewById(R.id.et_name);
         mEtAge = findViewById(R.id.et_age);
         mEtGender = findViewById(R.id.et_gender);
         mEtLocation = findViewById(R.id.et_location);
-        mIvUploadPhoto = findViewById(R.id.iv_upload_photo);
+        mRecyclerViewProfile = findViewById(R.id.recycler_view_profile);
 
         mInputLayoutName = findViewById(R.id.input_layout_name);
         mInputLayoutAge = findViewById(R.id.input_layout_age);
@@ -99,12 +108,21 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
         mEtLocation.addTextChangedListener(EditMyProfileActivity.this);
 
         findViewById(R.id.bt_save).setOnClickListener(this);
-        mIvUploadPhoto.setOnClickListener(this);
+        findViewById(R.id.iv_upload_photo).setOnClickListener(this);
 
     }
 
     @Override
     protected void setInitialData() {
+
+        int userId = -1;
+        try {
+            userId = Integer.parseInt(SharedPrefUtils.getUserId(this));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<AddUserImageResponseModel.AddUserImageDetails> imageDetailsList = new ArrayList<>();
 
         Bundle localBundle = getIntent().getExtras();
         if (localBundle != null) {
@@ -119,18 +137,18 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
                     mEtLocation.setText(userProfileData.userData.cityName != null ? userProfileData.userData.cityName : "");
                 }
 
-//                if (userProfileData != null && userProfileData.imageData != null) {
-//                    for (UserProfileResponseModel.ImageDetails imageDetails : userProfileData.imageData) {
-//                        ImageView imageView = new ImageView(this);
-//                        Picasso.with(this)
-//                                .load(imageDetails.imageURL)
-//                                .resize(150, 150)
-//                                .into(imageView);
-//                        mLlUploadPhotos.addView(imageView);
-//                    }
-//                }
+                if (userProfileData != null && userProfileData.imageData != null) {
+                    for (UserProfileResponseModel.ImageDetails imageDetails : userProfileData.imageData) {
+
+                        imageDetailsList.add(new AddUserImageResponseModel.AddUserImageDetails(
+                                userId, imageDetails.imageID, imageDetails.imageURL, imageDetails.imageName, imageDetails.isProfileImage));
+                    }
+                }
             }
         }
+
+        mRecyclerViewProfile.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+        mRecyclerViewProfile.setAdapter(new UploadImageAdapter(this, imageDetailsList));
     }
 
     @Override
@@ -156,6 +174,14 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
                     if (addUserImageResponseModel != null && addUserImageResponseModel.status) {
                         LoggerUtil.d(TAG, addUserImageResponseModel.statusCode);
 
+                        UploadImageAdapter uploadImageAdapter = (UploadImageAdapter) mRecyclerViewProfile.getAdapter();
+                        ArrayList<AddUserImageResponseModel.AddUserImageDetails> imageDetailsList = uploadImageAdapter.getImageDetailsList();
+                        imageDetailsList.add(addUserImageResponseModel.Data.imageData);
+                        uploadImageAdapter.setImageDetailsList(imageDetailsList);
+                        uploadImageAdapter.notifyDataSetChanged();
+
+                        Snackbar.make(mRootView, getString(R.string.profile_uploaded_successfully), Snackbar.LENGTH_LONG).show();
+
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
@@ -170,6 +196,21 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
                     if (deleteUserImageResponseModel != null && deleteUserImageResponseModel.status) {
                         LoggerUtil.d(TAG, deleteUserImageResponseModel.statusCode);
 
+                        UploadImageAdapter uploadImageAdapter = (UploadImageAdapter) mRecyclerViewProfile.getAdapter();
+                        ArrayList<AddUserImageResponseModel.AddUserImageDetails> imageDetailsList = uploadImageAdapter.getImageDetailsList();
+
+                        // remove deleted object from Adapter List
+                        for (AddUserImageResponseModel.AddUserImageDetails imageDetails : imageDetailsList) {
+                            if (imageDetails.imageID == deleteUserImageResponseModel.Data.imageData.imageID) {
+                                imageDetailsList.remove(imageDetails);
+                            }
+                        }
+                        uploadImageAdapter.setImageDetailsList(imageDetailsList);
+                        uploadImageAdapter.notifyDataSetChanged();
+
+                        Snackbar.make(mRootView, getString(R.string.profile_deleted_successfully), Snackbar.LENGTH_LONG).show();
+
+
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
@@ -183,6 +224,8 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
                     SetUserImageResponseModel setUserImageResponseModel = (SetUserImageResponseModel) serviceResponse;
                     if (setUserImageResponseModel != null && setUserImageResponseModel.status) {
                         LoggerUtil.d(TAG, setUserImageResponseModel.statusCode);
+
+//                        Snackbar.make(mRootView, getString(R.string.profile_updated_successfully), Snackbar.LENGTH_LONG).show();
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -240,8 +283,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
 
             case IApiEvent.REQUEST_ADD_USER_IMAGE_CODE:
 
-                //TODO imageUrl
-                requestObject = RequestPostDataUtil.addUserImageApiRegParam(userId, true, "");
+                requestObject = RequestPostDataUtil.addUserImageApiRegParam(userId, true, mEncodedImage);
                 request = requestObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<AddUserImageResponseModel>(IWebServices.REQUEST_ADD_USER_IMAGE_URL, NetworkUtil.getHeaders(this),
                         request, AddUserImageResponseModel.class, new
@@ -257,8 +299,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
 
             case IApiEvent.REQUEST_DELETE_USER_IMAGE_CODE:
 
-                //TODO imageId
-                requestObject = RequestPostDataUtil.deleteUserImageApiRegParam(userId, 1);
+                requestObject = RequestPostDataUtil.deleteUserImageApiRegParam(userId, mDeleteImageDetails.imageID);
                 request = requestObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<DeleteUserImageResponseModel>(IWebServices.REQUEST_DELETE_USER_IMAGE_URL, NetworkUtil.getHeaders(this),
                         request, DeleteUserImageResponseModel.class, new
@@ -414,9 +455,10 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
             }
 
             if (selectedImage != null) {
-                ImageView imageView = new ImageView(EditMyProfileActivity.this);
-                imageView.setImageURI(selectedImage);
-                mLlUploadPhotos.addView(imageView);
+                mEncodedImage = OtherUtil.getBase64Formate(selectedImage.toString());
+                if (mEncodedImage != null) {
+                    getData(IApiEvent.REQUEST_ADD_USER_IMAGE_CODE);
+                }
             }
         }
     }
@@ -545,5 +587,57 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
         }
     }
 
+
+    @Override
+    public void onProfileViewClick(int position) {
+
+    }
+
+    @Override
+    public void onProfileViewLongClick(int position) {
+        deleteAndUpdateImageDialog(position);
+    }
+
+    /**
+     * Method is used to show an Alert Dialog for select Delete and Update option
+     */
+    private void deleteAndUpdateImageDialog(final int position) {
+        final CharSequence[] items = new String[]{getString(R.string.delete_image), getString(R.string.update_image), getString(R.string.cancel)};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.add_photo));
+
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                UploadImageAdapter uploadImageAdapter;
+                switch (items[which].toString()) {
+                    case "Delete Image":
+
+                        uploadImageAdapter = (UploadImageAdapter) mRecyclerViewProfile.getAdapter();
+                        mDeleteImageDetails = uploadImageAdapter.getImageDetailsList().get(position);
+
+                        if (mDeleteImageDetails != null)
+                            getData(IApiEvent.REQUEST_DELETE_USER_IMAGE_CODE);
+                        else
+                            Snackbar.make(mRootView, getString(R.string.can_t_delete), Snackbar.LENGTH_LONG).show();
+
+                        break;
+
+                    case "Update Image":
+
+                        Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+
+                        break;
+
+                    case "Cancel":
+                        dialog.dismiss();
+                        break;
+                }
+            }
+        });
+        builder.show();
+    }
 
 }
