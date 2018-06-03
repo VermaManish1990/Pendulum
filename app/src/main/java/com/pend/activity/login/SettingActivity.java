@@ -35,7 +35,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private View mRlArenaView;
     private View mRlMirrorView;
 
-    private TextView mTvLogout;
     private TextView mTvAbout;
 
     private ImageView mIvAboutDropdown;

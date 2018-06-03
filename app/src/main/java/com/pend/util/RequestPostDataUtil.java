@@ -394,4 +394,31 @@ public class RequestPostDataUtil {
         LoggerUtil.d(RequestPostDataUtil.class.getSimpleName(), requestParameters.toString());
         return requestParameters;
     }
+
+    /**
+     * Method is used to get Request Parameters for Exit Poll Vote Api.
+     *
+     * @param userID userID
+     * @param mirrorID mirrorID
+     * @param exitPollID exitPollID
+     * @param pollAdmire pollAdmire
+     * @param pollHate pollHate
+     * @param pollCantSay pollCantSay
+     * @return JsonObject
+     */
+    public static JsonObject exitPollVoteApiRegParam(int userID, int mirrorID, int exitPollID,boolean pollAdmire,
+                                                     boolean pollHate,boolean pollCantSay) {
+        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "exitPollVoteApiRegParam");
+
+        JsonObject requestParameters = new JsonObject();
+        requestParameters.addProperty("userID", userID);
+        requestParameters.addProperty("mirrorID", mirrorID);
+        requestParameters.addProperty("exitPollID", exitPollID);
+        requestParameters.addProperty("pollAdmire", pollAdmire);
+        requestParameters.addProperty("pollHate", pollHate);
+        requestParameters.addProperty("pollCantSay", pollCantSay);
+
+        LoggerUtil.d(RequestPostDataUtil.class.getSimpleName(), requestParameters.toString());
+        return requestParameters;
+    }
 }

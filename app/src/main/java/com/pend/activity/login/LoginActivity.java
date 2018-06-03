@@ -14,7 +14,6 @@ import com.pend.BaseActivity;
 import com.pend.BaseResponseModel;
 import com.pend.R;
 import com.pend.activity.home.HomeActivity;
-import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.LoginResponseModel;
