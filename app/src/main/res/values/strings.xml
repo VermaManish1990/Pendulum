@@ -74,4 +74,7 @@
     <string name="profile_deleted_successfully">Profile Deleted Successfully</string>
     <string name="profile_updated_successfully">Profile Updated Successfully</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
