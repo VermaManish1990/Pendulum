@@ -30,7 +30,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.home.HomeActivity"
             android:screenOrientation="portrait" />
@@ -62,6 +61,12 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <activity android:name=".activity.mirror.MirrorActivity" />
+        <activity android:name=".activity.mirror.SearchMirrorListingActivity" />
+        <activity android:name=".activity.mirror.MirrorDetailsActivity" />
+        <activity android:name=".activity.mirror.ExitPollScreenActivity" />
+        <activity android:name=".activity.mirror.ReflectionsActivity"></activity>
     </application>
 
 </manifest>
