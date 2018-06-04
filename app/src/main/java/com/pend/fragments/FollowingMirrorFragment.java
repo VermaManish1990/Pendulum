@@ -1,17 +1,15 @@
 package com.pend.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.pend.BaseFragment;
 import com.pend.R;
 
 
-public class FollowingMirrorFragment extends Fragment {
+public class FollowingMirrorFragment extends BaseFragment {
 
     /**
      * Use this factory method to create a new instance of
@@ -45,5 +43,25 @@ public class FollowingMirrorFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_following_mirror, container, false);
+    }
+
+    @Override
+    public void updateUi(boolean status, int actionID, Object serviceResponse) {
+
+    }
+
+    @Override
+    public void onEvent(int eventId, Object eventData) {
+
+    }
+
+    @Override
+    public void getData(int actionID) {
+
+    }
+
+    @Override
+    public void onAuthError() {
+
     }
 }
