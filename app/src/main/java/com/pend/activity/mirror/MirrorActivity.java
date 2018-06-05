@@ -7,11 +7,14 @@ import android.view.View;
 
 import com.pend.BaseActivity;
 import com.pend.R;
+import com.pend.adapters.MirrorViewPagerAdapter;
+import com.pend.fragments.FollowingMirrorFragment;
+import com.pend.fragments.IntroducedMirrorFragment;
+import com.pend.fragments.TrendingMirrorFragment;
 
 public class MirrorActivity extends BaseActivity {
 
     private View mRootView;
-    private ViewPager mViewPagerMirror;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +29,20 @@ public class MirrorActivity extends BaseActivity {
 
         mRootView = findViewById(R.id.root_view);
         TabLayout tabLayoutMirror = findViewById(R.id.tab_layout_mirror);
-        mViewPagerMirror = findViewById(R.id.view_pager_mirror);
+        ViewPager viewPagerMirror = findViewById(R.id.view_pager_mirror);
+        setupViewPager(viewPagerMirror);
+        tabLayoutMirror.setupWithViewPager(viewPagerMirror, true);
+    }
 
-        tabLayoutMirror.setupWithViewPager(mViewPagerMirror, true);
+    /**
+     * Method is used to setting up View Pager
+     */
+    private void setupViewPager(ViewPager viewPager) {
+        MirrorViewPagerAdapter adapter = new MirrorViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new TrendingMirrorFragment(), getString(R.string.trending));
+        adapter.addFragment(new FollowingMirrorFragment(), getString(R.string.following));
+        adapter.addFragment(new IntroducedMirrorFragment(), getString(R.string.introduced));
+        viewPager.setAdapter(adapter);
     }
 
     @Override

@@ -1,15 +1,20 @@
 package com.pend.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 
 import com.pend.BaseFragment;
 import com.pend.R;
+import com.pend.adapters.FollowingMirrorAdapter;
 
 
 public class FollowingMirrorFragment extends BaseFragment {
+
+    private Context mContext;
 
     /**
      * Use this factory method to create a new instance of
@@ -39,10 +44,25 @@ public class FollowingMirrorFragment extends BaseFragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_following_mirror, container, false);
+        View view =  inflater.inflate(R.layout.fragment_following_mirror, container, false);
+
+        initUI(view);
+        return view;
+    }
+
+    @Override
+    protected void initUI(View view) {
+        GridView gridViewFollowingMirror = view.findViewById(R.id.grid_view_following_mirror);
+        gridViewFollowingMirror.setAdapter(new FollowingMirrorAdapter(mContext));
     }
 
     @Override
