@@ -18,7 +18,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/_8sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:src="@drawable/setting"
+            android:src="@drawable/profile"
             app:civ_border_color="@color/red_color"
             app:civ_border_width="1dp" />
 

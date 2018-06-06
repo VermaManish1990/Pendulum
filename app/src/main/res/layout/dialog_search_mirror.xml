@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:src="@drawable/cross" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_70sdp"
+            android:hint="@string/enter_mirror_name">
+
+            <EditText
+                android:id="@+id/et_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:maxLength="55"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14sdp"
+                tools:ignore="LabelFor" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/bt_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/input_layout_password"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/_70sdp"
+            android:layout_marginTop="@dimen/_70sdp"
+            android:background="@drawable/custom_rounded_button"
+            android:paddingBottom="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_60sdp"
+            android:paddingStart="@dimen/_60sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:text="@string/search"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14sdp" />
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>

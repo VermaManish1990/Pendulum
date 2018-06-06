@@ -79,5 +79,13 @@
     <string name="trending">Trending</string>
     <string name="following">Following</string>
     <string name="introduced">Introduced</string>
+    <string name="enter_mirror_name">Enter mirror name</string>
+    <string name="search">Search</string>
+    <string name="what_you_feel_about_this_celebrity">What you feel about this celebrity?</string>
+    <string name="admire">Admire</string>
+    <string name="hate">Hate</string>
+    <string name="can_t_say">Can\'t say</string>
+    <string name="okay">Okay</string>
+    <string name="unvote">Unvote</string>
 
 </resources>
