@@ -64,8 +64,8 @@
             android:layout_gravity="end"
             android:paddingEnd="@dimen/_15sdp"
             android:paddingRight="@dimen/_15sdp"
-            android:textColor="@color/black"
-            android:text="@string/token" />
+            android:text="@string/token"
+            android:textColor="@color/black" />
 
         <View
             android:id="@+id/view1"

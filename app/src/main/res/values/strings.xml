@@ -87,5 +87,12 @@
     <string name="can_t_say">Can\'t say</string>
     <string name="okay">Okay</string>
     <string name="unvote">Unvote</string>
+    <string name="category">CATEGORY-</string>
+    <string name="wiki_link">WIKILINK-</string>
+    <string name="created_by">CREATED BY-</string>
+    <string name="related_contest">Related Contest</string>
+    <string name="reflections">Reflections</string>
+    <string name="recent_post">Recent post</string>
+    <string name="demonetization">Demonetization</string>
 
 </resources>

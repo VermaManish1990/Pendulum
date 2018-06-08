@@ -1,9 +1,281 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:weightSum="9"
     tools:context=".activity.mirror.ExitPollScreenActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <com.pend.util.CustomViewPager
+        android:id="@+id/viewpager_profile"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+
+    </com.pend.util.CustomViewPager>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/tv_category_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="@string/category"
+                    android:textSize="@dimen/_10sdp" />
+
+                <TextView
+                    android:id="@+id/tv_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/tv_category_text"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_toEndOf="@+id/tv_category_text"
+                    android:layout_toRightOf="@+id/tv_category_text"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp" />
+
+                <TextView
+                    android:id="@+id/tv_wiki_link_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_category_text"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="@string/wiki_link"
+                    android:textSize="@dimen/_10sdp" />
+
+                <TextView
+                    android:id="@+id/tv_wiki_link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/tv_wiki_link_text"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_toEndOf="@+id/tv_wiki_link_text"
+                    android:layout_toRightOf="@+id/tv_wiki_link_text"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/_10sdp" />
+
+                <TextView
+                    android:id="@+id/tv_created_by_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_wiki_link_text"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="@string/created_by"
+                    android:textSize="@dimen/_10sdp" />
+
+                <TextView
+                    android:id="@+id/tv_created_by"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/tv_created_by_text"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_toEndOf="@+id/tv_created_by_text"
+                    android:layout_toRightOf="@+id/tv_created_by_text"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp" />
+
+                <TextView
+                    android:id="@+id/tv_related_contest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/tv_category_text"
+                    android:background="@drawable/custom_rounded_grey_border"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_15sdp"
+                    android:paddingStart="@dimen/_15sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:text="@string/related_contest"
+                    android:textSize="@dimen/_10sdp" />
+
+                <TextView
+                    android:id="@+id/tv_reflections"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tv_related_contest"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignStart="@+id/tv_related_contest"
+                    android:layout_below="@+id/tv_related_contest"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/custom_rounded_grey_border"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:text="@string/reflections"
+                    android:textSize="@dimen/_10sdp" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/darkGreyBackground" />
+
+            <RelativeLayout
+                android:id="@+id/rl_demonetization"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/tv_recent_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recent_post"
+                    android:textColor="@color/light_black_txt_color"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/demonetization"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_recent_text"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="@string/demonetization"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/tv_recent_text"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/custom_rounded_grey_border"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/share_on_facebook"
+                    android:textColor="@color/colorGrayTextColor"
+                    android:textSize="@dimen/_10sdp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/custom_rounded_grey_border"
+                android:padding="@dimen/_15sdp">
+
+                <TextView
+                    android:id="@+id/tv_tap_here_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tap_here_to_vote"
+                    android:textColor="@color/colorGrayTextColor" />
+
+                <TextView
+                    android:id="@+id/tv_admire_view"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_tap_here_text"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/custom_rounded_green_view"
+                    android:gravity="center"
+                    android:padding="@dimen/_3sdp"
+                    android:text="40%"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tv_admire_view"
+                    android:layout_alignTop="@+id/tv_admire_view"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_toEndOf="@+id/tv_admire_view"
+                    android:layout_toRightOf="@+id/tv_admire_view"
+                    android:gravity="center"
+                    android:text="@string/admire"
+                    android:textColor="@color/colorGrayTextColor" />
+
+                <TextView
+                    android:id="@+id/tv_hate_view"
+                    android:layout_width="@dimen/_160sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_admire_view"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/custom_rounded_red_view"
+                    android:gravity="center"
+                    android:padding="@dimen/_3sdp"
+                    android:text="35%"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tv_hate_view"
+                    android:layout_alignTop="@+id/tv_hate_view"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_toEndOf="@+id/tv_hate_view"
+                    android:layout_toRightOf="@+id/tv_hate_view"
+                    android:gravity="center"
+                    android:text="@string/hate"
+                    android:textColor="@color/colorGrayTextColor" />
+
+                <TextView
+                    android:id="@+id/tv_can_t_say_view"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_hate_view"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/custom_rounded_yellow_view"
+                    android:gravity="center"
+                    android:padding="@dimen/_3sdp"
+                    android:text="25%"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tv_can_t_say_view"
+                    android:layout_alignTop="@+id/tv_can_t_say_view"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_toEndOf="@+id/tv_can_t_say_view"
+                    android:layout_toRightOf="@+id/tv_can_t_say_view"
+                    android:gravity="center"
+                    android:text="@string/can_t_say"
+                    android:textColor="@color/colorGrayTextColor" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

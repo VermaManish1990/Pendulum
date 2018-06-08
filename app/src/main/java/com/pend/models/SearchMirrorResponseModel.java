@@ -12,7 +12,7 @@ public class SearchMirrorResponseModel extends BaseResponseModel {
         public ArrayList<SearchMirrorDetails> searchData;
     }
 
-    private static class SearchMirrorDetails implements Serializable{
+    public static class SearchMirrorDetails implements Serializable{
         public int mirrorUniqueID;
         public String mirrorName;
         public String mirrorInfo;
