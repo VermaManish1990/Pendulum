@@ -9,11 +9,13 @@ import android.widget.GridView;
 import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.adapters.ReflectionMirrorAdapter;
+import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.GetReflectionUsersResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
 import com.pendulum.utils.ConnectivityUtils;
 import com.pendulum.volley.ext.GsonObjectRequest;
@@ -26,6 +28,7 @@ public class ReflectionsActivity extends BaseActivity {
     private static final String TAG = ReflectionsActivity.class.getSimpleName();
     private View mRootView;
     private GridView mGridViewReflection;
+    private int mPageNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,12 +100,17 @@ public class ReflectionsActivity extends BaseActivity {
         }
         showProgressDialog();
 
+        //TODO Change mirrorId
+        int mirrorId = 1;
+
         switch (actionID) {
             case IApiEvent.REQUEST_GET_REFLECTION_USERS_CODE:
 
-                RequestManager.addRequest(new GsonObjectRequest<GetReflectionUsersResponseModel>(IWebServices.REQUEST_GET_REFLECTION_USERS_URL,
-                        NetworkUtil.getHeaders(this), null, GetReflectionUsersResponseModel.class,
-                        new VolleyErrorListener(this, actionID)) {
+                mPageNumber = 1;
+                String reflectionUserUrl = IWebServices.REQUEST_GET_REFLECTION_USERS_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this) + "&" +
+                        Constants.PARAM_MIRROR_ID + "=" + mirrorId + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
+                RequestManager.addRequest(new GsonObjectRequest<GetReflectionUsersResponseModel>(reflectionUserUrl, NetworkUtil.getHeaders(this),
+                        null, GetReflectionUsersResponseModel.class, new VolleyErrorListener(this, actionID)) {
 
                     @Override
                     protected void deliverResponse(GetReflectionUsersResponseModel response) {

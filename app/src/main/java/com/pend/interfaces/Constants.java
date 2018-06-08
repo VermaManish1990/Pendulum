@@ -12,9 +12,15 @@ public interface Constants {
     //Header Keys
     String PARAM_SECURITY_KEY = "SecurityKey";
     String PARAM_DEVICE_ID = "DeviceID";
+
+    //Query parameter keys
     String PARAM_USER_ID = "userID";
-    String PREF_DEVICE_ID = "device_id";
-    String PREF_PAGE_NUMBER = "pageNumber";
+    String PARAM_MIRROR_ID = "mirrorID";
+    String PARAM_POST_ID = "postID";
+    String PARAM_PAGE_NUMBER = "pageNumber";
+    String PARAM_SEARCH_TEXT = "searchText";
+    String PARAM_MONTH = "month";
+    String PARAM_YEAR = "year";
 
     //Volley Error Message
     String NoConnectionError = "Network Failure";

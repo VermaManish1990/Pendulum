@@ -13,11 +13,13 @@ import com.pend.BaseActivity;
 import com.pend.BaseFragment;
 import com.pend.R;
 import com.pend.adapters.TrendingAndIntroducedMirrorAdapter;
+import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.GetTrendingAndIntroducedMirrorResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
 import com.pendulum.utils.ConnectivityUtils;
 import com.pendulum.volley.ext.GsonObjectRequest;
@@ -32,6 +34,7 @@ public class TrendingMirrorFragment extends BaseFragment {
     private RecyclerView mRecyclerViewTrending;
     private Context mContext;
     private View mRootView;
+    private int mPageNumber;
 
     /**
      * Use this factory method to create a new instance of
@@ -138,7 +141,11 @@ public class TrendingMirrorFragment extends BaseFragment {
         switch (actionID) {
             case IApiEvent.REQUEST_GET_TRENDING_CODE:
 
-                RequestManager.addRequest(new GsonObjectRequest<GetTrendingAndIntroducedMirrorResponseModel>(IWebServices.REQUEST_GET_TRENDING_URL,
+                mPageNumber = 1;
+                String trendingMirrorUrl = IWebServices.REQUEST_GET_TRENDING_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
+                        + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber)
+                        + "&" + Constants.PARAM_SEARCH_TEXT + "=" + String.valueOf("search text");
+                RequestManager.addRequest(new GsonObjectRequest<GetTrendingAndIntroducedMirrorResponseModel>(trendingMirrorUrl,
                         NetworkUtil.getHeaders(mContext), null, GetTrendingAndIntroducedMirrorResponseModel.class,
                         new VolleyErrorListener(this, actionID)) {
 
