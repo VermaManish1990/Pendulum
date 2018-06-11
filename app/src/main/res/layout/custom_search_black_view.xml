@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/_20sdp"
     android:layout_marginStart="@dimen/_20sdp"
-    android:background="@drawable/custom_circular_grey_border"
+    android:background="@drawable/custom_circular_grey_bg"
     android:paddingBottom="@dimen/_10sdp"
     android:paddingEnd="@dimen/_20sdp"
     android:paddingStart="@dimen/_20sdp"
@@ -28,6 +28,7 @@
         android:layout_toRightOf="@+id/iv_search"
         android:background="@null"
         android:text="@string/search_result"
+        android:textColor="@color/white"
         android:textSize="@dimen/_14sdp" />
 
 </RelativeLayout>
