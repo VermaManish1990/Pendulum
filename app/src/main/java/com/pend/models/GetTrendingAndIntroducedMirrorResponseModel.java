@@ -17,9 +17,9 @@ public class GetTrendingAndIntroducedMirrorResponseModel extends BaseResponseMod
         public int mirrorID;
         public int newPost;
 
-        public int mirrorName;
-        public int imageURL;
-        public int mirrorInfo;
-        public int mirrorWikiLink;
+        public String mirrorName;
+        public String imageURL;
+        public String mirrorInfo;
+        public String mirrorWikiLink;
     }
 }

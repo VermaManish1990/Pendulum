@@ -77,6 +77,8 @@ public class IntroducedMirrorFragment extends BaseFragment {
 
         initUI(view);
         setInitialData();
+
+        getData(IApiEvent.REQUEST_GET_INTRODUCED_CODE);
         return view;
     }
 
@@ -148,8 +150,8 @@ public class IntroducedMirrorFragment extends BaseFragment {
 
                 mPageNumber = 1;
                 String introducedMirrorUrl = IWebServices.REQUEST_GET_INTRODUCED_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
-                        + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber)
-                        + "&" + Constants.PARAM_SEARCH_TEXT + "=" + String.valueOf("search text");
+                        + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
+//                        + "&" + Constants.PARAM_SEARCH_TEXT + "=" + String.valueOf("search text");
                 RequestManager.addRequest(new GsonObjectRequest<GetTrendingAndIntroducedMirrorResponseModel>(introducedMirrorUrl,
                         NetworkUtil.getHeaders(mContext), null, GetTrendingAndIntroducedMirrorResponseModel.class,
                         new VolleyErrorListener(this, actionID)) {

@@ -7,6 +7,7 @@ import android.view.View;
 import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.activity.login.ProfileActivity;
+import com.pend.activity.mirror.MirrorActivity;
 import com.pend.util.LoggerUtil;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
@@ -25,6 +26,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     protected void initUI() {
 
         findViewById(R.id.bt_profile).setOnClickListener(this);
+        findViewById(R.id.bt_mirror).setOnClickListener(this);
     }
 
     @Override
@@ -53,6 +55,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             case R.id.bt_profile:
                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
                 startActivity(intent);
+                break;
+
+            case R.id.bt_mirror:
+                Intent intentMirror = new Intent(HomeActivity.this, MirrorActivity.class);
+                startActivity(intentMirror);
                 break;
 
             default:

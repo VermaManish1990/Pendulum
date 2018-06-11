@@ -48,11 +48,11 @@ public class TrendingAndIntroducedMirrorAdapter extends RecyclerView.Adapter<Tre
 
         Picasso.with(mContext)
                 .load(mirrorDetails.imageURL)
-                .resize(480,480)
+//                .resize(480,480)
                 .into(holder.ivProfile);
 
-        holder.tvName.setText(mirrorDetails.mirrorName);
-        holder.tvPostCount.setText(mirrorDetails.newPost);
+        holder.tvName.setText(mirrorDetails.mirrorName!=null?mirrorDetails.mirrorName:"");
+        holder.tvPostCount.setText(String.valueOf(mirrorDetails.newPost));
     }
 
     @Override

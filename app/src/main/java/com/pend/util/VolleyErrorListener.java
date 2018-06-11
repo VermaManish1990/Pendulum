@@ -52,7 +52,7 @@ public class VolleyErrorListener implements Response.ErrorListener {
                 Gson gson = new Gson();
                 mErrorResponseModel = gson.fromJson(str, ErrorResponseModel.class);
 
-            } catch (UnsupportedEncodingException ex) {
+            } catch (Exception ex) {
                 LoggerUtil.e(TAG, ex.toString());
                 return;
             }

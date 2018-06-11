@@ -74,6 +74,8 @@ public class FollowingMirrorFragment extends BaseFragment {
 
         initUI(view);
         setInitialData();
+
+        getData(IApiEvent.REQUEST_GET_FOLLOWING_CODE);
         return view;
     }
 
@@ -109,6 +111,11 @@ public class FollowingMirrorFragment extends BaseFragment {
                     if (followingMirrorResponseModel != null && followingMirrorResponseModel.status) {
                         LoggerUtil.d(TAG, followingMirrorResponseModel.statusCode);
 
+                        FollowingMirrorAdapter followingMirrorAdapter = (FollowingMirrorAdapter) mGridViewFollowingMirror.getAdapter();
+                        ArrayList<GetFollowingMirrorResponseModel.GetFollowingMirrorDetails> mirrorList = followingMirrorAdapter.getMirrorList();
+                        mirrorList.addAll(followingMirrorResponseModel.Data.mirrorList);
+                        followingMirrorAdapter.setMirrorList(mirrorList);
+                        followingMirrorAdapter.notifyDataSetChanged();
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -144,8 +151,8 @@ public class FollowingMirrorFragment extends BaseFragment {
 
                 mPageNumber = 1;
                 String followingMirrorUrl = IWebServices.REQUEST_GET_FOLLOWING_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
-                        + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber)
-                        + "&" + Constants.PARAM_SEARCH_TEXT + "=" + String.valueOf("search text");
+                        + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
+//                        + "&" + Constants.PARAM_SEARCH_TEXT + "=" + String.valueOf("search text");
                 RequestManager.addRequest(new GsonObjectRequest<GetFollowingMirrorResponseModel>(followingMirrorUrl,
                         NetworkUtil.getHeaders(mContext), null, GetFollowingMirrorResponseModel.class,
                         new VolleyErrorListener(this, actionID)) {

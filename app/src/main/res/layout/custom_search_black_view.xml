@@ -27,7 +27,8 @@
         android:layout_toEndOf="@+id/iv_search"
         android:layout_toRightOf="@+id/iv_search"
         android:background="@null"
-        android:text="@string/search_result"
+        android:hint="@string/search_result"
+        android:textColorHint="@color/white"
         android:textColor="@color/white"
         android:textSize="@dimen/_14sdp" />
 
