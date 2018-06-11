@@ -66,7 +66,8 @@
         <activity android:name=".activity.mirror.SearchMirrorListingActivity" />
         <activity android:name=".activity.mirror.MirrorDetailsActivity" />
         <activity android:name=".activity.mirror.ExitPollScreenActivity" />
-        <activity android:name=".activity.mirror.ReflectionsActivity"></activity>
+        <activity android:name=".activity.mirror.ReflectionsActivity" />
+        <activity android:name=".activity.mirror.CommentsActivity"></activity>
     </application>
 
 </manifest>
