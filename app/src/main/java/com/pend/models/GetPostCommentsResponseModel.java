@@ -17,10 +17,10 @@ public class GetPostCommentsResponseModel extends BaseResponseModel {
         public int userID;
         public int commentID;
 
-        public int commentText;
-        public int userFullName;
-        public int imageName;
-        public int commentUserImageURL;
-        public int createdDatetime;
+        public String commentText;
+        public String userFullName;
+        public String imageName;
+        public String commentUserImageURL;
+        public String createdDatetime;
     }
 }

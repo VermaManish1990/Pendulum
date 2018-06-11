@@ -95,5 +95,8 @@
     <string name="recent_post">Recent post</string>
     <string name="demonetization">Demonetization</string>
     <string name="comments">Comments</string>
+    <string name="create_a_new_post">Create a new post</string>
+    <string name="add_a_comment">Add a comment</string>
+    <string name="anonymous">anonymous</string>
 
 </resources>

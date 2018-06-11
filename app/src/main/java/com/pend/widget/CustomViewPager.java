@@ -1,4 +1,4 @@
-package com.pend.util;
+package com.pend.widget;
 
 import android.content.Context;
 import android.content.res.Resources;

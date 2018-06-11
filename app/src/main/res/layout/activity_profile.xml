@@ -10,13 +10,13 @@
     android:weightSum="9"
     tools:context=".activity.login.ProfileActivity">
 
-    <com.pend.util.CustomViewPager
+    <com.pend.widget.CustomViewPager
         android:id="@+id/viewpager_profile"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3">
 
-    </com.pend.util.CustomViewPager>
+    </com.pend.widget.CustomViewPager>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"

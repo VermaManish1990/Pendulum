@@ -5,7 +5,10 @@
     android:background="@drawable/custom_circular_grey_border"
     android:layout_marginStart="@dimen/_10sdp"
     android:layout_marginEnd="@dimen/_10sdp"
-    android:padding="@dimen/_20sdp">
+    android:paddingStart="@dimen/_20sdp"
+    android:paddingEnd="@dimen/_20sdp"
+    android:paddingTop="@dimen/_5sdp"
+    android:paddingBottom="@dimen/_5sdp">
 
     <ImageView
         android:id="@+id/iv_search"
@@ -14,7 +17,8 @@
         android:contentDescription="@string/image"
         android:src="@drawable/search"/>
 
-    <TextView
+    <EditText
+        android:id="@+id/et_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_20sdp"
@@ -22,6 +26,7 @@
         android:layout_toEndOf="@+id/iv_search"
         android:layout_toRightOf="@+id/iv_search"
         android:layout_centerVertical="true"
+        android:background="@null"
         android:text="@string/search_result"
         android:textSize="@dimen/_14sdp" />
 
