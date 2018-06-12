@@ -23,7 +23,7 @@ public interface IWebServices {
     String REQUEST_GET_INTRODUCED_URL = BASE_URL + "/api/GetIntroducedMirrors?";
     String REQUEST_GET_MIRROR_GRAPH_DATA_URL = BASE_URL + "/api/GetMirrorGraphData?";
     String REQUEST_GET_MIRROR_DETAILS_URL = BASE_URL + "/api/GetMirrorDetails?";
-    String REQUEST_SEARCH_MIRROR_URL = BASE_URL + "/api/SearchMirror";
+    String REQUEST_SEARCH_MIRROR_URL = BASE_URL + "/api/SearchMirror?";
     String REQUEST_CREATE_MIRROR_URL = BASE_URL + "/api/CreateMirror";
 
     String REQUEST_GET_META_DATA_URL = BASE_URL + "/api/GetMetaData?";
