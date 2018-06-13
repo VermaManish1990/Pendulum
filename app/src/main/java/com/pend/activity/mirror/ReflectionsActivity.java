@@ -85,10 +85,10 @@ public class ReflectionsActivity extends BaseActivity {
 
                         if (reflectionUsersResponseModel.Data != null && reflectionUsersResponseModel.Data.usersData != null) {
 
-                            ReflectionMirrorAdapter followingMirrorAdapter = (ReflectionMirrorAdapter) mGridViewReflection.getAdapter();
+                            ReflectionMirrorAdapter reflectionMirrorAdapter = (ReflectionMirrorAdapter) mGridViewReflection.getAdapter();
                             mUserDataList.addAll(reflectionUsersResponseModel.Data.usersData);
-                            followingMirrorAdapter.setUserDataList(mUserDataList);
-                            followingMirrorAdapter.notifyDataSetChanged();
+                            reflectionMirrorAdapter.setUserDataList(mUserDataList);
+                            reflectionMirrorAdapter.notifyDataSetChanged();
                         }
 
                     } else {

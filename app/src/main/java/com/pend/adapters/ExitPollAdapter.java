@@ -26,6 +26,10 @@ public class ExitPollAdapter extends RecyclerView.Adapter<ExitPollAdapter.ViewHo
         mExitPollList = exitPollList;
     }
 
+    public void setExitPollList(ArrayList<GetExitPollListResponseModel.GetExitPollListDetails> exitPollList) {
+        this.mExitPollList = exitPollList;
+    }
+
     @NonNull
     @Override
     public ExitPollAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

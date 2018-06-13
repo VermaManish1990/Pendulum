@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.pend.BaseActivity;
 import com.pend.R;
+import com.pend.adapters.ExitPollAdapter;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
@@ -23,6 +25,8 @@ import com.pendulum.utils.ConnectivityUtils;
 import com.pendulum.volley.ext.GsonObjectRequest;
 import com.pendulum.volley.ext.RequestManager;
 
+import java.util.ArrayList;
+
 public class ExitPollScreenActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = ExitPollScreenActivity.class.getSimpleName();
@@ -33,6 +37,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
     private TextView mTvCategory;
     private int mPageNumber;
     private int mMirrorId;
+    private ArrayList<GetExitPollListResponseModel.GetExitPollListDetails> mExitPollList;
     private RecyclerView mRecyclerViewExitPoll;
 
     @Override
@@ -72,7 +77,10 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
     @Override
     protected void setInitialData() {
 
-
+        mExitPollList = new ArrayList<>();
+        mRecyclerViewExitPoll.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+        ExitPollAdapter exitPollAdapter = new ExitPollAdapter(this, mExitPollList);
+        mRecyclerViewExitPoll.setAdapter(exitPollAdapter);
     }
 
     @Override
@@ -108,6 +116,14 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                     if (exitPollListResponseModel != null && exitPollListResponseModel.status) {
                         LoggerUtil.d(TAG, exitPollListResponseModel.statusCode);
 
+                        if (exitPollListResponseModel.Data != null && exitPollListResponseModel.Data.exitPollList != null) {
+
+                            ExitPollAdapter exitPollAdapter = (ExitPollAdapter) mRecyclerViewExitPoll.getAdapter();
+                            mExitPollList.addAll(exitPollListResponseModel.Data.exitPollList);
+
+                            exitPollAdapter.setExitPollList(mExitPollList);
+                            exitPollAdapter.notifyDataSetChanged();
+                        }
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));

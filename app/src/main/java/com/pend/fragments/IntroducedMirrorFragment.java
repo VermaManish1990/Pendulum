@@ -32,7 +32,7 @@ import com.pendulum.volley.ext.RequestManager;
 import java.util.ArrayList;
 
 
-public class IntroducedMirrorFragment extends BaseFragment implements TrendingAndIntroducedMirrorAdapter.ITrendingAndIntroducedMirrorAdapterCallBack {
+public class IntroducedMirrorFragment extends BaseFragment implements TrendingAndIntroducedMirrorAdapter.ITrendingAndIntroducedMirrorAdapterCallBack, View.OnClickListener {
 
     private final String TAG = IntroducedMirrorFragment.class.getSimpleName();
     private ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mMirrorList;
@@ -89,6 +89,7 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
     protected void initUI(View view) {
         mRootView = view.findViewById(R.id.root_view);
         mRecyclerViewIntroduced = view.findViewById(R.id.recycler_view_introduced);
+        view.findViewById(R.id.bt_create_mirror).setOnClickListener(this);
     }
 
     @Override
@@ -185,5 +186,18 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
         Intent intent = new Intent(mContext, MirrorDetailsActivity.class);
         intent.putExtra(Constants.MIRROR_ID_KEY, mirrorDetails.mirrorID);
         startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.bt_create_mirror:
+                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                break;
+
+            default:
+                LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
+                break;
+        }
     }
 }
