@@ -16,12 +16,16 @@ import java.util.ArrayList;
 
 public class ReflectionMirrorAdapter extends BaseAdapter {
 
-    private final ArrayList<GetReflectionUsersResponseModel.GetReflectionUsersDetails> mUserDataList;
+    private ArrayList<GetReflectionUsersResponseModel.GetReflectionUsersDetails> mUserDataList;
     private final Context mContext;
 
-    public ReflectionMirrorAdapter(Context context, ArrayList<GetReflectionUsersResponseModel.GetReflectionUsersDetails> mirrorList) {
+    public ReflectionMirrorAdapter(Context context, ArrayList<GetReflectionUsersResponseModel.GetReflectionUsersDetails> userDataList) {
         mContext = context;
-        mUserDataList = mirrorList;
+        mUserDataList = userDataList;
+    }
+
+    public void setUserDataList(ArrayList<GetReflectionUsersResponseModel.GetReflectionUsersDetails> userDataList){
+        mUserDataList = userDataList;
     }
 
     @Override

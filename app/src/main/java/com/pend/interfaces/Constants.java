@@ -8,6 +8,7 @@ public interface Constants {
     //Intent Keys
     String USER_DETAILS_KEY = "USER_DETAILS_KEY";
     String USER_DATA_MODEL_KEY = "USER_DATA_MODEL_KEY";
+    String MIRROR_ID_KEY = "MIRROR_ID_KEY";
 
     //Header Keys
     String PARAM_SECURITY_KEY = "SecurityKey";
@@ -30,18 +31,11 @@ public interface Constants {
     String ServerError = "Server Error";
     String TimeoutError = "Timeout Error";
 
-    // Validation Message
-    String EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-//    String EMAIL_ID_VALIDATION_ERROR = "please enter Email Address";
-//    String NOT_VALID_EMAIL_ID_ERROR = "please enter valid Email Address";
-//    String PASSWORD_VALIDATION_ERROR = "please enter PASSWORD";
-//    String NAME_VALIDATION_ERROR = "please enter Name";
-//    String MOBILE_NUMBER_VALIDATION_ERROR = "please enter Phone Number";
-//    String NOT_VALID_MOBILE_NUMBER_ERROR = "please enter valid Phone Number";
-
-
+    // Application Constant
     long SPLASH_TIME_OUT = 2000;
     int REQUEST_SELECT_IMAGE_FROM_ALBUM = 1;
     int REQUEST_TAKE_PHOTO = 2;
     int ALL_PERMISSION_REQUEST_CODE = 3;
+    String EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
 }

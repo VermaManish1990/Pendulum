@@ -1,6 +1,7 @@
 package com.pend.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import com.pend.BaseActivity;
 import com.pend.BaseFragment;
 import com.pend.R;
+import com.pend.activity.mirror.MirrorDetailsActivity;
 import com.pend.adapters.TrendingAndIntroducedMirrorAdapter;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
@@ -28,9 +30,10 @@ import com.pendulum.volley.ext.RequestManager;
 import java.util.ArrayList;
 
 
-public class TrendingMirrorFragment extends BaseFragment {
+public class TrendingMirrorFragment extends BaseFragment implements TrendingAndIntroducedMirrorAdapter.ITrendingAndIntroducedMirrorAdapterCallBack {
 
     private final String TAG = TrendingMirrorFragment.class.getSimpleName();
+    private ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mMirrorList;
     private RecyclerView mRecyclerViewTrending;
     private Context mContext;
     private View mRootView;
@@ -88,9 +91,9 @@ public class TrendingMirrorFragment extends BaseFragment {
     @Override
     protected void setInitialData() {
 
-        ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mirrorList = new ArrayList<>();
+        mMirrorList = new ArrayList<>();
         mRecyclerViewTrending.setLayoutManager(new LinearLayoutManager(mContext));
-        mRecyclerViewTrending.setAdapter(new TrendingAndIntroducedMirrorAdapter(mContext,mirrorList));
+        mRecyclerViewTrending.setAdapter(new TrendingAndIntroducedMirrorAdapter(mContext, this, mMirrorList));
     }
 
     @Override
@@ -104,11 +107,9 @@ public class TrendingMirrorFragment extends BaseFragment {
                         LoggerUtil.d(TAG, getTrendingAndIntroducedMirrorResponseModel.statusCode);
 
                         TrendingAndIntroducedMirrorAdapter trendingAndIntroducedMirrorAdapter = (TrendingAndIntroducedMirrorAdapter) mRecyclerViewTrending.getAdapter();
-                        ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mirrorList =
-                                trendingAndIntroducedMirrorAdapter.getMirrorList();
 
-                        mirrorList.addAll(getTrendingAndIntroducedMirrorResponseModel.Data.mirrorList);
-                        trendingAndIntroducedMirrorAdapter.setMirrorList(mirrorList);
+                        mMirrorList.addAll(getTrendingAndIntroducedMirrorResponseModel.Data.mirrorList);
+                        trendingAndIntroducedMirrorAdapter.setMirrorList(mMirrorList);
                         trendingAndIntroducedMirrorAdapter.notifyDataSetChanged();
 
                     } else {
@@ -146,6 +147,7 @@ public class TrendingMirrorFragment extends BaseFragment {
                 mPageNumber = 1;
                 String trendingMirrorUrl = IWebServices.REQUEST_GET_TRENDING_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
                         + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
+
 //                        + "&" + Constants.PARAM_SEARCH_TEXT + "=" + String.valueOf("search text");
                 RequestManager.addRequest(new GsonObjectRequest<GetTrendingAndIntroducedMirrorResponseModel>(trendingMirrorUrl,
                         NetworkUtil.getHeaders(mContext), null, GetTrendingAndIntroducedMirrorResponseModel.class,
@@ -154,7 +156,6 @@ public class TrendingMirrorFragment extends BaseFragment {
                     @Override
                     protected void deliverResponse(GetTrendingAndIntroducedMirrorResponseModel response) {
                         updateUi(true, actionID, response);
-
                     }
                 });
                 break;
@@ -169,5 +170,13 @@ public class TrendingMirrorFragment extends BaseFragment {
     @Override
     public void onAuthError() {
 
+    }
+
+    @Override
+    public void onMirrorClick(int position) {
+        GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails mirrorDetails = mMirrorList.get(position);
+        Intent intent = new Intent(mContext, MirrorDetailsActivity.class);
+        intent.putExtra(Constants.MIRROR_ID_KEY, mirrorDetails.mirrorID);
+        startActivity(intent);
     }
 }

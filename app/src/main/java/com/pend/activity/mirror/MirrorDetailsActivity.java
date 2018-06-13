@@ -26,6 +26,7 @@ import com.pend.util.VolleyErrorListener;
 import com.pendulum.utils.ConnectivityUtils;
 import com.pendulum.volley.ext.GsonObjectRequest;
 import com.pendulum.volley.ext.RequestManager;
+import com.squareup.picasso.Picasso;
 
 public class MirrorDetailsActivity extends BaseActivity implements View.OnClickListener {
 
@@ -36,14 +37,24 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     private TextView mTvName;
     private ProgressBar mProgressBarProfile;
     private RecyclerView mRecyclerViewPost;
+    private int mMirrorId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mirror_details);
 
+        Bundle localBundle = getIntent().getExtras();
+        if (localBundle != null) {
+            if (localBundle.containsKey(Constants.MIRROR_ID_KEY)) {
+                mMirrorId = localBundle.getInt(Constants.MIRROR_ID_KEY, 0);
+            }
+        }
+
         initUI();
         setInitialData();
+
+        getData(IApiEvent.REQUEST_GET_MIRROR_DETAILS_CODE);
     }
 
     @Override
@@ -64,7 +75,6 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void setInitialData() {
 
-
     }
 
     @Override
@@ -76,12 +86,25 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                     if (mirrorDetailsResponseModel != null && mirrorDetailsResponseModel.status) {
                         LoggerUtil.d(TAG, mirrorDetailsResponseModel.statusCode);
 
+                        if (mirrorDetailsResponseModel.Data != null && mirrorDetailsResponseModel.Data.mirrorData != null) {
+
+                            GetMirrorDetailsResponseModel.MirrorData mirrorData = mirrorDetailsResponseModel.Data.mirrorData;
+
+                            mTvName.setText(mirrorData.mirrorName != null ? mirrorData.mirrorName : "");
+                            Picasso.with(this)
+                                    .load(mirrorData.imageURL != null ? mirrorData.imageURL : "")
+                                    .into(mIvProfile);
+                        }
+
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
+
+                getData(IApiEvent.REQUEST_GET_MIRROR_GRAPH_DATA_CODE);
+
                 break;
 
             case IApiEvent.REQUEST_GET_MIRROR_GRAPH_DATA_CODE:
@@ -89,6 +112,10 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                     GetMirrorGraphResponseModel mirrorGraphResponseModel = (GetMirrorGraphResponseModel) serviceResponse;
                     if (mirrorGraphResponseModel != null && mirrorGraphResponseModel.status) {
                         LoggerUtil.d(TAG, mirrorGraphResponseModel.statusCode);
+
+                        if (mirrorGraphResponseModel.Data != null && mirrorGraphResponseModel.Data.graphData != null) {
+
+                        }
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -122,7 +149,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
             case IApiEvent.REQUEST_GET_MIRROR_DETAILS_CODE:
 
                 String mirrorDetailsUrl = IWebServices.REQUEST_GET_MIRROR_DETAILS_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this)
-                        + "&" + Constants.PARAM_MIRROR_ID + "=" + String.valueOf("66");
+                        + "&" + Constants.PARAM_MIRROR_ID + "=" + String.valueOf(mMirrorId);
                 RequestManager.addRequest(new GsonObjectRequest<GetMirrorDetailsResponseModel>(mirrorDetailsUrl, NetworkUtil.getHeaders(this),
                         null, GetMirrorDetailsResponseModel.class, new VolleyErrorListener(this, actionID)) {
 
@@ -137,7 +164,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
             case IApiEvent.REQUEST_GET_MIRROR_GRAPH_DATA_CODE:
 
                 String mirrorGraphDataUrl = IWebServices.REQUEST_GET_MIRROR_GRAPH_DATA_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this)
-                        + "&" + Constants.PARAM_MIRROR_ID + "=" + String.valueOf("66")
+                        + "&" + Constants.PARAM_MIRROR_ID + "=" + String.valueOf(mMirrorId)
                         + "&" + Constants.PARAM_MONTH + "=" + String.valueOf("1")
                         + "&" + Constants.PARAM_YEAR + "=" + String.valueOf("2018");
                 RequestManager.addRequest(new GsonObjectRequest<GetMirrorGraphResponseModel>(mirrorGraphDataUrl, NetworkUtil.getHeaders(this),
@@ -173,7 +200,9 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
             case R.id.iv_profile:
 
                 Intent intent = new Intent(MirrorDetailsActivity.this, ExitPollScreenActivity.class);
+                intent.putExtra(Constants.MIRROR_ID_KEY, mMirrorId);
                 startActivity(intent);
+
                 break;
 
             case R.id.progress_bar__profile:

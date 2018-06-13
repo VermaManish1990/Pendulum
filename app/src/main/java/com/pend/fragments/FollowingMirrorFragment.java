@@ -1,6 +1,7 @@
 package com.pend.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.GridView;
 import com.pend.BaseActivity;
 import com.pend.BaseFragment;
 import com.pend.R;
+import com.pend.activity.mirror.MirrorDetailsActivity;
 import com.pend.adapters.FollowingMirrorAdapter;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
@@ -35,6 +37,7 @@ public class FollowingMirrorFragment extends BaseFragment {
     private View mRootView;
     private GridView mGridViewFollowingMirror;
     private final String TAG = FollowingMirrorFragment.class.getSimpleName();
+    private ArrayList<GetFollowingMirrorResponseModel.GetFollowingMirrorDetails> mMirrorList;
     private int mPageNumber;
 
     /**
@@ -87,16 +90,21 @@ public class FollowingMirrorFragment extends BaseFragment {
 
     @Override
     protected void setInitialData() {
-        ArrayList<GetFollowingMirrorResponseModel.GetFollowingMirrorDetails> mirrorList = new ArrayList<>();
-        mGridViewFollowingMirror.setAdapter(new FollowingMirrorAdapter(mContext, mirrorList));
+        mMirrorList = new ArrayList<>();
+        mGridViewFollowingMirror.setAdapter(new FollowingMirrorAdapter(mContext, mMirrorList));
 
         /*
-          On Click event for Single Gridview Item
+          On Click event for Single Grid View Item
           */
         mGridViewFollowingMirror.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+//                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
 
+                GetFollowingMirrorResponseModel.GetFollowingMirrorDetails mirrorDetails = mMirrorList.get(position);
+                Intent intent = new Intent(mContext, MirrorDetailsActivity.class);
+                intent.putExtra(Constants.MIRROR_ID_KEY, mirrorDetails.mirrorID);
+                startActivity(intent);
             }
         });
 
@@ -111,11 +119,12 @@ public class FollowingMirrorFragment extends BaseFragment {
                     if (followingMirrorResponseModel != null && followingMirrorResponseModel.status) {
                         LoggerUtil.d(TAG, followingMirrorResponseModel.statusCode);
 
-                        FollowingMirrorAdapter followingMirrorAdapter = (FollowingMirrorAdapter) mGridViewFollowingMirror.getAdapter();
-                        ArrayList<GetFollowingMirrorResponseModel.GetFollowingMirrorDetails> mirrorList = followingMirrorAdapter.getMirrorList();
-                        mirrorList.addAll(followingMirrorResponseModel.Data.mirrorList);
-                        followingMirrorAdapter.setMirrorList(mirrorList);
-                        followingMirrorAdapter.notifyDataSetChanged();
+                        if (followingMirrorResponseModel.Data != null && followingMirrorResponseModel.Data.mirrorList != null) {
+                            FollowingMirrorAdapter followingMirrorAdapter = (FollowingMirrorAdapter) mGridViewFollowingMirror.getAdapter();
+                            mMirrorList.addAll(followingMirrorResponseModel.Data.mirrorList);
+                            followingMirrorAdapter.setMirrorList(mMirrorList);
+                            followingMirrorAdapter.notifyDataSetChanged();
+                        }
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -152,6 +161,7 @@ public class FollowingMirrorFragment extends BaseFragment {
                 mPageNumber = 1;
                 String followingMirrorUrl = IWebServices.REQUEST_GET_FOLLOWING_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
                         + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
+
 //                        + "&" + Constants.PARAM_SEARCH_TEXT + "=" + String.valueOf("search text");
                 RequestManager.addRequest(new GsonObjectRequest<GetFollowingMirrorResponseModel>(followingMirrorUrl,
                         NetworkUtil.getHeaders(mContext), null, GetFollowingMirrorResponseModel.class,

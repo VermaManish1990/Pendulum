@@ -26,17 +26,28 @@ import java.util.ArrayList;
 public class ReflectionsActivity extends BaseActivity {
 
     private static final String TAG = ReflectionsActivity.class.getSimpleName();
+    private ArrayList<GetReflectionUsersResponseModel.GetReflectionUsersDetails> mUserDataList;
     private View mRootView;
     private GridView mGridViewReflection;
     private int mPageNumber;
+    private int mMirrorId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reflections);
 
+        Bundle localBundle = getIntent().getExtras();
+        if (localBundle != null) {
+            if (localBundle.containsKey(Constants.MIRROR_ID_KEY)) {
+                mMirrorId = localBundle.getInt(Constants.MIRROR_ID_KEY, 0);
+            }
+        }
+
         initUI();
         setInitialData();
+
+        getData(IApiEvent.REQUEST_GET_REFLECTION_USERS_CODE);
     }
 
     @Override
@@ -49,8 +60,8 @@ public class ReflectionsActivity extends BaseActivity {
     @Override
     protected void setInitialData() {
 
-        ArrayList<GetReflectionUsersResponseModel.GetReflectionUsersDetails> mirrorList = new ArrayList<>();
-        mGridViewReflection.setAdapter(new ReflectionMirrorAdapter(this, mirrorList));
+        mUserDataList = new ArrayList<>();
+        mGridViewReflection.setAdapter(new ReflectionMirrorAdapter(this, mUserDataList));
 
         /*
           On Click event for Single Gridview Item
@@ -58,7 +69,7 @@ public class ReflectionsActivity extends BaseActivity {
         mGridViewReflection.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-
+                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
             }
         });
     }
@@ -68,9 +79,17 @@ public class ReflectionsActivity extends BaseActivity {
         switch (actionID) {
             case IApiEvent.REQUEST_GET_REFLECTION_USERS_CODE:
                 if (status) {
-                    GetReflectionUsersResponseModel getReflectionUsersResponseModel = (GetReflectionUsersResponseModel) serviceResponse;
-                    if (getReflectionUsersResponseModel != null && getReflectionUsersResponseModel.status) {
-                        LoggerUtil.d(TAG, getReflectionUsersResponseModel.statusCode);
+                    GetReflectionUsersResponseModel reflectionUsersResponseModel = (GetReflectionUsersResponseModel) serviceResponse;
+                    if (reflectionUsersResponseModel != null && reflectionUsersResponseModel.status) {
+                        LoggerUtil.d(TAG, reflectionUsersResponseModel.statusCode);
+
+                        if (reflectionUsersResponseModel.Data != null && reflectionUsersResponseModel.Data.usersData != null) {
+
+                            ReflectionMirrorAdapter followingMirrorAdapter = (ReflectionMirrorAdapter) mGridViewReflection.getAdapter();
+                            mUserDataList.addAll(reflectionUsersResponseModel.Data.usersData);
+                            followingMirrorAdapter.setUserDataList(mUserDataList);
+                            followingMirrorAdapter.notifyDataSetChanged();
+                        }
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -100,15 +119,12 @@ public class ReflectionsActivity extends BaseActivity {
         }
         showProgressDialog();
 
-        //TODO Change mirrorId
-        int mirrorId = 1;
-
         switch (actionID) {
             case IApiEvent.REQUEST_GET_REFLECTION_USERS_CODE:
 
                 mPageNumber = 1;
                 String reflectionUserUrl = IWebServices.REQUEST_GET_REFLECTION_USERS_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this) + "&" +
-                        Constants.PARAM_MIRROR_ID + "=" + mirrorId + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
+                        Constants.PARAM_MIRROR_ID + "=" + mMirrorId + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
                 RequestManager.addRequest(new GsonObjectRequest<GetReflectionUsersResponseModel>(reflectionUserUrl, NetworkUtil.getHeaders(this),
                         null, GetReflectionUsersResponseModel.class, new VolleyErrorListener(this, actionID)) {
 

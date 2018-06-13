@@ -17,14 +17,17 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class TrendingAndIntroducedMirrorAdapter extends RecyclerView.Adapter<TrendingAndIntroducedMirrorAdapter.ViewHolder> {
+
     private ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mMirrorList;
+    private ITrendingAndIntroducedMirrorAdapterCallBack mITrendingAndIntroducedMirrorAdapterCallBack;
     private Context mContext;
     private final String TAG = TrendingAndIntroducedMirrorAdapter.class.getSimpleName();
 
-    public TrendingAndIntroducedMirrorAdapter(Context context,
+    public TrendingAndIntroducedMirrorAdapter(Context context,ITrendingAndIntroducedMirrorAdapterCallBack iTrendingAndIntroducedMirrorAdapterCallBack,
                                               ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mirrorList) {
         mContext = context;
         mMirrorList = mirrorList;
+        mITrendingAndIntroducedMirrorAdapterCallBack = iTrendingAndIntroducedMirrorAdapterCallBack;
     }
 
     public void setMirrorList(ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mirrorList) {
@@ -40,10 +43,11 @@ public class TrendingAndIntroducedMirrorAdapter extends RecyclerView.Adapter<Tre
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LoggerUtil.v(TAG, "onCreateViewHolder");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_tranding_and_introduced_mirror_item, parent, false);
-        return new ViewHolder(view);    }
+        return new ViewHolder(view);
+    }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails mirrorDetails = mMirrorList.get(position);
 
         Picasso.with(mContext)
@@ -51,8 +55,15 @@ public class TrendingAndIntroducedMirrorAdapter extends RecyclerView.Adapter<Tre
 //                .resize(480,480)
                 .into(holder.ivProfile);
 
-        holder.tvName.setText(mirrorDetails.mirrorName!=null?mirrorDetails.mirrorName:"");
+        holder.tvName.setText(mirrorDetails.mirrorName != null ? mirrorDetails.mirrorName : "");
         holder.tvPostCount.setText(String.valueOf(mirrorDetails.newPost));
+
+        holder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mITrendingAndIntroducedMirrorAdapterCallBack.onMirrorClick(position);
+            }
+        });
     }
 
     @Override
@@ -74,5 +85,9 @@ public class TrendingAndIntroducedMirrorAdapter extends RecyclerView.Adapter<Tre
             tvName = itemView.findViewById(R.id.tv_name);
             tvPostCount = itemView.findViewById(R.id.tv_post_count);
         }
+    }
+
+    public interface ITrendingAndIntroducedMirrorAdapterCallBack {
+        void onMirrorClick(int position);
     }
 }

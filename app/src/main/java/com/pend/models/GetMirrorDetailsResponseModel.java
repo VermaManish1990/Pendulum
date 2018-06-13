@@ -11,7 +11,7 @@ public class GetMirrorDetailsResponseModel extends BaseResponseModel {
         public MirrorData mirrorData;
     }
 
-    private static class MirrorData implements Serializable{
+    public static class MirrorData implements Serializable{
         public int mirrorID;
         public int mirrorAdmirePer;
         public int mirrorHatePer;

@@ -48,6 +48,7 @@
     <string name="Please_fill_all_fields">Please fill all fields</string>
     <string name="user_details_not_available">User details not available</string>
     <string name="user_profile_details_not_available">User profile details not available</string>
+    <string name="data_not_available">Data not available</string>
     <string name="under_development">Under development</string>
     <string name="please_enter_location">Please enter Location</string>
     <string name="please_enter_gender">Please enter Gender</string>

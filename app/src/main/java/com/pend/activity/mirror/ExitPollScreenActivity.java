@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -27,21 +28,29 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
     private static final String TAG = ExitPollScreenActivity.class.getSimpleName();
     private View mRootView;
     private ViewPager mViewpagerProfile;
-    private TextView mTvCantSayView;
-    private TextView mTvHateView;
-    private TextView mTvAdmireView;
     private TextView mTvCreatedBy;
     private TextView mTvWikiLink;
     private TextView mTvCategory;
     private int mPageNumber;
+    private int mMirrorId;
+    private RecyclerView mRecyclerViewExitPoll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exit_poll_screen);
 
+        Bundle localBundle = getIntent().getExtras();
+        if (localBundle != null) {
+            if (localBundle.containsKey(Constants.MIRROR_ID_KEY)) {
+                mMirrorId = localBundle.getInt(Constants.MIRROR_ID_KEY, 0);
+            }
+        }
+
         initUI();
         setInitialData();
+
+        getData(IApiEvent.REQUEST_GET_EXIT_POLL_MIRROR_CODE);
     }
 
     @Override
@@ -52,9 +61,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
         mTvCategory = findViewById(R.id.tv_category);
         mTvWikiLink = findViewById(R.id.tv_wiki_link);
         mTvCreatedBy = findViewById(R.id.tv_created_by);
-        mTvAdmireView = findViewById(R.id.tv_admire_view);
-        mTvHateView = findViewById(R.id.tv_hate_view);
-        mTvCantSayView = findViewById(R.id.tv_can_t_say_view);
+        mRecyclerViewExitPoll = findViewById(R.id.recycler_view_exit_poll);
 
         findViewById(R.id.tv_related_contest).setOnClickListener(this);
         findViewById(R.id.tv_reflections).setOnClickListener(this);
@@ -77,6 +84,12 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                     if (exitPollMirrorResponseModel != null && exitPollMirrorResponseModel.status) {
                         LoggerUtil.d(TAG, exitPollMirrorResponseModel.statusCode);
 
+                        if (exitPollMirrorResponseModel.Data != null && exitPollMirrorResponseModel.Data.mirrorData != null) {
+                            GetExitPollMirrorResponseModel.GetExitPollMirrorDetails mirrorDetails = exitPollMirrorResponseModel.Data.mirrorData;
+                            mTvCategory.setText(mirrorDetails.mirrorName != null ? mirrorDetails.mirrorName : "");
+                            mTvWikiLink.setText(mirrorDetails.mirrorWikiLink != null ? mirrorDetails.mirrorWikiLink : "");
+                            mTvCreatedBy.setText(mirrorDetails.userFullName != null ? mirrorDetails.userFullName : "");
+                        }
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -86,7 +99,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                     Snackbar.make(mRootView, getString(R.string.server_error_from_api), Snackbar.LENGTH_LONG).show();
                 }
-                getData(IApiEvent.REQUEST_GET_USER_TIME_SHEET_CODE);
+                getData(IApiEvent.REQUEST_GET_EXIT_POLL_LIST_CODE);
                 break;
 
             case IApiEvent.REQUEST_GET_EXIT_POLL_LIST_CODE:
@@ -127,14 +140,11 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
         }
         showProgressDialog();
 
-        //TODO Change mirrorId
-        int mirrorId = 1;
-
         switch (actionID) {
             case IApiEvent.REQUEST_GET_EXIT_POLL_MIRROR_CODE:
 
                 String exitPollMirrorUrl = IWebServices.REQUEST_GET_EXIT_POLL_MIRROR_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this) + "&" +
-                        Constants.PARAM_MIRROR_ID + "=" + mirrorId;
+                        Constants.PARAM_MIRROR_ID + "=" + mMirrorId;
                 RequestManager.addRequest(new GsonObjectRequest<GetExitPollMirrorResponseModel>(exitPollMirrorUrl, NetworkUtil.getHeaders(this), null,
                         GetExitPollMirrorResponseModel.class, new VolleyErrorListener(this, actionID)) {
 
@@ -152,7 +162,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
 
                 mPageNumber = 1;
                 String exitPollListUrl = IWebServices.REQUEST_GET_EXIT_POLL_LIST_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this) + "&" +
-                        Constants.PARAM_MIRROR_ID + "=" + mirrorId + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
+                        Constants.PARAM_MIRROR_ID + "=" + mMirrorId + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
                 RequestManager.addRequest(new GsonObjectRequest<GetExitPollListResponseModel>(exitPollListUrl, NetworkUtil.getHeaders(this), null,
                         GetExitPollListResponseModel.class, new VolleyErrorListener(this, actionID)) {
 
@@ -184,6 +194,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
             case R.id.tv_reflections:
 
                 Intent intentReflection = new Intent(ExitPollScreenActivity.this, ReflectionsActivity.class);
+                intentReflection.putExtra(Constants.MIRROR_ID_KEY, mMirrorId);
                 startActivity(intentReflection);
                 break;
 
