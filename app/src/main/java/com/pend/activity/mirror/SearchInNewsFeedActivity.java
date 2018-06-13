@@ -1,4 +1,4 @@
-package com.pend.activity.home;
+package com.pend.activity.mirror;
 
 import android.os.Bundle;
 

@@ -43,7 +43,7 @@
             android:name=".activity.login.SettingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.home.SearchInNewsFeedActivity"
+            android:name=".activity.mirror.SearchInNewsFeedActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.login.ProfileActivity"

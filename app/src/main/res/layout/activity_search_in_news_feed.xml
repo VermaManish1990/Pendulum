@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/_20sdp"
-    tools:context=".activity.home.SearchInNewsFeedActivity">
+    tools:context=".activity.mirror.SearchInNewsFeedActivity">
 
     <include
         android:id="@+id/custom_search_view"

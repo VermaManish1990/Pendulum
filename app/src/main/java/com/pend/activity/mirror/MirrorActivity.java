@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.pend.BaseActivity;
 import com.pend.R;
-import com.pend.activity.home.SearchInNewsFeedActivity;
 import com.pend.adapters.MirrorViewPagerAdapter;
 import com.pend.fragments.FollowingMirrorFragment;
 import com.pend.fragments.IntroducedMirrorFragment;
