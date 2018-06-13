@@ -73,6 +73,10 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         private final EditText etAddAComment;
         private final CheckBox cbAnonymous;
 
+        private final ImageView ivCommentUserProfile;
+        private final TextView tvName;
+        private final TextView tvComment;
+
         public ViewHolder(View itemView) {
             super(itemView);
 
@@ -85,6 +89,10 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
             tvDislikeCount = itemView.findViewById(R.id.tv_dislike_count);
             etAddAComment = itemView.findViewById(R.id.et_add_a_comment);
             cbAnonymous = itemView.findViewById(R.id.cb_anonymous);
+
+            ivCommentUserProfile = itemView.findViewById(R.id.iv_comment_user_profile);
+            tvName = itemView.findViewById(R.id.tv_name);
+            tvComment = itemView.findViewById(R.id.tv_comment);
         }
     }
 }

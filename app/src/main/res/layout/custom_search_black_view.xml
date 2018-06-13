@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/_20sdp"
     android:layout_marginStart="@dimen/_20sdp"
+    android:id="@+id/root_view_search"
     android:background="@drawable/custom_circular_grey_bg"
     android:paddingBottom="@dimen/_10sdp"
     android:paddingEnd="@dimen/_20sdp"

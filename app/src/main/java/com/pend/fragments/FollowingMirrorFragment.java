@@ -140,7 +140,7 @@ public class FollowingMirrorFragment extends BaseFragment {
     @Override
     public void getData(final int actionID) {
         if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
-            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
+            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
             return;
         }
 
