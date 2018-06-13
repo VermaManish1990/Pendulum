@@ -105,18 +105,20 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
         switch (actionID) {
             case IApiEvent.REQUEST_GET_INTRODUCED_CODE:
                 if (status) {
-                    GetTrendingAndIntroducedMirrorResponseModel getTrendingAndIntroducedMirrorResponseModel =
+                    GetTrendingAndIntroducedMirrorResponseModel trendingAndIntroducedMirrorResponseModel =
                             (GetTrendingAndIntroducedMirrorResponseModel) serviceResponse;
-                    if (getTrendingAndIntroducedMirrorResponseModel != null && getTrendingAndIntroducedMirrorResponseModel.status) {
-                        LoggerUtil.d(TAG, getTrendingAndIntroducedMirrorResponseModel.statusCode);
+                    if (trendingAndIntroducedMirrorResponseModel != null && trendingAndIntroducedMirrorResponseModel.status) {
+                        LoggerUtil.d(TAG, trendingAndIntroducedMirrorResponseModel.statusCode);
 
-                        TrendingAndIntroducedMirrorAdapter trendingAndIntroducedMirrorAdapter =
-                                (TrendingAndIntroducedMirrorAdapter) mRecyclerViewIntroduced.getAdapter();
+                        if (trendingAndIntroducedMirrorResponseModel.Data != null && trendingAndIntroducedMirrorResponseModel.Data.mirrorList != null) {
 
-                        mMirrorList.addAll(getTrendingAndIntroducedMirrorResponseModel.Data.mirrorList);
-                        trendingAndIntroducedMirrorAdapter.setMirrorList(mMirrorList);
-                        trendingAndIntroducedMirrorAdapter.notifyDataSetChanged();
+                            TrendingAndIntroducedMirrorAdapter trendingAndIntroducedMirrorAdapter =
+                                    (TrendingAndIntroducedMirrorAdapter) mRecyclerViewIntroduced.getAdapter();
 
+                            mMirrorList.addAll(trendingAndIntroducedMirrorResponseModel.Data.mirrorList);
+                            trendingAndIntroducedMirrorAdapter.setMirrorList(mMirrorList);
+                            trendingAndIntroducedMirrorAdapter.notifyDataSetChanged();
+                        }
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
