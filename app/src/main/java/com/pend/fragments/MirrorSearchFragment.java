@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ public class MirrorSearchFragment extends BaseFragment implements View.OnClickLi
     private TextView mTvSeeMore;
     private View mRlNoResult;
     private View mRlMirrorData;
+    private IMirrorFragmentCallBack mIMirrorFragmentCallBack;
     private ArrayList<SearchMirrorResponseModel.SearchMirrorDetails> mSearchDataList;
     private View mRootView;
 
@@ -56,6 +58,7 @@ public class MirrorSearchFragment extends BaseFragment implements View.OnClickLi
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+        mIMirrorFragmentCallBack = (IMirrorFragmentCallBack) context;
     }
 
     @Override
@@ -116,12 +119,17 @@ public class MirrorSearchFragment extends BaseFragment implements View.OnClickLi
         switch (view.getId()){
 
             case R.id.bt_create_mirror:
-                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                mIMirrorFragmentCallBack.onCreateMirrorClick();
+
                 break;
 
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
+    }
+
+    public interface IMirrorFragmentCallBack {
+        void onCreateMirrorClick();
     }
 }

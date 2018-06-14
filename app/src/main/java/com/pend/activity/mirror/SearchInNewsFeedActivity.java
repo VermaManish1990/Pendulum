@@ -1,5 +1,6 @@
 package com.pend.activity.mirror;
 
+import android.support.v4.app.DialogFragment;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.fragments.ContestSearchFragment;
+import com.pend.fragments.CreateMirrorDialogFragment;
 import com.pend.fragments.MirrorSearchFragment;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
@@ -25,7 +27,7 @@ import com.pendulum.utils.ConnectivityUtils;
 import com.pendulum.volley.ext.GsonObjectRequest;
 import com.pendulum.volley.ext.RequestManager;
 
-public class SearchInNewsFeedActivity extends BaseActivity implements View.OnClickListener,TextWatcher {
+public class SearchInNewsFeedActivity extends BaseActivity implements View.OnClickListener, TextWatcher, MirrorSearchFragment.IMirrorFragmentCallBack {
 
     private static final String TAG = SearchInNewsFeedActivity.class.getSimpleName();
     private View mRootView;
@@ -148,7 +150,7 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        if(mEtSearch.hasFocus()){
+        if (mEtSearch.hasFocus()) {
             mSearchText = mEtSearch.getText().toString().trim();
             getData(IApiEvent.REQUEST_SEARCH_MIRROR_CODE);
         }
@@ -199,4 +201,9 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
         }
     }
 
+    @Override
+    public void onCreateMirrorClick() {
+        DialogFragment createMirrorDialogFragment = new CreateMirrorDialogFragment();
+        createMirrorDialogFragment.show(getSupportFragmentManager(), "create mirror");
+    }
 }
