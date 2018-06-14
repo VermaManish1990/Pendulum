@@ -51,6 +51,21 @@
         <activity
             android:name=".activity.login.LoginActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.mirror.MirrorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.mirror.SearchMirrorListingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.mirror.MirrorDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.mirror.ExitPollScreenActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.mirror.ReflectionsActivity"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name=".GenericFileProvider"
@@ -61,13 +76,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
-        <activity android:name=".activity.mirror.MirrorActivity" />
-        <activity android:name=".activity.mirror.SearchMirrorListingActivity" />
-        <activity android:name=".activity.mirror.MirrorDetailsActivity" />
-        <activity android:name=".activity.mirror.ExitPollScreenActivity" />
-        <activity android:name=".activity.mirror.ReflectionsActivity" />
-        <activity android:name=".activity.mirror.CommentsActivity"></activity>
     </application>
 
 </manifest>

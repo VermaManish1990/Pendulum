@@ -1,6 +1,8 @@
 package com.pend.activity.mirror;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -23,10 +25,14 @@ import com.pend.util.NetworkUtil;
 import com.pend.util.RequestPostDataUtil;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
+import com.pend.widget.progressbar.CustomProgressBar;
+import com.pend.widget.progressbar.ProgressItem;
 import com.pendulum.utils.ConnectivityUtils;
 import com.pendulum.volley.ext.GsonObjectRequest;
 import com.pendulum.volley.ext.RequestManager;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class MirrorDetailsActivity extends BaseActivity implements View.OnClickListener {
 
@@ -35,7 +41,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     private ImageView mIvProfile;
     private GraphView mGraphView;
     private TextView mTvName;
-    private ProgressBar mProgressBarProfile;
+    private CustomProgressBar mProgressBarProfile;
     private RecyclerView mRecyclerViewPost;
     private int mMirrorId;
 
@@ -64,7 +70,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         mIvProfile = findViewById(R.id.iv_profile);
         mGraphView = findViewById(R.id.graph_view);
         mTvName = findViewById(R.id.tv_name);
-        mProgressBarProfile = findViewById(R.id.progress_bar__profile);
+        mProgressBarProfile = findViewById(R.id.progress_bar_profile);
         mRecyclerViewPost = findViewById(R.id.recycler_view_post);
 
         findViewById(R.id.iv_create_post).setOnClickListener(this);
@@ -74,7 +80,9 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void setInitialData() {
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mProgressBarProfile.getThumb().mutate().setAlpha(0);
+        }
     }
 
     @Override
@@ -89,15 +97,8 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                         if (mirrorDetailsResponseModel.Data != null && mirrorDetailsResponseModel.Data.mirrorData != null) {
 
                             GetMirrorDetailsResponseModel.MirrorData mirrorData = mirrorDetailsResponseModel.Data.mirrorData;
+                            setMirrorDetailsData(mirrorData);
 
-                            mTvName.setText(mirrorData.mirrorName != null ? mirrorData.mirrorName : "");
-
-                            if (mirrorData.imageURL != null && !mirrorData.imageURL.equals("")) {
-
-                                Picasso.with(this)
-                                        .load(mirrorData.imageURL != null ? mirrorData.imageURL : "")
-                                        .into(mIvProfile);
-                            }
                         }
 
                     } else {
@@ -209,7 +210,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
                 break;
 
-            case R.id.progress_bar__profile:
+            case R.id.progress_bar_profile:
                 Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
                 break;
 
@@ -217,6 +218,32 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
 
+        }
+    }
+
+
+    /**
+     * Method is used to set mirror details data.
+     *
+     * @param mirrorData mirrorData
+     */
+    private void setMirrorDetailsData(GetMirrorDetailsResponseModel.MirrorData mirrorData) {
+
+        ArrayList<ProgressItem> progressItemList = new ArrayList<>();
+
+        progressItemList.add(new ProgressItem(Color.GREEN, mirrorData.mirrorAdmirePer));
+        progressItemList.add(new ProgressItem(Color.RED, mirrorData.mirrorHatePer));
+        progressItemList.add(new ProgressItem(getResources().getColor(R.color.bootstrap_brand_warning), mirrorData.mirrorCantSayPer));
+
+        mProgressBarProfile.initData(progressItemList);
+        mProgressBarProfile.invalidate();
+
+        mTvName.setText(mirrorData.mirrorName != null ? mirrorData.mirrorName : "");
+        if (mirrorData.imageURL != null && !mirrorData.imageURL.equals("")) {
+
+            Picasso.with(this)
+                    .load(mirrorData.imageURL != null ? mirrorData.imageURL : "")
+                    .into(mIvProfile);
         }
     }
 }

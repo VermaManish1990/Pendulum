@@ -1,10 +1,13 @@
 package com.pend.widget.progressbar;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 
 import java.util.ArrayList;
@@ -55,11 +58,14 @@ public class CustomProgressBar extends android.support.v7.widget.AppCompatSeekBa
             int leftCurveRequired = 0;
             int rightCurvedRequired = 0;
             int totalPercentage = 0;
+            int xPos;
+            int yPos;
+
             for (int i = 0; i < mProgressItemsList.size(); i++) {
                 ProgressItem progressItem = mProgressItemsList.get(i);
-                Paint progressPaint = new Paint();
-                progressPaint.setColor(getResources().getColor(
-                        progressItem.color));
+
+                @SuppressLint("DrawAllocation") Paint progressPaint = new Paint();
+                progressPaint.setColor(progressItem.color);
 
                 progressItemWidth = (int) (progressItem.progressItemPercentage
                         * progressBarWidth / 100);
@@ -76,31 +82,55 @@ public class CustomProgressBar extends android.support.v7.widget.AppCompatSeekBa
                 }
 
                 // for last item give right to progress item to the width
-                if (i == mProgressItemsList.size() - 1
-                        && progressItemRight != progressBarWidth) {
+                if (i == mProgressItemsList.size() - 1 && progressItemRight != progressBarWidth) {
                     progressItemRight = progressBarWidth;
                 }
-                RectF progressRect = new RectF();
+                @SuppressLint("DrawAllocation") RectF progressRect = new RectF();
                 progressRect.set(lastProgressX, thumboffset / 2,
                         progressItemRight, progressBarHeight - thumboffset / 2);
 
+                // when one item is available
                 if (((int) (progressItem.progressItemPercentage)) == 100) {
-                    canvas.drawRoundRect(progressRect, 30, 30, progressPaint);
+                    canvas.drawRoundRect(progressRect, 10, 10, progressPaint);
+
+                    //set text on canvas
+                    if (((int) (progressItem.progressItemPercentage)) > 0) {
+                        drawText(canvas, String.valueOf((int) (progressItem.progressItemPercentage) + "%"), lastProgressX + (progressItemWidth / 2));
+                    }
+
                     super.onDraw(canvas);
                     return;
                 }
 
                 if (leftCurveRequired == CURVE_REQUIRED) {
                     leftCurveRequired = CURVE_NOT_REQUIRED;
-                    Path path = RoundedRect(lastProgressX, thumboffset / 2, progressItemRight, progressBarHeight - thumboffset / 2, 30, 30, LEFT);
+                    Path path = RoundedRect(lastProgressX, thumboffset / 2, progressItemRight, progressBarHeight - thumboffset / 2, 10, 10, LEFT);
                     canvas.drawPath(path, progressPaint);
+
+                    //set text on canvas
+                    if (((int) (progressItem.progressItemPercentage)) > 0) {
+                        drawText(canvas, String.valueOf((int) (progressItem.progressItemPercentage) + "%"), lastProgressX + (progressItemWidth / 2));
+                    }
+
                 } else if (rightCurvedRequired == CURVE_REQUIRED) {
-                    Path path = RoundedRect(lastProgressX, thumboffset / 2, progressItemRight, progressBarHeight - thumboffset / 2, 30, 30, RIGHT);
+                    Path path = RoundedRect(lastProgressX, thumboffset / 2, progressItemRight, progressBarHeight - thumboffset / 2, 10, 10, RIGHT);
                     canvas.drawPath(path, progressPaint);
+
+                    //set text on canvas
+                    if (((int) (progressItem.progressItemPercentage)) > 0) {
+                        drawText(canvas, String.valueOf((int) (progressItem.progressItemPercentage) + "%"), lastProgressX + (progressItemWidth / 2));
+                    }
+
                     super.onDraw(canvas);
                     return;
+
                 } else {
                     canvas.drawRect(progressRect, progressPaint);
+
+                    //set text on canvas
+                    if (((int) (progressItem.progressItemPercentage)) > 0) {
+                        drawText(canvas, String.valueOf((int) (progressItem.progressItemPercentage) + "%"), lastProgressX + (progressItemWidth / 2));
+                    }
                 }
 
                 lastProgressX = progressItemRight;
@@ -115,6 +145,37 @@ public class CustomProgressBar extends android.support.v7.widget.AppCompatSeekBa
 
     }
 
+    /**
+     * Method is used to draw text on canvas
+     *
+     * @param canvas canvas
+     * @param text   text
+     * @param xPos   lastProgressX + (progressItemWidth / 2)
+     */
+    private void drawText(Canvas canvas, String text, int xPos) {
+        @SuppressLint("DrawAllocation") Paint textPaint = new Paint();
+        textPaint.setColor(Color.WHITE);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setTypeface(Typeface.create("Arial", Typeface.BOLD));
+        textPaint.setTextSize(30);
+
+        int yPos = (int) ((canvas.getHeight() / 2) - ((textPaint.descent() + textPaint.ascent()) / 2));
+        //((textPaint.descent() + textPaint.ascent()) / 2) is the distance from the baseline to the center.
+        canvas.drawText(text, xPos, yPos, textPaint);
+    }
+
+    /**
+     * Method is used to draw round rect with choice either left round or right round.
+     *
+     * @param left left
+     * @param top top
+     * @param right right
+     * @param bottom bottom
+     * @param rx rx
+     * @param ry ry
+     * @param leftOrRight if leftOrRight value is LEFT then round only left portion else right portion.
+     * @return Path
+     */
     static public Path RoundedRect(float left, float top, float right, float bottom, float rx, float ry, int leftOrRight) {
         Path path = new Path();
         if (rx < 0) rx = 0;
