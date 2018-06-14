@@ -70,7 +70,6 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
 
         findViewById(R.id.tv_related_contest).setOnClickListener(this);
         findViewById(R.id.tv_reflections).setOnClickListener(this);
-        findViewById(R.id.tv_share_on_facebook).setOnClickListener(this);
 
     }
 

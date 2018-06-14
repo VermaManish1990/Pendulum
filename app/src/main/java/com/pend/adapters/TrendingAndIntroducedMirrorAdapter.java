@@ -23,7 +23,7 @@ public class TrendingAndIntroducedMirrorAdapter extends RecyclerView.Adapter<Tre
     private Context mContext;
     private final String TAG = TrendingAndIntroducedMirrorAdapter.class.getSimpleName();
 
-    public TrendingAndIntroducedMirrorAdapter(Context context,ITrendingAndIntroducedMirrorAdapterCallBack iTrendingAndIntroducedMirrorAdapterCallBack,
+    public TrendingAndIntroducedMirrorAdapter(Context context, ITrendingAndIntroducedMirrorAdapterCallBack iTrendingAndIntroducedMirrorAdapterCallBack,
                                               ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mirrorList) {
         mContext = context;
         mMirrorList = mirrorList;
@@ -50,10 +50,13 @@ public class TrendingAndIntroducedMirrorAdapter extends RecyclerView.Adapter<Tre
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails mirrorDetails = mMirrorList.get(position);
 
-        Picasso.with(mContext)
-                .load(mirrorDetails.imageURL)
-//                .resize(480,480)
-                .into(holder.ivProfile);
+        if (mirrorDetails.imageURL != null && !mirrorDetails.imageURL.equals("")) {
+
+            Picasso.with(mContext)
+                    .load(mirrorDetails.imageURL)
+//                    .resize(480, 480)
+                    .into(holder.ivProfile);
+        }
 
         holder.tvName.setText(mirrorDetails.mirrorName != null ? mirrorDetails.mirrorName : "");
         holder.tvPostCount.setText(String.valueOf(mirrorDetails.newPost));

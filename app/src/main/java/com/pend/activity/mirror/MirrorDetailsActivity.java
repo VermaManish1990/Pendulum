@@ -91,9 +91,13 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                             GetMirrorDetailsResponseModel.MirrorData mirrorData = mirrorDetailsResponseModel.Data.mirrorData;
 
                             mTvName.setText(mirrorData.mirrorName != null ? mirrorData.mirrorName : "");
-                            Picasso.with(this)
-                                    .load(mirrorData.imageURL != null ? mirrorData.imageURL : "")
-                                    .into(mIvProfile);
+
+                            if (mirrorData.imageURL != null && !mirrorData.imageURL.equals("")) {
+
+                                Picasso.with(this)
+                                        .load(mirrorData.imageURL != null ? mirrorData.imageURL : "")
+                                        .into(mIvProfile);
+                            }
                         }
 
                     } else {

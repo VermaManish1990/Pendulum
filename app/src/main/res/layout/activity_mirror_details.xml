@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="@dimen/_15sdp"
+    android:padding="@dimen/_10sdp"
     android:id="@+id/root_view"
     tools:context=".activity.mirror.MirrorDetailsActivity">
 
@@ -15,7 +16,9 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp">
 
             <com.pend.widget.RoundedCornerImageView
                 android:id="@+id/iv_profile"
@@ -23,6 +26,11 @@
                 android:layout_height="@dimen/_136sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:layout_marginRight="@dimen/_5sdp"
+                android:scaleType="fitXY"
+                app:fk_left_bottom_corner_radius="@dimen/_10sdp"
+                app:fk_left_top_corner_radius="@dimen/_10sdp"
+                app:fk_right_bottom_corner_radius="@dimen/_10sdp"
+                app:fk_right_top_corner_radius="@dimen/_10sdp"
                 android:src="@drawable/profile" />
 
             <com.jjoe64.graphview.GraphView

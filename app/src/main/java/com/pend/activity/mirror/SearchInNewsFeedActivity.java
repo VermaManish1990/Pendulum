@@ -52,7 +52,8 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
         mRootView = findViewById(R.id.root_view);
         mBtMirror = findViewById(R.id.bt_mirror);
         mBtContest = findViewById(R.id.bt_contest);
-        mEtSearch = findViewById(R.id.et_search);
+        View customSearchView = findViewById(R.id.custom_search_view);
+        mEtSearch = customSearchView.findViewById(R.id.et_search);
 
         mBtMirror.setOnClickListener(this);
         mBtContest.setOnClickListener(this);
