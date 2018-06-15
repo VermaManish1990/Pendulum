@@ -28,6 +28,7 @@
     <color name="background">#f1f1f1</color>
     <color name="border_color_blue">#95b9cd</color>
     <color name="default_text_color">#4f4f4f</color>
+    <color name="light_text_color">#808080</color>
     <color name="transparentblack">#98000000</color>
     <color name="cart_red">#b3585b</color>
     <color name="colorRed">#d3232e</color>

@@ -205,6 +205,6 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
     @Override
     public void onCreateMirrorClick() {
         DialogFragment createMirrorDialogFragment = new CreateMirrorDialogFragment();
-        createMirrorDialogFragment.show(getSupportFragmentManager(), "create mirror");
+        createMirrorDialogFragment.show(getSupportFragmentManager(), "CreateMirrorDialogFragment");
     }
 }

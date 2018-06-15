@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,9 +13,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
+import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.Viewport;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import com.pend.BaseActivity;
 import com.pend.R;
+import com.pend.fragments.CreateMirrorDialogFragment;
+import com.pend.fragments.UnVotingDialogFragment;
+import com.pend.fragments.VotingDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
@@ -44,6 +53,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     private CustomProgressBar mProgressBarProfile;
     private RecyclerView mRecyclerViewPost;
     private int mMirrorId;
+    private boolean isVoted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +93,49 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mProgressBarProfile.getThumb().mutate().setAlpha(0);
         }
+
+        Viewport viewport = mGraphView.getViewport();
+        viewport.setMinX(0);
+        viewport.setMaxX(30);
+        viewport.setMinY(0);
+        viewport.setMaxY(100);
+        viewport.setYAxisBoundsManual(true);
+        viewport.setXAxisBoundsManual(true);
+        viewport.setScrollable(true);
+
+//        staticLabelsFormatter.setHorizontalLabels(new String[] {"old", "middle", "new"});
+
+
+        GridLabelRenderer gridLabelRenderer = mGraphView.getGridLabelRenderer();
+        gridLabelRenderer.setTextSize(12);
+        gridLabelRenderer.setHorizontalLabelsColor(getResources().getColor(R.color.light_black_txt_color));
+        gridLabelRenderer.setVerticalLabelsColor(getResources().getColor(R.color.light_black_txt_color));
+        gridLabelRenderer.setGridColor(getResources().getColor(R.color.darkGreyBackground));
+//        gridLabelRenderer.setNumHorizontalLabels(4); // only 5 because of the space
+
+        gridLabelRenderer.setLabelFormatter(new DefaultLabelFormatter() {
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+                if (isValueX) {
+                    // show normal x values
+                    return super.formatLabel(value, true);
+                } else {
+                    // show currency for y values
+                    return super.formatLabel(value, false) + "%";
+                }
+            }
+        });
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
+                new DataPoint(0, 20),
+                new DataPoint(5, 40),
+                new DataPoint(10, 70),
+                new DataPoint(15, 20),
+                new DataPoint(20, 30),
+                new DataPoint(25, 90),
+                new DataPoint(30, 40)
+        });
+        mGraphView.addSeries(series);
     }
 
     @Override
@@ -119,7 +172,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                         LoggerUtil.d(TAG, mirrorGraphResponseModel.statusCode);
 
                         if (mirrorGraphResponseModel.Data != null && mirrorGraphResponseModel.Data.graphData != null) {
-
+                            setMirrorGraphData(mirrorGraphResponseModel.Data.graphData);
                         }
 
                     } else {
@@ -199,7 +252,8 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         switch (view.getId()) {
 
             case R.id.iv_create_post:
-                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                DialogFragment createMirrorDialogFragment = new CreateMirrorDialogFragment();
+                createMirrorDialogFragment.show(getSupportFragmentManager(), "CreateMirrorDialogFragment");
                 break;
 
             case R.id.iv_profile:
@@ -207,17 +261,21 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                 Intent intent = new Intent(MirrorDetailsActivity.this, ExitPollScreenActivity.class);
                 intent.putExtra(Constants.MIRROR_ID_KEY, mMirrorId);
                 startActivity(intent);
-
                 break;
 
             case R.id.progress_bar_profile:
-                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                if (isVoted) {
+                    DialogFragment votingDialogFragment = new VotingDialogFragment();
+                    votingDialogFragment.show(getSupportFragmentManager(), "VotingDialogFragment");
+                } else {
+                    DialogFragment unVotingDialogFragment = new UnVotingDialogFragment();
+                    unVotingDialogFragment.show(getSupportFragmentManager(), "UnVotingDialogFragment");
+                }
                 break;
 
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
-
         }
     }
 
@@ -245,5 +303,23 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                     .load(mirrorData.imageURL != null ? mirrorData.imageURL : "")
                     .into(mIvProfile);
         }
+    }
+
+    /**
+     * Method is used to set mirror graph data.
+     *
+     * @param graphData graphData
+     */
+    private void setMirrorGraphData(ArrayList<GetMirrorGraphResponseModel.GetMirrorGraphDetails> graphData) {
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
+                new DataPoint(0, 20),
+                new DataPoint(5, 40),
+                new DataPoint(10, 60),
+                new DataPoint(15, 20),
+                new DataPoint(20, 50),
+                new DataPoint(25, 90),
+                new DataPoint(30, 40)
+        });
+        mGraphView.addSeries(series);
     }
 }

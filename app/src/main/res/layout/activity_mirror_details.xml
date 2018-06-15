@@ -20,39 +20,53 @@
 
             <com.pend.widget.RoundedCornerImageView
                 android:id="@+id/iv_profile"
-                android:layout_width="@dimen/_106sdp"
-                android:layout_height="@dimen/_126sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_width="@dimen/_96sdp"
+                android:layout_height="@dimen/_106sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:scaleType="fitXY"
                 android:src="@drawable/profile"
-                app:fk_left_bottom_corner_radius="@dimen/_10sdp"
-                app:fk_left_top_corner_radius="@dimen/_10sdp"
-                app:fk_right_bottom_corner_radius="@dimen/_10sdp"
-                app:fk_right_top_corner_radius="@dimen/_10sdp" />
+                app:fk_left_bottom_corner_radius="@dimen/_5sdp"
+                app:fk_left_top_corner_radius="@dimen/_5sdp"
+                app:fk_right_bottom_corner_radius="@dimen/_5sdp"
+                app:fk_right_top_corner_radius="@dimen/_5sdp" />
 
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/graph_view"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_136sdp"
+                android:layout_height="@dimen/_116sdp"
                 android:layout_toEndOf="@+id/iv_profile"
                 android:layout_toRightOf="@+id/iv_profile" />
 
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/iv_profile"
+                android:layout_alignLeft="@+id/iv_profile"
+                android:layout_alignRight="@+id/iv_profile"
+                android:layout_alignStart="@+id/iv_profile"
+                android:layout_below="@+id/iv_profile"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:gravity="center"
+                android:text="David A. Gunn"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13sdp"
+                android:textStyle="bold" />
+
             <RelativeLayout
-                android:id="@+id/rl_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_profile"
-                android:layout_marginTop="@dimen/_10sdp">
+                android:layout_below="@+id/graph_view"
+                android:layout_alignTop="@+id/tv_name"
+                android:layout_toEndOf="@+id/tv_name"
+                android:layout_toRightOf="@+id/tv_name">
 
                 <TextView
-                    android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="David A. Gunn"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_13sdp"
-                    android:textStyle="bold" />
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/colorAccent"
+                    android:text="Jan 2018" />
 
             </RelativeLayout>
 
@@ -60,7 +74,7 @@
                 android:id="@+id/tv_tap_here_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rl_name"
+                android:layout_below="@+id/tv_name"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:text="@string/tap_here_to_vote" />
 
@@ -69,10 +83,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_below="@+id/tv_tap_here_text"
-                android:layout_marginBottom="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:layout_marginRight="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:clickable="true"
+                android:focusable="true"
                 android:max="100"
                 android:progress="0"
                 android:progressDrawable="@android:color/transparent" />
