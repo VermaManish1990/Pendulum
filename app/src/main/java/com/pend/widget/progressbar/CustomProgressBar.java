@@ -167,12 +167,12 @@ public class CustomProgressBar extends android.support.v7.widget.AppCompatSeekBa
     /**
      * Method is used to draw round rect with choice either left round or right round.
      *
-     * @param left left
-     * @param top top
-     * @param right right
-     * @param bottom bottom
-     * @param rx rx
-     * @param ry ry
+     * @param left        left
+     * @param top         top
+     * @param right       right
+     * @param bottom      bottom
+     * @param rx          rx
+     * @param ry          ry
      * @param leftOrRight if leftOrRight value is LEFT then round only left portion else right portion.
      * @return Path
      */
