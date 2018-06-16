@@ -83,8 +83,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_below="@+id/tv_tap_here_text"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:layout_marginRight="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:clickable="true"
                 android:focusable="true"

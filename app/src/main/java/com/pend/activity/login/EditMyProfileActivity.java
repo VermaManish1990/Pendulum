@@ -449,7 +449,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
             }
 
             if (selectedImage != null) {
-                mEncodedImage = OtherUtil.getBase64Formate(selectedImage.toString());
+                mEncodedImage = OtherUtil.getBase64Format(selectedImage.toString());
                 if (mEncodedImage != null) {
                     getData(IApiEvent.REQUEST_ADD_USER_IMAGE_CODE);
                 }

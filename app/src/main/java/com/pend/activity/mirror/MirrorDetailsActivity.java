@@ -252,8 +252,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         switch (view.getId()) {
 
             case R.id.iv_create_post:
-                DialogFragment createMirrorDialogFragment = new CreateMirrorDialogFragment();
-                createMirrorDialogFragment.show(getSupportFragmentManager(), "CreateMirrorDialogFragment");
+                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
                 break;
 
             case R.id.iv_profile:

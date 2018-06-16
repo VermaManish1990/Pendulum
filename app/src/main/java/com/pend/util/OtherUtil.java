@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class OtherUtil {
 
@@ -94,12 +96,25 @@ public class OtherUtil {
         void onSpanClick();
     }
 
-    public static String getBase64Formate(String imagePath){
+    public static String getBase64Format(String imagePath) {
         Bitmap bm = BitmapFactory.decodeFile(imagePath);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
         byte[] byteArrayImage = baos.toByteArray();
 
         return Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
+    }
+
+    /**
+     * Method is used to replace multiple spaces with given replace string.
+     *
+     * @param str str
+     * @param replace replace
+     * @return String
+     */
+    public static String replaceWithPattern(String str, String replace) {
+        Pattern ptn = Pattern.compile("\\s+");
+        Matcher mtch = ptn.matcher(str);
+        return mtch.replaceAll(replace);
     }
 }

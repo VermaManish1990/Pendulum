@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_profile"
@@ -10,17 +10,19 @@
         android:layout_height="@dimen/_66sdp"
         android:layout_marginBottom="@dimen/_20sdp"
         android:layout_marginTop="@dimen/_20sdp"
-        android:src="@drawable/profile"/>
+        android:src="@drawable/profile" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/iv_profile"
         android:layout_alignTop="@+id/iv_profile"
         android:layout_marginLeft="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_toEndOf="@+id/iv_profile"
+        android:layout_toLeftOf="@+id/fl_radio_button"
         android:layout_toRightOf="@+id/iv_profile"
+        android:layout_toStartOf="@+id/fl_radio_button"
+        android:layout_marginEnd="@dimen/_10sdp"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -28,7 +30,8 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Anderson"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:textSize="@dimen/_15sdp" />
 
         <TextView
@@ -36,11 +39,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
-            android:text="www.anderson.com" />
+            android:maxLines="2"
+            android:ellipsize="end" />
 
     </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/fl_radio_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/iv_profile"
@@ -55,8 +60,8 @@
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
             android:layout_gravity="center"
-            android:src="@drawable/setting"
-            android:contentDescription="@string/image" />
+            android:contentDescription="@string/image"
+            android:src="@drawable/setting" />
 
     </FrameLayout>
 

@@ -99,5 +99,6 @@
     <string name="create_a_new_post">Create a new post</string>
     <string name="add_a_comment">Add a comment</string>
     <string name="anonymous">anonymous</string>
+    <string name="search_text_is_not_valid">search text is not valid</string>
 
 </resources>

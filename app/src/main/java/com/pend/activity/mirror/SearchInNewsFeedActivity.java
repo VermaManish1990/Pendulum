@@ -3,7 +3,6 @@ package com.pend.activity.mirror;
 import android.support.v4.app.DialogFragment;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,18 +15,10 @@ import com.pend.R;
 import com.pend.fragments.ContestSearchFragment;
 import com.pend.fragments.CreateMirrorDialogFragment;
 import com.pend.fragments.MirrorSearchFragment;
-import com.pend.interfaces.Constants;
-import com.pend.interfaces.IApiEvent;
-import com.pend.interfaces.IWebServices;
-import com.pend.models.SearchMirrorResponseModel;
+import com.pend.interfaces.IMirrorFragmentCallBack;
 import com.pend.util.LoggerUtil;
-import com.pend.util.NetworkUtil;
-import com.pend.util.VolleyErrorListener;
-import com.pendulum.utils.ConnectivityUtils;
-import com.pendulum.volley.ext.GsonObjectRequest;
-import com.pendulum.volley.ext.RequestManager;
 
-public class SearchInNewsFeedActivity extends BaseActivity implements View.OnClickListener, TextWatcher, MirrorSearchFragment.IMirrorFragmentCallBack {
+public class SearchInNewsFeedActivity extends BaseActivity implements View.OnClickListener, TextWatcher, IMirrorFragmentCallBack {
 
     private static final String TAG = SearchInNewsFeedActivity.class.getSimpleName();
     private View mRootView;
@@ -64,6 +55,7 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
     protected void setInitialData() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mBtMirror.setTextColor(getResources().getColor(R.color.white));
             mBtMirror.setBackground(getDrawable(R.drawable.custom_blue_button));
         }
         MirrorSearchFragment mirrorSearchFragment = new MirrorSearchFragment();
@@ -74,31 +66,7 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void updateUi(boolean status, int actionID, Object serviceResponse) {
-        switch (actionID) {
-            case IApiEvent.REQUEST_SEARCH_MIRROR_CODE:
-                if (status) {
-                    SearchMirrorResponseModel searchMirrorResponseModel = (SearchMirrorResponseModel) serviceResponse;
-                    if (searchMirrorResponseModel != null && searchMirrorResponseModel.status) {
-                        LoggerUtil.d(TAG, searchMirrorResponseModel.statusCode);
 
-                        if (searchMirrorResponseModel.Data != null && searchMirrorResponseModel.Data.searchData != null) {
-
-                            //TODO Update Fragment
-                        }
-
-                    } else {
-                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
-                    }
-                } else {
-                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
-                }
-                break;
-
-            default:
-                LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
-                break;
-        }
-        removeProgressDialog();
     }
 
     @Override
@@ -108,33 +76,6 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void getData(final int actionID) {
-        if (!ConnectivityUtils.isNetworkEnabled(this)) {
-            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
-            return;
-        }
-
-        showProgressDialog();
-
-        switch (actionID) {
-            case IApiEvent.REQUEST_SEARCH_MIRROR_CODE:
-
-                String searchMirrorUrl = IWebServices.REQUEST_SEARCH_MIRROR_URL + Constants.PARAM_SEARCH_TEXT + "=" + mSearchText;
-
-                RequestManager.addRequest(new GsonObjectRequest<SearchMirrorResponseModel>(searchMirrorUrl,
-                        NetworkUtil.getHeaders(this), null, SearchMirrorResponseModel.class,
-                        new VolleyErrorListener(this, actionID)) {
-
-                    @Override
-                    protected void deliverResponse(SearchMirrorResponseModel response) {
-                        updateUi(true, actionID, response);
-                    }
-                });
-                break;
-
-            default:
-                LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
-                break;
-        }
 
     }
 
@@ -153,7 +94,6 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
 
         if (mEtSearch.hasFocus()) {
             mSearchText = mEtSearch.getText().toString().trim();
-            getData(IApiEvent.REQUEST_SEARCH_MIRROR_CODE);
         }
     }
 
@@ -171,7 +111,10 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
                 mIsMirror = true;
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    mBtMirror.setTextColor(getResources().getColor(R.color.white));
                     mBtMirror.setBackground(getDrawable(R.drawable.custom_blue_button));
+
+                    mBtContest.setTextColor(getResources().getColor(R.color.black));
                     mBtContest.setBackground(getDrawable(R.drawable.custom_blue_border));
                 }
 
@@ -186,7 +129,10 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
                 mIsMirror = false;
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    mBtContest.setTextColor(getResources().getColor(R.color.white));
                     mBtContest.setBackground(getDrawable(R.drawable.custom_blue_button));
+
+                    mBtMirror.setTextColor(getResources().getColor(R.color.black));
                     mBtMirror.setBackground(getDrawable(R.drawable.custom_blue_border));
                 }
 

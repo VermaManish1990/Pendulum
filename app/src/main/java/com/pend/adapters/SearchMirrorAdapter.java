@@ -50,10 +50,13 @@ public class SearchMirrorAdapter extends RecyclerView.Adapter<SearchMirrorAdapte
         holder.tvName.setText(searchMirrorDetails.mirrorName != null ? searchMirrorDetails.mirrorName : "");
         holder.tvLink.setText(searchMirrorDetails.mirrorWikiLink != null ? searchMirrorDetails.mirrorWikiLink : "");
 
-        Picasso.with(mContext)
-                .load(searchMirrorDetails.imageUrl != null ? searchMirrorDetails.imageUrl : "")
-                .resize(250, 250)
-                .into(holder.ivProfile);
+        if (searchMirrorDetails.imageUrl != null && !searchMirrorDetails.imageUrl.equals("")) {
+
+            Picasso.with(mContext)
+                    .load(searchMirrorDetails.imageUrl)
+                    .resize(250, 250)
+                    .into(holder.ivProfile);
+        }
     }
 
     @Override

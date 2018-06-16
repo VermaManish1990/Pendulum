@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.pend.activity.mirror.MirrorDetailsActivity;
 import com.pend.adapters.TrendingAndIntroducedMirrorAdapter;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
+import com.pend.interfaces.IMirrorFragmentCallBack;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.GetTrendingAndIntroducedMirrorResponseModel;
 import com.pend.util.LoggerUtil;
@@ -40,6 +42,7 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
     private RecyclerView mRecyclerViewIntroduced;
     private View mRootView;
     private int mPageNumber;
+    private IMirrorFragmentCallBack mIMirrorFragmentCallBack;
 
     /**
      * Use this factory method to create a new instance of
@@ -70,6 +73,8 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+        mIMirrorFragmentCallBack = (IMirrorFragmentCallBack) context;
+
     }
 
     @Override
@@ -194,7 +199,7 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_create_mirror:
-                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                mIMirrorFragmentCallBack.onCreateMirrorClick();
                 break;
 
             default:

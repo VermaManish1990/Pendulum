@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.pend.BaseFragment;
 import com.pend.R;
 import com.pend.adapters.MirrorSearchAdapter;
+import com.pend.interfaces.IMirrorFragmentCallBack;
 import com.pend.models.SearchMirrorResponseModel;
 import com.pend.util.LoggerUtil;
 
@@ -119,16 +120,11 @@ public class MirrorSearchFragment extends BaseFragment implements View.OnClickLi
 
             case R.id.bt_create_mirror:
                 mIMirrorFragmentCallBack.onCreateMirrorClick();
-
                 break;
 
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
-    }
-
-    public interface IMirrorFragmentCallBack {
-        void onCreateMirrorClick();
     }
 }

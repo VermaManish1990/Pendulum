@@ -10,6 +10,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 
 import com.google.gson.Gson;
+import com.pend.BaseActivity;
 import com.pend.interfaces.Constants;
 import com.pend.models.ErrorResponseModel;
 import com.pendulum.ui.IScreen;
@@ -39,7 +40,6 @@ public class VolleyErrorListener implements Response.ErrorListener {
     public void onErrorResponse(VolleyError error) {
         LoggerUtil.v(TAG, "onErrorResponse");
 
-
         String str;
         int code;
 
@@ -54,6 +54,7 @@ public class VolleyErrorListener implements Response.ErrorListener {
 
             } catch (Exception ex) {
                 LoggerUtil.e(TAG, ex.toString());
+                SCREEN.updateUi(false, ACTION, "Bad Request");
                 return;
             }
 

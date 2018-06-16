@@ -3,18 +3,21 @@ package com.pend.activity.mirror;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.adapters.MirrorViewPagerAdapter;
+import com.pend.fragments.CreateMirrorDialogFragment;
 import com.pend.fragments.FollowingMirrorFragment;
 import com.pend.fragments.IntroducedMirrorFragment;
 import com.pend.fragments.TrendingMirrorFragment;
+import com.pend.interfaces.IMirrorFragmentCallBack;
 import com.pend.util.LoggerUtil;
 
-public class MirrorActivity extends BaseActivity implements View.OnClickListener {
+public class MirrorActivity extends BaseActivity implements View.OnClickListener,IMirrorFragmentCallBack {
 
     private static final String TAG = MirrorActivity.class.getSimpleName();
     private View mRootView;
@@ -85,5 +88,11 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
+    }
+
+    @Override
+    public void onCreateMirrorClick() {
+        DialogFragment createMirrorDialogFragment = new CreateMirrorDialogFragment();
+        createMirrorDialogFragment.show(getSupportFragmentManager(), "CreateMirrorDialogFragment");
     }
 }
