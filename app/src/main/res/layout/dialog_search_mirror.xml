@@ -10,11 +10,11 @@
 
         <ImageView
             android:id="@+id/iv_close"
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="@dimen/_60sdp"
+            android:layout_width="@dimen/_45sdp"
+            android:layout_height="@dimen/_45sdp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:padding="@dimen/_20sdp"
+            android:padding="@dimen/_15sdp"
             android:src="@drawable/cross" />
 
         <android.support.design.widget.TextInputLayout

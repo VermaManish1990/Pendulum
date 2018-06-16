@@ -34,7 +34,7 @@ public interface Constants {
     String TimeoutError = "Timeout Error";
 
     // Application Constant
-    long SPLASH_TIME_OUT = 2000;
+    long SPLASH_TIME_OUT = 1000;
     int REQUEST_SELECT_IMAGE_FROM_ALBUM = 1;
     int REQUEST_TAKE_PHOTO = 2;
     int ALL_PERMISSION_REQUEST_CODE = 3;

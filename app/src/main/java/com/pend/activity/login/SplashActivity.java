@@ -27,8 +27,10 @@ public class SplashActivity extends BaseActivity {
                 boolean isLogin = SharedPrefUtils.isUserLoggedIn(SplashActivity.this);
                 if (isLogin) {
                     startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                    finish();
                 } else {
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                    finish();
                 }
             }
 

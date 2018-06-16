@@ -288,8 +288,8 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
         ArrayList<ProgressItem> progressItemList = new ArrayList<>();
 
-        progressItemList.add(new ProgressItem(Color.GREEN, mirrorData.mirrorAdmirePer));
-        progressItemList.add(new ProgressItem(Color.RED, mirrorData.mirrorHatePer));
+        progressItemList.add(new ProgressItem(getResources().getColor(R.color.txt_color_green), mirrorData.mirrorAdmirePer));
+        progressItemList.add(new ProgressItem(getResources().getColor(R.color.light_red_bg), mirrorData.mirrorHatePer));
         progressItemList.add(new ProgressItem(getResources().getColor(R.color.bootstrap_brand_warning), mirrorData.mirrorCantSayPer));
 
         mProgressBarProfile.initData(progressItemList);
