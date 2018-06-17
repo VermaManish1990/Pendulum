@@ -72,9 +72,8 @@ public class ReflectionMirrorAdapter extends BaseAdapter {
         ImageView ivProfile = view.findViewById(R.id.iv_profile);
 
         tvName.setText(reflectionUsersDetails.userFullName != null ? reflectionUsersDetails.userFullName : "");
-//        Picasso.with(mContext)
-//                .load("")
-//                .resize(360,360)
-//                .into(ivProfile);
+        Picasso.with(mContext)
+                .load("https://cdn.pixabay.com/photo/2016/06/18/17/42/image-1465348_960_720.jpg")
+                .into(ivProfile);
     }
 }

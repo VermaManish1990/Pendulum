@@ -35,8 +35,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
 
         mRootView = findViewById(R.id.root_view);
 
-        View customSearchView = findViewById(R.id.custom_search_view);
-        customSearchView.findViewById(R.id.et_search).setOnClickListener(this);
+        findViewById(R.id.custom_search_view).setOnClickListener(this);
 
         TabLayout tabLayoutMirror = findViewById(R.id.tab_layout_mirror);
         ViewPager viewPagerMirror = findViewById(R.id.view_pager_mirror);
@@ -79,7 +78,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.et_search:
+            case R.id.custom_search_view:
                 Intent intent = new Intent(MirrorActivity.this, SearchInNewsFeedActivity.class);
                 startActivity(intent);
                 break;

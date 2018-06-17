@@ -25,5 +25,11 @@ public class GetFollowingMirrorResponseModel extends BaseResponseModel {
         public boolean mirrorAdmire;
         public boolean mirrorHate;
         public boolean mirrorCantSay;
+
+        public GetFollowingMirrorDetails(int activeUsers, String mirrorName, String imageURL) {
+            this.activeUsers = activeUsers;
+            this.mirrorName = mirrorName;
+            this.imageURL = imageURL;
+        }
     }
 }

@@ -18,7 +18,7 @@
         android:contentDescription="@string/image"
         android:src="@drawable/search" />
 
-    <EditText
+    <TextView
         android:id="@+id/et_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

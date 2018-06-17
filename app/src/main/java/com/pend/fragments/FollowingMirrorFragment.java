@@ -91,6 +91,21 @@ public class FollowingMirrorFragment extends BaseFragment {
     @Override
     protected void setInitialData() {
         mMirrorList = new ArrayList<>();
+
+        //Todo remove dummy data
+        mMirrorList.add(new GetFollowingMirrorResponseModel.GetFollowingMirrorDetails(2,"Anderson",
+                "https://cdn.pixabay.com/photo/2016/06/18/17/42/image-1465348_960_720.jpg"));
+
+        mMirrorList.add(new GetFollowingMirrorResponseModel.GetFollowingMirrorDetails(10,"Disha patani",
+                "https://cdn.pixabay.com/photo/2016/06/18/17/42/image-1465348_960_720.jpg"));
+
+        mMirrorList.addAll(mMirrorList);
+        mMirrorList.addAll(mMirrorList);
+        mMirrorList.addAll(mMirrorList);
+        mMirrorList.addAll(mMirrorList);
+        mMirrorList.addAll(mMirrorList);
+        mMirrorList.addAll(mMirrorList);
+
         mGridViewFollowingMirror.setAdapter(new FollowingMirrorAdapter(mContext, mMirrorList));
 
         /*
@@ -119,12 +134,12 @@ public class FollowingMirrorFragment extends BaseFragment {
                     if (followingMirrorResponseModel != null && followingMirrorResponseModel.status) {
                         LoggerUtil.d(TAG, followingMirrorResponseModel.statusCode);
 
-                        if (followingMirrorResponseModel.Data != null && followingMirrorResponseModel.Data.mirrorList != null) {
+                        /*if (followingMirrorResponseModel.Data != null && followingMirrorResponseModel.Data.mirrorList != null) {
                             FollowingMirrorAdapter followingMirrorAdapter = (FollowingMirrorAdapter) mGridViewFollowingMirror.getAdapter();
                             mMirrorList.addAll(followingMirrorResponseModel.Data.mirrorList);
                             followingMirrorAdapter.setMirrorList(mMirrorList);
                             followingMirrorAdapter.notifyDataSetChanged();
-                        }
+                        }*/
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
