@@ -1,5 +1,6 @@
 package com.pend.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,7 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.TextView;
 
@@ -116,5 +118,29 @@ public class OtherUtil {
         Pattern ptn = Pattern.compile("\\s+");
         Matcher mtch = ptn.matcher(str);
         return mtch.replaceAll(replace);
+    }
+
+    /**
+     * Method is used to get screen width in pixel.
+     *
+     * @param context Activity context
+     * @return int
+     */
+    public static int getScreenWidth(Activity context){
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        context.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics.widthPixels;
+    }
+
+    /**
+     * Method is used to get screen height in pixel.
+     *
+     * @param context Activity context
+     * @return int
+     */
+    public static int getScreenHeight(Activity context){
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        context.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics.heightPixels;
     }
 }

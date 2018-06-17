@@ -79,7 +79,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
     protected void setInitialData() {
 
         mExitPollList = new ArrayList<>();
-        mRecyclerViewExitPoll.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+        mRecyclerViewExitPoll.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         ExitPollAdapter exitPollAdapter = new ExitPollAdapter(this, mExitPollList);
         mRecyclerViewExitPoll.setAdapter(exitPollAdapter);
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/root_view"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_10sdp">
+        android:layout_marginTop="@dimen/_5sdp">
 
         <TextView
             android:id="@+id/tv_title"
@@ -20,7 +20,6 @@
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:text="@string/demonetization"
             android:textColor="@color/black"
             android:textSize="@dimen/_15sdp"
             android:textStyle="bold" />
@@ -41,6 +40,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_poll_per_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_10sdp"
@@ -48,7 +48,7 @@
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:background="@drawable/custom_rounded_grey_border"
-        android:padding="@dimen/_15sdp">
+        android:padding="@dimen/_10sdp">
 
         <TextView
             android:id="@+id/tv_tap_here_text"
@@ -59,14 +59,14 @@
 
         <TextView
             android:id="@+id/tv_admire_view"
-            android:layout_width="@dimen/_200sdp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_tap_here_text"
             android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/custom_rounded_green_view"
             android:gravity="center"
-            android:padding="@dimen/_3sdp"
-            android:text="40%"
+            android:paddingBottom="@dimen/_3sdp"
+            android:paddingTop="@dimen/_3sdp"
             android:textColor="@color/white" />
 
         <TextView
@@ -78,20 +78,22 @@
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_toEndOf="@+id/tv_admire_view"
             android:layout_toRightOf="@+id/tv_admire_view"
+            android:ellipsize="end"
             android:gravity="center"
+            android:singleLine="true"
             android:text="@string/admire"
             android:textColor="@color/colorGrayTextColor" />
 
         <TextView
             android:id="@+id/tv_hate_view"
-            android:layout_width="@dimen/_160sdp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_admire_view"
             android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/custom_rounded_red_view"
             android:gravity="center"
-            android:padding="@dimen/_3sdp"
-            android:text="35%"
+            android:paddingBottom="@dimen/_3sdp"
+            android:paddingTop="@dimen/_3sdp"
             android:textColor="@color/white" />
 
         <TextView
@@ -103,20 +105,22 @@
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_toEndOf="@+id/tv_hate_view"
             android:layout_toRightOf="@+id/tv_hate_view"
+            android:ellipsize="end"
             android:gravity="center"
+            android:singleLine="true"
             android:text="@string/hate"
             android:textColor="@color/colorGrayTextColor" />
 
         <TextView
             android:id="@+id/tv_can_t_say_view"
-            android:layout_width="@dimen/_120sdp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_hate_view"
             android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/custom_rounded_yellow_view"
             android:gravity="center"
-            android:padding="@dimen/_3sdp"
-            android:text="25%"
+            android:paddingBottom="@dimen/_3sdp"
+            android:paddingTop="@dimen/_3sdp"
             android:textColor="@color/white" />
 
         <TextView
@@ -128,7 +132,9 @@
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_toEndOf="@+id/tv_can_t_say_view"
             android:layout_toRightOf="@+id/tv_can_t_say_view"
+            android:ellipsize="end"
             android:gravity="center"
+            android:singleLine="true"
             android:text="@string/can_t_say"
             android:textColor="@color/colorGrayTextColor" />
 
