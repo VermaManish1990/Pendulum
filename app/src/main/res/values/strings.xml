@@ -101,5 +101,6 @@
     <string name="anonymous">anonymous</string>
     <string name="search_text_is_not_valid">search text is not valid</string>
     <string name="search_for_mirror">Search for mirror</string>
+    <string name="mirror_created_successfully">Mirror created successfully</string>
 
 </resources>

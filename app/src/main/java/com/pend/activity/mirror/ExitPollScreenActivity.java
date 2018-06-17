@@ -12,11 +12,13 @@ import android.widget.TextView;
 import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.adapters.ExitPollAdapter;
+import com.pend.adapters.ExitPollViewPagerAdapter;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.GetExitPollListResponseModel;
 import com.pend.models.GetExitPollMirrorResponseModel;
+import com.pend.models.UserProfileResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
 import com.pend.util.SharedPrefUtils;
@@ -80,6 +82,22 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
         mRecyclerViewExitPoll.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
         ExitPollAdapter exitPollAdapter = new ExitPollAdapter(this, mExitPollList);
         mRecyclerViewExitPoll.setAdapter(exitPollAdapter);
+
+        //TODO remove this code
+        ArrayList<UserProfileResponseModel.ImageDetails> imageData = new ArrayList<>();
+        UserProfileResponseModel.ImageDetails imageDetails = new UserProfileResponseModel.ImageDetails();
+        imageDetails.imageURL = "https://cdn.pixabay.com/photo/2016/06/18/17/42/image-1465348_960_720.jpg";
+        imageData.add(imageDetails);
+        imageData.add(imageDetails);
+        imageData.add(imageDetails);
+        imageData.add(imageDetails);
+        imageData.add(imageDetails);
+        imageData.add(imageDetails);
+        imageData.add(imageDetails);
+        imageData.add(imageDetails);
+        imageData.add(imageDetails);
+
+        mViewpagerProfile.setAdapter(new ExitPollViewPagerAdapter(this, imageData));
     }
 
     @Override

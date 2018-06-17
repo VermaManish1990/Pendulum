@@ -20,11 +20,13 @@ public class SearchMirrorAdapter extends RecyclerView.Adapter<SearchMirrorAdapte
 
     private ArrayList<SearchMirrorResponseModel.SearchMirrorDetails> mSearchDataList;
     private Context mContext;
+    private ISearchMirrorAdapterCallBack mISearchMirrorAdapterCallBack;
     private final String TAG = TrendingAndIntroducedMirrorAdapter.class.getSimpleName();
 
     public SearchMirrorAdapter(Context context, ArrayList<SearchMirrorResponseModel.SearchMirrorDetails> searchDataList) {
         mContext = context;
         mSearchDataList = searchDataList;
+        mISearchMirrorAdapterCallBack = (ISearchMirrorAdapterCallBack) context;
     }
 
     public void setSearchDataList(ArrayList<SearchMirrorResponseModel.SearchMirrorDetails> searchDataList) {
@@ -44,7 +46,7 @@ public class SearchMirrorAdapter extends RecyclerView.Adapter<SearchMirrorAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         SearchMirrorResponseModel.SearchMirrorDetails searchMirrorDetails = mSearchDataList.get(position);
 
         holder.tvName.setText(searchMirrorDetails.mirrorName != null ? searchMirrorDetails.mirrorName : "");
@@ -57,6 +59,13 @@ public class SearchMirrorAdapter extends RecyclerView.Adapter<SearchMirrorAdapte
                     .resize(250, 250)
                     .into(holder.ivProfile);
         }
+
+        holder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mISearchMirrorAdapterCallBack.onMirrorClick(position);
+            }
+        });
     }
 
     @Override
@@ -69,14 +78,20 @@ public class SearchMirrorAdapter extends RecyclerView.Adapter<SearchMirrorAdapte
         private final TextView tvLink;
         private final ImageView ivProfile;
         private final ImageView ivRadioButton;
+        private final View rootView;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
+            rootView = itemView.findViewById(R.id.root_view);
             tvName = itemView.findViewById(R.id.tv_name);
             tvLink = itemView.findViewById(R.id.tv_link);
             ivProfile = itemView.findViewById(R.id.iv_profile);
             ivRadioButton = itemView.findViewById(R.id.iv_radio_button);
         }
+    }
+
+    public interface ISearchMirrorAdapterCallBack {
+        void onMirrorClick(int position);
     }
 }

@@ -7,17 +7,22 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
 import com.pend.R;
+import com.pend.activity.login.EditMyProfileActivity;
 import com.pend.adapters.SearchMirrorAdapter;
 import com.pend.fragments.CreateMirrorDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
+import com.pend.models.CreateMirrorResponseModel;
 import com.pend.models.SearchMirrorResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
 import com.pend.util.OtherUtil;
+import com.pend.util.RequestPostDataUtil;
+import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
 import com.pendulum.utils.ConnectivityUtils;
 import com.pendulum.volley.ext.GsonObjectRequest;
@@ -25,13 +30,14 @@ import com.pendulum.volley.ext.RequestManager;
 
 import java.util.ArrayList;
 
-public class SearchMirrorListingActivity extends BaseActivity implements View.OnClickListener {
+public class SearchMirrorListingActivity extends BaseActivity implements View.OnClickListener, SearchMirrorAdapter.ISearchMirrorAdapterCallBack {
 
     private static final String TAG = SearchMirrorListingActivity.class.getSimpleName();
     private View mRootView;
     private RecyclerView mRecyclerViewSearch;
     private String mSearchText;
     private ArrayList<SearchMirrorResponseModel.SearchMirrorDetails> mSearchDataList;
+    private SearchMirrorResponseModel.SearchMirrorDetails mMirrorDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +99,24 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
                 }
                 break;
 
+            case IApiEvent.REQUEST_CREATE_MIRROR_CODE:
+                if (status) {
+                    CreateMirrorResponseModel createMirrorResponseModel = (CreateMirrorResponseModel) serviceResponse;
+                    if (createMirrorResponseModel != null && createMirrorResponseModel.status) {
+                        LoggerUtil.d(TAG, createMirrorResponseModel.statusCode);
+
+                        if (createMirrorResponseModel.Data != null && createMirrorResponseModel.Data.mirrorData != null) {
+                            Snackbar.make(mRootView, R.string.mirror_created_successfully, Snackbar.LENGTH_LONG).show();
+                        }
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                    }
+                } else {
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
+                break;
+
+
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
@@ -112,6 +136,13 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
             return;
         }
         showProgressDialog();
+        int userId = -1;
+        try {
+            userId = Integer.parseInt(SharedPrefUtils.getUserId(SearchMirrorListingActivity.this));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         switch (actionID) {
             case IApiEvent.REQUEST_SEARCH_MIRROR_CODE:
@@ -136,6 +167,23 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
                 }
                 break;
 
+            case IApiEvent.REQUEST_CREATE_MIRROR_CODE:
+
+                JsonObject requestObject = RequestPostDataUtil.createMirrorApiRegParam(userId, String.valueOf(mMirrorDetails.mirrorUniqueID), mMirrorDetails.mirrorName,
+                        mMirrorDetails.imageUrl, mMirrorDetails.mirrorInfo, mMirrorDetails.mirrorWikiLink);
+                String request = requestObject.toString();
+                RequestManager.addRequest(new GsonObjectRequest<CreateMirrorResponseModel>(IWebServices.REQUEST_CREATE_MIRROR_URL, NetworkUtil.getHeaders(this),
+                        request, CreateMirrorResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(CreateMirrorResponseModel response) {
+                        updateUi(true, actionID, response);
+
+                    }
+                });
+
+                break;
+
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
@@ -158,6 +206,15 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
+        }
+    }
+
+    @Override
+    public void onMirrorClick(int position) {
+        mMirrorDetails = mSearchDataList.get(position);
+
+        if (mMirrorDetails != null) {
+            getData(IApiEvent.REQUEST_CREATE_MIRROR_CODE);
         }
     }
 }
