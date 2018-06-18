@@ -21,7 +21,7 @@ public class DateUtil {
         Date date1 = parseDate(Constants.SERVER_DATE_FORMAT, date);
         Date date2 = new Date();
 
-        int difInDays = (int) ((date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24));
+        int difInDays = (int) ((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24));
         if (difInDays <= 1) {
             int difInDaysInHour = (int) ((date1.getTime() - date2.getTime()) / (1000 * 60 * 60));
             dateDiff = difInDaysInHour + " Hours";

@@ -34,7 +34,7 @@ public interface Constants {
     String TimeoutError = "Timeout Error";
 
     //Date Constant
-    String SERVER_DATE_FORMAT = "MMM dd yyyy hh:mm a";
+    String SERVER_DATE_FORMAT = "MMM dd yyyy hh:mma";
 
 
     // Application Constant
