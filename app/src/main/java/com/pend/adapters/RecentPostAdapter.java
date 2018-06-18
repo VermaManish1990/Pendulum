@@ -1,5 +1,6 @@
 package com.pend.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -22,11 +23,13 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
 
     private final String TAG = RecentPostAdapter.class.getSimpleName();
     private Context mContext;
+    private IRecentPostAdapterCallBack mIRecentPostAdapterCallBack;
     private ArrayList<GetPostsResponseModel.GetPostsDetails> mPostList;
 
     public RecentPostAdapter(Context context, ArrayList<GetPostsResponseModel.GetPostsDetails> postList) {
         mContext = context;
         mPostList = postList;
+        mIRecentPostAdapterCallBack = (IRecentPostAdapterCallBack) context;
     }
 
     @NonNull
@@ -38,7 +41,7 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecentPostAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecentPostAdapter.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
         GetPostsResponseModel.GetPostsDetails postsDetails = mPostList.get(position);
 
@@ -49,10 +52,29 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         holder.tvDescription.setText(postsDetails.postInfo != null ? postsDetails.postInfo : "");
         holder.tvTime.setText(postsDetails.createdDatetime != null ? postsDetails.createdDatetime : "");
 
-        Picasso.with(mContext)
-                .load(postsDetails.imageURL != null ? postsDetails.imageURL : "")
-                .resize(480, 480)
-                .into(holder.ivProfile);
+        holder.tvName.setText(postsDetails.commentUserFullName != null ? postsDetails.commentUserFullName : "");
+        holder.tvComment.setText(postsDetails.commentText != null ? postsDetails.commentText : "");
+
+        holder.ivComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIRecentPostAdapterCallBack.onCommentIconClick(position);
+            }
+        });
+
+        if (postsDetails.imageURL != null && !postsDetails.imageURL.equals("")) {
+
+            Picasso.with(mContext)
+                    .load(postsDetails.imageURL)
+                    .into(holder.ivPost);
+        }
+
+        if (postsDetails.commentUserImageURL != null && !postsDetails.commentUserImageURL.equals("")) {
+
+            Picasso.with(mContext)
+                    .load(postsDetails.commentUserImageURL)
+                    .into(holder.ivCommentUserProfile);
+        }
 
 //        holder.cbAnonymous.setChecked();
     }
@@ -64,7 +86,7 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final View rootView;
-        private final ImageView ivProfile;
+        private final ImageView ivPost;
         private final TextView tvDescription;
         private final TextView tvTime;
         private final TextView tvCommentCount;
@@ -76,14 +98,16 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         private final ImageView ivCommentUserProfile;
         private final TextView tvName;
         private final TextView tvComment;
+        private final ImageView ivComment;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             rootView = itemView.findViewById(R.id.root_view);
-            ivProfile = itemView.findViewById(R.id.iv_profile);
+            ivPost = itemView.findViewById(R.id.iv_post);
             tvDescription = itemView.findViewById(R.id.tv_description);
             tvTime = itemView.findViewById(R.id.tv_time);
+            ivComment = itemView.findViewById(R.id.iv_comment);
             tvCommentCount = itemView.findViewById(R.id.tv_comment_count);
             tvLikeCount = itemView.findViewById(R.id.tv_like_count);
             tvDislikeCount = itemView.findViewById(R.id.tv_dislike_count);
@@ -94,5 +118,9 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
             tvName = itemView.findViewById(R.id.tv_name);
             tvComment = itemView.findViewById(R.id.tv_comment);
         }
+    }
+
+    public interface IRecentPostAdapterCallBack {
+        void onCommentIconClick(int position);
     }
 }

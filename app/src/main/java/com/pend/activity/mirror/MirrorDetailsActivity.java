@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +22,8 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.pend.BaseActivity;
 import com.pend.R;
+import com.pend.adapters.RecentPostAdapter;
+import com.pend.fragments.CommentsDialogFragment;
 import com.pend.fragments.CreateMirrorDialogFragment;
 import com.pend.fragments.UnVotingDialogFragment;
 import com.pend.fragments.VotingDialogFragment;
@@ -29,6 +32,8 @@ import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.GetMirrorDetailsResponseModel;
 import com.pend.models.GetMirrorGraphResponseModel;
+import com.pend.models.GetPostCommentsResponseModel;
+import com.pend.models.GetPostsResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
 import com.pend.util.RequestPostDataUtil;
@@ -43,7 +48,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class MirrorDetailsActivity extends BaseActivity implements View.OnClickListener {
+public class MirrorDetailsActivity extends BaseActivity implements View.OnClickListener, RecentPostAdapter.IRecentPostAdapterCallBack {
 
     private static final String TAG = MirrorDetailsActivity.class.getSimpleName();
     private View mRootView;
@@ -54,6 +59,10 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     private RecyclerView mRecyclerViewPost;
     private int mMirrorId;
     private boolean isVoted = false;
+    private int mPageNumber;
+    private ArrayList<GetPostsResponseModel.GetPostsDetails> mPostList;
+    private GetPostsResponseModel.GetPostsDetails mPostsDetails;
+    private int mPostId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,10 +99,12 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void setInitialData() {
+        //for progressbar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mProgressBarProfile.getThumb().mutate().setAlpha(0);
         }
 
+        //for graph
         Viewport viewport = mGraphView.getViewport();
         viewport.setMinX(0);
         viewport.setMaxX(30);
@@ -104,7 +115,6 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         viewport.setScrollable(true);
 
 //        staticLabelsFormatter.setHorizontalLabels(new String[] {"old", "middle", "new"});
-
 
         GridLabelRenderer gridLabelRenderer = mGraphView.getGridLabelRenderer();
         gridLabelRenderer.setTextSize(12);
@@ -181,6 +191,48 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
+
+                getData(IApiEvent.REQUEST_GET_POSTS_CODE);
+                break;
+
+            case IApiEvent.REQUEST_GET_POSTS_CODE:
+                if (status) {
+                    GetPostsResponseModel postsResponseModel = (GetPostsResponseModel) serviceResponse;
+                    if (postsResponseModel != null && postsResponseModel.status) {
+                        LoggerUtil.d(TAG, postsResponseModel.statusCode);
+
+                        if (postsResponseModel.Data != null && postsResponseModel.Data.postList != null) {
+                            mPostList = postsResponseModel.Data.postList;
+                            mRecyclerViewPost.setLayoutManager(new LinearLayoutManager(this));
+                            mRecyclerViewPost.setAdapter(new RecentPostAdapter(this, mPostList));
+
+                        }
+
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                    }
+                } else {
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
+                break;
+
+            case IApiEvent.REQUEST_GET_POST_COMMENT_CODE:
+                if (status) {
+                    GetPostCommentsResponseModel commentsResponseModel = (GetPostCommentsResponseModel) serviceResponse;
+                    if (commentsResponseModel != null && commentsResponseModel.status) {
+                        LoggerUtil.d(TAG, commentsResponseModel.statusCode);
+
+                        if (commentsResponseModel.Data != null && commentsResponseModel.Data.commentList != null) {
+                            CommentsDialogFragment commentsDialogFragment = CommentsDialogFragment.newInstance(commentsResponseModel.Data.commentList, mPostsDetails);
+                            commentsDialogFragment.show(getSupportFragmentManager(), "CommentsDialogFragment");
+                        }
+
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                    }
+                } else {
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
                 break;
 
             default:
@@ -230,6 +282,40 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
                     @Override
                     protected void deliverResponse(GetMirrorGraphResponseModel response) {
+                        updateUi(true, actionID, response);
+
+                    }
+                });
+                break;
+
+            case IApiEvent.REQUEST_GET_POSTS_CODE:
+
+                // page number should be 1 for recent post only.
+                String getPostsUrl = IWebServices.REQUEST_GET_POSTS_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this)
+                        + "&" + Constants.PARAM_MIRROR_ID + "=" + String.valueOf(mMirrorId)
+                        + "&" + Constants.PARAM_PAGE_NUMBER + "=" + 1;
+                RequestManager.addRequest(new GsonObjectRequest<GetPostsResponseModel>(getPostsUrl, NetworkUtil.getHeaders(this),
+                        null, GetPostsResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(GetPostsResponseModel response) {
+                        updateUi(true, actionID, response);
+
+                    }
+                });
+                break;
+
+            case IApiEvent.REQUEST_GET_POST_COMMENT_CODE:
+
+                //TODO add pagination.
+                mPageNumber = 1;
+                String postCommentUrl = IWebServices.REQUEST_GET_POST_COMMENT_URL + Constants.PARAM_POST_ID + "=" + mPostId
+                        + "&" + Constants.PARAM_PAGE_NUMBER + "=" + mPageNumber;
+                RequestManager.addRequest(new GsonObjectRequest<GetPostCommentsResponseModel>(postCommentUrl, NetworkUtil.getHeaders(this),
+                        null, GetPostCommentsResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(GetPostCommentsResponseModel response) {
                         updateUi(true, actionID, response);
 
                     }
@@ -320,5 +406,12 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                 new DataPoint(30, 40)
         });
         mGraphView.addSeries(series);
+    }
+
+    @Override
+    public void onCommentIconClick(int position) {
+        mPostsDetails = mPostList.get(position);
+        mPostId = mPostsDetails.postID;
+        getData(IApiEvent.REQUEST_GET_POST_COMMENT_CODE);
     }
 }

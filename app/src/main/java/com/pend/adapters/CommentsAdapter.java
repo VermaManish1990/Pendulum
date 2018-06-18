@@ -43,10 +43,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         holder.tvName.setText(postCommentsDetails.userFullName != null ? postCommentsDetails.userFullName : "");
         holder.tvComment.setText(postCommentsDetails.commentText != null ? postCommentsDetails.commentText : "");
 
-        Picasso.with(mContext)
-                .load(postCommentsDetails.commentUserImageURL != null ? postCommentsDetails.commentUserImageURL : "")
-                .resize(250, 250)
-                .into(holder.ivProfile);
+        if (postCommentsDetails.commentUserImageURL != null && !postCommentsDetails.commentUserImageURL.equals("")) {
+
+            Picasso.with(mContext)
+                    .load(postCommentsDetails.commentUserImageURL != null ? postCommentsDetails.commentUserImageURL : "")
+                    .into(holder.ivProfile);
+        }
     }
 
     @Override

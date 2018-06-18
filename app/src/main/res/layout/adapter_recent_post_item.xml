@@ -12,7 +12,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/iv_profile"
+            android:id="@+id/iv_post"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_130sdp"
             android:contentDescription="@string/image" />
@@ -21,7 +21,7 @@
             android:id="@+id/tv_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_profile"
+            android:layout_below="@+id/iv_post"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/iv_profile"
+            android:layout_below="@+id/iv_post"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
@@ -44,14 +44,15 @@
 
         <ImageView
             android:id="@+id/iv_comment"
-            android:layout_width="@dimen/_17sdp"
-            android:layout_height="@dimen/_17sdp"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
             android:layout_below="@+id/tv_description"
             android:layout_marginBottom="@dimen/_10sdp"
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:contentDescription="@string/image"
+            android:padding="@dimen/_3sdp"
             android:src="@drawable/setting" />
 
         <TextView
@@ -64,13 +65,14 @@
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_toEndOf="@+id/iv_comment"
             android:layout_toRightOf="@+id/iv_comment"
+            android:gravity="center"
             android:text="20"
             android:textColor="@color/colorPrimary" />
 
         <ImageView
             android:id="@+id/iv_like"
-            android:layout_width="@dimen/_17sdp"
-            android:layout_height="@dimen/_17sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/iv_comment"
             android:layout_alignTop="@+id/iv_comment"
             android:layout_marginLeft="@dimen/_30sdp"
@@ -78,6 +80,7 @@
             android:layout_toEndOf="@+id/tv_comment_count"
             android:layout_toRightOf="@+id/tv_comment_count"
             android:contentDescription="@string/image"
+            android:padding="@dimen/_3sdp"
             android:src="@drawable/like" />
 
         <TextView
@@ -90,13 +93,14 @@
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_toEndOf="@+id/iv_like"
             android:layout_toRightOf="@+id/iv_like"
+            android:gravity="center"
             android:text="20"
             android:textColor="@color/colorPrimary" />
 
         <ImageView
             android:id="@+id/iv_dislike"
-            android:layout_width="@dimen/_17sdp"
-            android:layout_height="@dimen/_17sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/iv_like"
             android:layout_alignTop="@+id/iv_like"
             android:layout_marginLeft="@dimen/_30sdp"
@@ -104,6 +108,7 @@
             android:layout_toEndOf="@+id/tv_like_count"
             android:layout_toRightOf="@+id/tv_like_count"
             android:contentDescription="@string/image"
+            android:padding="@dimen/_3sdp"
             android:src="@drawable/dislike" />
 
         <TextView
@@ -116,6 +121,7 @@
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_toEndOf="@+id/iv_dislike"
             android:layout_toRightOf="@+id/iv_dislike"
+            android:gravity="center"
             android:text="20"
             android:textColor="@color/colorPrimary" />
 
