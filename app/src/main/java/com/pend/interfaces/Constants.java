@@ -33,6 +33,10 @@ public interface Constants {
     String ServerError = "Server Error";
     String TimeoutError = "Timeout Error";
 
+    //Date Constant
+    String SERVER_DATE_FORMAT = "MMM dd yyyy hh:mm a";
+
+
     // Application Constant
     long SPLASH_TIME_OUT = 1000;
     int REQUEST_SELECT_IMAGE_FROM_ALBUM = 1;

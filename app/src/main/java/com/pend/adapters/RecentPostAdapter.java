@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import com.pend.R;
 import com.pend.models.GetPostsResponseModel;
+import com.pend.util.DateUtil;
 import com.pend.util.LoggerUtil;
+import com.pend.util.OtherUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -50,7 +52,12 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         holder.tvDislikeCount.setText(String.valueOf(postsDetails.unlikeCount));
 
         holder.tvDescription.setText(postsDetails.postInfo != null ? postsDetails.postInfo : "");
-        holder.tvTime.setText(postsDetails.createdDatetime != null ? postsDetails.createdDatetime : "");
+
+        String time = "";
+        if(postsDetails.createdDatetime != null && !postsDetails.createdDatetime.equals("")){
+            time = DateUtil.getDifferenceFromCurrentDate(postsDetails.createdDatetime);
+        }
+        holder.tvTime.setText(time);
 
         holder.tvName.setText(postsDetails.commentUserFullName != null ? postsDetails.commentUserFullName : "");
         holder.tvComment.setText(postsDetails.commentText != null ? postsDetails.commentText : "");
