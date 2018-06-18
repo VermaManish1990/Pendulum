@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pend.R;
+import com.pend.models.GetTrendingAndIntroducedMirrorResponseModel;
 import com.pend.models.SearchMirrorResponseModel;
 import com.pend.util.LoggerUtil;
 import com.squareup.picasso.Picasso;
@@ -20,14 +21,14 @@ public class MirrorSearchAdapter extends RecyclerView.Adapter<MirrorSearchAdapte
 
     private static final String TAG = MirrorSearchAdapter.class.getSimpleName();
     private final Context mContext;
-    private ArrayList<SearchMirrorResponseModel.SearchMirrorDetails> mSearchDataList;
+    private ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mSearchDataList;
 
-    public MirrorSearchAdapter(Context context, ArrayList<SearchMirrorResponseModel.SearchMirrorDetails> searchDataList) {
+    public MirrorSearchAdapter(Context context, ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> searchDataList) {
         mContext = context;
         mSearchDataList = searchDataList;
     }
 
-    public void setSearchDataList(ArrayList<SearchMirrorResponseModel.SearchMirrorDetails> searchDataList) {
+    public void setSearchDataList(ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> searchDataList) {
         this.mSearchDataList = searchDataList;
     }
 
@@ -41,13 +42,16 @@ public class MirrorSearchAdapter extends RecyclerView.Adapter<MirrorSearchAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MirrorSearchAdapter.ViewHolder holder, int position) {
-        SearchMirrorResponseModel.SearchMirrorDetails mirrorDetails = mSearchDataList.get(position);
+        GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails mirrorDetails = mSearchDataList.get(position);
 
         holder.tvName.setText(mirrorDetails.mirrorName != null ? mirrorDetails.mirrorName : "");
 
-        Picasso.with(mContext)
-                .load(mirrorDetails.imageUrl != null ? mirrorDetails.imageUrl : "")
-                .into(holder.ivProfile);
+        if (mirrorDetails.imageURL != null && !mirrorDetails.imageURL.equals("")) {
+
+            Picasso.with(mContext)
+                    .load(mirrorDetails.imageURL != null ? mirrorDetails.imageURL : "")
+                    .into(holder.ivProfile);
+        }
     }
 
     @Override

@@ -14,7 +14,7 @@ import com.pend.BaseFragment;
 import com.pend.R;
 import com.pend.adapters.MirrorSearchAdapter;
 import com.pend.interfaces.IMirrorFragmentCallBack;
-import com.pend.models.SearchMirrorResponseModel;
+import com.pend.models.GetTrendingAndIntroducedMirrorResponseModel;
 import com.pend.util.LoggerUtil;
 
 import java.util.ArrayList;
@@ -23,13 +23,14 @@ import java.util.ArrayList;
 public class MirrorSearchFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = MirrorSearchFragment.class.getSimpleName();
+    private static final String ARG_MIRROR_LIST = "ARG_MIRROR_LIST";
     private Context mContext;
     private RecyclerView mRecyclerViewMirror;
     private TextView mTvSeeMore;
     private View mRlNoResult;
     private View mRlMirrorData;
     private IMirrorFragmentCallBack mIMirrorFragmentCallBack;
-    private ArrayList<SearchMirrorResponseModel.SearchMirrorDetails> mSearchDataList;
+    private ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mSearchDataList;
     private View mRootView;
 
     /**
@@ -38,10 +39,10 @@ public class MirrorSearchFragment extends BaseFragment implements View.OnClickLi
      *
      * @return A new instance of fragment MirrorSearchFragment.
      */
-    public static MirrorSearchFragment newInstance() {
+    public static MirrorSearchFragment newInstance(ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> searchDataList) {
         MirrorSearchFragment fragment = new MirrorSearchFragment();
         Bundle args = new Bundle();
-
+        args.putSerializable(ARG_MIRROR_LIST, searchDataList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,7 +51,8 @@ public class MirrorSearchFragment extends BaseFragment implements View.OnClickLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
+            mSearchDataList = (ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails>)
+                    getArguments().getSerializable(ARG_MIRROR_LIST);
         }
     }
 
@@ -69,6 +71,7 @@ public class MirrorSearchFragment extends BaseFragment implements View.OnClickLi
 
         initUI(view);
         setInitialData();
+
         return view;
     }
 
@@ -86,11 +89,12 @@ public class MirrorSearchFragment extends BaseFragment implements View.OnClickLi
     @Override
     protected void setInitialData() {
 
-        mSearchDataList = new ArrayList<>();
+        if (mSearchDataList != null) {
 
-        mRecyclerViewMirror.setLayoutManager(new LinearLayoutManager(mContext));
-        MirrorSearchAdapter mirrorSearchAdapter = new MirrorSearchAdapter(mContext, mSearchDataList);
-        mRecyclerViewMirror.setAdapter(mirrorSearchAdapter);
+            mRecyclerViewMirror.setLayoutManager(new LinearLayoutManager(mContext));
+            MirrorSearchAdapter mirrorSearchAdapter = new MirrorSearchAdapter(mContext, mSearchDataList);
+            mRecyclerViewMirror.setAdapter(mirrorSearchAdapter);
+        }
     }
 
 
@@ -116,7 +120,7 @@ public class MirrorSearchFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
 
             case R.id.bt_create_mirror:
                 mIMirrorFragmentCallBack.onCreateMirrorClick();

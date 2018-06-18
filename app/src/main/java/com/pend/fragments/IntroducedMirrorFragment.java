@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,10 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
 import com.pend.BaseFragment;
-import com.pend.BaseResponseModel;
 import com.pend.R;
 import com.pend.activity.mirror.MirrorDetailsActivity;
 import com.pend.adapters.TrendingAndIntroducedMirrorAdapter;
@@ -43,6 +40,7 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
     private RecyclerView mRecyclerViewIntroduced;
     private View mRootView;
     private int mPageNumber;
+    private IntroducedMirrorFragmentCallBack mIntroducedMirrorFragmentCallBack;
     private IMirrorFragmentCallBack mIMirrorFragmentCallBack;
     private TextView mTvDataNotAvailable;
 
@@ -51,7 +49,7 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
         super.onAttach(context);
         mContext = context;
         mIMirrorFragmentCallBack = (IMirrorFragmentCallBack) context;
-
+        mIntroducedMirrorFragmentCallBack = (IntroducedMirrorFragmentCallBack) context;
     }
 
     @Override
@@ -104,7 +102,9 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
                             mMirrorList.addAll(trendingAndIntroducedMirrorResponseModel.Data.mirrorList);
                             trendingAndIntroducedMirrorAdapter.setMirrorList(mMirrorList);
                             trendingAndIntroducedMirrorAdapter.notifyDataSetChanged();
-                        }else {
+
+                            mIntroducedMirrorFragmentCallBack.onTrendingMirrorResultUpdated(mMirrorList);
+                        } else {
                             mTvDataNotAvailable.setVisibility(View.VISIBLE);
                             mRecyclerViewIntroduced.setVisibility(View.GONE);
                         }
@@ -190,5 +190,9 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
+    }
+
+    public interface IntroducedMirrorFragmentCallBack {
+        void onTrendingMirrorResultUpdated(ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mirrorList);
     }
 }

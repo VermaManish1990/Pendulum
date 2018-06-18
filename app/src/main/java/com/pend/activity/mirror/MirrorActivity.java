@@ -14,13 +14,18 @@ import com.pend.fragments.CreateMirrorDialogFragment;
 import com.pend.fragments.FollowingMirrorFragment;
 import com.pend.fragments.IntroducedMirrorFragment;
 import com.pend.fragments.TrendingMirrorFragment;
+import com.pend.interfaces.Constants;
 import com.pend.interfaces.IMirrorFragmentCallBack;
+import com.pend.models.GetTrendingAndIntroducedMirrorResponseModel;
 import com.pend.util.LoggerUtil;
 
-public class MirrorActivity extends BaseActivity implements View.OnClickListener,IMirrorFragmentCallBack {
+import java.util.ArrayList;
+
+public class MirrorActivity extends BaseActivity implements View.OnClickListener,IMirrorFragmentCallBack,IntroducedMirrorFragment.IntroducedMirrorFragmentCallBack {
 
     private static final String TAG = MirrorActivity.class.getSimpleName();
     private View mRootView;
+    private ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mMirrorList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
         setContentView(R.layout.activity_mirror);
 
         initUI();
+        setInitialData();
     }
 
     @Override
@@ -42,6 +48,12 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
 
         setupViewPager(viewPagerMirror);
         tabLayoutMirror.setupWithViewPager(viewPagerMirror, true);
+    }
+
+    @Override
+    protected void setInitialData() {
+
+        mMirrorList = new ArrayList<>();
     }
 
     /**
@@ -80,6 +92,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
         switch (view.getId()) {
             case R.id.custom_search_view:
                 Intent intent = new Intent(MirrorActivity.this, SearchInNewsFeedActivity.class);
+                intent.putExtra(Constants.TRENDING_MIRROR_LIST_KEY,mMirrorList);
                 startActivity(intent);
                 break;
 
@@ -93,5 +106,10 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
     public void onCreateMirrorClick() {
         DialogFragment createMirrorDialogFragment = new CreateMirrorDialogFragment();
         createMirrorDialogFragment.show(getSupportFragmentManager(), "CreateMirrorDialogFragment");
+    }
+
+    @Override
+    public void onTrendingMirrorResultUpdated(ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mirrorList) {
+        mMirrorList = mirrorList;
     }
 }

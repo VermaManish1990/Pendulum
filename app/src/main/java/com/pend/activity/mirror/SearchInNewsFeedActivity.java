@@ -15,8 +15,12 @@ import com.pend.R;
 import com.pend.fragments.ContestSearchFragment;
 import com.pend.fragments.CreateMirrorDialogFragment;
 import com.pend.fragments.MirrorSearchFragment;
+import com.pend.interfaces.Constants;
 import com.pend.interfaces.IMirrorFragmentCallBack;
+import com.pend.models.GetTrendingAndIntroducedMirrorResponseModel;
 import com.pend.util.LoggerUtil;
+
+import java.util.ArrayList;
 
 public class SearchInNewsFeedActivity extends BaseActivity implements View.OnClickListener, TextWatcher, IMirrorFragmentCallBack {
 
@@ -27,11 +31,21 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
     private EditText mEtSearch;
     private String mSearchText;
     private boolean mIsMirror = true;
+    private ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mMirrorList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_in_news_feed);
+
+        Bundle localBundle = getIntent().getExtras();
+        if (localBundle != null) {
+            if (localBundle.containsKey(Constants.TRENDING_MIRROR_LIST_KEY)) {
+                mMirrorList = (ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails>)
+                        localBundle.getSerializable(Constants.TRENDING_MIRROR_LIST_KEY);
+            }
+        }
 
         initUI();
         setInitialData();
@@ -118,7 +132,7 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
                     mBtContest.setBackground(getDrawable(R.drawable.custom_blue_border));
                 }
 
-                MirrorSearchFragment mirrorSearchFragment = new MirrorSearchFragment();
+                MirrorSearchFragment mirrorSearchFragment = MirrorSearchFragment.newInstance(mMirrorList);
                 FragmentTransaction transactionMirror = getSupportFragmentManager().beginTransaction();
                 transactionMirror.replace(R.id.fl_container, mirrorSearchFragment);
                 transactionMirror.commit();
