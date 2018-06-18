@@ -396,6 +396,8 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
      * @param graphData graphData
      */
     private void setMirrorGraphData(ArrayList<GetMirrorGraphResponseModel.GetMirrorGraphDetails> graphData) {
+
+        //TODO change graph data
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
                 new DataPoint(0, 20),
                 new DataPoint(5, 40),
@@ -410,8 +412,11 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onCommentIconClick(int position) {
-        mPostsDetails = mPostList.get(position);
-        mPostId = mPostsDetails.postID;
-        getData(IApiEvent.REQUEST_GET_POST_COMMENT_CODE);
+
+        Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+
+//        mPostsDetails = mPostList.get(position);
+//        mPostId = mPostsDetails.postID;
+//        getData(IApiEvent.REQUEST_GET_POST_COMMENT_CODE);
     }
 }

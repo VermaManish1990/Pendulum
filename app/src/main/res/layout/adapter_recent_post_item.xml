@@ -4,6 +4,8 @@
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_10sdp"
+    android:background="@color/white"
     android:elevation="@dimen/_5sdp"
     app:cardCornerRadius="@dimen/_10sdp">
 
@@ -15,7 +17,8 @@
             android:id="@+id/iv_post"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_130sdp"
-            android:contentDescription="@string/image" />
+            android:contentDescription="@string/image"
+            android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/tv_description"
@@ -24,7 +27,7 @@
             android:layout_below="@+id/iv_post"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:layout_toLeftOf="@+id/tv_time"
             android:layout_toStartOf="@+id/tv_time"
             android:text="Loren Ipsum is simply dummy text of the printing and typesetting industry"
@@ -36,21 +39,21 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/tv_description"
             android:layout_below="@+id/iv_post"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
             android:text="2w" />
 
         <ImageView
             android:id="@+id/iv_comment"
-            android:layout_width="@dimen/_20sdp"
+            android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_20sdp"
             android:layout_below="@+id/tv_description"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:contentDescription="@string/image"
             android:padding="@dimen/_3sdp"
             android:src="@drawable/setting" />
@@ -61,8 +64,6 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/iv_comment"
             android:layout_alignTop="@+id/iv_comment"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginStart="@dimen/_8sdp"
             android:layout_toEndOf="@+id/iv_comment"
             android:layout_toRightOf="@+id/iv_comment"
             android:gravity="center"
@@ -75,8 +76,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/iv_comment"
             android:layout_alignTop="@+id/iv_comment"
-            android:layout_marginLeft="@dimen/_30sdp"
-            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_15sdp"
             android:layout_toEndOf="@+id/tv_comment_count"
             android:layout_toRightOf="@+id/tv_comment_count"
             android:contentDescription="@string/image"
@@ -89,8 +90,6 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/iv_like"
             android:layout_alignTop="@+id/iv_like"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginStart="@dimen/_8sdp"
             android:layout_toEndOf="@+id/iv_like"
             android:layout_toRightOf="@+id/iv_like"
             android:gravity="center"
@@ -103,8 +102,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/iv_like"
             android:layout_alignTop="@+id/iv_like"
-            android:layout_marginLeft="@dimen/_30sdp"
-            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_15sdp"
             android:layout_toEndOf="@+id/tv_like_count"
             android:layout_toRightOf="@+id/tv_like_count"
             android:contentDescription="@string/image"
@@ -117,8 +116,6 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/iv_dislike"
             android:layout_alignTop="@+id/iv_dislike"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginStart="@dimen/_8sdp"
             android:layout_toEndOf="@+id/iv_dislike"
             android:layout_toRightOf="@+id/iv_dislike"
             android:gravity="center"
@@ -141,7 +138,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_comment"
-            android:layout_margin="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
             android:layout_toLeftOf="@+id/rl_checkbox"
             android:layout_toStartOf="@+id/rl_checkbox"
             android:background="@drawable/custom_circular_grey_border"
@@ -182,7 +180,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
             android:layout_below="@+id/rl_checkbox"
-            android:layout_marginBottom="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_6sdp"
             android:background="@color/darkGreyBackground" />
 
@@ -190,7 +188,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/view"
-            android:layout_marginBottom="@dimen/_10sdp">
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_comment_user_profile"
