@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.pend.BaseActivity;
 import com.pend.BaseFragment;
@@ -38,29 +39,7 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
     private Context mContext;
     private View mRootView;
     private int mPageNumber;
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment TrendingMirrorFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TrendingMirrorFragment newInstance() {
-        TrendingMirrorFragment fragment = new TrendingMirrorFragment();
-        Bundle args = new Bundle();
-
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//        }
-    }
+    private TextView mTvDataNotAvailable;
 
     @Override
     public void onAttach(Context context) {
@@ -85,6 +64,7 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
     protected void initUI(View view) {
 
         mRootView = view.findViewById(R.id.root_view);
+        mTvDataNotAvailable = view.findViewById(R.id.tv_data_not_available);
         mRecyclerViewTrending = view.findViewById(R.id.recycler_view_trending);
     }
 
@@ -108,12 +88,18 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
 
                         if (trendingAndIntroducedMirrorResponseModel.Data != null && trendingAndIntroducedMirrorResponseModel.Data.mirrorList != null) {
 
+                            mTvDataNotAvailable.setVisibility(View.GONE);
+                            mRecyclerViewTrending.setVisibility(View.VISIBLE);
+
                             TrendingAndIntroducedMirrorAdapter trendingAndIntroducedMirrorAdapter =
                                     (TrendingAndIntroducedMirrorAdapter) mRecyclerViewTrending.getAdapter();
 
                             mMirrorList.addAll(trendingAndIntroducedMirrorResponseModel.Data.mirrorList);
                             trendingAndIntroducedMirrorAdapter.setMirrorList(mMirrorList);
                             trendingAndIntroducedMirrorAdapter.notifyDataSetChanged();
+                        } else {
+                            mTvDataNotAvailable.setVisibility(View.VISIBLE);
+                            mRecyclerViewTrending.setVisibility(View.GONE);
                         }
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -149,8 +135,7 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
 
                 mPageNumber = 1;
 
-                //Todo change url
-                String trendingMirrorUrl = IWebServices.REQUEST_GET_INTRODUCED_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
+                String trendingMirrorUrl = IWebServices.REQUEST_GET_TRENDING_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
                         + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
 
 //                        + "&" + Constants.PARAM_SEARCH_TEXT + "=" + String.valueOf("search text");

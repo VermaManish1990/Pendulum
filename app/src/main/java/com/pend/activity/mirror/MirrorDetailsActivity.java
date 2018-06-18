@@ -63,6 +63,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     private ArrayList<GetPostsResponseModel.GetPostsDetails> mPostList;
     private GetPostsResponseModel.GetPostsDetails mPostsDetails;
     private int mPostId;
+    private TextView mTvDataNotAvailable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         mIvProfile = findViewById(R.id.iv_profile);
         mGraphView = findViewById(R.id.graph_view);
         mTvName = findViewById(R.id.tv_name);
+        mTvDataNotAvailable = findViewById(R.id.tv_data_not_available);
         mProgressBarProfile = findViewById(R.id.progress_bar_profile);
         mRecyclerViewPost = findViewById(R.id.recycler_view_post);
 
@@ -202,10 +204,15 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                         LoggerUtil.d(TAG, postsResponseModel.statusCode);
 
                         if (postsResponseModel.Data != null && postsResponseModel.Data.postList != null) {
+                            mTvDataNotAvailable.setVisibility(View.GONE);
+                            mRecyclerViewPost.setVisibility(View.VISIBLE);
+
                             mPostList = postsResponseModel.Data.postList;
                             mRecyclerViewPost.setLayoutManager(new LinearLayoutManager(this));
                             mRecyclerViewPost.setAdapter(new RecentPostAdapter(this, mPostList));
-
+                        } else {
+                            mTvDataNotAvailable.setVisibility(View.VISIBLE);
+                            mRecyclerViewPost.setVisibility(View.GONE);
                         }
 
                     } else {

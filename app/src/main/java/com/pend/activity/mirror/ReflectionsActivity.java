@@ -5,6 +5,7 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.pend.BaseActivity;
 import com.pend.R;
@@ -31,6 +32,7 @@ public class ReflectionsActivity extends BaseActivity {
     private GridView mGridViewReflection;
     private int mPageNumber;
     private int mMirrorId;
+    private TextView mTvDataNotAvailable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class ReflectionsActivity extends BaseActivity {
     protected void initUI() {
 
         mRootView = findViewById(R.id.root_view);
+        mTvDataNotAvailable = findViewById(R.id.tv_data_not_available);
         mGridViewReflection = findViewById(R.id.grid_view_reflection);
     }
 
@@ -85,10 +88,16 @@ public class ReflectionsActivity extends BaseActivity {
 
                         if (reflectionUsersResponseModel.Data != null && reflectionUsersResponseModel.Data.usersData != null) {
 
+                            mTvDataNotAvailable.setVisibility(View.GONE);
+                            mGridViewReflection.setVisibility(View.VISIBLE);
+
                             ReflectionMirrorAdapter reflectionMirrorAdapter = (ReflectionMirrorAdapter) mGridViewReflection.getAdapter();
                             mUserDataList.addAll(reflectionUsersResponseModel.Data.usersData);
                             reflectionMirrorAdapter.setUserDataList(mUserDataList);
                             reflectionMirrorAdapter.notifyDataSetChanged();
+                        } else {
+                            mTvDataNotAvailable.setVisibility(View.VISIBLE);
+                            mGridViewReflection.setVisibility(View.GONE);
                         }
 
                     } else {

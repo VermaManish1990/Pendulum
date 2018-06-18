@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
@@ -43,31 +44,7 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
     private View mRootView;
     private int mPageNumber;
     private IMirrorFragmentCallBack mIMirrorFragmentCallBack;
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment IntroducedMirrorFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static IntroducedMirrorFragment newInstance() {
-        IntroducedMirrorFragment fragment = new IntroducedMirrorFragment();
-        Bundle args = new Bundle();
-//        args.putSerializable(ARG_MIRROR_LIST, mirrorList);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        /*if (getArguments() != null) {
-            mMirrorList = (ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails>) getArguments().getSerializable(ARG_MIRROR_LIST);
-        }else {
-            mMirrorList = new ArrayList<>();
-        }*/
-    }
+    private TextView mTvDataNotAvailable;
 
     @Override
     public void onAttach(Context context) {
@@ -93,6 +70,7 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
     @Override
     protected void initUI(View view) {
         mRootView = view.findViewById(R.id.root_view);
+        mTvDataNotAvailable = view.findViewById(R.id.tv_data_not_available);
         mRecyclerViewIntroduced = view.findViewById(R.id.recycler_view_introduced);
         view.findViewById(R.id.bt_create_mirror).setOnClickListener(this);
     }
@@ -117,12 +95,18 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
 
                         if (trendingAndIntroducedMirrorResponseModel.Data != null && trendingAndIntroducedMirrorResponseModel.Data.mirrorList != null) {
 
+                            mTvDataNotAvailable.setVisibility(View.GONE);
+                            mRecyclerViewIntroduced.setVisibility(View.VISIBLE);
+
                             TrendingAndIntroducedMirrorAdapter trendingAndIntroducedMirrorAdapter =
                                     (TrendingAndIntroducedMirrorAdapter) mRecyclerViewIntroduced.getAdapter();
 
                             mMirrorList.addAll(trendingAndIntroducedMirrorResponseModel.Data.mirrorList);
                             trendingAndIntroducedMirrorAdapter.setMirrorList(mMirrorList);
                             trendingAndIntroducedMirrorAdapter.notifyDataSetChanged();
+                        }else {
+                            mTvDataNotAvailable.setVisibility(View.VISIBLE);
+                            mRecyclerViewIntroduced.setVisibility(View.GONE);
                         }
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));

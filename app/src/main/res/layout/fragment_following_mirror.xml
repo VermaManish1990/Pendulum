@@ -15,8 +15,16 @@
         android:verticalSpacing="10dp"
         android:gravity="center"
         android:padding="@dimen/_10sdp"
-        android:stretchMode="columnWidth" >
+        android:stretchMode="columnWidth"
+        android:visibility="gone"/>
 
-    </GridView>
+    <TextView
+        android:id="@+id/tv_data_not_available"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/data_not_available"
+        android:textSize="@dimen/_15sdp"
+        android:visibility="visible" />
 
 </FrameLayout>

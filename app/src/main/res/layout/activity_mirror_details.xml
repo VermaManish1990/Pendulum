@@ -136,14 +136,31 @@
         android:layout_marginTop="@dimen/_5sdp"
         android:text="@string/recent_post" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_post"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_12sdp"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:layout_marginTop="-5dp"
-        android:scrollbars="vertical">
+        android:layout_height="wrap_content">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="-5dp"
+            android:scrollbars="vertical"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_data_not_available"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:text="@string/data_not_available"
+            android:textSize="@dimen/_15sdp"
+            android:visibility="visible"/>
+    </FrameLayout>
+
+
 </LinearLayout>

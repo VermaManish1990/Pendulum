@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.pend.BaseActivity;
 import com.pend.BaseFragment;
@@ -39,29 +40,7 @@ public class FollowingMirrorFragment extends BaseFragment {
     private final String TAG = FollowingMirrorFragment.class.getSimpleName();
     private ArrayList<GetFollowingMirrorResponseModel.GetFollowingMirrorDetails> mMirrorList;
     private int mPageNumber;
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment FollowingMirrorFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FollowingMirrorFragment newInstance() {
-        FollowingMirrorFragment fragment = new FollowingMirrorFragment();
-        Bundle args = new Bundle();
-
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//        }
-    }
+    private TextView mTvDataNotAvailable;
 
     @Override
     public void onAttach(Context context) {
@@ -85,6 +64,7 @@ public class FollowingMirrorFragment extends BaseFragment {
     @Override
     protected void initUI(View view) {
         mRootView = view.findViewById(R.id.root_view);
+        mTvDataNotAvailable = view.findViewById(R.id.tv_data_not_available);
         mGridViewFollowingMirror = view.findViewById(R.id.grid_view_following_mirror);
     }
 
@@ -92,7 +72,7 @@ public class FollowingMirrorFragment extends BaseFragment {
     protected void setInitialData() {
         mMirrorList = new ArrayList<>();
 
-        //Todo remove dummy data
+       /* //Todo remove dummy data
         mMirrorList.add(new GetFollowingMirrorResponseModel.GetFollowingMirrorDetails(2,"Anderson",
                 "https://cdn.pixabay.com/photo/2016/06/18/17/42/image-1465348_960_720.jpg"));
 
@@ -104,7 +84,7 @@ public class FollowingMirrorFragment extends BaseFragment {
         mMirrorList.addAll(mMirrorList);
         mMirrorList.addAll(mMirrorList);
         mMirrorList.addAll(mMirrorList);
-        mMirrorList.addAll(mMirrorList);
+        mMirrorList.addAll(mMirrorList);*/
 
         mGridViewFollowingMirror.setAdapter(new FollowingMirrorAdapter(mContext, mMirrorList));
 
@@ -134,12 +114,19 @@ public class FollowingMirrorFragment extends BaseFragment {
                     if (followingMirrorResponseModel != null && followingMirrorResponseModel.status) {
                         LoggerUtil.d(TAG, followingMirrorResponseModel.statusCode);
 
-                        /*if (followingMirrorResponseModel.Data != null && followingMirrorResponseModel.Data.mirrorList != null) {
+                        if (followingMirrorResponseModel.Data != null && followingMirrorResponseModel.Data.mirrorList != null) {
+
+                            mTvDataNotAvailable.setVisibility(View.GONE);
+                            mGridViewFollowingMirror.setVisibility(View.VISIBLE);
+
                             FollowingMirrorAdapter followingMirrorAdapter = (FollowingMirrorAdapter) mGridViewFollowingMirror.getAdapter();
                             mMirrorList.addAll(followingMirrorResponseModel.Data.mirrorList);
                             followingMirrorAdapter.setMirrorList(mMirrorList);
                             followingMirrorAdapter.notifyDataSetChanged();
-                        }*/
+                        } else {
+                            mTvDataNotAvailable.setVisibility(View.VISIBLE);
+                            mGridViewFollowingMirror.setVisibility(View.GONE);
+                        }
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
