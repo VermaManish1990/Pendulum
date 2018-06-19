@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.pend.BaseActivity;
 import com.pend.R;
-import com.pend.adapters.MirrorViewPagerAdapter;
+import com.pend.adapters.FragmentViewPagerAdapter;
 import com.pend.fragments.CreateMirrorDialogFragment;
 import com.pend.fragments.FollowingMirrorFragment;
 import com.pend.fragments.IntroducedMirrorFragment;
@@ -60,7 +60,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
      * Method is used to setting up View Pager
      */
     private void setupViewPager(ViewPager viewPager) {
-        MirrorViewPagerAdapter adapter = new MirrorViewPagerAdapter(getSupportFragmentManager());
+        FragmentViewPagerAdapter adapter = new FragmentViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new TrendingMirrorFragment(), getString(R.string.trending));
         adapter.addFragment(new FollowingMirrorFragment(), getString(R.string.following));
         adapter.addFragment(new IntroducedMirrorFragment(), getString(R.string.introduced));

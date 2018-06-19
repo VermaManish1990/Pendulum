@@ -72,7 +72,7 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
             mBtMirror.setTextColor(getResources().getColor(R.color.white));
             mBtMirror.setBackground(getDrawable(R.drawable.custom_blue_button));
         }
-        MirrorSearchFragment mirrorSearchFragment = new MirrorSearchFragment();
+        MirrorSearchFragment mirrorSearchFragment = MirrorSearchFragment.newInstance(mMirrorList);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.fl_container, mirrorSearchFragment);
         transaction.commit();

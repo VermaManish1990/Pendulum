@@ -8,11 +8,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MirrorViewPagerAdapter extends FragmentPagerAdapter {
+public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
     private final List<Fragment> mFragments;
     private final List<String> mFragmentTitles;
 
-    public MirrorViewPagerAdapter(FragmentManager fm) {
+    public FragmentViewPagerAdapter(FragmentManager fm) {
         super(fm);
         mFragments = new ArrayList<>();
         mFragmentTitles = new ArrayList<>();
