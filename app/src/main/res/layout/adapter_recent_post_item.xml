@@ -123,6 +123,7 @@
             android:textColor="@color/colorPrimary" />
 
         <ImageView
+            android:id="@+id/iv_share"
             android:layout_width="@dimen/_17sdp"
             android:layout_height="@dimen/_17sdp"
             android:layout_alignBottom="@+id/iv_dislike"
