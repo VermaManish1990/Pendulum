@@ -99,18 +99,24 @@ public class OtherUtil {
     }
 
     public static String getBase64Format(String imagePath) {
-        Bitmap bm = BitmapFactory.decodeFile(imagePath);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
-        byte[] byteArrayImage = baos.toByteArray();
 
-        return Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
+        try {
+            Bitmap bm = BitmapFactory.decodeFile(imagePath);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+            byte[] byteArrayImage = baos.toByteArray();
+
+            return Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
      * Method is used to replace multiple spaces with given replace string.
      *
-     * @param str str
+     * @param str     str
      * @param replace replace
      * @return String
      */
@@ -126,7 +132,7 @@ public class OtherUtil {
      * @param context Activity context
      * @return int
      */
-    public static int getScreenWidth(Activity context){
+    public static int getScreenWidth(Activity context) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         context.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         return displayMetrics.widthPixels;
@@ -138,7 +144,7 @@ public class OtherUtil {
      * @param context Activity context
      * @return int
      */
-    public static int getScreenHeight(Activity context){
+    public static int getScreenHeight(Activity context) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         context.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         return displayMetrics.heightPixels;

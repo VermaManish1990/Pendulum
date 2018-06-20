@@ -376,14 +376,14 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
             public void onClick(DialogInterface dialog, int which) {
                 switch (items[which].toString()) {
                     case "Take Photo":
-                        Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
-                       /* if (AndroidPermissionUtils.checkPermission(EditMyProfileActivity.this, Manifest.permission.CAMERA,
+//                        Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                        if (AndroidPermissionUtils.checkPermission(EditMyProfileActivity.this, Manifest.permission.CAMERA,
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                             takePhotoFromCamera();
                         } else {
                             AndroidPermissionUtils.requestForPermission(EditMyProfileActivity.this, Constants.REQUEST_TAKE_PHOTO, Manifest.permission.CAMERA,
                                     Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                        }*/
+                        }
                         break;
 
                     case "Choose from Library":
@@ -430,7 +430,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        String imagePath;
+        String imagePath = null;
         if (resultCode == Activity.RESULT_OK) {
             Uri selectedImage = null;
             switch (requestCode) {
@@ -444,12 +444,15 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
 
                 case Constants.REQUEST_TAKE_PHOTO:
 
-                    selectedImage = Uri.fromFile(mPhotoPath);
+                    if(mPhotoPath!=null){
+                        imagePath = mPhotoPath.getPath();
+                    }
+                    selectedImage = Uri.parse(imagePath);
                     break;
             }
 
             if (selectedImage != null) {
-                mEncodedImage = OtherUtil.getBase64Format(selectedImage.toString());
+                mEncodedImage = OtherUtil.getBase64Format(selectedImage.getPath());
                 if (mEncodedImage != null) {
                     getData(IApiEvent.REQUEST_ADD_USER_IMAGE_CODE);
                 }
