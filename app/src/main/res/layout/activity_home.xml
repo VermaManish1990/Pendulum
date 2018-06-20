@@ -8,43 +8,6 @@
     android:background="@color/white"
     tools:context="com.pend.activity.home.HomeActivity">
 
-    <Button
-        android:id="@+id/bt_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@drawable/custom_blue_button"
-        android:padding="@dimen/_10sdp"
-        android:text="My Profile"
-        android:textColor="@color/white"
-        android:visibility="gone" />
-
-    <Button
-        android:id="@+id/bt_mirror"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bt_profile"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:background="@drawable/custom_blue_button"
-        android:padding="@dimen/_10sdp"
-        android:text="@string/mirror"
-        android:textColor="@color/white"
-        android:visibility="gone" />
-
-    <Button
-        android:id="@+id/bt_contest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bt_mirror"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:background="@drawable/custom_blue_button"
-        android:padding="@dimen/_10sdp"
-        android:text="@string/mirror"
-        android:textColor="@color/white"
-        android:visibility="gone" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_post"
         android:layout_width="match_parent"
@@ -74,7 +37,17 @@
             android:layout_alignParentBottom="true"
             android:background="@drawable/custom_quarter_circle_bg" />
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:src="@drawable/profile"
+            android:layout_marginTop="@dimen/_120sdp"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginLeft="@dimen/_30sdp" />
+
         <FrameLayout
+            android:id="@+id/fl_mirror"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_30sdp"
@@ -90,6 +63,7 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/fl_contest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

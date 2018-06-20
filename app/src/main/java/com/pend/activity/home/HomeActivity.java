@@ -68,9 +68,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         mFlMenuView = findViewById(R.id.fl_menu_view);
         mRecyclerViewPost = findViewById(R.id.recycler_view_post);
         mTvDataNotAvailable = findViewById(R.id.tv_data_not_available);
-        findViewById(R.id.bt_profile).setOnClickListener(this);
-        findViewById(R.id.bt_mirror).setOnClickListener(this);
-        findViewById(R.id.bt_contest).setOnClickListener(this);
+        findViewById(R.id.fl_mirror).setOnClickListener(this);
+        findViewById(R.id.fl_contest).setOnClickListener(this);
+        findViewById(R.id.iv_profile).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
     }
 
@@ -167,17 +167,17 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.bt_profile:
+            case R.id.iv_profile:
                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
                 startActivity(intent);
                 break;
 
-            case R.id.bt_mirror:
+            case R.id.fl_mirror:
                 Intent intentMirror = new Intent(HomeActivity.this, MirrorActivity.class);
                 startActivity(intentMirror);
                 break;
 
-            case R.id.bt_contest:
+            case R.id.fl_contest:
                 Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
 //                Intent intentContest = new Intent(HomeActivity.this, ContestActivity.class);
 //                startActivity(intentContest);
