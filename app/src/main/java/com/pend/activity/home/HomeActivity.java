@@ -48,6 +48,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private View mRootView;
     private View mRlQuarterView;
     private View mFlMenuView;
+    private View mFlQuarterBlackView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         initUI();
         setInitialData();
 
-//        getData(IApiEvent.REQUEST_GET_POSTS_CODE);
+        getData(IApiEvent.REQUEST_GET_POSTS_CODE);
     }
 
     @Override
@@ -65,6 +66,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
         mRootView = findViewById(R.id.root_view);
         mRlQuarterView = findViewById(R.id.rl_quarter_view);
+        mFlQuarterBlackView = findViewById(R.id.fl_quarter_black_view);
         mFlMenuView = findViewById(R.id.fl_menu_view);
         mRecyclerViewPost = findViewById(R.id.recycler_view_post);
         mTvDataNotAvailable = findViewById(R.id.tv_data_not_available);
@@ -168,19 +170,22 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_profile:
+                hideReveal();
                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
                 startActivity(intent);
                 break;
 
             case R.id.fl_mirror:
+                hideReveal();
                 Intent intentMirror = new Intent(HomeActivity.this, MirrorActivity.class);
                 startActivity(intentMirror);
                 break;
 
             case R.id.fl_contest:
+                hideReveal();
                 Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
-//                Intent intentContest = new Intent(HomeActivity.this, ContestActivity.class);
-//                startActivity(intentContest);
+                Intent intentContest = new Intent(HomeActivity.this, ContestActivity.class);
+                startActivity(intentContest);
                 break;
 
             case R.id.fl_menu_view:
@@ -224,7 +229,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                mRlQuarterView.setVisibility(View.INVISIBLE);
+                mRlQuarterView.setVisibility(View.GONE);
+                mFlMenuView.setVisibility(View.VISIBLE);
             }
         });
         anim.start();
@@ -235,7 +241,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     public void onBackPressed() {
         if (mRlQuarterView.getVisibility() == View.VISIBLE) {
             hideReveal();
-            mFlMenuView.setVisibility(View.VISIBLE);
         } else {
             super.onBackPressed();
         }
@@ -245,11 +250,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         Rect outRect = new Rect();
-        mRlQuarterView.getGlobalVisibleRect(outRect);
+        mFlQuarterBlackView.getGlobalVisibleRect(outRect);
 
         if (mRlQuarterView.getVisibility() == View.VISIBLE && !outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
             hideReveal();
-            mFlMenuView.setVisibility(View.VISIBLE);
         }
         return super.dispatchTouchEvent(event);
     }

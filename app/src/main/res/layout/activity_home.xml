@@ -32,6 +32,7 @@
         android:visibility="gone">
 
         <FrameLayout
+            android:id="@+id/fl_quarter_black_view"
             android:layout_width="@dimen/_220sdp"
             android:layout_height="@dimen/_190sdp"
             android:layout_alignParentBottom="true"
@@ -43,7 +44,7 @@
             android:layout_height="@dimen/_80sdp"
             android:src="@drawable/profile"
             android:layout_marginTop="@dimen/_120sdp"
-            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginLeft="@dimen/_30sdp" />
 
         <FrameLayout
