@@ -1,15 +1,23 @@
 package com.pend.activity.home;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.TextView;
 
 import com.pend.BaseActivity;
 import com.pend.R;
+import com.pend.activity.contest.ContestActivity;
 import com.pend.activity.login.ProfileActivity;
 import com.pend.activity.mirror.MirrorActivity;
 import com.pend.adapters.HomePostsAdapter;
@@ -38,6 +46,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private int mMirrorId;
     private TextView mTvDataNotAvailable;
     private View mRootView;
+    private View mRlQuarterView;
+    private View mFlMenuView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +57,21 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         initUI();
         setInitialData();
 
-        getData(IApiEvent.REQUEST_GET_POSTS_CODE);
+//        getData(IApiEvent.REQUEST_GET_POSTS_CODE);
     }
 
     @Override
     protected void initUI() {
 
         mRootView = findViewById(R.id.root_view);
+        mRlQuarterView = findViewById(R.id.rl_quarter_view);
+        mFlMenuView = findViewById(R.id.fl_menu_view);
         mRecyclerViewPost = findViewById(R.id.recycler_view_post);
         mTvDataNotAvailable = findViewById(R.id.tv_data_not_available);
         findViewById(R.id.bt_profile).setOnClickListener(this);
         findViewById(R.id.bt_mirror).setOnClickListener(this);
+        findViewById(R.id.bt_contest).setOnClickListener(this);
+        mFlMenuView.setOnClickListener(this);
     }
 
     @Override
@@ -149,6 +163,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -162,9 +177,80 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(intentMirror);
                 break;
 
+            case R.id.bt_contest:
+                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+//                Intent intentContest = new Intent(HomeActivity.this, ContestActivity.class);
+//                startActivity(intentContest);
+                break;
+
+            case R.id.fl_menu_view:
+                mFlMenuView.setVisibility(View.GONE);
+                showReveal();
+                break;
+
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    void showReveal() {
+        int cx = 0;
+        int cy = mRlQuarterView.getHeight();
+        float finalRadius = (float) Math.hypot(cx, cy);
+
+        Animator anim = ViewAnimationUtils.createCircularReveal(mRlQuarterView, cx, cy, 0, finalRadius);
+        anim.addListener(new AnimatorListenerAdapter() {
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mRlQuarterView.setVisibility(View.VISIBLE);
+            }
+        });
+        anim.start();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    void hideReveal() {
+
+        int cx = 0;
+        int cy = mRlQuarterView.getHeight();
+        float initialRadius = (float) Math.hypot(cx, cy);
+
+        Animator anim = ViewAnimationUtils.createCircularReveal(mRlQuarterView, cx, cy, initialRadius, 0);
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mRlQuarterView.setVisibility(View.INVISIBLE);
+            }
+        });
+        anim.start();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onBackPressed() {
+        if (mRlQuarterView.getVisibility() == View.VISIBLE) {
+            hideReveal();
+            mFlMenuView.setVisibility(View.VISIBLE);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        Rect outRect = new Rect();
+        mRlQuarterView.getGlobalVisibleRect(outRect);
+
+        if (mRlQuarterView.getVisibility() == View.VISIBLE && !outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+            hideReveal();
+            mFlMenuView.setVisibility(View.VISIBLE);
+        }
+        return super.dispatchTouchEvent(event);
     }
 }
