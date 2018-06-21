@@ -1,6 +1,7 @@
 package com.pend.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.pend.BaseFragment;
 import com.pend.R;
+import com.pend.activity.contest.CreateContestType1Activity;
 import com.pend.util.LoggerUtil;
 
 public class IntroducedContestFragment extends BaseFragment implements View.OnClickListener {
@@ -79,6 +81,8 @@ public class IntroducedContestFragment extends BaseFragment implements View.OnCl
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_create_contest:
+                Intent intent = new Intent(mContext, CreateContestType1Activity.class);
+                startActivity(intent);
                 break;
 
             default:

@@ -66,6 +66,15 @@
         <activity
             android:name=".activity.mirror.ReflectionsActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.contest.ContestActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.contest.CreateContestType1Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.contest.CreateContestType2Activity"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name=".GenericFileProvider"
@@ -77,7 +86,6 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".activity.contest.ContestActivity"></activity>
     </application>
 
 </manifest>

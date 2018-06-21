@@ -110,6 +110,8 @@
                 android:layout_height="wrap_content"
                 android:scrollbars="horizontal"
                 android:orientation="horizontal"
+                android:layout_alignTop="@+id/iv_upload_photo"
+                android:layout_alignBottom="@+id/iv_upload_photo"
                 android:layout_toEndOf="@+id/iv_upload_photo"
                 android:layout_toRightOf="@+id/iv_upload_photo" />
 

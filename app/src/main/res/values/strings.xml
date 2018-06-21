@@ -102,5 +102,12 @@
     <string name="search_text_is_not_valid">search text is not valid</string>
     <string name="search_for_mirror">Search for mirror</string>
     <string name="mirror_created_successfully">Mirror created successfully</string>
+    <string name="enter_question">Enter question</string>
+    <string name="related_mirror">Related mirror</string>
+    <string name="options">Options</string>
+    <string name="_1">1.</string>
+    <string name="_2">2.</string>
+    <string name="_3">3.</string>
+    <string name="create">Create</string>
 
 </resources>
