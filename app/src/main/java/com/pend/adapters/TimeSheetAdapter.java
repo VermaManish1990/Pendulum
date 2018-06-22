@@ -14,10 +14,13 @@ import com.pend.util.LoggerUtil;
 
 import java.util.ArrayList;
 
-public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.ViewHolder> {
+public class TimeSheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = TimeSheetAdapter.class.getSimpleName();
+    private static final int LOADING = 1;
+    private static final int ITEM = 2;
     private Context mContext;
+    private boolean isLoadingAdded = false;
     private ArrayList<UserTimeSheetResponseModel.UserTimeSheetDetails> mTimeSheetDetailsList;
 
     public TimeSheetAdapter(Context context, ArrayList<UserTimeSheetResponseModel.UserTimeSheetDetails> timeSheetDetailsList) {
@@ -31,17 +34,27 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.View
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LoggerUtil.v(TAG, "onCreateViewHolder");
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_time_sheet_item, parent, false);
-        return new ViewHolder(view);
+
+        if (viewType == ITEM) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_time_sheet_item, parent, false);
+            return new ItemViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_progress_item, parent, false);
+            return new ProgressViewHolder(view);
+        }
+
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TimeSheetAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         UserTimeSheetResponseModel.UserTimeSheetDetails timeSheetDetails = mTimeSheetDetailsList.get(position);
 
-        holder.tvMessage.setText(timeSheetDetails.mirrorName != null ? timeSheetDetails.mirrorName : "");
+        if (holder instanceof ItemViewHolder) {
+            ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
+            itemViewHolder.tvMessage.setText(timeSheetDetails.mirrorName != null ? timeSheetDetails.mirrorName : "");
+        }
     }
 
     @Override
@@ -49,15 +62,28 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.View
         return mTimeSheetDetailsList != null ? mTimeSheetDetailsList.size() : 0;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public int getItemViewType(int position) {
+        return (position == mTimeSheetDetailsList.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
+    }
+
+    public class ItemViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvMessage;
         private final View rootView;
 
-        public ViewHolder(View itemView) {
+        public ItemViewHolder(View itemView) {
             super(itemView);
 
             tvMessage = itemView.findViewById(R.id.tv_message);
             rootView = itemView.findViewById(R.id.root_view);
+        }
+    }
+
+    public class ProgressViewHolder extends RecyclerView.ViewHolder {
+
+        public ProgressViewHolder(View itemView) {
+            super(itemView);
+
         }
     }
 }

@@ -422,6 +422,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(this,
                 getApplicationContext().getPackageName() + ".my.package.name.provider", mPhotoPath));
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY,0);
         startActivityForResult(intent, Constants.REQUEST_TAKE_PHOTO);
     }
 

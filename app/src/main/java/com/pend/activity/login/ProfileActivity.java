@@ -21,6 +21,7 @@ import com.pend.models.UserProfileResponseModel;
 import com.pend.models.UserTimeSheetResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.PaginationScrollListener;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
 import com.pendulum.utils.ConnectivityUtils;
@@ -37,12 +38,15 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private View mRootView;
 
     private UserProfileResponseModel mUserProfileResponseModel;
+    private ArrayList<UserTimeSheetResponseModel.UserTimeSheetDetails> mTimeSheetDetailsList;
     private TextView mTvName;
     private TextView mTvAge;
     private TextView mTvCity;
     private TextView mTvToken;
-    int mPageNumber;
+    private int mPageNumber;
     private RecyclerView mRecyclerViewTimeSheet;
+    private boolean mIsHasNextPage = false;
+    private boolean mIsLoading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +77,28 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void setInitialData() {
-
+        mTimeSheetDetailsList = new ArrayList<>();
         mTabLayout.setupWithViewPager(mViewpagerProfile, true);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerViewTimeSheet.setLayoutManager(linearLayoutManager);
+        mRecyclerViewTimeSheet.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
+            @Override
+            protected void loadMoreItems() {
+                mIsLoading = true;
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return mIsHasNextPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return mIsLoading;
+            }
+        });
+        mRecyclerViewTimeSheet.setAdapter(new TimeSheetAdapter(this, mTimeSheetDetailsList));
     }
 
     @Override
@@ -137,8 +161,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
                         if (userTimeSheetResponseModel.Data != null && userTimeSheetResponseModel.Data.timeSheetData != null) {
 
-                            mRecyclerViewTimeSheet.setLayoutManager(new LinearLayoutManager(this));
-                            mRecyclerViewTimeSheet.setAdapter(new TimeSheetAdapter(this, userTimeSheetResponseModel.Data.timeSheetData));
+                            mIsHasNextPage = userTimeSheetResponseModel.Data.hasNextPage;
+
+                            TimeSheetAdapter timeSheetAdapter = (TimeSheetAdapter) mRecyclerViewTimeSheet.getAdapter();
+                            mTimeSheetDetailsList.addAll(userTimeSheetResponseModel.Data.timeSheetData);
+                            timeSheetAdapter.setTimeSheetDetailsList(mTimeSheetDetailsList);
+                            timeSheetAdapter.notifyDataSetChanged();
                             mTvToken.setText(String.valueOf(getString(R.string.token) + " " + userTimeSheetResponseModel.Data.timeSheetData.size()));
                         }
 

@@ -103,7 +103,7 @@ public class OtherUtil {
         try {
             Bitmap bm = BitmapFactory.decodeFile(imagePath);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bm.compress(Bitmap.CompressFormat.JPEG, 0, baos); //bm is the bitmap object
+            bm.compress(Bitmap.CompressFormat.PNG, 0, baos); //bm is the bitmap object
             byte[] byteArrayImage = baos.toByteArray();
 
             return Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
