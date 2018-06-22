@@ -43,7 +43,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private TextView mTvAge;
     private TextView mTvCity;
     private TextView mTvToken;
-    private int mPageNumber;
+    private int mPageNumber = 1;
     private RecyclerView mRecyclerViewTimeSheet;
     private boolean mIsHasNextPage = false;
     private boolean mIsLoading = false;
@@ -82,10 +82,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mRecyclerViewTimeSheet.setLayoutManager(linearLayoutManager);
+
         mRecyclerViewTimeSheet.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
             @Override
             protected void loadMoreItems() {
                 mIsLoading = true;
+                mPageNumber += 1; //Increment page index to load the next one
+                getData(IApiEvent.REQUEST_GET_USER_PROFILE_CODE);
             }
 
             @Override
@@ -157,16 +160,15 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     if (userTimeSheetResponseModel != null && userTimeSheetResponseModel.status) {
                         LoggerUtil.d(TAG, userTimeSheetResponseModel.statusCode);
 
-                        //TODO Pagination
-
                         if (userTimeSheetResponseModel.Data != null && userTimeSheetResponseModel.Data.timeSheetData != null) {
 
-                            mIsHasNextPage = userTimeSheetResponseModel.Data.hasNextPage;
+                            mIsHasNextPage = !userTimeSheetResponseModel.Data.hasNextPage;
 
                             TimeSheetAdapter timeSheetAdapter = (TimeSheetAdapter) mRecyclerViewTimeSheet.getAdapter();
                             mTimeSheetDetailsList.addAll(userTimeSheetResponseModel.Data.timeSheetData);
                             timeSheetAdapter.setTimeSheetDetailsList(mTimeSheetDetailsList);
                             timeSheetAdapter.notifyDataSetChanged();
+
                             mTvToken.setText(String.valueOf(getString(R.string.token) + " " + userTimeSheetResponseModel.Data.timeSheetData.size()));
                         }
 
@@ -178,6 +180,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                     Snackbar.make(mRootView, getString(R.string.server_error_from_api), Snackbar.LENGTH_LONG).show();
                 }
+
+                mIsLoading = false;
                 break;
 
             default:
@@ -218,8 +222,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             case IApiEvent.REQUEST_GET_USER_TIME_SHEET_CODE:
 
                 //TODO Pagination
-
-                mPageNumber = 1;
                 String userTimeSheetUrl = IWebServices.REQUEST_GET_USER_TIME_SHEET_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this) + "&" +
                         Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
                 RequestManager.addRequest(new GsonObjectRequest<UserTimeSheetResponseModel>(userTimeSheetUrl, NetworkUtil.getHeaders(this), null,

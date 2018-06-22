@@ -135,7 +135,7 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
 
                 mPageNumber = 1;
 
-                String trendingMirrorUrl = IWebServices.REQUEST_GET_TRENDING_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
+                String trendingMirrorUrl = IWebServices.REQUEST_GET_INTRODUCED_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
                         + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
 
 //                        + "&" + Constants.PARAM_SEARCH_TEXT + "=" + String.valueOf("search text");

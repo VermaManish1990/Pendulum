@@ -103,7 +103,7 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
                             trendingAndIntroducedMirrorAdapter.setMirrorList(mMirrorList);
                             trendingAndIntroducedMirrorAdapter.notifyDataSetChanged();
 
-                            mIntroducedMirrorFragmentCallBack.onTrendingMirrorResultUpdated(mMirrorList);
+//                            mIntroducedMirrorFragmentCallBack.onTrendingMirrorResultUpdated(mMirrorList);
                         } else {
                             mTvDataNotAvailable.setVisibility(View.VISIBLE);
                             mRecyclerViewIntroduced.setVisibility(View.GONE);

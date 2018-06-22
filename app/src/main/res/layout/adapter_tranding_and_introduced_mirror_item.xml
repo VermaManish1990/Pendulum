@@ -4,11 +4,11 @@
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_120sdp"
-    android:layout_marginTop="@dimen/_10sdp"
-    android:layout_marginStart="@dimen/_10sdp"
     android:layout_marginEnd="@dimen/_10sdp"
-    app:cardCornerRadius="@dimen/_10sdp"
-    android:elevation="@dimen/_3sdp">
+    android:layout_marginStart="@dimen/_10sdp"
+    android:layout_marginTop="@dimen/_10sdp"
+    android:elevation="@dimen/_3sdp"
+    app:cardCornerRadius="@dimen/_10sdp">
 
     <RelativeLayout
         android:layout_width="match_parent"

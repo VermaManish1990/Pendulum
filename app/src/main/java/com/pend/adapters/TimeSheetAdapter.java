@@ -14,13 +14,10 @@ import com.pend.util.LoggerUtil;
 
 import java.util.ArrayList;
 
-public class TimeSheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.ViewHolder> {
 
     private static final String TAG = TimeSheetAdapter.class.getSimpleName();
-    private static final int LOADING = 1;
-    private static final int ITEM = 2;
     private Context mContext;
-    private boolean isLoadingAdded = false;
     private ArrayList<UserTimeSheetResponseModel.UserTimeSheetDetails> mTimeSheetDetailsList;
 
     public TimeSheetAdapter(Context context, ArrayList<UserTimeSheetResponseModel.UserTimeSheetDetails> timeSheetDetailsList) {
@@ -34,27 +31,17 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LoggerUtil.v(TAG, "onCreateViewHolder");
 
-        if (viewType == ITEM) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_time_sheet_item, parent, false);
-            return new ItemViewHolder(view);
-        } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_progress_item, parent, false);
-            return new ProgressViewHolder(view);
-        }
-
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_time_sheet_item, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         UserTimeSheetResponseModel.UserTimeSheetDetails timeSheetDetails = mTimeSheetDetailsList.get(position);
-
-        if (holder instanceof ItemViewHolder) {
-            ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-            itemViewHolder.tvMessage.setText(timeSheetDetails.mirrorName != null ? timeSheetDetails.mirrorName : "");
-        }
+        holder.tvMessage.setText(timeSheetDetails.mirrorName != null ? timeSheetDetails.mirrorName : "");
     }
 
     @Override
@@ -62,16 +49,11 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return mTimeSheetDetailsList != null ? mTimeSheetDetailsList.size() : 0;
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return (position == mTimeSheetDetailsList.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
-    }
-
-    public class ItemViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvMessage;
         private final View rootView;
 
-        public ItemViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
 
             tvMessage = itemView.findViewById(R.id.tv_message);
@@ -79,11 +61,4 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    public class ProgressViewHolder extends RecyclerView.ViewHolder {
-
-        public ProgressViewHolder(View itemView) {
-            super(itemView);
-
-        }
-    }
 }
