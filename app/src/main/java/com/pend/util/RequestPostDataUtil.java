@@ -383,8 +383,8 @@ public class RequestPostDataUtil {
      * @param mirrorID mirrorID
      * @return JsonObject
      */
-    public static JsonObject deletePostApiRegParam(int userID, int postID, int mirrorID) {
-        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "deletePostApiRegParam");
+    public static JsonObject removePostApiRegParam(int userID, int postID, int mirrorID) {
+        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "removePostApiRegParam");
 
         JsonObject requestParameters = new JsonObject();
         requestParameters.addProperty("userID", userID);

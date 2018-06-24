@@ -16,17 +16,22 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
+import com.pend.BaseResponseModel;
 import com.pend.R;
 import com.pend.adapters.CommentsAdapter;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
+import com.pend.models.AddAndUpdateCommentResponseModel;
 import com.pend.models.GetPostCommentsResponseModel;
 import com.pend.models.GetPostsResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
 import com.pend.util.PaginationScrollListener;
+import com.pend.util.RequestPostDataUtil;
+import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
 import com.pendulum.ui.IScreen;
 import com.pendulum.utils.ConnectivityUtils;
@@ -60,6 +65,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen {
     private int mPageNumber;
     private boolean mIsHasNextPage;
     private boolean mIsLoading;
+    private int mCommentId;
 
     public static CommentsDialogFragment newInstance(GetPostsResponseModel.GetPostsDetails postsDetails) {
         CommentsDialogFragment fragment = new CommentsDialogFragment();
@@ -195,6 +201,59 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen {
                 mIsLoading = false;
                 break;
 
+            case IApiEvent.REQUEST_ADD_COMMENT_CODE:
+                if (status) {
+                    AddAndUpdateCommentResponseModel addAndUpdateCommentResponseModel = (AddAndUpdateCommentResponseModel) serviceResponse;
+                    if (addAndUpdateCommentResponseModel != null && addAndUpdateCommentResponseModel.status) {
+                        LoggerUtil.d(TAG, addAndUpdateCommentResponseModel.statusCode);
+
+                        if (addAndUpdateCommentResponseModel.Data != null && addAndUpdateCommentResponseModel.Data.commentData != null) {
+
+                        }
+
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                    }
+                } else {
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
+                break;
+
+            case IApiEvent.REQUEST_UPDATE_COMMENT_CODE:
+                if (status) {
+                    AddAndUpdateCommentResponseModel addAndUpdateCommentResponseModel = (AddAndUpdateCommentResponseModel) serviceResponse;
+                    if (addAndUpdateCommentResponseModel != null && addAndUpdateCommentResponseModel.status) {
+                        LoggerUtil.d(TAG, addAndUpdateCommentResponseModel.statusCode);
+
+                        if (addAndUpdateCommentResponseModel.Data != null && addAndUpdateCommentResponseModel.Data.commentData != null) {
+
+                        }
+
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                    }
+                } else {
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
+                break;
+
+            case IApiEvent.REQUEST_REMOVE_COMMENT_CODE:
+                if (status) {
+                    BaseResponseModel baseResponseModel = (BaseResponseModel) serviceResponse;
+                    if (baseResponseModel != null && baseResponseModel.status) {
+                        LoggerUtil.d(TAG, baseResponseModel.statusCode);
+
+//                        Snackbar.make(mRootView, R.string.post_remove_successfully, Snackbar.LENGTH_LONG).show();
+
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                    }
+                } else {
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
+                break;
+
+
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
@@ -216,6 +275,16 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen {
 
         ((BaseActivity) mContext).showProgressDialog();
 
+        JsonObject jsonObject;
+        String request;
+
+        int userId = -1;
+        try {
+            userId = Integer.parseInt(SharedPrefUtils.getUserId(mContext));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         switch (actionID) {
             case IApiEvent.REQUEST_GET_POST_COMMENT_CODE:
 
@@ -232,6 +301,49 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen {
                 });
                 break;
 
+            case IApiEvent.REQUEST_ADD_COMMENT_CODE:
+
+                //Todo commentText
+                jsonObject = RequestPostDataUtil.addCommentApiRegParam(userId,mPostDetails.postID,"");
+                request = jsonObject.toString();
+                RequestManager.addRequest(new GsonObjectRequest<AddAndUpdateCommentResponseModel>(IWebServices.REQUEST_ADD_COMMENT_URL, NetworkUtil.getHeaders(mContext),
+                        request, AddAndUpdateCommentResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(AddAndUpdateCommentResponseModel response) {
+                        updateUi(true, actionID, response);
+                    }
+                });
+                break;
+
+            case IApiEvent.REQUEST_UPDATE_COMMENT_CODE:
+
+                //Todo commentText
+                jsonObject = RequestPostDataUtil.updateCommentApiRegParam(userId,mPostDetails.postID,mCommentId,"");
+                request = jsonObject.toString();
+                RequestManager.addRequest(new GsonObjectRequest<AddAndUpdateCommentResponseModel>(IWebServices.REQUEST_UPDATE_COMMENT_URL, NetworkUtil.getHeaders(mContext),
+                        request, AddAndUpdateCommentResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(AddAndUpdateCommentResponseModel response) {
+                        updateUi(true, actionID, response);
+                    }
+                });
+                break;
+
+            case IApiEvent.REQUEST_REMOVE_COMMENT_CODE:
+
+                jsonObject = RequestPostDataUtil.removeCommentApiRegParam(userId,mPostDetails.postID,mCommentId);
+                request = jsonObject.toString();
+                RequestManager.addRequest(new GsonObjectRequest<BaseResponseModel>(IWebServices.REQUEST_REMOVE_COMMENT_URL, NetworkUtil.getHeaders(mContext),
+                        request, BaseResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(BaseResponseModel response) {
+                        updateUi(true, actionID, response);
+                    }
+                });
+                break;
 
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));

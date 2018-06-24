@@ -21,6 +21,7 @@ import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.pend.BaseActivity;
+import com.pend.BaseResponseModel;
 import com.pend.R;
 import com.pend.adapters.RecentPostAdapter;
 import com.pend.fragments.CommentsDialogFragment;
@@ -30,6 +31,7 @@ import com.pend.fragments.VotingDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
+import com.pend.models.AddAndUpdatePostResponseModel;
 import com.pend.models.GetMirrorDetailsResponseModel;
 import com.pend.models.GetMirrorGraphResponseModel;
 import com.pend.models.GetPostCommentsResponseModel;
@@ -258,6 +260,58 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                 }
                 break;
 
+            case IApiEvent.REQUEST_ADD_POST_CODE:
+                if (status) {
+                    AddAndUpdatePostResponseModel addAndUpdatePostResponseModel = (AddAndUpdatePostResponseModel) serviceResponse;
+                    if (addAndUpdatePostResponseModel != null && addAndUpdatePostResponseModel.status) {
+                        LoggerUtil.d(TAG, addAndUpdatePostResponseModel.statusCode);
+
+                        if (addAndUpdatePostResponseModel.Data != null && addAndUpdatePostResponseModel.Data.postData != null) {
+
+                        }
+
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                    }
+                } else {
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
+                break;
+
+            case IApiEvent.REQUEST_UPDATE_POST_CODE:
+                if (status) {
+                    AddAndUpdatePostResponseModel addAndUpdatePostResponseModel = (AddAndUpdatePostResponseModel) serviceResponse;
+                    if (addAndUpdatePostResponseModel != null && addAndUpdatePostResponseModel.status) {
+                        LoggerUtil.d(TAG, addAndUpdatePostResponseModel.statusCode);
+
+                        if (addAndUpdatePostResponseModel.Data != null && addAndUpdatePostResponseModel.Data.postData != null) {
+
+                        }
+
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                    }
+                } else {
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
+                break;
+
+            case IApiEvent.REQUEST_REMOVE_POST_CODE:
+                if (status) {
+                    BaseResponseModel baseResponseModel = (BaseResponseModel) serviceResponse;
+                    if (baseResponseModel != null && baseResponseModel.status) {
+                        LoggerUtil.d(TAG, baseResponseModel.statusCode);
+
+                        Snackbar.make(mRootView, R.string.post_remove_successfully, Snackbar.LENGTH_LONG).show();
+
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                    }
+                } else {
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
+                break;
+
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
@@ -277,6 +331,9 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
             return;
         }
         showProgressDialog();
+
+        JsonObject jsonObject;
+        String request;
 
         int userId = -1;
         try {
@@ -337,8 +394,8 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
             case IApiEvent.REQUEST_POST_LIKE_CODE:
 
-                JsonObject jsonObject = RequestPostDataUtil.postLikeApiRegParam(userId, mPostId, mIsLike, mIsUnLike);
-                String request = jsonObject.toString();
+                jsonObject = RequestPostDataUtil.postLikeApiRegParam(userId, mPostId, mIsLike, mIsUnLike);
+                request = jsonObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<PostLikeResponseModel>(IWebServices.REQUEST_POST_LIKE_URL, NetworkUtil.getHeaders(this),
                         request, PostLikeResponseModel.class, new VolleyErrorListener(this, actionID)) {
 
@@ -348,6 +405,51 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                     }
                 });
                 break;
+
+            case IApiEvent.REQUEST_ADD_POST_CODE:
+
+                //Todo Change variables
+                jsonObject = RequestPostDataUtil.addPostApiRegParam(userId, mMirrorId, "", "");
+                request = jsonObject.toString();
+                RequestManager.addRequest(new GsonObjectRequest<AddAndUpdatePostResponseModel>(IWebServices.REQUEST_ADD_POST_URL, NetworkUtil.getHeaders(this),
+                        request, AddAndUpdatePostResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(AddAndUpdatePostResponseModel response) {
+                        updateUi(true, actionID, response);
+                    }
+                });
+                break;
+
+            case IApiEvent.REQUEST_UPDATE_POST_CODE:
+
+                //Todo change variables
+                jsonObject = RequestPostDataUtil.updatePostApiRegParam(userId, mPostId, mMirrorId, "", "", false, true);
+                request = jsonObject.toString();
+                RequestManager.addRequest(new GsonObjectRequest<AddAndUpdatePostResponseModel>(IWebServices.REQUEST_UPDATE_POST_URL, NetworkUtil.getHeaders(this),
+                        request, AddAndUpdatePostResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(AddAndUpdatePostResponseModel response) {
+                        updateUi(true, actionID, response);
+                    }
+                });
+                break;
+
+            case IApiEvent.REQUEST_REMOVE_POST_CODE:
+
+                jsonObject = RequestPostDataUtil.removePostApiRegParam(userId, mPostId, mMirrorId);
+                request = jsonObject.toString();
+                RequestManager.addRequest(new GsonObjectRequest<BaseResponseModel>(IWebServices.REQUEST_REMOVE_POST_URL, NetworkUtil.getHeaders(this),
+                        request, BaseResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(BaseResponseModel response) {
+                        updateUi(true, actionID, response);
+                    }
+                });
+                break;
+
 
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));

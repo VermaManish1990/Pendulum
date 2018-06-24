@@ -109,5 +109,6 @@
     <string name="_2">2.</string>
     <string name="_3">3.</string>
     <string name="create">Create</string>
+    <string name="post_remove_successfully">Post remove successfully</string>
 
 </resources>
