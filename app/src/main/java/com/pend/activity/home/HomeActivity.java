@@ -372,7 +372,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
             case R.id.fl_contest:
                 hideReveal();
-                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
                 Intent intentContest = new Intent(HomeActivity.this, ContestActivity.class);
                 startActivity(intentContest);
                 break;
