@@ -1,5 +1,6 @@
 package com.pend.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,6 +30,7 @@ import com.pend.models.GetPostCommentsResponseModel;
 import com.pend.models.GetPostsResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.OtherUtil;
 import com.pend.util.PaginationScrollListener;
 import com.pend.util.RequestPostDataUtil;
 import com.pend.util.SharedPrefUtils;
@@ -78,6 +80,8 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.MY_DIALOG);
+
         if (getArguments() != null) {
             mPostDetails = (GetPostsResponseModel.GetPostsDetails) getArguments().getSerializable(ARG_POST_DETAILS);
         }
@@ -93,9 +97,6 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_comments, container, false);
-        if (getDialog().getWindow() != null) {
-            getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        }
 
         initUI(view);
 
@@ -116,9 +117,9 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen {
         mIvLike = view.findViewById(R.id.iv_like);
         mIvDislike = view.findViewById(R.id.iv_dislike);
 
-        mTvComment = view.findViewById(R.id.tv_comment);
-        mTvLike = view.findViewById(R.id.tv_like);
-        mTvDislike = view.findViewById(R.id.tv_dislike);
+        mTvComment = view.findViewById(R.id.tv_comment_count);
+        mTvLike = view.findViewById(R.id.tv_like_count);
+        mTvDislike = view.findViewById(R.id.tv_dislike_count);
 
         mRecyclerViewComment = view.findViewById(R.id.recycler_view_comment);
     }
@@ -302,7 +303,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen {
             case IApiEvent.REQUEST_ADD_COMMENT_CODE:
 
                 //Todo commentText
-                jsonObject = RequestPostDataUtil.addCommentApiRegParam(userId,mPostDetails.postID,"");
+                jsonObject = RequestPostDataUtil.addCommentApiRegParam(userId, mPostDetails.postID, "");
                 request = jsonObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<AddAndUpdateCommentResponseModel>(IWebServices.REQUEST_ADD_COMMENT_URL, NetworkUtil.getHeaders(mContext),
                         request, AddAndUpdateCommentResponseModel.class, new VolleyErrorListener(this, actionID)) {
@@ -317,7 +318,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen {
             case IApiEvent.REQUEST_UPDATE_COMMENT_CODE:
 
                 //Todo commentText
-                jsonObject = RequestPostDataUtil.updateCommentApiRegParam(userId,mPostDetails.postID,mCommentId,"");
+                jsonObject = RequestPostDataUtil.updateCommentApiRegParam(userId, mPostDetails.postID, mCommentId, "");
                 request = jsonObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<AddAndUpdateCommentResponseModel>(IWebServices.REQUEST_UPDATE_COMMENT_URL, NetworkUtil.getHeaders(mContext),
                         request, AddAndUpdateCommentResponseModel.class, new VolleyErrorListener(this, actionID)) {
@@ -331,7 +332,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen {
 
             case IApiEvent.REQUEST_REMOVE_COMMENT_CODE:
 
-                jsonObject = RequestPostDataUtil.removeCommentApiRegParam(userId,mPostDetails.postID,mCommentId);
+                jsonObject = RequestPostDataUtil.removeCommentApiRegParam(userId, mPostDetails.postID, mCommentId);
                 request = jsonObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<BaseResponseModel>(IWebServices.REQUEST_REMOVE_COMMENT_URL, NetworkUtil.getHeaders(mContext),
                         request, BaseResponseModel.class, new VolleyErrorListener(this, actionID)) {

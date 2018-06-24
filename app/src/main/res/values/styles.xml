@@ -12,4 +12,10 @@
         <item name="colorControlHighlight">#262933</item>
     </style>
 
+    <style name="MY.DIALOG" parent="Theme.AppCompat.Light.Dialog.Alert" >
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
 </resources>
