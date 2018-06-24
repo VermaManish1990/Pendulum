@@ -34,6 +34,7 @@ import com.pend.models.GetMirrorDetailsResponseModel;
 import com.pend.models.GetMirrorGraphResponseModel;
 import com.pend.models.GetPostCommentsResponseModel;
 import com.pend.models.GetPostsResponseModel;
+import com.pend.models.PostLikeResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
 import com.pend.util.RequestPostDataUtil;
@@ -61,6 +62,9 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     private boolean isVoted = false;
     private ArrayList<GetPostsResponseModel.GetPostsDetails> mPostList;
     private TextView mTvDataNotAvailable;
+    private int mPostId;
+    private boolean mIsLike;
+    private boolean mIsUnLike;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,6 +225,39 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                 }
                 break;
 
+            case IApiEvent.REQUEST_POST_LIKE_CODE:
+                if (status) {
+                    PostLikeResponseModel postLikeResponseModel = (PostLikeResponseModel) serviceResponse;
+                    if (postLikeResponseModel != null && postLikeResponseModel.status) {
+                        LoggerUtil.d(TAG, postLikeResponseModel.statusCode);
+
+                        if (postLikeResponseModel.Data != null && postLikeResponseModel.Data.likeData != null) {
+
+                            for (GetPostsResponseModel.GetPostsDetails postsDetails : mPostList) {
+                                if (postsDetails.postID == postLikeResponseModel.Data.likeData.postID) {
+
+                                    postsDetails.isLike = postLikeResponseModel.Data.likeData.isLike;
+                                    postsDetails.isUnLike = postLikeResponseModel.Data.likeData.isUnLike;
+                                    postsDetails.likeCount = postLikeResponseModel.Data.likeData.likeCount;
+                                    postsDetails.unlikeCount = postLikeResponseModel.Data.likeData.unlikeCount;
+
+                                    RecentPostAdapter homePostsAdapter = (RecentPostAdapter) mRecyclerViewPost.getAdapter();
+                                    homePostsAdapter.setPostList(mPostList);
+                                    homePostsAdapter.notifyItemChanged(mPostList.indexOf(postsDetails));
+                                    break;
+                                }
+                            }
+
+                        }
+
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                    }
+                } else {
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
+                break;
+
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
@@ -241,10 +278,17 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         }
         showProgressDialog();
 
+        int userId = -1;
+        try {
+            userId = Integer.parseInt(SharedPrefUtils.getUserId(MirrorDetailsActivity.this));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         switch (actionID) {
             case IApiEvent.REQUEST_GET_MIRROR_DETAILS_CODE:
 
-                String mirrorDetailsUrl = IWebServices.REQUEST_GET_MIRROR_DETAILS_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this)
+                String mirrorDetailsUrl = IWebServices.REQUEST_GET_MIRROR_DETAILS_URL + Constants.PARAM_USER_ID + "=" + userId
                         + "&" + Constants.PARAM_MIRROR_ID + "=" + String.valueOf(mMirrorId);
                 RequestManager.addRequest(new GsonObjectRequest<GetMirrorDetailsResponseModel>(mirrorDetailsUrl, NetworkUtil.getHeaders(this),
                         null, GetMirrorDetailsResponseModel.class, new VolleyErrorListener(this, actionID)) {
@@ -259,7 +303,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
             case IApiEvent.REQUEST_GET_MIRROR_GRAPH_DATA_CODE:
 
-                String mirrorGraphDataUrl = IWebServices.REQUEST_GET_MIRROR_GRAPH_DATA_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this)
+                String mirrorGraphDataUrl = IWebServices.REQUEST_GET_MIRROR_GRAPH_DATA_URL + Constants.PARAM_USER_ID + "=" + userId
                         + "&" + Constants.PARAM_MIRROR_ID + "=" + String.valueOf(mMirrorId)
                         + "&" + Constants.PARAM_MONTH + "=" + String.valueOf("1")
                         + "&" + Constants.PARAM_YEAR + "=" + String.valueOf("2018");
@@ -277,7 +321,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
             case IApiEvent.REQUEST_GET_POSTS_CODE:
 
                 // page number should be 1 for recent post only.
-                String getPostsUrl = IWebServices.REQUEST_GET_POSTS_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this)
+                String getPostsUrl = IWebServices.REQUEST_GET_POSTS_URL + Constants.PARAM_USER_ID + "=" + userId
                         + "&" + Constants.PARAM_MIRROR_ID + "=" + String.valueOf(mMirrorId)
                         + "&" + Constants.PARAM_PAGE_NUMBER + "=" + 1;
                 RequestManager.addRequest(new GsonObjectRequest<GetPostsResponseModel>(getPostsUrl, NetworkUtil.getHeaders(this),
@@ -287,6 +331,20 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                     protected void deliverResponse(GetPostsResponseModel response) {
                         updateUi(true, actionID, response);
 
+                    }
+                });
+                break;
+
+            case IApiEvent.REQUEST_POST_LIKE_CODE:
+
+                JsonObject jsonObject = RequestPostDataUtil.postLikeApiRegParam(userId, mPostId, mIsLike, mIsUnLike);
+                String request = jsonObject.toString();
+                RequestManager.addRequest(new GsonObjectRequest<PostLikeResponseModel>(IWebServices.REQUEST_POST_LIKE_URL, NetworkUtil.getHeaders(this),
+                        request, PostLikeResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(PostLikeResponseModel response) {
+                        updateUi(true, actionID, response);
                     }
                 });
                 break;
@@ -385,5 +443,14 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 //        Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
         CommentsDialogFragment commentsDialogFragment = CommentsDialogFragment.newInstance(mPostList.get(position));
         commentsDialogFragment.show(getSupportFragmentManager(), "CommentsDialogFragment");
+    }
+
+    @Override
+    public void onLikeOrDislikeClick(int position, boolean isLike, boolean isUnLike) {
+        mPostId = mPostList.get(position).postID;
+        mIsLike = isLike;
+        mIsUnLike = isUnLike;
+
+        getData(IApiEvent.REQUEST_POST_LIKE_CODE);
     }
 }

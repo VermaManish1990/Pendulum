@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.activity.contest.ContestActivity;
@@ -22,14 +23,17 @@ import com.pend.activity.login.ProfileActivity;
 import com.pend.activity.mirror.MirrorActivity;
 import com.pend.adapters.HomePostsAdapter;
 import com.pend.adapters.RecentPostAdapter;
+import com.pend.fragments.CommentsDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.GetPostsResponseModel;
 import com.pend.models.GetReflectionUsersResponseModel;
+import com.pend.models.PostLikeResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
 import com.pend.util.PaginationScrollListener;
+import com.pend.util.RequestPostDataUtil;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
 import com.pendulum.utils.ConnectivityUtils;
@@ -38,7 +42,7 @@ import com.pendulum.volley.ext.RequestManager;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends BaseActivity implements View.OnClickListener {
+public class HomeActivity extends BaseActivity implements View.OnClickListener, HomePostsAdapter.IHomePostsAdapterCallBack {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
     private RecyclerView mRecyclerViewPost;
@@ -52,6 +56,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private View mFlQuarterBlackView;
     private boolean mIsHasNextPage;
     private boolean mIsLoading;
+    private int mPostId;
+    private boolean mIsLike;
+    private boolean mIsUnLike;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +152,39 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 mIsLoading = false;
                 break;
 
+            case IApiEvent.REQUEST_POST_LIKE_CODE:
+                if (status) {
+                    PostLikeResponseModel postLikeResponseModel = (PostLikeResponseModel) serviceResponse;
+                    if (postLikeResponseModel != null && postLikeResponseModel.status) {
+                        LoggerUtil.d(TAG, postLikeResponseModel.statusCode);
+
+                        if (postLikeResponseModel.Data != null && postLikeResponseModel.Data.likeData != null) {
+
+                            for (GetPostsResponseModel.GetPostsDetails postsDetails : mPostsDetailsList) {
+                                if (postsDetails.postID == postLikeResponseModel.Data.likeData.postID) {
+
+                                    postsDetails.isLike = postLikeResponseModel.Data.likeData.isLike;
+                                    postsDetails.isUnLike = postLikeResponseModel.Data.likeData.isUnLike;
+                                    postsDetails.likeCount = postLikeResponseModel.Data.likeData.likeCount;
+                                    postsDetails.unlikeCount = postLikeResponseModel.Data.likeData.unlikeCount;
+
+                                    HomePostsAdapter homePostsAdapter = (HomePostsAdapter) mRecyclerViewPost.getAdapter();
+                                    homePostsAdapter.setPostsDetailsList(mPostsDetailsList);
+                                    homePostsAdapter.notifyItemChanged(mPostsDetailsList.indexOf(postsDetails));
+                                    break;
+                                }
+                            }
+
+                        }
+
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                    }
+                } else {
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
+                break;
+
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
@@ -165,12 +205,19 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         }
         showProgressDialog();
 
+        int userId = -1;
+        try {
+            userId = Integer.parseInt(SharedPrefUtils.getUserId(HomeActivity.this));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         switch (actionID) {
             case IApiEvent.REQUEST_GET_POSTS_CODE:
 
                 //TODO Change mirrorId.
                 mMirrorId = 31;
-                String reflectionUserUrl = IWebServices.REQUEST_GET_POSTS_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this)
+                String reflectionUserUrl = IWebServices.REQUEST_GET_POSTS_URL + Constants.PARAM_USER_ID + "=" + userId
                         + "&" + Constants.PARAM_MIRROR_ID + "=" + mMirrorId
                         + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
                 RequestManager.addRequest(new GsonObjectRequest<GetPostsResponseModel>(reflectionUserUrl, NetworkUtil.getHeaders(this),
@@ -179,7 +226,20 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                     @Override
                     protected void deliverResponse(GetPostsResponseModel response) {
                         updateUi(true, actionID, response);
+                    }
+                });
+                break;
 
+            case IApiEvent.REQUEST_POST_LIKE_CODE:
+
+                JsonObject jsonObject = RequestPostDataUtil.postLikeApiRegParam(userId, mPostId, mIsLike, mIsUnLike);
+                String request = jsonObject.toString();
+                RequestManager.addRequest(new GsonObjectRequest<PostLikeResponseModel>(IWebServices.REQUEST_POST_LIKE_URL, NetworkUtil.getHeaders(this),
+                        request, PostLikeResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(PostLikeResponseModel response) {
+                        updateUi(true, actionID, response);
                     }
                 });
                 break;
@@ -286,5 +346,21 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             hideReveal();
         }
         return super.dispatchTouchEvent(event);
+    }
+
+    @Override
+    public void onCommentClick(int position) {
+        CommentsDialogFragment commentsDialogFragment = CommentsDialogFragment.newInstance(mPostsDetailsList.get(position));
+        commentsDialogFragment.show(getSupportFragmentManager(), "CommentsDialogFragment");
+    }
+
+    @Override
+    public void onLikeOrDislikeClick(int position, boolean isLike, boolean isUnLike) {
+
+        mPostId = mPostsDetailsList.get(position).postID;
+        mIsLike = isLike;
+        mIsUnLike = isUnLike;
+
+        getData(IApiEvent.REQUEST_POST_LIKE_CODE);
     }
 }

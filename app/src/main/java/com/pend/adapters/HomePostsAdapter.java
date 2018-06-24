@@ -21,9 +21,11 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
     private final String TAG = HomePostsAdapter.class.getSimpleName();
     private ArrayList<GetPostsResponseModel.GetPostsDetails> mPostsDetailsList;
     private Context mContext;
+    private IHomePostsAdapterCallBack mIHomePostsAdapterCallBack;
 
     public HomePostsAdapter(Context context, ArrayList<GetPostsResponseModel.GetPostsDetails> postsDetailsList) {
         mContext = context;
+        mIHomePostsAdapterCallBack = (IHomePostsAdapterCallBack) context;
         mPostsDetailsList = postsDetailsList;
     }
 
@@ -40,8 +42,8 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HomePostsAdapter.ViewHolder holder, int position) {
-        GetPostsResponseModel.GetPostsDetails postsDetails = mPostsDetailsList.get(position);
+    public void onBindViewHolder(@NonNull HomePostsAdapter.ViewHolder holder, final int position) {
+        final GetPostsResponseModel.GetPostsDetails postsDetails = mPostsDetailsList.get(position);
 
         holder.tvComment.setText(String.valueOf(postsDetails.commentCount));
         holder.tvLike.setText(String.valueOf(postsDetails.likeCount));
@@ -62,12 +64,46 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                     .load(postsDetails.commentUserImageURL)
                     .into(holder.ivProfile);
         }
+
+        holder.llComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIHomePostsAdapterCallBack.onCommentClick(position);
+            }
+        });
+        holder.llLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(postsDetails.isLike){
+                    mIHomePostsAdapterCallBack.onLikeOrDislikeClick(position,false,false);
+                }else {
+                    mIHomePostsAdapterCallBack.onLikeOrDislikeClick(position,true,false);
+                }
+            }
+        });
+        holder.llDislike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(postsDetails.isUnLike){
+                    mIHomePostsAdapterCallBack.onLikeOrDislikeClick(position,false,false);
+                }else {
+                    mIHomePostsAdapterCallBack.onLikeOrDislikeClick(position,false,true);
+                }
+            }
+        });
+        holder.tvShareOnFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return mPostsDetailsList != null ? mPostsDetailsList.size() : 0;
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView ivProfile;
@@ -108,5 +144,10 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
             llLike = itemView.findViewById(R.id.ll_like);
             llDislike = itemView.findViewById(R.id.ll_dislike);
         }
+    }
+
+    public interface IHomePostsAdapterCallBack{
+        void onCommentClick(int position);
+        void onLikeOrDislikeClick(int position,boolean isLike,boolean isUnLike);
     }
 }
