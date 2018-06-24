@@ -243,8 +243,6 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen {
                     if (baseResponseModel != null && baseResponseModel.status) {
                         LoggerUtil.d(TAG, baseResponseModel.statusCode);
 
-//                        Snackbar.make(mRootView, R.string.post_remove_successfully, Snackbar.LENGTH_LONG).show();
-
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
