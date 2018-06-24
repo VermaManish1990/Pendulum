@@ -43,10 +43,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private TextView mTvAge;
     private TextView mTvCity;
     private TextView mTvToken;
-    private int mPageNumber = 1;
+    private int mPageNumber;
     private RecyclerView mRecyclerViewTimeSheet;
-    private boolean mIsHasNextPage = false;
-    private boolean mIsLoading = false;
+    private boolean mIsHasNextPage;
+    private boolean mIsLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void setInitialData() {
+        mIsHasNextPage = false;
+        mIsLoading = false;
+        mPageNumber = 1;
         mTimeSheetDetailsList = new ArrayList<>();
+
         mTabLayout.setupWithViewPager(mViewpagerProfile, true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);

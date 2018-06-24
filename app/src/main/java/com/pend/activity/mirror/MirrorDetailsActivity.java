@@ -59,10 +59,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     private RecyclerView mRecyclerViewPost;
     private int mMirrorId;
     private boolean isVoted = false;
-    private int mPageNumber;
     private ArrayList<GetPostsResponseModel.GetPostsDetails> mPostList;
-    private GetPostsResponseModel.GetPostsDetails mPostsDetails;
-    private int mPostId;
     private TextView mTvDataNotAvailable;
 
     @Override
@@ -101,6 +98,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void setInitialData() {
+
         //for progressbar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mProgressBarProfile.getThumb().mutate().setAlpha(0);
@@ -223,25 +221,6 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                 }
                 break;
 
-            case IApiEvent.REQUEST_GET_POST_COMMENT_CODE:
-                if (status) {
-                    GetPostCommentsResponseModel commentsResponseModel = (GetPostCommentsResponseModel) serviceResponse;
-                    if (commentsResponseModel != null && commentsResponseModel.status) {
-                        LoggerUtil.d(TAG, commentsResponseModel.statusCode);
-
-                        if (commentsResponseModel.Data != null && commentsResponseModel.Data.commentList != null) {
-                            CommentsDialogFragment commentsDialogFragment = CommentsDialogFragment.newInstance(commentsResponseModel.Data.commentList, mPostsDetails);
-                            commentsDialogFragment.show(getSupportFragmentManager(), "CommentsDialogFragment");
-                        }
-
-                    } else {
-                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
-                    }
-                } else {
-                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
-                }
-                break;
-
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
@@ -306,23 +285,6 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
                     @Override
                     protected void deliverResponse(GetPostsResponseModel response) {
-                        updateUi(true, actionID, response);
-
-                    }
-                });
-                break;
-
-            case IApiEvent.REQUEST_GET_POST_COMMENT_CODE:
-
-                //TODO add pagination.
-                mPageNumber = 1;
-                String postCommentUrl = IWebServices.REQUEST_GET_POST_COMMENT_URL + Constants.PARAM_POST_ID + "=" + mPostId
-                        + "&" + Constants.PARAM_PAGE_NUMBER + "=" + mPageNumber;
-                RequestManager.addRequest(new GsonObjectRequest<GetPostCommentsResponseModel>(postCommentUrl, NetworkUtil.getHeaders(this),
-                        null, GetPostCommentsResponseModel.class, new VolleyErrorListener(this, actionID)) {
-
-                    @Override
-                    protected void deliverResponse(GetPostCommentsResponseModel response) {
                         updateUi(true, actionID, response);
 
                     }
@@ -420,10 +382,8 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onCommentIconClick(int position) {
 
-        Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
-
-//        mPostsDetails = mPostList.get(position);
-//        mPostId = mPostsDetails.postID;
-//        getData(IApiEvent.REQUEST_GET_POST_COMMENT_CODE);
+//        Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+        CommentsDialogFragment commentsDialogFragment = CommentsDialogFragment.newInstance(mPostList.get(position));
+        commentsDialogFragment.show(getSupportFragmentManager(), "CommentsDialogFragment");
     }
 }

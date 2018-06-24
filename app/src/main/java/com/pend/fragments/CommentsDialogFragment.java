@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,18 +16,31 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.adapters.CommentsAdapter;
+import com.pend.interfaces.Constants;
+import com.pend.interfaces.IApiEvent;
+import com.pend.interfaces.IWebServices;
 import com.pend.models.GetPostCommentsResponseModel;
 import com.pend.models.GetPostsResponseModel;
+import com.pend.util.LoggerUtil;
+import com.pend.util.NetworkUtil;
+import com.pend.util.PaginationScrollListener;
+import com.pend.util.VolleyErrorListener;
+import com.pendulum.ui.IScreen;
+import com.pendulum.utils.ConnectivityUtils;
+import com.pendulum.volley.ext.GsonObjectRequest;
+import com.pendulum.volley.ext.RequestManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class CommentsDialogFragment extends DialogFragment {
+public class CommentsDialogFragment extends DialogFragment implements IScreen {
 
     private static final String ARG_COMMENT_LIST = "ARG_COMMENT_LIST";
     private static final String ARG_POST_DETAILS = "ARG_POST_DETAILS";
+    private static final String TAG = CommentsDialogFragment.class.getSimpleName();
 
     private GetPostsResponseModel.GetPostsDetails mPostDetails;
     private ArrayList<GetPostCommentsResponseModel.GetPostCommentsDetails> mCommentList;
@@ -43,12 +57,13 @@ public class CommentsDialogFragment extends DialogFragment {
     private TextView mTvComment;
     private TextView mTvLike;
     private TextView mTvDislike;
+    private int mPageNumber;
+    private boolean mIsHasNextPage;
+    private boolean mIsLoading;
 
-    public static CommentsDialogFragment newInstance(ArrayList<GetPostCommentsResponseModel.GetPostCommentsDetails> commentList,
-                                                     GetPostsResponseModel.GetPostsDetails postsDetails) {
+    public static CommentsDialogFragment newInstance(GetPostsResponseModel.GetPostsDetails postsDetails) {
         CommentsDialogFragment fragment = new CommentsDialogFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_COMMENT_LIST, commentList);
         args.putSerializable(ARG_POST_DETAILS, postsDetails);
         fragment.setArguments(args);
         return fragment;
@@ -59,7 +74,6 @@ public class CommentsDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mPostDetails = (GetPostsResponseModel.GetPostsDetails) getArguments().getSerializable(ARG_POST_DETAILS);
-            mCommentList = (ArrayList<GetPostCommentsResponseModel.GetPostCommentsDetails>) getArguments().getSerializable(ARG_COMMENT_LIST);
         }
     }
 
@@ -78,7 +92,11 @@ public class CommentsDialogFragment extends DialogFragment {
         }
 
         initUI(view);
-        setInitialData();
+
+        if (mPostDetails != null) {
+            setInitialData();
+            getData(IApiEvent.REQUEST_GET_POST_COMMENT_CODE);
+        }
 
         return view;
     }
@@ -101,9 +119,38 @@ public class CommentsDialogFragment extends DialogFragment {
 
     private void setInitialData() {
 
-        mRecyclerViewComment.setLayoutManager(new LinearLayoutManager(mContext));
+        mPageNumber = 1;
+        mIsHasNextPage = false;
+        mIsLoading = false;
+        mCommentList = new ArrayList<>();
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+        mRecyclerViewComment.setLayoutManager(linearLayoutManager);
+
+        mRecyclerViewComment.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
+            @Override
+            protected void loadMoreItems() {
+                mIsLoading = true;
+                mPageNumber += 1; //Increment page index to load the next one
+                getData(IApiEvent.REQUEST_GET_POST_COMMENT_CODE);
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return mIsHasNextPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return mIsLoading;
+            }
+        });
         mRecyclerViewComment.setAdapter(new CommentsAdapter(mContext, mCommentList));
 
+        setPostDetails();
+    }
+
+    private void setPostDetails() {
         mTvDescription.setText(mPostDetails.postInfo != null ? mPostDetails.postInfo : "");
         mTvTime.setText(mPostDetails.createdDatetime != null ? mPostDetails.createdDatetime : "");
 
@@ -117,5 +164,83 @@ public class CommentsDialogFragment extends DialogFragment {
                     .load(mPostDetails.imageURL)
                     .into(mIvPost);
         }
+    }
+
+    @Override
+    public void updateUi(boolean status, int actionID, Object serviceResponse) {
+        switch (actionID) {
+            case IApiEvent.REQUEST_GET_POST_COMMENT_CODE:
+                if (status) {
+                    GetPostCommentsResponseModel commentsResponseModel = (GetPostCommentsResponseModel) serviceResponse;
+                    if (commentsResponseModel != null && commentsResponseModel.status) {
+                        LoggerUtil.d(TAG, commentsResponseModel.statusCode);
+
+                        if (commentsResponseModel.Data != null && commentsResponseModel.Data.commentList != null) {
+
+                            mIsHasNextPage = !commentsResponseModel.Data.hasNextPage;
+
+                            CommentsAdapter commentsAdapter = (CommentsAdapter) mRecyclerViewComment.getAdapter();
+                            mCommentList.addAll(commentsResponseModel.Data.commentList);
+                            commentsAdapter.setCommentList(mCommentList);
+                            commentsAdapter.notifyDataSetChanged();
+                        }
+
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                    }
+                } else {
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
+
+                mIsLoading = false;
+                break;
+
+            default:
+                LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
+                break;
+        }
+        ((BaseActivity) mContext).removeProgressDialog();
+    }
+
+    @Override
+    public void onEvent(int eventId, Object eventData) {
+
+    }
+
+    @Override
+    public void getData(final int actionID) {
+        if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
+//            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
+        ((BaseActivity) mContext).showProgressDialog();
+
+        switch (actionID) {
+            case IApiEvent.REQUEST_GET_POST_COMMENT_CODE:
+
+                String postCommentUrl = IWebServices.REQUEST_GET_POST_COMMENT_URL + Constants.PARAM_POST_ID + "=" + mPostDetails.postID
+                        + "&" + Constants.PARAM_PAGE_NUMBER + "=" + mPageNumber;
+                RequestManager.addRequest(new GsonObjectRequest<GetPostCommentsResponseModel>(postCommentUrl, NetworkUtil.getHeaders(mContext),
+                        null, GetPostCommentsResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(GetPostCommentsResponseModel response) {
+                        updateUi(true, actionID, response);
+
+                    }
+                });
+                break;
+
+
+            default:
+                LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
+                break;
+        }
+    }
+
+    @Override
+    public void onAuthError() {
+
     }
 }

@@ -141,12 +141,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     if (updateUserSettingResponseModel != null && updateUserSettingResponseModel.status) {
                         LoggerUtil.d(TAG, updateUserSettingResponseModel.statusCode);
 
-                       /* mEtEmail.setText(updateUserSettingResponseModel.Data.userData.userEmail != null ? updateUserSettingResponseModel.Data.userData.userEmail : "");
+                        mEtEmail.setText(updateUserSettingResponseModel.Data.userData.userEmail != null ? updateUserSettingResponseModel.Data.userData.userEmail : "");
                         mEtPhoneNumber.setText(updateUserSettingResponseModel.Data.userData.userPhone != null ? updateUserSettingResponseModel.Data.userData.userPhone : "");
                         mEtPassword.setText(updateUserSettingResponseModel.Data.userData.userPassword != null ? updateUserSettingResponseModel.Data.userData.userPassword : "");
 
                         mCbOpenSearch.setChecked(updateUserSettingResponseModel.Data.userData.isShowMeInOpenSearch);
-                        mCbInvisibilityInReflection.setChecked(updateUserSettingResponseModel.Data.userData.isVisibleInReflection);*/
+                        mCbInvisibilityInReflection.setChecked(updateUserSettingResponseModel.Data.userData.isVisibleInReflection);
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));

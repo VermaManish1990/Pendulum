@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pend.BaseActivity;
@@ -21,6 +22,7 @@ import com.pend.models.GetExitPollMirrorResponseModel;
 import com.pend.models.UserProfileResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.PaginationScrollListener;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
 import com.pendulum.utils.ConnectivityUtils;
@@ -41,6 +43,8 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
     private int mMirrorId;
     private ArrayList<GetExitPollListResponseModel.GetExitPollListDetails> mExitPollList;
     private RecyclerView mRecyclerViewExitPoll;
+    private boolean mIsHasNextPage;
+    private boolean mIsLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +82,33 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
     @Override
     protected void setInitialData() {
 
+        mPageNumber = 1;
+        mIsHasNextPage = false;
+        mIsLoading = false;
         mExitPollList = new ArrayList<>();
-        mRecyclerViewExitPoll.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        ExitPollAdapter exitPollAdapter = new ExitPollAdapter(this, mExitPollList);
-        mRecyclerViewExitPoll.setAdapter(exitPollAdapter);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        mRecyclerViewExitPoll.setLayoutManager(linearLayoutManager);
+
+        mRecyclerViewExitPoll.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
+            @Override
+            protected void loadMoreItems() {
+                mIsLoading = true;
+                mPageNumber += 1; //Increment page index to load the next one
+                getData(IApiEvent.REQUEST_GET_EXIT_POLL_LIST_CODE);
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return mIsHasNextPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return mIsLoading;
+            }
+        });
+        mRecyclerViewExitPoll.setAdapter(new ExitPollAdapter(this, mExitPollList));
 
         //TODO remove this code
         ArrayList<UserProfileResponseModel.ImageDetails> imageData = new ArrayList<>();
@@ -110,6 +137,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                         LoggerUtil.d(TAG, exitPollMirrorResponseModel.statusCode);
 
                         if (exitPollMirrorResponseModel.Data != null && exitPollMirrorResponseModel.Data.mirrorData != null) {
+
                             GetExitPollMirrorResponseModel.GetExitPollMirrorDetails mirrorDetails = exitPollMirrorResponseModel.Data.mirrorData;
                             mTvCategory.setText(mirrorDetails.mirrorName != null ? mirrorDetails.mirrorName : "");
                             mTvWikiLink.setText(mirrorDetails.mirrorWikiLink != null ? mirrorDetails.mirrorWikiLink : "");
@@ -135,6 +163,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
 
                         if (exitPollListResponseModel.Data != null && exitPollListResponseModel.Data.exitPollList != null) {
 
+                            mIsHasNextPage = !exitPollListResponseModel.Data.hasNextPage;
                             ExitPollAdapter exitPollAdapter = (ExitPollAdapter) mRecyclerViewExitPoll.getAdapter();
                             mExitPollList.addAll(exitPollListResponseModel.Data.exitPollList);
 
@@ -150,6 +179,8 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                     Snackbar.make(mRootView, getString(R.string.server_error_from_api), Snackbar.LENGTH_LONG).show();
                 }
+
+                mIsLoading = false;
                 break;
 
             default:
@@ -191,9 +222,6 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
 
             case IApiEvent.REQUEST_GET_EXIT_POLL_LIST_CODE:
 
-                //TODO Pagination
-
-                mPageNumber = 1;
                 String exitPollListUrl = IWebServices.REQUEST_GET_EXIT_POLL_LIST_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this) + "&" +
                         Constants.PARAM_MIRROR_ID + "=" + mMirrorId + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
                 RequestManager.addRequest(new GsonObjectRequest<GetExitPollListResponseModel>(exitPollListUrl, NetworkUtil.getHeaders(this), null,

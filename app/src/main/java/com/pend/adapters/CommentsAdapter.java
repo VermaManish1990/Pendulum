@@ -27,6 +27,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         mCommentList = commentList;
     }
 
+    public void setCommentList(ArrayList<GetPostCommentsResponseModel.GetPostCommentsDetails> commentList) {
+        this.mCommentList = commentList;
+    }
+
     @NonNull
     @Override
     public CommentsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

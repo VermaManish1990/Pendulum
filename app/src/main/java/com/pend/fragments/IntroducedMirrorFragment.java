@@ -23,6 +23,7 @@ import com.pend.interfaces.IWebServices;
 import com.pend.models.GetTrendingAndIntroducedMirrorResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.PaginationScrollListener;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
 import com.pendulum.utils.ConnectivityUtils;
@@ -43,6 +44,8 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
     private IntroducedMirrorFragmentCallBack mIntroducedMirrorFragmentCallBack;
     private IMirrorFragmentCallBack mIMirrorFragmentCallBack;
     private TextView mTvDataNotAvailable;
+    private boolean mIsHasNextPage;
+    private boolean mIsLoading;
 
     @Override
     public void onAttach(Context context) {
@@ -76,8 +79,32 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
     @Override
     protected void setInitialData() {
 
+        mIsHasNextPage = false;
+        mIsLoading = false;
+        mPageNumber = 1;
         mMirrorList = new ArrayList<>();
-        mRecyclerViewIntroduced.setLayoutManager(new LinearLayoutManager(mContext));
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+        mRecyclerViewIntroduced.setLayoutManager(linearLayoutManager);
+
+        mRecyclerViewIntroduced.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
+            @Override
+            protected void loadMoreItems() {
+                mIsLoading = true;
+                mPageNumber += 1; //Increment page index to load the next one
+                getData(IApiEvent.REQUEST_GET_INTRODUCED_CODE);
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return mIsHasNextPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return mIsLoading;
+            }
+        });
         mRecyclerViewIntroduced.setAdapter(new TrendingAndIntroducedMirrorAdapter(mContext, this, mMirrorList));
     }
 
@@ -95,6 +122,8 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
 
                             mTvDataNotAvailable.setVisibility(View.GONE);
                             mRecyclerViewIntroduced.setVisibility(View.VISIBLE);
+
+                            mIsHasNextPage = !trendingAndIntroducedMirrorResponseModel.Data.hasNextPage;
 
                             TrendingAndIntroducedMirrorAdapter trendingAndIntroducedMirrorAdapter =
                                     (TrendingAndIntroducedMirrorAdapter) mRecyclerViewIntroduced.getAdapter();
@@ -114,6 +143,8 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
+
+                mIsLoading = false;
                 break;
 
             default:
@@ -141,8 +172,6 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
             case IApiEvent.REQUEST_GET_INTRODUCED_CODE:
 
                 //TODO Search text
-
-                mPageNumber = 1;
                 String introducedMirrorUrl = IWebServices.REQUEST_GET_INTRODUCED_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
                         + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
 

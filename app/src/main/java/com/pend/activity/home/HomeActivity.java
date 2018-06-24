@@ -29,6 +29,7 @@ import com.pend.models.GetPostsResponseModel;
 import com.pend.models.GetReflectionUsersResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.PaginationScrollListener;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
 import com.pendulum.utils.ConnectivityUtils;
@@ -42,13 +43,15 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = HomeActivity.class.getSimpleName();
     private RecyclerView mRecyclerViewPost;
     private ArrayList<GetPostsResponseModel.GetPostsDetails> mPostsDetailsList;
-    private int mPageNumber;
+    private int mPageNumber = 1;
     private int mMirrorId;
     private TextView mTvDataNotAvailable;
     private View mRootView;
     private View mRlQuarterView;
     private View mFlMenuView;
     private View mFlQuarterBlackView;
+    private boolean mIsHasNextPage;
+    private boolean mIsLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +81,32 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void setInitialData() {
+        mIsHasNextPage = false;
+        mIsLoading = false;
+        mPageNumber = 1;
         mPostsDetailsList = new ArrayList<>();
-        mRecyclerViewPost.setLayoutManager(new LinearLayoutManager(this));
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerViewPost.setLayoutManager(linearLayoutManager);
+
+        mRecyclerViewPost.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
+            @Override
+            protected void loadMoreItems() {
+                mIsLoading = true;
+                mPageNumber += 1; //Increment page index to load the next one
+                getData(IApiEvent.REQUEST_GET_POSTS_CODE);
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return mIsHasNextPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return mIsLoading;
+            }
+        });
         mRecyclerViewPost.setAdapter(new HomePostsAdapter(this, mPostsDetailsList));
     }
 
@@ -97,6 +124,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                             mTvDataNotAvailable.setVisibility(View.GONE);
                             mRecyclerViewPost.setVisibility(View.VISIBLE);
 
+                            mIsHasNextPage = !postsResponseModel.Data.hasNextPage;
+
                             HomePostsAdapter homePostsAdapter = (HomePostsAdapter) mRecyclerViewPost.getAdapter();
                             mPostsDetailsList.addAll(postsResponseModel.Data.postList);
                             homePostsAdapter.setPostsDetailsList(mPostsDetailsList);
@@ -112,6 +141,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
+
+                mIsLoading = false;
                 break;
 
             default:
@@ -137,8 +168,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         switch (actionID) {
             case IApiEvent.REQUEST_GET_POSTS_CODE:
 
-                //TODO Change mirrorId and add pagination
-                mPageNumber = 1;
+                //TODO Change mirrorId.
                 mMirrorId = 31;
                 String reflectionUserUrl = IWebServices.REQUEST_GET_POSTS_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this)
                         + "&" + Constants.PARAM_MIRROR_ID + "=" + mMirrorId

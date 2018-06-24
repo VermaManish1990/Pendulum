@@ -63,7 +63,9 @@ public class ReflectionsActivity extends BaseActivity {
     @Override
     protected void setInitialData() {
 
+        mPageNumber = 1;
         mUserDataList = new ArrayList<>();
+
         mGridViewReflection.setAdapter(new ReflectionMirrorAdapter(this, mUserDataList));
 
         /*
@@ -131,7 +133,6 @@ public class ReflectionsActivity extends BaseActivity {
         switch (actionID) {
             case IApiEvent.REQUEST_GET_REFLECTION_USERS_CODE:
 
-                mPageNumber = 1;
                 String reflectionUserUrl = IWebServices.REQUEST_GET_REFLECTION_USERS_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this) + "&" +
                         Constants.PARAM_MIRROR_ID + "=" + mMirrorId + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
                 RequestManager.addRequest(new GsonObjectRequest<GetReflectionUsersResponseModel>(reflectionUserUrl, NetworkUtil.getHeaders(this),

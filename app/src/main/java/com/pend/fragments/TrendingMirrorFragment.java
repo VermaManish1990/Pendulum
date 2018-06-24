@@ -22,6 +22,7 @@ import com.pend.interfaces.IWebServices;
 import com.pend.models.GetTrendingAndIntroducedMirrorResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.PaginationScrollListener;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
 import com.pendulum.utils.ConnectivityUtils;
@@ -40,6 +41,8 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
     private View mRootView;
     private int mPageNumber;
     private TextView mTvDataNotAvailable;
+    private boolean mIsLoading;
+    private boolean mIsHasNextPage;
 
     @Override
     public void onAttach(Context context) {
@@ -71,8 +74,33 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
     @Override
     protected void setInitialData() {
 
+        mPageNumber = 1;
+        mIsLoading = false;
+        mIsHasNextPage = false;
+
         mMirrorList = new ArrayList<>();
-        mRecyclerViewTrending.setLayoutManager(new LinearLayoutManager(mContext));
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+        mRecyclerViewTrending.setLayoutManager(linearLayoutManager);
+
+        mRecyclerViewTrending.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
+            @Override
+            protected void loadMoreItems() {
+                mIsLoading = true;
+                mPageNumber += 1; //Increment page index to load the next one
+                getData(IApiEvent.REQUEST_GET_TRENDING_CODE);
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return mIsHasNextPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return mIsLoading;
+            }
+        });
         mRecyclerViewTrending.setAdapter(new TrendingAndIntroducedMirrorAdapter(mContext, this, mMirrorList));
     }
 
@@ -91,6 +119,8 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
                             mTvDataNotAvailable.setVisibility(View.GONE);
                             mRecyclerViewTrending.setVisibility(View.VISIBLE);
 
+                            mIsHasNextPage = !trendingAndIntroducedMirrorResponseModel.Data.hasNextPage;
+
                             TrendingAndIntroducedMirrorAdapter trendingAndIntroducedMirrorAdapter =
                                     (TrendingAndIntroducedMirrorAdapter) mRecyclerViewTrending.getAdapter();
 
@@ -107,6 +137,8 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
+
+                mIsLoading = false;
                 break;
 
             default:
@@ -132,8 +164,6 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
 
         switch (actionID) {
             case IApiEvent.REQUEST_GET_TRENDING_CODE:
-
-                mPageNumber = 1;
 
                 String trendingMirrorUrl = IWebServices.REQUEST_GET_TRENDING_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
                         + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
