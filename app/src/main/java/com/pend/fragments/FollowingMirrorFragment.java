@@ -98,7 +98,7 @@ public class FollowingMirrorFragment extends BaseFragment {
             protected void loadMoreItems() {
                 mIsLoading = true;
                 mPageNumber += 1; //Increment page index to load the next one
-                getData(IApiEvent.REQUEST_GET_REFLECTION_USERS_CODE);
+                getData(IApiEvent.REQUEST_GET_FOLLOWING_CODE);
             }
 
             @Override
