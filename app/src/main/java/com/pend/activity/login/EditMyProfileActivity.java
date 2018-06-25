@@ -397,7 +397,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
             public void onClick(DialogInterface dialog, int which) {
                 switch (items[which].toString()) {
                     case "Take Photo":
-//                        Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+
                         if (AndroidPermissionUtils.checkPermission(EditMyProfileActivity.this, Manifest.permission.CAMERA,
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                             takePhotoFromCamera();
