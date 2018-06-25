@@ -107,7 +107,7 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:background="@drawable/custom_rounded_top_missing_grey_border"
             android:orientation="horizontal"
-            android:paddingBottom="@dimen/_30sdp"
+            android:paddingBottom="@dimen/_40sdp"
             android:paddingEnd="@dimen/_10sdp"
             android:paddingStart="@dimen/_10sdp"
             android:paddingTop="@dimen/_20sdp">

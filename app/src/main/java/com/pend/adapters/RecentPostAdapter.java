@@ -2,6 +2,7 @@ package com.pend.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -92,6 +93,12 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
                 }
             }
         });
+        holder.ivShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareMessageWithSocialMedia(postsDetails.postInfo!=null?postsDetails.postInfo:"");
+            }
+        });
 
         if (postsDetails.imageURL != null && !postsDetails.imageURL.equals("")) {
 
@@ -108,6 +115,19 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         }
 
 //        holder.cbAnonymous.setChecked();
+    }
+
+    /**
+     * Method is used to share a message with Social Media.
+     *
+     * @param message message
+     */
+    private void shareMessageWithSocialMedia(String message) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, message);
+        sendIntent.setType("text/plain");
+        mContext.startActivity(Intent.createChooser(sendIntent, "Share link"));
     }
 
     @Override
@@ -133,6 +153,7 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         private final ImageView ivComment;
         private final ImageView ivLike;
         private final ImageView ivDislike;
+        private final ImageView ivShare;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -141,6 +162,7 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
             ivPost = itemView.findViewById(R.id.iv_post);
             tvDescription = itemView.findViewById(R.id.tv_description);
             tvTime = itemView.findViewById(R.id.tv_time);
+            ivShare = itemView.findViewById(R.id.iv_share);
 
             ivComment = itemView.findViewById(R.id.iv_comment);
             ivLike = itemView.findViewById(R.id.iv_like);

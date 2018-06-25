@@ -28,6 +28,7 @@ import com.pend.interfaces.IWebServices;
 import com.pend.models.AddAndUpdateCommentResponseModel;
 import com.pend.models.GetPostCommentsResponseModel;
 import com.pend.models.GetPostsResponseModel;
+import com.pend.util.DateUtil;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
 import com.pend.util.OtherUtil;
@@ -157,9 +158,17 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen {
         setPostDetails();
     }
 
+    /**
+     * Method is used to set Post Details Data.
+     */
     private void setPostDetails() {
         mTvDescription.setText(mPostDetails.postInfo != null ? mPostDetails.postInfo : "");
-        mTvTime.setText(mPostDetails.createdDatetime != null ? mPostDetails.createdDatetime : "");
+
+        String time = "";
+        if (mPostDetails.createdDatetime != null && !mPostDetails.createdDatetime.equals("")) {
+            time = DateUtil.getDifferenceFromCurrentDate(mPostDetails.createdDatetime);
+        }
+        mTvTime.setText(time);
 
         mTvComment.setText(String.valueOf(mPostDetails.commentCount));
         mTvLike.setText(String.valueOf(mPostDetails.likeCount));

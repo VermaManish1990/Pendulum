@@ -132,7 +132,8 @@
             android:layout_alignTop="@+id/iv_dislike"
             android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginRight="@dimen/_15sdp"
-            android:src="@drawable/share" />
+            android:src="@drawable/share"
+            android:contentDescription="@string/image" />
 
         <EditText
             android:id="@+id/et_add_a_comment"

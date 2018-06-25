@@ -110,5 +110,6 @@
     <string name="_3">3.</string>
     <string name="create">Create</string>
     <string name="post_remove_successfully">Post remove successfully</string>
+    <string name="facebook_app_id">249781929087963</string>
 
 </resources>
