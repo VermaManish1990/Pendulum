@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.share.model.ShareContent;
-import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
@@ -102,8 +101,9 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         holder.tvShareOnFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShareDialog shareDialog = new ShareDialog((Activity) mContext);  // initialize facebook shareDialog.
-                if (ShareDialog.canShow(ShareLinkContent.class)) {
+                ShareDialog shareDialog = new ShareDialog((Activity) mContext);// initialize facebook shareDialog.
+
+                if (ShareDialog.canShow(SharePhotoContent.class)) {
 
                     if (postsDetails.imageURL != null) {
 
@@ -113,7 +113,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                                 .setCaption(postsDetails.postInfo)
                                 .build();
 
-                        SharePhotoContent content = new SharePhotoContent.Builder()
+                        ShareContent content = new SharePhotoContent.Builder()
                                 .addPhoto(photo)
                                 .build();
 
