@@ -14,6 +14,7 @@ import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.GetReflectionUsersResponseModel;
+import com.pend.util.GridPaginationScrollListener;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
 import com.pend.util.SharedPrefUtils;
@@ -33,6 +34,8 @@ public class ReflectionsActivity extends BaseActivity {
     private int mPageNumber;
     private int mMirrorId;
     private TextView mTvDataNotAvailable;
+    private boolean mIsHasNextPage;
+    private boolean mIsLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +67,32 @@ public class ReflectionsActivity extends BaseActivity {
     protected void setInitialData() {
 
         mPageNumber = 1;
+        mIsHasNextPage = false;
+        mIsLoading = false;
         mUserDataList = new ArrayList<>();
 
+        mGridViewReflection.setOnScrollListener(new GridPaginationScrollListener() {
+            @Override
+            protected void loadMoreItems() {
+                mIsLoading = true;
+                mPageNumber += 1; //Increment page index to load the next one
+                getData(IApiEvent.REQUEST_GET_REFLECTION_USERS_CODE);
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return mIsHasNextPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return mIsLoading;
+            }
+        });
         mGridViewReflection.setAdapter(new ReflectionMirrorAdapter(this, mUserDataList));
 
         /*
-          On Click event for Single Gridview Item
+          On Click event for Single GridView Item
           */
         mGridViewReflection.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -93,6 +116,8 @@ public class ReflectionsActivity extends BaseActivity {
                             mTvDataNotAvailable.setVisibility(View.GONE);
                             mGridViewReflection.setVisibility(View.VISIBLE);
 
+                            mIsHasNextPage = !reflectionUsersResponseModel.Data.hasNextPage;
+
                             ReflectionMirrorAdapter reflectionMirrorAdapter = (ReflectionMirrorAdapter) mGridViewReflection.getAdapter();
                             mUserDataList.addAll(reflectionUsersResponseModel.Data.usersData);
                             reflectionMirrorAdapter.setUserDataList(mUserDataList);
@@ -108,6 +133,8 @@ public class ReflectionsActivity extends BaseActivity {
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
+
+                mIsLoading = false;
                 break;
 
             default:

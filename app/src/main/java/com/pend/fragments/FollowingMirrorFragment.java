@@ -21,6 +21,7 @@ import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.GetFollowingMirrorResponseModel;
 import com.pend.models.GetTrendingAndIntroducedMirrorResponseModel;
+import com.pend.util.GridPaginationScrollListener;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
 import com.pend.util.SharedPrefUtils;
@@ -41,6 +42,8 @@ public class FollowingMirrorFragment extends BaseFragment {
     private ArrayList<GetFollowingMirrorResponseModel.GetFollowingMirrorDetails> mMirrorList;
     private int mPageNumber;
     private TextView mTvDataNotAvailable;
+    private boolean mIsLoading;
+    private boolean mIsHasNextPage;
 
     @Override
     public void onAttach(Context context) {
@@ -70,6 +73,10 @@ public class FollowingMirrorFragment extends BaseFragment {
 
     @Override
     protected void setInitialData() {
+
+        mPageNumber = 1;
+        mIsLoading = false;
+        mIsHasNextPage = false;
         mMirrorList = new ArrayList<>();
 
        /* //Todo remove dummy data
@@ -86,6 +93,24 @@ public class FollowingMirrorFragment extends BaseFragment {
         mMirrorList.addAll(mMirrorList);
         mMirrorList.addAll(mMirrorList);*/
 
+        mGridViewFollowingMirror.setOnScrollListener(new GridPaginationScrollListener() {
+            @Override
+            protected void loadMoreItems() {
+                mIsLoading = true;
+                mPageNumber += 1; //Increment page index to load the next one
+                getData(IApiEvent.REQUEST_GET_REFLECTION_USERS_CODE);
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return mIsHasNextPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return mIsLoading;
+            }
+        });
         mGridViewFollowingMirror.setAdapter(new FollowingMirrorAdapter(mContext, mMirrorList));
 
         /*
@@ -119,6 +144,8 @@ public class FollowingMirrorFragment extends BaseFragment {
                             mTvDataNotAvailable.setVisibility(View.GONE);
                             mGridViewFollowingMirror.setVisibility(View.VISIBLE);
 
+                            mIsHasNextPage = !followingMirrorResponseModel.Data.hasNextPage;
+
                             FollowingMirrorAdapter followingMirrorAdapter = (FollowingMirrorAdapter) mGridViewFollowingMirror.getAdapter();
                             mMirrorList.addAll(followingMirrorResponseModel.Data.mirrorList);
                             followingMirrorAdapter.setMirrorList(mMirrorList);
@@ -134,6 +161,8 @@ public class FollowingMirrorFragment extends BaseFragment {
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
+
+                mIsLoading = false;
                 break;
 
             default:
@@ -160,9 +189,8 @@ public class FollowingMirrorFragment extends BaseFragment {
         switch (actionID) {
             case IApiEvent.REQUEST_GET_FOLLOWING_CODE:
 
-                mPageNumber = 1;
                 String followingMirrorUrl = IWebServices.REQUEST_GET_FOLLOWING_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
-                        + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
+                        + "&" + Constants.PARAM_PAGE_NUMBER + "=" + mPageNumber;
 
 //                        + "&" + Constants.PARAM_SEARCH_TEXT + "=" + String.valueOf("search text");
                 RequestManager.addRequest(new GsonObjectRequest<GetFollowingMirrorResponseModel>(followingMirrorUrl,
