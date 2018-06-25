@@ -89,7 +89,7 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <provider android:authorities="com.facebook.app.FacebookContentProvider{249781929087963}"
+        <provider android:authorities="com.facebook.app.FacebookContentProvider249781929087963"
             android:name="com.facebook.FacebookContentProvider"
             android:exported="true"/>
 

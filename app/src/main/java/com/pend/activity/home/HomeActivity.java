@@ -67,7 +67,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         setContentView(R.layout.activity_home);
 
         FacebookSdk.setApplicationId("249781929087963");
-        FacebookSdk.sdkInitialize(this);
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
         initUI();
         setInitialData();
