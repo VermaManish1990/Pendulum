@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.TextView;
 
+import com.facebook.FacebookSdk;
 import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
 import com.pend.BaseResponseModel;
@@ -64,6 +65,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        FacebookSdk.setApplicationId("249781929087963");
+        FacebookSdk.sdkInitialize(this);
 
         initUI();
         setInitialData();

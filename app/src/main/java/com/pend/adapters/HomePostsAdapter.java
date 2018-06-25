@@ -1,6 +1,9 @@
 package com.pend.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.share.model.ShareContent;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
 import com.pend.R;
 import com.pend.models.GetPostsResponseModel;
 import com.pend.util.LoggerUtil;
@@ -42,7 +50,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HomePostsAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final HomePostsAdapter.ViewHolder holder, final int position) {
         final GetPostsResponseModel.GetPostsDetails postsDetails = mPostsDetailsList.get(position);
 
         holder.tvComment.setText(String.valueOf(postsDetails.commentCount));
@@ -74,27 +82,45 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         holder.llLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(postsDetails.isLike){
-                    mIHomePostsAdapterCallBack.onLikeOrDislikeClick(position,false,false);
-                }else {
-                    mIHomePostsAdapterCallBack.onLikeOrDislikeClick(position,true,false);
+                if (postsDetails.isLike) {
+                    mIHomePostsAdapterCallBack.onLikeOrDislikeClick(position, false, false);
+                } else {
+                    mIHomePostsAdapterCallBack.onLikeOrDislikeClick(position, true, false);
                 }
             }
         });
         holder.llDislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(postsDetails.isUnLike){
-                    mIHomePostsAdapterCallBack.onLikeOrDislikeClick(position,false,false);
-                }else {
-                    mIHomePostsAdapterCallBack.onLikeOrDislikeClick(position,false,true);
+                if (postsDetails.isUnLike) {
+                    mIHomePostsAdapterCallBack.onLikeOrDislikeClick(position, false, false);
+                } else {
+                    mIHomePostsAdapterCallBack.onLikeOrDislikeClick(position, false, true);
                 }
             }
         });
         holder.tvShareOnFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ShareDialog shareDialog = new ShareDialog((Activity) mContext);  // initialize facebook shareDialog.
+                if (ShareDialog.canShow(ShareLinkContent.class)) {
 
+                    if (postsDetails.imageURL != null) {
+
+                        SharePhoto photo = new SharePhoto.Builder()
+                                .setBitmap(((BitmapDrawable) holder.ivPost.getDrawable()).getBitmap())
+                                .setImageUrl(Uri.parse(postsDetails.imageURL))
+                                .setCaption(postsDetails.postInfo)
+                                .build();
+
+                        SharePhotoContent content = new SharePhotoContent.Builder()
+                                .addPhoto(photo)
+                                .build();
+
+                        shareDialog.show(content);  // Show facebook ShareDialog
+                    }
+
+                }
             }
         });
     }
@@ -146,8 +172,9 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         }
     }
 
-    public interface IHomePostsAdapterCallBack{
+    public interface IHomePostsAdapterCallBack {
         void onCommentClick(int position);
-        void onLikeOrDislikeClick(int position,boolean isLike,boolean isUnLike);
+
+        void onLikeOrDislikeClick(int position, boolean isLike, boolean isUnLike);
     }
 }
