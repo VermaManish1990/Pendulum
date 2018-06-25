@@ -70,6 +70,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
     private RecyclerView mRecyclerViewProfile;
     private String mEncodedImage;
     private AddUserImageResponseModel.AddUserImageDetails mDeleteImageDetails;
+    private AddUserImageResponseModel.AddUserImageDetails mUpdateImageDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,11 +194,18 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
                         ArrayList<AddUserImageResponseModel.AddUserImageDetails> imageDetailsList = uploadImageAdapter.getImageDetailsList();
 
                         // remove deleted object from Adapter List
+                        AddUserImageResponseModel.AddUserImageDetails deleteImageDetails = null;
                         for (AddUserImageResponseModel.AddUserImageDetails imageDetails : imageDetailsList) {
                             if (imageDetails.imageID == deleteUserImageResponseModel.Data.imageData.imageID) {
-                                imageDetailsList.remove(imageDetails);
+                                deleteImageDetails = imageDetails;
+                                break;
                             }
                         }
+
+                        if(deleteImageDetails!=null){
+                            imageDetailsList.remove(deleteImageDetails);
+                        }
+
                         uploadImageAdapter.setImageDetailsList(imageDetailsList);
                         uploadImageAdapter.notifyDataSetChanged();
 
@@ -218,7 +226,21 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
                     if (setUserImageResponseModel != null && setUserImageResponseModel.status) {
                         LoggerUtil.d(TAG, setUserImageResponseModel.statusCode);
 
-//                        Snackbar.make(mRootView, getString(R.string.profile_updated_successfully), Snackbar.LENGTH_LONG).show();
+                        UploadImageAdapter uploadImageAdapter = (UploadImageAdapter) mRecyclerViewProfile.getAdapter();
+                        ArrayList<AddUserImageResponseModel.AddUserImageDetails> imageDetailsList = uploadImageAdapter.getImageDetailsList();
+
+                        // update object in Adapter List
+                        for (AddUserImageResponseModel.AddUserImageDetails imageDetails : imageDetailsList) {
+                            if (imageDetails.imageID == setUserImageResponseModel.Data.imageData.imageID) {
+                                imageDetails.isProfileImage = setUserImageResponseModel.Data.imageData.isProfileImage;
+                                break;
+                            }
+                        }
+
+                        uploadImageAdapter.setImageDetailsList(imageDetailsList);
+                        uploadImageAdapter.notifyDataSetChanged();
+
+                        Snackbar.make(mRootView, getString(R.string.profile_updated_successfully), Snackbar.LENGTH_LONG).show();
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -308,8 +330,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
 
             case IApiEvent.REQUEST_SET_USER_IMAGE_CODE:
 
-                //TODO imageId
-                requestObject = RequestPostDataUtil.setUserImageApiRegParam(userId, 1, true);
+                requestObject = RequestPostDataUtil.setUserImageApiRegParam(userId, mUpdateImageDetails.imageID, mUpdateImageDetails.isProfileImage);
                 request = requestObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<SetUserImageResponseModel>(IWebServices.REQUEST_SET_USER_IMAGE_URL, NetworkUtil.getHeaders(this),
                         request, SetUserImageResponseModel.class, new
@@ -624,7 +645,13 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
 
                     case "Update Image":
 
-                        Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                        uploadImageAdapter = (UploadImageAdapter) mRecyclerViewProfile.getAdapter();
+                        mUpdateImageDetails = uploadImageAdapter.getImageDetailsList().get(position);
+
+                        if (mUpdateImageDetails != null)
+                            getData(IApiEvent.REQUEST_SET_USER_IMAGE_CODE);
+                        else
+                            Snackbar.make(mRootView, getString(R.string.can_t_update), Snackbar.LENGTH_LONG).show();
 
                         break;
 
