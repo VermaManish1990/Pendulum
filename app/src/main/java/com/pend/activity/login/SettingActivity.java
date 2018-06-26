@@ -45,13 +45,18 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private EditText mEtPassword;
     private EditText mEtPhoneNumber;
     private EditText mEtEmail;
-
     private CheckBox mCbOpenSearch;
     private CheckBox mCbInvisibilityInReflection;
-    private boolean mIsChecked = true;
+
     private String mPhoneNumber;
     private String mPassword;
     private String mUserEmail;
+    private boolean mIsChecked;
+    private boolean mIsAboutOpen;
+    private boolean mIsMirrorOpen;
+    private boolean mIsAccountOpen;
+    private boolean mIsArenaOpen;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +101,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void setInitialData() {
+
+        mIsChecked = true;
+        mIsAboutOpen = false;
+        mIsAccountOpen = false;
+        mIsArenaOpen = false;
+        mIsMirrorOpen = false;
 
         Bundle localBundle = getIntent().getExtras();
         if (localBundle != null) {
@@ -241,15 +252,51 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
 
             case R.id.iv_about_dropdown:
+                if (mIsAboutOpen) {
+                    mIsAboutOpen = false;
+                    mIvAboutDropdown.setImageDrawable(getResources().getDrawable(R.drawable.right));
+                    mTvAbout.setVisibility(View.GONE);
+                } else {
+                    mIsAboutOpen = true;
+                    mIvAboutDropdown.setImageDrawable(getResources().getDrawable(R.drawable.down));
+                    mTvAbout.setVisibility(View.VISIBLE);
+                }
                 break;
 
             case R.id.iv_arena_dropdown:
+                if (mIsArenaOpen) {
+                    mIsArenaOpen = false;
+                    mIvArenaDropdown.setImageDrawable(getResources().getDrawable(R.drawable.right));
+                    mRlArenaView.setVisibility(View.GONE);
+                } else {
+                    mIsArenaOpen = true;
+                    mIvArenaDropdown.setImageDrawable(getResources().getDrawable(R.drawable.down));
+                    mRlArenaView.setVisibility(View.VISIBLE);
+                }
                 break;
 
             case R.id.iv_mirror_dropdown:
+                if (mIsMirrorOpen) {
+                    mIsMirrorOpen = false;
+                    mIvMirrorDropdown.setImageDrawable(getResources().getDrawable(R.drawable.right));
+                    mRlMirrorView.setVisibility(View.GONE);
+                } else {
+                    mIsMirrorOpen = true;
+                    mIvMirrorDropdown.setImageDrawable(getResources().getDrawable(R.drawable.down));
+                    mRlMirrorView.setVisibility(View.VISIBLE);
+                }
                 break;
 
             case R.id.iv_account_dropdown:
+                if (mIsAccountOpen) {
+                    mIsAccountOpen = false;
+                    mIvAccountDropdown.setImageDrawable(getResources().getDrawable(R.drawable.right));
+                    mRlAccountView.setVisibility(View.GONE);
+                } else {
+                    mIsAccountOpen = true;
+                    mIvAccountDropdown.setImageDrawable(getResources().getDrawable(R.drawable.down));
+                    mRlAccountView.setVisibility(View.VISIBLE);
+                }
                 break;
 
             case R.id.bt_save:

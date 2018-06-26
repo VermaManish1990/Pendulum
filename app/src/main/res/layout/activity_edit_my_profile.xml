@@ -7,117 +7,125 @@
     android:background="@color/white"
     tools:context=".activity.login.EditMyProfileActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/_15sdp">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bt_save"
+        android:scrollbars="vertical">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_name"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="@string/name">
+            android:orientation="vertical"
+            android:padding="@dimen/_15sdp">
 
-            <EditText
-                android:id="@+id/et_name"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:maxLength="55"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                tools:ignore="LabelFor" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginTop="10dp"
+                android:hint="@string/name">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_age"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="@string/age">
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLength="55"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    tools:ignore="LabelFor" />
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:id="@+id/et_age"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:maxLength="55"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                tools:ignore="LabelFor" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginTop="10dp"
+                android:hint="@string/age">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_gender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="@string/gender">
+                <EditText
+                    android:id="@+id/et_age"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="55"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    tools:ignore="LabelFor" />
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:id="@+id/et_gender"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:maxLength="55"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                tools:ignore="LabelFor" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginTop="10dp"
+                android:hint="@string/gender">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="@string/location">
+                <EditText
+                    android:id="@+id/et_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLength="55"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    tools:ignore="LabelFor" />
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:id="@+id/et_location"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:maxLength="55"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                tools:ignore="LabelFor" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginTop="10dp"
+                android:hint="@string/location">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:text="@string/upload_photo"
-            android:textSize="@dimen/_15sdp" />
+                <EditText
+                    android:id="@+id/et_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLength="55"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    tools:ignore="LabelFor" />
+            </android.support.design.widget.TextInputLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/iv_upload_photo"
-                android:layout_width="@dimen/_76sdp"
-                android:layout_height="@dimen/_76sdp"
-                android:layout_margin="@dimen/_5sdp"
-                android:contentDescription="@string/image"
-                android:src="@drawable/upload_photo" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view_profile"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scrollbars="horizontal"
-                android:orientation="horizontal"
-                android:layout_alignTop="@+id/iv_upload_photo"
-                android:layout_alignBottom="@+id/iv_upload_photo"
-                android:layout_toEndOf="@+id/iv_upload_photo"
-                android:layout_toRightOf="@+id/iv_upload_photo" />
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/upload_photo"
+                android:textSize="@dimen/_15sdp" />
 
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_upload_photo"
+                    android:layout_width="@dimen/_76sdp"
+                    android:layout_height="@dimen/_76sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:contentDescription="@string/image"
+                    android:src="@drawable/upload_photo" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/iv_upload_photo"
+                    android:layout_alignTop="@+id/iv_upload_photo"
+                    android:layout_toEndOf="@+id/iv_upload_photo"
+                    android:layout_toRightOf="@+id/iv_upload_photo"
+                    android:orientation="horizontal"
+                    android:scrollbars="horizontal" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <Button
         android:id="@+id/bt_save"

@@ -80,7 +80,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/tv_account_text"
                 android:contentDescription="@string/image"
-                android:src="@drawable/down" />
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:src="@drawable/right" />
 
         </RelativeLayout>
 
@@ -90,7 +92,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             android:paddingEnd="@dimen/_15sdp"
-            android:paddingStart="@dimen/_15sdp">
+            android:paddingStart="@dimen/_15sdp"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_email_text"
@@ -202,7 +205,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/tv_mirror_text"
                 android:contentDescription="@string/image"
-                android:src="@drawable/down" />
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:src="@drawable/right" />
 
         </RelativeLayout>
 
@@ -212,7 +217,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             android:paddingEnd="@dimen/_15sdp"
-            android:paddingStart="@dimen/_15sdp">
+            android:paddingStart="@dimen/_15sdp"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_invisibility_reflection_text"
@@ -262,7 +268,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/tv_arena_text"
                 android:contentDescription="@string/image"
-                android:src="@drawable/down" />
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:src="@drawable/right" />
 
         </RelativeLayout>
 
@@ -272,7 +280,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             android:paddingEnd="@dimen/_15sdp"
-            android:paddingStart="@dimen/_15sdp">
+            android:paddingStart="@dimen/_15sdp"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_don_t_show_text"
@@ -322,6 +331,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/tv_about_text"
                 android:contentDescription="@string/image"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_5sdp"
                 android:src="@drawable/right" />
 
         </RelativeLayout>

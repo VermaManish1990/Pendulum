@@ -65,6 +65,7 @@
             android:inputType="textPassword"
             android:maxLength="55"
             android:singleLine="true"
+            android:imeOptions="actionDone"
             android:textColor="@color/black"
             android:textSize="@dimen/textSize14"
             tools:ignore="LabelFor" />
