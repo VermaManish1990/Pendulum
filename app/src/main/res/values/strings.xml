@@ -116,5 +116,6 @@
     <string name="create_post">Create post</string>
     <string name="post_info">Post info</string>
     <string name="can_t_add_a_post">Can\'t add a post</string>
+    <string name="create_contest">Create Contest</string>
 
 </resources>

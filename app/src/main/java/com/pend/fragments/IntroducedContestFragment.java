@@ -103,7 +103,7 @@ public class IntroducedContestFragment extends BaseFragment implements View.OnCl
     private void selectContestDialog() {
         final CharSequence[] items = new String[]{getString(R.string.type_1_contest), getString(R.string.type_2_contest), getString(R.string.cancel)};
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setTitle(getString(R.string.add_photo));
+        builder.setTitle(getString(R.string.create_contest));
 
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
