@@ -21,10 +21,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="getString(R.string.facebook_app_id)" />
 
-    <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="getString(R.string.facebook_app_id)"/>
-
-    <activity
+        <activity
             android:name=".activity.login.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -103,11 +104,12 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
-        <provider android:authorities="com.facebook.app.FacebookContentProvider249781929087963"
+        <provider
             android:name="com.facebook.FacebookContentProvider"
-            android:exported="true"/>
+            android:authorities="com.facebook.app.FacebookContentProvider249781929087963"
+            android:exported="true" />
 
+        <activity android:name=".activity.home.CreatePostActivity"></activity>
     </application>
 
 </manifest>

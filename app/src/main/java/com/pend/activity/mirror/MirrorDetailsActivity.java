@@ -23,6 +23,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.pend.BaseActivity;
 import com.pend.BaseResponseModel;
 import com.pend.R;
+import com.pend.activity.home.CreatePostActivity;
 import com.pend.adapters.RecentPostAdapter;
 import com.pend.fragments.CommentsDialogFragment;
 import com.pend.fragments.CreateMirrorDialogFragment;
@@ -467,7 +468,10 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         switch (view.getId()) {
 
             case R.id.iv_create_post:
-                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+
+                Intent intentCreatePost = new Intent(MirrorDetailsActivity.this, CreatePostActivity.class);
+                intentCreatePost.putExtra(Constants.MIRROR_ID_KEY, mMirrorId);
+                startActivity(intentCreatePost);
                 break;
 
             case R.id.iv_profile:
@@ -527,6 +531,12 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     private void setMirrorGraphData(ArrayList<GetMirrorGraphResponseModel.GetMirrorGraphDetails> graphData) {
 
         //TODO change graph data
+//        if(graphData!=null&&graphData.size()>0){
+//            LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+//            for( GetMirrorGraphResponseModel.GetMirrorGraphDetails graphDetails : graphData){
+//                series
+//            }
+//        }
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
                 new DataPoint(0, 20),
                 new DataPoint(5, 40),

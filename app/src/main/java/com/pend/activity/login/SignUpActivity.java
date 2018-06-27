@@ -104,6 +104,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                         LoggerUtil.d(TAG, baseResponseModel.statusCode);
 
                         Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         finish();
 
