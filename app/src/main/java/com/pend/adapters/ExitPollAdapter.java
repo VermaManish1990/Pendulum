@@ -90,7 +90,7 @@ public class ExitPollAdapter extends RecyclerView.Adapter<ExitPollAdapter.ViewHo
                 return pollCantSayPer;
             }
         } else {
-            if (pollHatePer > pollCantSayPer) {
+            if (pollHatePer >= pollCantSayPer) {
                 return pollHatePer;
             } else {
                 return pollCantSayPer;

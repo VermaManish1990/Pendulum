@@ -19,8 +19,12 @@ import com.pend.BaseFragment;
 import com.pend.R;
 import com.pend.activity.contest.CreateContestType1Activity;
 import com.pend.activity.contest.CreateContestType2Activity;
+import com.pend.adapters.ContestAdapter;
 import com.pend.interfaces.Constants;
+import com.pend.models.ContestResponseModel;
 import com.pend.util.LoggerUtil;
+
+import java.util.ArrayList;
 
 public class IntroducedContestFragment extends BaseFragment implements View.OnClickListener {
 
@@ -60,8 +64,21 @@ public class IntroducedContestFragment extends BaseFragment implements View.OnCl
     @Override
     protected void setInitialData() {
 
+        mRecyclerViewIntroduced.setVisibility(View.VISIBLE);
+        mTvDataNotAvailable.setVisibility(View.GONE);
+        ArrayList<ContestResponseModel.ContestDetails> contestDetailsList = new ArrayList<>();
+        contestDetailsList.add(new ContestResponseModel.ContestDetails(1, 40, 60, 0));
+        contestDetailsList.add(new ContestResponseModel.ContestDetails(2, 40, 25, 35));
+        contestDetailsList.add(new ContestResponseModel.ContestDetails(1, 70, 30, 0));
+        contestDetailsList.add(new ContestResponseModel.ContestDetails(2, 20, 50, 30));
+        contestDetailsList.add(new ContestResponseModel.ContestDetails(2, 60, 10, 30));
+
+        contestDetailsList.addAll(contestDetailsList);
+        contestDetailsList.addAll(contestDetailsList);
+        contestDetailsList.addAll(contestDetailsList);
+
         mRecyclerViewIntroduced.setLayoutManager(new LinearLayoutManager(mContext));
-//        mRecyclerViewIntroduced.setAdapter();
+        mRecyclerViewIntroduced.setAdapter(new ContestAdapter(mContext, contestDetailsList));
     }
 
     @Override

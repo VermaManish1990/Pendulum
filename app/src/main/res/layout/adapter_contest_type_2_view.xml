@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_10sdp"
     android:background="@drawable/custom_rounded_grey_border"
     android:padding="@dimen/_10sdp">
 
@@ -13,6 +14,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_profile"
             android:layout_width="@dimen/_36sdp"
+            android:src="@drawable/profile"
             android:layout_height="@dimen/_36sdp" />
 
         <TextView
@@ -23,9 +25,9 @@
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_toEndOf="@+id/iv_profile"
-            android:layout_toLeftOf="@+id/bt_share_on_facebook"
+            android:layout_toLeftOf="@+id/tv_share_on_facebook"
             android:layout_toRightOf="@+id/iv_profile"
-            android:layout_toStartOf="@+id/bt_share_on_facebook"
+            android:layout_toStartOf="@+id/tv_share_on_facebook"
             android:ellipsize="end"
             android:singleLine="true"
             android:text="Manmohan Singh"
@@ -33,13 +35,14 @@
             android:textSize="@dimen/_12sdp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/bt_share_on_facebook"
+        <TextView
+            android:id="@+id/tv_share_on_facebook"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_30sdp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:gravity="center"
             android:background="@drawable/custom_rounded_grey_border"
             android:paddingEnd="@dimen/_5sdp"
             android:paddingStart="@dimen/_5sdp"
@@ -73,6 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_tap_here_text"
+        android:background="@drawable/custom_rounded_grey_border"
         android:padding="@dimen/_10sdp">
 
         <LinearLayout
@@ -85,14 +89,14 @@
                 android:id="@+id/tv_mirror1_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_11sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:text="Rohit Sharma" />
 
             <TextView
                 android:id="@+id/tv_mirror2_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:text="Virat Kohli" />
 
             <TextView
@@ -100,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:text="MS Dhoni" />
 
         </LinearLayout>
@@ -117,31 +121,31 @@
 
             <TextView
                 android:id="@+id/tv_mirror1_view"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_25sdp"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:textColor="@color/white"
                 android:background="@drawable/custom_rounded_sky_blue_view"
-                android:gravity="center"
-                android:text="33%" />
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/tv_mirror2_view"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_25sdp"
-                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:textColor="@color/white"
                 android:background="@drawable/custom_rounded_pink_view"
-                android:gravity="center"
-                android:text="33%" />
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/tv_mirror3_view"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_25sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:textColor="@color/white"
                 android:background="@drawable/custom_rounded_royal_blue_view"
-                android:gravity="center"
-                android:text="34%" />
+                android:gravity="center" />
 
         </LinearLayout>
 

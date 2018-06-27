@@ -11,6 +11,10 @@ import android.widget.TextView;
 
 import com.pend.BaseFragment;
 import com.pend.R;
+import com.pend.adapters.ContestAdapter;
+import com.pend.models.ContestResponseModel;
+
+import java.util.ArrayList;
 
 public class FollowingContestFragment extends BaseFragment {
 
@@ -46,8 +50,21 @@ public class FollowingContestFragment extends BaseFragment {
 
     @Override
     protected void setInitialData() {
+
+        mRecyclerViewFollowing.setVisibility(View.VISIBLE);
+        mTvDataNotAvailable.setVisibility(View.GONE);
+        ArrayList<ContestResponseModel.ContestDetails> contestDetailsList = new ArrayList<>();
+        contestDetailsList.add(new ContestResponseModel.ContestDetails(1, 40, 60, 0));
+        contestDetailsList.add(new ContestResponseModel.ContestDetails(2, 40, 25, 35));
+        contestDetailsList.add(new ContestResponseModel.ContestDetails(1, 70, 30, 0));
+        contestDetailsList.add(new ContestResponseModel.ContestDetails(2, 60, 10, 30));
+
+        contestDetailsList.addAll(contestDetailsList);
+        contestDetailsList.addAll(contestDetailsList);
+        contestDetailsList.addAll(contestDetailsList);
+
         mRecyclerViewFollowing.setLayoutManager(new LinearLayoutManager(mContext));
-//        mRecyclerViewTrending.setAdapter();
+        mRecyclerViewFollowing.setAdapter(new ContestAdapter(mContext, contestDetailsList));
     }
 
     @Override
