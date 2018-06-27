@@ -5,191 +5,199 @@
     android:layout_height="match_parent"
     tools:context=".activity.contest.CreateContestType1Activity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_10sdp"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bt_create_contest"
+        android:scrollbars="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:text="@string/upload_photo"
-            android:textSize="@dimen/_15sdp" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/iv_upload_photo"
-                android:layout_width="@dimen/_46sdp"
-                android:layout_height="@dimen/_46sdp"
-                android:layout_margin="@dimen/_5sdp"
-                android:contentDescription="@string/image"
-                android:src="@drawable/upload_photo" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view_profile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/iv_upload_photo"
-                android:layout_alignTop="@+id/iv_upload_photo"
-                android:layout_toEndOf="@+id/iv_upload_photo"
-                android:layout_toRightOf="@+id/iv_upload_photo"
-                android:orientation="horizontal"
-                android:scrollbars="horizontal" />
-
-        </RelativeLayout>
-
-        <View
-            android:id="@+id/view1"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_1sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/darkGreyBackground" />
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_question"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:hint="@string/enter_question">
-
-            <EditText
-                android:id="@+id/et_question"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:inputType="text"
-                android:maxLength="250"
-                android:maxLines="3"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_15sdp"
-                tools:ignore="LabelFor" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_related_mirror"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:hint="@string/related_mirror">
-
-            <EditText
-                android:id="@+id/et_related_mirror"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:inputType="text"
-                android:maxLength="55"
-                android:singleLine="true"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_15sdp"
-                tools:ignore="LabelFor" />
-        </android.support.design.widget.TextInputLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:text="@string/options"
-            android:textSize="@dimen/_15sdp" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_10sdp">
+            android:layout_margin="@dimen/_15sdp"
+            android:paddingBottom="@dimen/_30sdp"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_first_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/_1"
+                android:text="@string/upload_photo"
                 android:textSize="@dimen/_15sdp" />
 
-            <EditText
-                android:id="@+id/et_first"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_upload_photo"
+                    android:layout_width="@dimen/_46sdp"
+                    android:layout_height="@dimen/_46sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:contentDescription="@string/image"
+                    android:src="@drawable/upload_photo" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/iv_upload_photo"
+                    android:layout_alignTop="@+id/iv_upload_photo"
+                    android:layout_toEndOf="@+id/iv_upload_photo"
+                    android:layout_toRightOf="@+id/iv_upload_photo"
+                    android:orientation="horizontal"
+                    android:scrollbars="horizontal" />
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@color/darkGreyBackground" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_question"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_20sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_toEndOf="@+id/tv_first_text"
-                android:layout_toRightOf="@+id/tv_first_text"
-                android:inputType="text"
-                android:singleLine="true"
-                android:textSize="@dimen/_15sdp" />
+                android:layout_marginTop="@dimen/_5sdp"
+                android:hint="@string/enter_question">
 
-        </RelativeLayout>
+                <EditText
+                    android:id="@+id/et_question"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:inputType="text"
+                    android:maxLength="250"
+                    android:maxLines="3"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_15sdp"
+                    tools:ignore="LabelFor" />
+            </android.support.design.widget.TextInputLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_10sdp">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_related_mirror"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:hint="@string/related_mirror">
+
+                <EditText
+                    android:id="@+id/et_related_mirror"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:inputType="text"
+                    android:maxLength="55"
+                    android:singleLine="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_15sdp"
+                    tools:ignore="LabelFor" />
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
-                android:id="@+id/tv_second_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/_2"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/options"
                 android:textSize="@dimen/_15sdp" />
 
-            <EditText
-                android:id="@+id/et_second"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_20sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_toEndOf="@+id/tv_second_text"
-                android:layout_toRightOf="@+id/tv_second_text"
-                android:inputType="text"
-                android:singleLine="true"
-                android:textSize="@dimen/_15sdp" />
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp">
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_first_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/_1"
+                    android:textSize="@dimen/_15sdp" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_10sdp">
+                <EditText
+                    android:id="@+id/et_first"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_toEndOf="@+id/tv_first_text"
+                    android:layout_toRightOf="@+id/tv_first_text"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_15sdp" />
 
-            <TextView
-                android:id="@+id/tv_third_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/_3"
-                android:textSize="@dimen/_15sdp" />
+            </RelativeLayout>
 
-            <EditText
-                android:id="@+id/et_third"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_20sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_toEndOf="@+id/tv_third_text"
-                android:layout_toRightOf="@+id/tv_third_text"
-                android:inputType="text"
-                android:singleLine="true"
-                android:textSize="@dimen/_15sdp" />
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp">
 
-        </RelativeLayout>
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_second_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/_2"
+                    android:textSize="@dimen/_15sdp" />
+
+                <EditText
+                    android:id="@+id/et_second"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_toEndOf="@+id/tv_second_text"
+                    android:layout_toRightOf="@+id/tv_second_text"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_15sdp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/tv_third_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/_3"
+                    android:textSize="@dimen/_15sdp" />
+
+                <EditText
+                    android:id="@+id/et_third"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_toEndOf="@+id/tv_third_text"
+                    android:layout_toRightOf="@+id/tv_third_text"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_15sdp" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+    </ScrollView>
 
     <Button
         android:id="@+id/bt_create_contest"
