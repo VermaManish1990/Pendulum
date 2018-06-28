@@ -99,8 +99,8 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         mRecyclerViewPost = findViewById(R.id.recycler_view_post);
 
         findViewById(R.id.iv_create_post).setOnClickListener(this);
+        findViewById(R.id.view_progress_bar_profile).setOnClickListener(this);
         mIvProfile.setOnClickListener(this);
-        mProgressBarProfile.setOnClickListener(this);
     }
 
     @Override
@@ -481,8 +481,8 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                 startActivity(intent);
                 break;
 
-            case R.id.progress_bar_profile:
-                if (isVoted) {
+            case R.id.view_progress_bar_profile:
+                if (!isVoted) {
                     DialogFragment votingDialogFragment = new VotingDialogFragment();
                     votingDialogFragment.show(getSupportFragmentManager(), "VotingDialogFragment");
                 } else {
