@@ -46,7 +46,6 @@ import java.util.ArrayList;
 
 public class CommentsDialogFragment extends DialogFragment implements IScreen {
 
-    private static final String ARG_COMMENT_LIST = "ARG_COMMENT_LIST";
     private static final String ARG_POST_DETAILS = "ARG_POST_DETAILS";
     private static final String TAG = CommentsDialogFragment.class.getSimpleName();
 

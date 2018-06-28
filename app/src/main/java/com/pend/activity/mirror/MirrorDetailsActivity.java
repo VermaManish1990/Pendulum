@@ -1,7 +1,6 @@
 package com.pend.activity.mirror;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -10,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
@@ -26,7 +24,6 @@ import com.pend.R;
 import com.pend.activity.home.CreatePostActivity;
 import com.pend.adapters.RecentPostAdapter;
 import com.pend.fragments.CommentsDialogFragment;
-import com.pend.fragments.CreateMirrorDialogFragment;
 import com.pend.fragments.UnVotingDialogFragment;
 import com.pend.fragments.VotingDialogFragment;
 import com.pend.interfaces.Constants;
@@ -35,7 +32,6 @@ import com.pend.interfaces.IWebServices;
 import com.pend.models.AddAndUpdatePostResponseModel;
 import com.pend.models.GetMirrorDetailsResponseModel;
 import com.pend.models.GetMirrorGraphResponseModel;
-import com.pend.models.GetPostCommentsResponseModel;
 import com.pend.models.GetPostsResponseModel;
 import com.pend.models.PostLikeResponseModel;
 import com.pend.util.LoggerUtil;
@@ -62,7 +58,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     private CustomProgressBar mProgressBarProfile;
     private RecyclerView mRecyclerViewPost;
     private int mMirrorId;
-    private boolean isVoted = false;
+    private boolean mIsVoted;
     private ArrayList<GetPostsResponseModel.GetPostsDetails> mPostList;
     private TextView mTvDataNotAvailable;
     private int mPostId;
@@ -105,6 +101,8 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void setInitialData() {
+
+        mIsVoted = false;
 
         //for progressbar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -168,7 +166,6 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
                             GetMirrorDetailsResponseModel.MirrorData mirrorData = mirrorDetailsResponseModel.Data.mirrorData;
                             setMirrorDetailsData(mirrorData);
-
                         }
 
                     } else {
@@ -482,11 +479,11 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                 break;
 
             case R.id.view_progress_bar_profile:
-                if (!isVoted) {
-                    DialogFragment votingDialogFragment = new VotingDialogFragment();
+                if (!mIsVoted) {
+                    DialogFragment votingDialogFragment = VotingDialogFragment.newInstance(mMirrorId);
                     votingDialogFragment.show(getSupportFragmentManager(), "VotingDialogFragment");
                 } else {
-                    DialogFragment unVotingDialogFragment = new UnVotingDialogFragment();
+                    DialogFragment unVotingDialogFragment = UnVotingDialogFragment.newInstance(mMirrorId);
                     unVotingDialogFragment.show(getSupportFragmentManager(), "UnVotingDialogFragment");
                 }
                 break;
@@ -520,6 +517,10 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
             Picasso.with(this)
                     .load(mirrorData.imageURL != null ? mirrorData.imageURL : "")
                     .into(mIvProfile);
+        }
+
+        if (mirrorData.mirrorAdmire || mirrorData.mirrorHate || mirrorData.mirrorCantSay) {
+            mIsVoted = true;
         }
     }
 
