@@ -23,7 +23,7 @@ public class DateUtil {
 
         int difInDays = (int) ((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24));
         if (difInDays <= 1) {
-            int difInDaysInHour = (int) ((date1.getTime() - date2.getTime()) / (1000 * 60 * 60));
+            int difInDaysInHour = (int) ((date2.getTime() - date1.getTime()) / (1000 * 60 * 60));
             dateDiff = difInDaysInHour + " Hours";
 //            dateDiff = "1 Day to go";
         } else if (difInDays < 30) {

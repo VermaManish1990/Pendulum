@@ -17,7 +17,6 @@ import com.pend.R;
 import com.pend.models.GetPostsResponseModel;
 import com.pend.util.DateUtil;
 import com.pend.util.LoggerUtil;
-import com.pend.util.OtherUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

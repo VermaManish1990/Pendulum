@@ -23,10 +23,6 @@ public class FollowingMirrorAdapter extends BaseAdapter {
         mMirrorList = mirrorList;
     }
 
-    public ArrayList<GetFollowingMirrorResponseModel.GetFollowingMirrorDetails> getMirrorList() {
-        return mMirrorList;
-    }
-
     public void setMirrorList(ArrayList<GetFollowingMirrorResponseModel.GetFollowingMirrorDetails> mirrorList) {
         this.mMirrorList = mirrorList;
     }
@@ -75,10 +71,13 @@ public class FollowingMirrorAdapter extends BaseAdapter {
 
         tvName.setText(mirrorDetails.mirrorName != null ? mirrorDetails.mirrorName : "");
         tvCount.setText(String.valueOf(mirrorDetails.activeUsers));
-        Picasso.with(mContext)
-                .load(mirrorDetails.imageURL != null ? mirrorDetails.imageURL : "")
-                .resize(250, 250)
-                .into(ivProfile);
+
+        if(mirrorDetails.imageURL != null && !mirrorDetails.imageURL.equals("")){
+
+            Picasso.with(mContext)
+                    .load(mirrorDetails.imageURL)
+                    .into(ivProfile);
+        }
 
     }
 }
