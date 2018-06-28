@@ -6,7 +6,7 @@
 
     <color name="black">#000000</color>
     <color name="colorDarkBlue">#2a3040</color>
-    <color name="darkGreyBackground">#56d8d8d8</color>
+    <color name="darkGreyBackground">#330c1e37</color>
     <color name="lightGreyBackground">#40ffffff</color>
     <color name="dark_grey_font">#90000000</color>
     <color name="pink">#FF1493</color>
@@ -157,6 +157,22 @@
     <color name="colorBlack90">#EE000000</color>
     <color name="colorBlueLight">#9C9C9C</color>
     <color name="light_blue_loc">#9dc8f3</color>
+
+
+    <color name="rounderBorder">#757F8E</color>
+    <color name="light_gray_background">#aeb8c9</color>
+    <color name="backgroundGrayDark">#B6BDC5</color>
+    <color name="fontPrimary100">#FF0c1e37</color>
+    <color name="fontPrimary90">#E60c1e37</color>
+    <color name="fontPrimary80">#CC0c1e37</color>
+    <color name="fontPrimary70">#B30c1e37</color>
+    <color name="fontPrimary60">#990c1e37</color>
+    <color name="fontPrimary50">#800c1e37</color>
+    <color name="fontPrimary40">#660c1e37</color>
+    <color name="fontPrimary30">#4D0c1e37</color>
+    <color name="fontPrimary25">#400c1e37</color>
+    <color name="fontPrimary20">#330c1e37</color>
+    <color name="fontPrimary10">#1A0c1e37</color>
 
 
 </resources>
