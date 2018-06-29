@@ -27,10 +27,10 @@
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:textSize="@dimen/_11sdp"
                 android:layout_toLeftOf="@+id/tv_time"
                 android:layout_toStartOf="@+id/tv_time"
-                android:text="Loren Ipsum is simply dummy text of the printing and typesetting industry"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/fontPrimary50" />
 
             <TextView
                 android:id="@+id/tv_time"
@@ -41,7 +41,9 @@
                 android:layout_below="@+id/iv_post"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginStart="@dimen/_10sdp"
+                android:textSize="@dimen/_11sdp"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:textColor="@color/fontPrimary50"
                 android:text="2w" />
 
             <ImageView
@@ -66,8 +68,7 @@
                 android:layout_toEndOf="@+id/iv_comment"
                 android:layout_toRightOf="@+id/iv_comment"
                 android:gravity="center"
-                android:text="20"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/fontPrimary50" />
 
             <ImageView
                 android:id="@+id/iv_like"
@@ -80,7 +81,7 @@
                 android:layout_toEndOf="@+id/tv_comment_count"
                 android:layout_toRightOf="@+id/tv_comment_count"
                 android:contentDescription="@string/image"
-                android:padding="@dimen/_3sdp"
+                android:padding="@dimen/_2sdp"
                 android:src="@drawable/like" />
 
             <TextView
@@ -92,8 +93,7 @@
                 android:layout_toEndOf="@+id/iv_like"
                 android:layout_toRightOf="@+id/iv_like"
                 android:gravity="center"
-                android:text="20"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/fontPrimary50" />
 
             <ImageView
                 android:id="@+id/iv_dislike"
@@ -106,7 +106,7 @@
                 android:layout_toEndOf="@+id/tv_like_count"
                 android:layout_toRightOf="@+id/tv_like_count"
                 android:contentDescription="@string/image"
-                android:padding="@dimen/_3sdp"
+                android:padding="@dimen/_2sdp"
                 android:src="@drawable/dislike" />
 
             <TextView
@@ -118,8 +118,7 @@
                 android:layout_toEndOf="@+id/iv_dislike"
                 android:layout_toRightOf="@+id/iv_dislike"
                 android:gravity="center"
-                android:text="20"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/fontPrimary50" />
 
         </RelativeLayout>
 
@@ -128,12 +127,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:text="@string/comments"
-        android:textColor="@color/black"
+        android:textColor="@color/colorPrimary"
         android:textSize="@dimen/_15sdp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginLeft="@dimen/_10sdp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_comment"
