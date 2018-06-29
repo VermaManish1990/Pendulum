@@ -59,10 +59,9 @@ public class ExitPollAdapter extends RecyclerView.Adapter<ExitPollAdapter.ViewHo
                 holder.tvHateView.setWidth(exitPollListDetails.pollHatePer * (width / max));
                 holder.tvCanTSayView.setWidth(exitPollListDetails.pollCantSayPer * (width / max));
 
-                holder.tvAdmireView.setText(String.valueOf(exitPollListDetails.pollAdmirePer));
-                holder.tvHateView.setText(String.valueOf(exitPollListDetails.pollHatePer));
-                holder.tvCanTSayView.setText(String.valueOf(exitPollListDetails.pollCantSayPer));
-
+                holder.tvAdmireView.setText(String.valueOf(exitPollListDetails.pollAdmirePer+"%"));
+                holder.tvHateView.setText(String.valueOf(exitPollListDetails.pollHatePer+"%"));
+                holder.tvCanTSayView.setText(String.valueOf(exitPollListDetails.pollCantSayPer+"%"));
             }
         });
 

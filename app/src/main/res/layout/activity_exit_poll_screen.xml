@@ -41,7 +41,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:text="@string/category"
-                    android:textSize="@dimen/_10sdp" />
+                    android:textColor="@color/fontPrimary50"
+                    android:textSize="@dimen/_9sdp" />
 
                 <TextView
                     android:id="@+id/tv_category"
@@ -54,8 +55,9 @@
                     android:ellipsize="end"
                     android:layout_toEndOf="@+id/tv_category_text"
                     android:layout_toRightOf="@+id/tv_category_text"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_10sdp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/_9sdp"
+                    android:textStyle="bold"
                     android:layout_toLeftOf="@+id/tv_related_contest" />
 
                 <TextView
@@ -65,7 +67,8 @@
                     android:layout_below="@+id/tv_category_text"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:text="@string/wiki_link"
-                    android:textSize="@dimen/_10sdp" />
+                    android:textColor="@color/fontPrimary50"
+                    android:textSize="@dimen/_9sdp" />
 
                 <TextView
                     android:id="@+id/tv_wiki_link"
@@ -79,7 +82,7 @@
                     android:layout_toEndOf="@+id/tv_wiki_link_text"
                     android:layout_toRightOf="@+id/tv_wiki_link_text"
                     android:textColor="@color/colorBlue"
-                    android:textSize="@dimen/_10sdp"
+                    android:textSize="@dimen/_9sdp"
                     android:layout_toLeftOf="@+id/tv_related_contest" />
 
                 <TextView
@@ -89,7 +92,8 @@
                     android:layout_below="@+id/tv_wiki_link_text"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:text="@string/created_by"
-                    android:textSize="@dimen/_10sdp" />
+                    android:textColor="@color/fontPrimary50"
+                    android:textSize="@dimen/_9sdp" />
 
                 <TextView
                     android:id="@+id/tv_created_by"
@@ -102,8 +106,9 @@
                     android:ellipsize="end"
                     android:layout_toEndOf="@+id/tv_created_by_text"
                     android:layout_toRightOf="@+id/tv_created_by_text"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_10sdp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/_9sdp"
+                    android:textStyle="bold"
                     android:layout_toLeftOf="@+id/tv_related_contest" />
 
                 <TextView
@@ -114,12 +119,14 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignTop="@+id/tv_category_text"
                     android:background="@drawable/custom_rounded_grey_border"
-                    android:paddingBottom="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_7sdp"
                     android:paddingEnd="@dimen/_15sdp"
                     android:paddingStart="@dimen/_15sdp"
-                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingTop="@dimen/_7sdp"
+                    android:textStyle="bold"
                     android:text="@string/related_contest"
-                    android:textSize="@dimen/_10sdp" />
+                    android:textColor="@color/fontPrimary50"
+                    android:textSize="@dimen/_9sdp" />
 
                 <TextView
                     android:id="@+id/tv_reflections"
@@ -133,10 +140,12 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/custom_rounded_grey_border"
                     android:gravity="center"
-                    android:paddingBottom="@dimen/_8sdp"
-                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_7sdp"
+                    android:paddingTop="@dimen/_7sdp"
+                    android:textStyle="bold"
+                    android:textColor="@color/fontPrimary50"
                     android:text="@string/reflections"
-                    android:textSize="@dimen/_10sdp" />
+                    android:textSize="@dimen/_9sdp" />
 
             </RelativeLayout>
 
@@ -153,7 +162,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/recent_post"
-                android:textColor="@color/light_black_txt_color"
+                android:textColor="@color/fontPrimary50"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView
