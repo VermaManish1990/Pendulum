@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
@@ -80,6 +81,8 @@ public class ExitPollUnVotingDialogFragment extends DialogFragment implements IS
     private void initUI(View view) {
 
         mRgVote = view.findViewById(R.id.rg_vote);
+        ((TextView) view.findViewById(R.id.tv_what_you_feel_text)).setText(getString(R.string.what_you_feel_about_exit_poll));
+
         view.findViewById(R.id.bt_okay).setOnClickListener(this);
         view.findViewById(R.id.bt_cancel).setOnClickListener(this);
         view.findViewById(R.id.tv_un_vote).setOnClickListener(this);
