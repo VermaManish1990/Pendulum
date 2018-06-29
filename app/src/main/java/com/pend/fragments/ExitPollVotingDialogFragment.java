@@ -1,9 +1,10 @@
 package com.pend.fragments;
 
 import android.content.Context;
-import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,7 @@ import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
-import com.pend.models.MirrorVoteResponseModel;
+import com.pend.models.ExitPollVoteResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
 import com.pend.util.RequestPostDataUtil;
@@ -26,21 +27,24 @@ import com.pendulum.utils.ConnectivityUtils;
 import com.pendulum.volley.ext.GsonObjectRequest;
 import com.pendulum.volley.ext.RequestManager;
 
-public class UnVotingDialogFragment extends DialogFragment implements IScreen, View.OnClickListener {
+public class ExitPollVotingDialogFragment extends DialogFragment implements IScreen,View.OnClickListener {
 
-    private static final String TAG = UnVotingDialogFragment.class.getSimpleName();
+    private static final String TAG = ExitPollVotingDialogFragment.class.getSimpleName();
+    private static final String ARG_EXIT_POLL_ID = "ARG_EXIT_POLL_ID";
     private static final String ARG_MIRROR_ID = "ARG_MIRROR_ID";
     private RadioGroup mRgVote;
     private Context mContext;
     private int mMirrorId;
+    private int mExitPollId;
     private boolean mIsAdmire;
     private boolean mIsHate;
     private boolean mIsCanTSay;
 
-    public static UnVotingDialogFragment newInstance(int mirrorId) {
-        UnVotingDialogFragment fragment = new UnVotingDialogFragment();
+    public static ExitPollVotingDialogFragment newInstance(int mirrorId,int exitPollId) {
+        ExitPollVotingDialogFragment fragment = new ExitPollVotingDialogFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_MIRROR_ID, mirrorId);
+        args.putInt(ARG_EXIT_POLL_ID, exitPollId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,7 +54,8 @@ public class UnVotingDialogFragment extends DialogFragment implements IScreen, V
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mMirrorId = getArguments().getInt(ARG_MIRROR_ID,0);
+            mMirrorId = getArguments().getInt(ARG_MIRROR_ID, 0);
+            mExitPollId = getArguments().getInt(ARG_EXIT_POLL_ID, 0);
         }
     }
 
@@ -62,8 +67,8 @@ public class UnVotingDialogFragment extends DialogFragment implements IScreen, V
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_unvote_popup, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.dialog_voting_popup, container, false);
         if (getDialog().getWindow() != null) {
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         }
@@ -78,26 +83,22 @@ public class UnVotingDialogFragment extends DialogFragment implements IScreen, V
         mRgVote = view.findViewById(R.id.rg_vote);
         view.findViewById(R.id.bt_okay).setOnClickListener(this);
         view.findViewById(R.id.bt_cancel).setOnClickListener(this);
-        view.findViewById(R.id.tv_un_vote).setOnClickListener(this);
     }
 
     private void setInitialData() {
 
-        mIsAdmire = false;
-        mIsHate = false;
-        mIsCanTSay = false;
     }
 
     @Override
     public void updateUi(boolean status, int actionID, Object serviceResponse) {
         switch (actionID) {
-            case IApiEvent.REQUEST_MIRROR_VOTE_CODE:
+            case IApiEvent.REQUEST_EXIT_POLL_VOTE_CODE:
                 if (status) {
-                    MirrorVoteResponseModel mirrorVoteResponseModel = (MirrorVoteResponseModel) serviceResponse;
-                    if (mirrorVoteResponseModel != null && mirrorVoteResponseModel.status) {
-                        LoggerUtil.d(TAG, mirrorVoteResponseModel.statusCode);
+                    ExitPollVoteResponseModel exitPollVoteResponseModel = (ExitPollVoteResponseModel) serviceResponse;
+                    if (exitPollVoteResponseModel != null && exitPollVoteResponseModel.status) {
+                        LoggerUtil.d(TAG, exitPollVoteResponseModel.statusCode);
 
-                        if (mirrorVoteResponseModel.Data != null && mirrorVoteResponseModel.Data.voteData != null) {
+                        if (exitPollVoteResponseModel.Data != null && exitPollVoteResponseModel.Data.voteData != null) {
                             this.dismiss();
                         }
                     } else {
@@ -138,15 +139,15 @@ public class UnVotingDialogFragment extends DialogFragment implements IScreen, V
         }
 
         switch (actionID) {
-            case IApiEvent.REQUEST_MIRROR_VOTE_CODE:
+            case IApiEvent.REQUEST_EXIT_POLL_VOTE_CODE:
 
-                JsonObject requestObject = RequestPostDataUtil.mirrorVoteApiRegParam(userId, mMirrorId, mIsAdmire, mIsHate, mIsCanTSay);
+                JsonObject requestObject = RequestPostDataUtil.exitPollVoteApiRegParam(userId, mMirrorId,mExitPollId, mIsAdmire, mIsHate, mIsCanTSay);
                 String request = requestObject.toString();
-                RequestManager.addRequest(new GsonObjectRequest<MirrorVoteResponseModel>(IWebServices.REQUEST_MIRROR_VOTE_URL,
-                        NetworkUtil.getHeaders(mContext), request, MirrorVoteResponseModel.class, new VolleyErrorListener(this, actionID)) {
+                RequestManager.addRequest(new GsonObjectRequest<ExitPollVoteResponseModel>(IWebServices.REQUEST_EXIT_POLL_VOTE_URL,
+                        NetworkUtil.getHeaders(mContext), request, ExitPollVoteResponseModel.class, new VolleyErrorListener(this, actionID)) {
 
                     @Override
-                    protected void deliverResponse(MirrorVoteResponseModel response) {
+                    protected void deliverResponse(ExitPollVoteResponseModel response) {
                         updateUi(true, actionID, response);
                     }
                 });
@@ -188,19 +189,12 @@ public class UnVotingDialogFragment extends DialogFragment implements IScreen, V
                             mIsCanTSay = true;
                             break;
                     }
-                    getData(IApiEvent.REQUEST_MIRROR_VOTE_CODE);
+                    getData(IApiEvent.REQUEST_EXIT_POLL_VOTE_CODE);
                 }
                 break;
 
             case R.id.bt_cancel:
                 this.dismiss();
-                break;
-
-            case R.id.tv_un_vote:
-                mIsAdmire = false;
-                mIsHate = false;
-                mIsCanTSay = false;
-                getData(IApiEvent.REQUEST_MIRROR_VOTE_CODE);
                 break;
 
             default:

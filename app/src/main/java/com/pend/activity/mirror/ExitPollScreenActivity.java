@@ -3,6 +3,7 @@ package com.pend.activity.mirror;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,8 @@ import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.adapters.ExitPollAdapter;
 import com.pend.adapters.ExitPollViewPagerAdapter;
+import com.pend.fragments.ExitPollUnVotingDialogFragment;
+import com.pend.fragments.ExitPollVotingDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
@@ -31,7 +34,7 @@ import com.pendulum.volley.ext.RequestManager;
 
 import java.util.ArrayList;
 
-public class ExitPollScreenActivity extends BaseActivity implements View.OnClickListener {
+public class ExitPollScreenActivity extends BaseActivity implements View.OnClickListener, ExitPollAdapter.IExitPollAdapterCallBack {
 
     private static final String TAG = ExitPollScreenActivity.class.getSimpleName();
     private View mRootView;
@@ -45,6 +48,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
     private RecyclerView mRecyclerViewExitPoll;
     private boolean mIsHasNextPage;
     private boolean mIsLoading;
+    private boolean mIsVoted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +86,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
     @Override
     protected void setInitialData() {
 
+        mIsVoted = false;
         mPageNumber = 1;
         mIsHasNextPage = false;
         mIsLoading = false;
@@ -215,7 +220,6 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                     @Override
                     protected void deliverResponse(GetExitPollMirrorResponseModel response) {
                         updateUi(true, actionID, response);
-
                     }
                 });
                 break;
@@ -230,7 +234,6 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                     @Override
                     protected void deliverResponse(GetExitPollListResponseModel response) {
                         updateUi(true, actionID, response);
-
                     }
                 });
                 break;
@@ -266,6 +269,23 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
+        }
+    }
+
+    @Override
+    public void onViewClick(int position) {
+        GetExitPollListResponseModel.GetExitPollListDetails exitPollListDetails = mExitPollList.get(position);
+
+        if (exitPollListDetails.pollAdmire || exitPollListDetails.pollHate || exitPollListDetails.pollCantSay) {
+            mIsVoted = true;
+        }
+
+        if (!mIsVoted) {
+            DialogFragment votingDialogFragment = ExitPollVotingDialogFragment.newInstance(exitPollListDetails.mirrorID, exitPollListDetails.exitPollID);
+            votingDialogFragment.show(getSupportFragmentManager(), "ExitPollVotingDialogFragment");
+        } else {
+            DialogFragment unVotingDialogFragment = ExitPollUnVotingDialogFragment.newInstance(exitPollListDetails.mirrorID, exitPollListDetails.exitPollID);
+            unVotingDialogFragment.show(getSupportFragmentManager(), "ExitPollUnVotingDialogFragment");
         }
     }
 }

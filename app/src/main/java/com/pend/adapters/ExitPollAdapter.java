@@ -22,10 +22,12 @@ public class ExitPollAdapter extends RecyclerView.Adapter<ExitPollAdapter.ViewHo
     private final String TAG = ExitPollAdapter.class.getSimpleName();
 
     private final Context mContext;
+    private IExitPollAdapterCallBack mIExitPollAdapterCallBack;
     private ArrayList<GetExitPollListResponseModel.GetExitPollListDetails> mExitPollList;
 
     public ExitPollAdapter(Context context, ArrayList<GetExitPollListResponseModel.GetExitPollListDetails> exitPollList) {
         mContext = context;
+        mIExitPollAdapterCallBack = (IExitPollAdapterCallBack) context;
         mExitPollList = exitPollList;
     }
 
@@ -42,13 +44,13 @@ public class ExitPollAdapter extends RecyclerView.Adapter<ExitPollAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ExitPollAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ExitPollAdapter.ViewHolder holder, final int position) {
 
         final GetExitPollListResponseModel.GetExitPollListDetails exitPollListDetails = mExitPollList.get(position);
 
+        holder.tvTitle.setText(exitPollListDetails.exitPollText != null ? exitPollListDetails.exitPollText : "");
+
         final int max = getMax(exitPollListDetails.pollAdmirePer, exitPollListDetails.pollHatePer, exitPollListDetails.pollCantSayPer);
-
-
         holder.rlPollPerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -64,11 +66,16 @@ public class ExitPollAdapter extends RecyclerView.Adapter<ExitPollAdapter.ViewHo
             }
         });
 
-        holder.tvTitle.setText(exitPollListDetails.exitPollText != null ? exitPollListDetails.exitPollText : "");
         holder.tvShareOnFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+            }
+        });
+        holder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIExitPollAdapterCallBack.onViewClick(position);
             }
         });
     }
@@ -123,5 +130,9 @@ public class ExitPollAdapter extends RecyclerView.Adapter<ExitPollAdapter.ViewHo
             tvHateView = itemView.findViewById(R.id.tv_hate_view);
             tvCanTSayView = itemView.findViewById(R.id.tv_can_t_say_view);
         }
+    }
+
+    public interface IExitPollAdapterCallBack {
+        void onViewClick(int position);
     }
 }

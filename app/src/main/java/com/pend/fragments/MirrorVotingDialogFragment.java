@@ -14,7 +14,6 @@ import android.widget.RadioGroup;
 import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
 import com.pend.R;
-import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.MirrorVoteResponseModel;
@@ -28,9 +27,9 @@ import com.pendulum.utils.ConnectivityUtils;
 import com.pendulum.volley.ext.GsonObjectRequest;
 import com.pendulum.volley.ext.RequestManager;
 
-public class VotingDialogFragment extends DialogFragment implements IScreen, View.OnClickListener {
+public class MirrorVotingDialogFragment extends DialogFragment implements IScreen, View.OnClickListener {
 
-    private static final String TAG = VotingDialogFragment.class.getSimpleName();
+    private static final String TAG = MirrorVotingDialogFragment.class.getSimpleName();
     private static final String ARG_MIRROR_ID = "ARG_MIRROR_ID";
     private RadioGroup mRgVote;
     private Context mContext;
@@ -39,8 +38,8 @@ public class VotingDialogFragment extends DialogFragment implements IScreen, Vie
     private boolean mIsHate;
     private boolean mIsCanTSay;
 
-    public static VotingDialogFragment newInstance(int mirrorId) {
-        VotingDialogFragment fragment = new VotingDialogFragment();
+    public static MirrorVotingDialogFragment newInstance(int mirrorId) {
+        MirrorVotingDialogFragment fragment = new MirrorVotingDialogFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_MIRROR_ID, mirrorId);
         fragment.setArguments(args);

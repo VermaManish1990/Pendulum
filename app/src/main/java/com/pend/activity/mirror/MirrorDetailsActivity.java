@@ -24,8 +24,8 @@ import com.pend.R;
 import com.pend.activity.home.CreatePostActivity;
 import com.pend.adapters.RecentPostAdapter;
 import com.pend.fragments.CommentsDialogFragment;
-import com.pend.fragments.UnVotingDialogFragment;
-import com.pend.fragments.VotingDialogFragment;
+import com.pend.fragments.MirrorUnVotingDialogFragment;
+import com.pend.fragments.MirrorVotingDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
@@ -480,11 +480,11 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
             case R.id.view_progress_bar_profile:
                 if (!mIsVoted) {
-                    DialogFragment votingDialogFragment = VotingDialogFragment.newInstance(mMirrorId);
-                    votingDialogFragment.show(getSupportFragmentManager(), "VotingDialogFragment");
+                    DialogFragment votingDialogFragment = MirrorVotingDialogFragment.newInstance(mMirrorId);
+                    votingDialogFragment.show(getSupportFragmentManager(), "MirrorVotingDialogFragment");
                 } else {
-                    DialogFragment unVotingDialogFragment = UnVotingDialogFragment.newInstance(mMirrorId);
-                    unVotingDialogFragment.show(getSupportFragmentManager(), "UnVotingDialogFragment");
+                    DialogFragment unVotingDialogFragment = MirrorUnVotingDialogFragment.newInstance(mMirrorId);
+                    unVotingDialogFragment.show(getSupportFragmentManager(), "MirrorUnVotingDialogFragment");
                 }
                 break;
 
