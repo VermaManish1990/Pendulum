@@ -59,7 +59,7 @@ public class TrendingAndIntroducedMirrorAdapter extends RecyclerView.Adapter<Tre
         }
 
         holder.tvName.setText(mirrorDetails.mirrorName != null ? mirrorDetails.mirrorName : "");
-        holder.tvPostCount.setText(String.valueOf(mirrorDetails.newPost));
+        holder.tvPostCount.setText(String.valueOf(mirrorDetails.newPost + " new post"));
 
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override

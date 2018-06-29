@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/custom_rounded_grey_border"
-    app:cardCornerRadius="@dimen/_5sdp"
     android:layout_margin="@dimen/_3sdp"
-    android:elevation="@dimen/_2sdp">
+    android:background="@drawable/custom_rounded_grey_border"
+    android:elevation="@dimen/_2sdp"
+    app:cardCornerRadius="@dimen/_5sdp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -20,12 +20,12 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/_8sdp"
             android:layout_marginTop="@dimen/_15sdp"
-            android:src="@drawable/profile"
             android:scaleType="fitXY"
+            android:src="@drawable/profile"
             app:fk_left_bottom_corner_radius="@dimen/_5sdp"
             app:fk_left_top_corner_radius="@dimen/_5sdp"
             app:fk_right_bottom_corner_radius="@dimen/_5sdp"
-            app:fk_right_top_corner_radius="@dimen/_5sdp"/>
+            app:fk_right_top_corner_radius="@dimen/_5sdp" />
 
         <TextView
             android:id="@+id/tv_count"
@@ -39,7 +39,6 @@
             android:background="@drawable/custom_blue_ring_view"
             android:gravity="center"
             android:padding="@dimen/_3sdp"
-            android:text="3"
             android:textColor="@color/white"
             android:textSize="@dimen/_8sdp" />
 
@@ -49,13 +48,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_profile"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="Loren Ipsum"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:textColor="@color/black"
+            android:textColor="@color/colorPrimary"
             android:textSize="@dimen/_10sdp"
             android:textStyle="bold" />
     </RelativeLayout>
