@@ -2,7 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/_10sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:layout_marginEnd="@dimen/_10sdp"
+    android:layout_marginStart="@dimen/_10sdp"
+    android:layout_marginTop="@dimen/_5sdp"
     android:background="@drawable/custom_rounded_grey_border"
     android:padding="@dimen/_10sdp">
 
@@ -14,8 +17,8 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_profile"
             android:layout_width="@dimen/_36sdp"
-            android:src="@drawable/profile"
-            android:layout_height="@dimen/_36sdp" />
+            android:layout_height="@dimen/_36sdp"
+            android:src="@drawable/profile" />
 
         <TextView
             android:id="@+id/tv_name"
@@ -38,17 +41,17 @@
         <TextView
             android:id="@+id/tv_share_on_facebook"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:gravity="center"
             android:background="@drawable/custom_rounded_grey_border"
-            android:paddingEnd="@dimen/_5sdp"
-            android:paddingStart="@dimen/_5sdp"
+            android:gravity="center"
+            android:padding="@dimen/_5sdp"
             android:text="@string/share_on_facebook"
             android:textAllCaps="false"
-            android:textSize="@dimen/_12sdp" />
+            android:textColor="@color/fontPrimary40"
+            android:textSize="@dimen/_11sdp" />
 
     </RelativeLayout>
 
@@ -68,7 +71,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_title"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:textColor="@color/fontPrimary50"
+        android:textSize="@dimen/_10sdp"
         android:text="@string/tap_here_to_vote" />
 
     <RelativeLayout
@@ -90,6 +95,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:textSize="@dimen/_10sdp"
+                android:textColor="@color/fontPrimary50"
                 android:text="Rohit Sharma" />
 
             <TextView
@@ -97,6 +104,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
+                android:textSize="@dimen/_10sdp"
+                android:textColor="@color/fontPrimary50"
                 android:text="Virat Kohli" />
 
             <TextView
@@ -105,6 +114,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_15sdp"
+                android:textSize="@dimen/_10sdp"
+                android:textColor="@color/fontPrimary50"
                 android:text="MS Dhoni" />
 
         </LinearLayout>
@@ -123,29 +134,29 @@
                 android:id="@+id/tv_mirror1_view"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:textColor="@color/white"
+                android:layout_marginTop="@dimen/_3sdp"
                 android:background="@drawable/custom_rounded_sky_blue_view"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tv_mirror2_view"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:textColor="@color/white"
                 android:background="@drawable/custom_rounded_pink_view"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tv_mirror3_view"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:textColor="@color/white"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:background="@drawable/custom_rounded_royal_blue_view"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
@@ -154,35 +165,44 @@
     <TextView
         android:id="@+id/tv_created_by"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/_30sdp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/rl_bottom_view"
         android:layout_marginTop="@dimen/_15sdp"
         android:background="@drawable/custom_rounded_grey_border"
         android:gravity="center_vertical"
         android:paddingEnd="@dimen/_10sdp"
         android:paddingStart="@dimen/_10sdp"
+        android:paddingTop="@dimen/_5sdp"
+        android:paddingBottom="@dimen/_5sdp"
         android:text="Created by Jil Delhberg"
+        android:textSize="@dimen/_11sdp"
         android:textAllCaps="false" />
 
     <ImageView
         android:id="@+id/iv_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_15sdp"
+        android:layout_height="@dimen/_15sdp"
         android:layout_alignBottom="@+id/tv_created_by"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/tv_created_by"
+        android:src="@drawable/setting"
         android:contentDescription="@string/image" />
 
     <TextView
         android:id="@+id/tv_comment_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_created_by"
+        android:layout_alignTop="@+id/tv_created_by"
         android:layout_toLeftOf="@+id/iv_comment"
         android:layout_toStartOf="@+id/iv_comment"
-        android:layout_alignTop="@+id/tv_created_by"
-        android:layout_alignBottom="@+id/tv_created_by"
+        android:textColor="@color/fontPrimary70"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:textSize="@dimen/_11sdp"
+        android:textStyle="bold"
         android:gravity="center"
-        android:text="20" />
+        android:text="20"
+        android:layout_marginRight="@dimen/_5sdp" />
 
 </RelativeLayout>
