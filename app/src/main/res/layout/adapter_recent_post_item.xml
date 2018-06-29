@@ -30,8 +30,8 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_toLeftOf="@+id/tv_time"
             android:layout_toStartOf="@+id/tv_time"
-            android:text="Loren Ipsum is simply dummy text of the printing and typesetting industry"
-            android:textColor="@color/colorPrimary" />
+            android:textSize="@dimen/_11sdp"
+            android:textColor="@color/fontPrimary50" />
 
         <TextView
             android:id="@+id/tv_time"
@@ -43,7 +43,8 @@
             android:layout_below="@+id/iv_post"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
-            android:text="2w" />
+            android:textSize="@dimen/_11sdp"
+            android:textColor="@color/fontPrimary50" />
 
         <ImageView
             android:id="@+id/iv_comment"
@@ -67,8 +68,7 @@
             android:layout_toEndOf="@+id/iv_comment"
             android:layout_toRightOf="@+id/iv_comment"
             android:gravity="center"
-            android:text="20"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/fontPrimary60" />
 
         <ImageView
             android:id="@+id/iv_like"
@@ -81,7 +81,7 @@
             android:layout_toEndOf="@+id/tv_comment_count"
             android:layout_toRightOf="@+id/tv_comment_count"
             android:contentDescription="@string/image"
-            android:padding="@dimen/_3sdp"
+            android:padding="@dimen/_2sdp"
             android:src="@drawable/like" />
 
         <TextView
@@ -93,8 +93,7 @@
             android:layout_toEndOf="@+id/iv_like"
             android:layout_toRightOf="@+id/iv_like"
             android:gravity="center"
-            android:text="20"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/fontPrimary60" />
 
         <ImageView
             android:id="@+id/iv_dislike"
@@ -107,7 +106,7 @@
             android:layout_toEndOf="@+id/tv_like_count"
             android:layout_toRightOf="@+id/tv_like_count"
             android:contentDescription="@string/image"
-            android:padding="@dimen/_3sdp"
+            android:padding="@dimen/_2sdp"
             android:src="@drawable/dislike" />
 
         <TextView
@@ -119,8 +118,7 @@
             android:layout_toEndOf="@+id/iv_dislike"
             android:layout_toRightOf="@+id/iv_dislike"
             android:gravity="center"
-            android:text="20"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/fontPrimary60" />
 
         <ImageView
             android:id="@+id/iv_share"
@@ -150,7 +148,7 @@
             android:paddingEnd="@dimen/_15sdp"
             android:paddingStart="@dimen/_15sdp"
             android:paddingTop="@dimen/_8sdp"
-            android:textSize="@dimen/_13sdp" />
+            android:textSize="@dimen/_11sdp" />
 
         <RelativeLayout
             android:id="@+id/rl_checkbox"
@@ -160,7 +158,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/et_add_a_comment"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:layout_marginRight="@dimen/_15sdp">
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_5sdp">
 
             <CheckBox
                 android:id="@+id/cb_anonymous"
@@ -173,7 +172,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cb_anonymous"
                 android:text="@string/anonymous"
-                android:textSize="@dimen/_10sdp" />
+                android:textSize="@dimen/_10sdp"
+                android:textColor="@color/fontPrimary40"/>
 
         </RelativeLayout>
 
@@ -183,10 +183,10 @@
             android:layout_height="@dimen/_1sdp"
             android:layout_below="@+id/rl_checkbox"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_6sdp"
             android:background="@color/darkGreyBackground" />
 
         <RelativeLayout
+            android:id="@+id/rl_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/view"
@@ -211,8 +211,8 @@
                 android:layout_toRightOf="@+id/iv_comment_user_profile"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="Lisa M. Barclay"
-                android:textColor="@color/black" />
+                android:textSize="@dimen/_11sdp"
+                android:textColor="@color/fontPrimary70" />
 
             <TextView
                 android:id="@+id/tv_comment"
@@ -221,11 +221,10 @@
                 android:layout_alignLeft="@+id/tv_name"
                 android:layout_alignStart="@+id/tv_name"
                 android:layout_below="@+id/tv_name"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:ellipsize="end"
                 android:maxLines="4"
-                android:text="Loren Ipsum is simply dummy text of the printing and typesetting industry."
-                android:textColor="@color/colorPrimary" />
+                android:textSize="@dimen/_11sdp"
+                android:textColor="@color/fontPrimary40" />
         </RelativeLayout>
 
     </RelativeLayout>

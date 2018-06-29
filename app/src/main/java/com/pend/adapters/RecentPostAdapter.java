@@ -63,9 +63,6 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         }
         holder.tvTime.setText(time);
 
-        holder.tvName.setText(postsDetails.commentUserFullName != null ? postsDetails.commentUserFullName : "");
-        holder.tvComment.setText(postsDetails.commentText != null ? postsDetails.commentText : "");
-
         holder.ivComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +92,7 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         holder.ivShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareMessageWithSocialMedia(postsDetails.postInfo!=null?postsDetails.postInfo:"");
+                shareMessageWithSocialMedia(postsDetails.postInfo != null ? postsDetails.postInfo : "");
             }
         });
 
@@ -106,13 +103,22 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
                     .into(holder.ivPost);
         }
 
-        if (postsDetails.commentUserImageURL != null && !postsDetails.commentUserImageURL.equals("")) {
+        if (postsDetails.commentText != null && !postsDetails.commentText.equals("")) {
 
-            Picasso.with(mContext)
-                    .load(postsDetails.commentUserImageURL)
-                    .into(holder.ivCommentUserProfile);
+            holder.rlComment.setVisibility(View.VISIBLE);
+            holder.view.setVisibility(View.VISIBLE);
+            holder.tvName.setText(postsDetails.commentUserFullName != null ? postsDetails.commentUserFullName : "");
+            holder.tvComment.setText(postsDetails.commentText != null ? postsDetails.commentText : "");
+            if (postsDetails.commentUserImageURL != null && !postsDetails.commentUserImageURL.equals("")) {
+
+                Picasso.with(mContext)
+                        .load(postsDetails.commentUserImageURL)
+                        .into(holder.ivCommentUserProfile);
+            }
+        }else {
+            holder.rlComment.setVisibility(View.GONE);
+            holder.view.setVisibility(View.GONE);
         }
-
 //        holder.cbAnonymous.setChecked();
     }
 
@@ -135,7 +141,9 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private final View rootView;
+        private final View view;
+        private final View rlComment;
+
         private final TextView tvDescription;
         private final TextView tvTime;
         private final TextView tvCommentCount;
@@ -157,7 +165,8 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         public ViewHolder(View itemView) {
             super(itemView);
 
-            rootView = itemView.findViewById(R.id.root_view);
+            view = itemView.findViewById(R.id.view);
+            rlComment = itemView.findViewById(R.id.rl_comment);
             ivPost = itemView.findViewById(R.id.iv_post);
             tvDescription = itemView.findViewById(R.id.tv_description);
             tvTime = itemView.findViewById(R.id.tv_time);

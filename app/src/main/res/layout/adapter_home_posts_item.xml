@@ -42,7 +42,7 @@
                 android:layout_toStartOf="@+id/tv_share_on_facebook"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
                 android:textSize="@dimen/_11sdp"
                 android:textStyle="bold" />
 
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/iv_profile"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
                 android:textSize="@dimen/_14sdp"
                 android:textStyle="bold" />
 
