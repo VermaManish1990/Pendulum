@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:id="@+id/root_view"
     tools:context=".activity.login.SignUpActivity">
 
     <LinearLayout
@@ -37,9 +37,9 @@
                 android:hint="@string/name_capital"
                 android:paddingTop="@dimen/_7sdp"
                 android:singleLine="true"
-                android:textColor="@color/black_87"
+                android:textColor="@color/colorAccent"
                 android:textColorHint="@color/button_color"
-                android:textSize="@dimen/_13sdp" />
+                android:textSize="@dimen/_12sdp" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -57,9 +57,9 @@
                 android:hint="@string/email_id"
                 android:paddingTop="@dimen/_7sdp"
                 android:singleLine="true"
-                android:textColor="@color/black_87"
+                android:textColor="@color/colorAccent"
                 android:textColorHint="@color/button_color"
-                android:textSize="@dimen/_13sdp" />
+                android:textSize="@dimen/_12sdp" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -75,12 +75,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/phone_number_capital"
-                android:paddingTop="@dimen/_7sdp"
                 android:inputType="number"
+                android:paddingTop="@dimen/_7sdp"
                 android:singleLine="true"
-                android:textColor="@color/black_87"
+                android:textColor="@color/colorAccent"
                 android:textColorHint="@color/button_color"
-                android:textSize="@dimen/_13sdp" />
+                android:textSize="@dimen/_12sdp" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -98,9 +98,9 @@
                 android:hint="@string/password_capital"
                 android:paddingTop="@dimen/_7sdp"
                 android:singleLine="true"
-                android:textColor="@color/black_87"
+                android:textColor="@color/colorAccent"
                 android:textColorHint="@color/button_color"
-                android:textSize="@dimen/_13sdp" />
+                android:textSize="@dimen/_12sdp" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -118,9 +118,9 @@
                 android:hint="@string/confirm_password_capital"
                 android:paddingTop="@dimen/_7sdp"
                 android:singleLine="true"
-                android:textColor="@color/black_87"
+                android:textColor="@color/colorAccent"
                 android:textColorHint="@color/button_color"
-                android:textSize="@dimen/_13sdp" />
+                android:textSize="@dimen/_12sdp" />
 
         </android.support.design.widget.TextInputLayout>
 

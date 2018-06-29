@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/_25sdp"
-    android:id="@+id/root_view"
     android:background="@color/white"
+    android:padding="@dimen/_25sdp"
     tools:context=".activity.login.LoginActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -36,7 +36,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:hint="@string/email_id">
+        android:hint="@string/email_id"
+        android:textColorHint="@color/button_color">
 
         <EditText
             android:id="@+id/et_email"
@@ -45,8 +46,9 @@
             android:inputType="textEmailAddress"
             android:maxLength="55"
             android:singleLine="true"
-            android:textColor="@color/black"
-            android:textSize="@dimen/textSize14"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/button_color"
+            android:textSize="@dimen/_12sdp"
             tools:ignore="LabelFor" />
     </android.support.design.widget.TextInputLayout>
 
@@ -56,18 +58,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/input_layout_email"
         android:layout_marginTop="10dp"
-        android:hint="@string/password">
+        android:hint="@string/password"
+        android:textColorHint="@color/button_color">
 
         <EditText
             android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:maxLength="55"
             android:singleLine="true"
-            android:imeOptions="actionDone"
-            android:textColor="@color/black"
-            android:textSize="@dimen/textSize14"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/button_color"
+            android:textSize="@dimen/_12sdp"
             tools:ignore="LabelFor" />
     </android.support.design.widget.TextInputLayout>
 
@@ -81,7 +85,7 @@
         android:layout_marginBottom="@dimen/_7sdp"
         android:padding="@dimen/_5sdp"
         android:text="@string/forgot"
-        android:textColor="@color/colorDarkBlue"
+        android:textColor="@color/colorAccent"
         android:textSize="@dimen/textSize13" />
 
     <Button
@@ -104,7 +108,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/_20sdp"
         android:text="@string/need_account"
-        android:textColor="@color/colorDarkBlue"
+        android:textColor="@color/colorAccent"
         android:textSize="@dimen/textSize15" />
 
 </RelativeLayout>

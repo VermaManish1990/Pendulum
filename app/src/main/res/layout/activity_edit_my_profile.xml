@@ -24,6 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:textColorHint="@color/button_color"
                 android:hint="@string/name">
 
                 <EditText
@@ -33,7 +34,9 @@
                     android:inputType="text"
                     android:maxLength="55"
                     android:singleLine="true"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="@color/button_color"
+                    android:textSize="@dimen/_12sdp"
                     tools:ignore="LabelFor" />
             </android.support.design.widget.TextInputLayout>
 
@@ -42,6 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:textColorHint="@color/button_color"
                 android:hint="@string/age">
 
                 <EditText
@@ -51,7 +55,9 @@
                     android:inputType="number"
                     android:maxLength="55"
                     android:singleLine="true"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="@color/button_color"
+                    android:textSize="@dimen/_12sdp"
                     tools:ignore="LabelFor" />
             </android.support.design.widget.TextInputLayout>
 
@@ -60,6 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:textColorHint="@color/button_color"
                 android:hint="@string/gender">
 
                 <EditText
@@ -69,7 +76,9 @@
                     android:inputType="text"
                     android:maxLength="55"
                     android:singleLine="true"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="@color/button_color"
+                    android:textSize="@dimen/_12sdp"
                     tools:ignore="LabelFor" />
             </android.support.design.widget.TextInputLayout>
 
@@ -78,6 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:textColorHint="@color/button_color"
                 android:hint="@string/location">
 
                 <EditText
@@ -87,7 +97,9 @@
                     android:inputType="text"
                     android:maxLength="55"
                     android:singleLine="true"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="@color/button_color"
+                    android:textSize="@dimen/_12sdp"
                     tools:ignore="LabelFor" />
             </android.support.design.widget.TextInputLayout>
 
@@ -96,7 +108,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/upload_photo"
-                android:textSize="@dimen/_15sdp" />
+                android:textColor="@color/fontPrimary50"
+                android:textSize="@dimen/_13sdp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -104,8 +117,8 @@
 
                 <ImageView
                     android:id="@+id/iv_upload_photo"
-                    android:layout_width="@dimen/_76sdp"
-                    android:layout_height="@dimen/_76sdp"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_60sdp"
                     android:layout_margin="@dimen/_5sdp"
                     android:contentDescription="@string/image"
                     android:src="@drawable/upload_photo" />
@@ -118,6 +131,7 @@
                     android:layout_alignTop="@+id/iv_upload_photo"
                     android:layout_toEndOf="@+id/iv_upload_photo"
                     android:layout_toRightOf="@+id/iv_upload_photo"
+                    android:layout_centerVertical="true"
                     android:orientation="horizontal"
                     android:scrollbars="horizontal" />
 

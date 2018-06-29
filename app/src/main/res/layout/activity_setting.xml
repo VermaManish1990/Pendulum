@@ -24,10 +24,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:backgroundTint="@color/white"
                 android:paddingLeft="10dp"
                 android:paddingStart="10dp"
-                android:src="@drawable/back"
+                android:src="@drawable/left_arrow_white"
                 tools:ignore="RtlSymmetry" />
 
             <TextView
@@ -40,8 +39,9 @@
                 android:layout_toRightOf="@+id/iv_back"
                 android:text="@string/settings"
                 android:textColor="@color/white"
-                android:textSize="18dp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold"
+                android:layout_toEndOf="@+id/iv_back" />
 
             <Button
                 android:id="@+id/bt_save"
@@ -52,6 +52,7 @@
                 android:layout_centerVertical="true"
                 android:background="@drawable/custom_blue_button"
                 android:text="@string/save"
+                android:textSize="@dimen/_15sdp"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
         </RelativeLayout>
@@ -68,8 +69,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/account"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_15sdp" />
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_14sdp" />
 
             <ImageView
                 android:id="@+id/iv_account_dropdown"
@@ -99,6 +100,8 @@
                 android:id="@+id/tv_email_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/fontPrimary40"
+                android:textSize="@dimen/_12sdp"
                 android:text="@string/email" />
 
             <EditText
@@ -110,8 +113,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/tv_email_text"
                 android:background="@null"
-                android:text="shubham.chauhan@kelltontech.com"
-                android:textSize="@dimen/_13sdp" />
+                android:textColor="@color/fontPrimary70"
+                android:textStyle="bold"
+                android:textSize="@dimen/_12sdp" />
 
             <View
                 android:id="@+id/view1"
@@ -127,6 +131,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/view1"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:textColor="@color/fontPrimary40"
+                android:textSize="@dimen/_12sdp"
                 android:text="@string/phone_number" />
 
             <EditText
@@ -138,8 +144,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/tv_phone_number_text"
                 android:background="@null"
-                android:text="8445123526"
-                android:textSize="@dimen/_13sdp" />
+                android:textColor="@color/fontPrimary70"
+                android:textStyle="bold"
+                android:textSize="@dimen/_12sdp" />
 
             <View
                 android:id="@+id/view2"
@@ -155,6 +162,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/view2"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:textColor="@color/fontPrimary40"
+                android:textSize="@dimen/_12sdp"
                 android:text="@string/password_small" />
 
             <EditText
@@ -166,9 +175,9 @@
                 android:layout_alignParentRight="true"
                 android:background="@null"
                 android:inputType="textPassword"
-                android:text="123456789"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_15sdp"
+                android:textColor="@color/fontPrimary70"
+                android:textSize="@dimen/_12sdp"
+                android:text="12345"
                 android:textStyle="bold" />
 
         </RelativeLayout>
@@ -193,8 +202,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/mirror"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_15sdp" />
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_14sdp"/>
 
             <ImageView
                 android:id="@+id/iv_mirror_dropdown"
@@ -224,7 +233,9 @@
                 android:id="@+id/tv_invisibility_reflection_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/invisibility_in_reflection" />
+                android:text="@string/invisibility_in_reflection"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/fontPrimary70"/>
 
             <CheckBox
                 android:id="@+id/cb_invisibility_in_reflection"
@@ -256,8 +267,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/arena"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_15sdp" />
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_14sdp" />
 
             <ImageView
                 android:id="@+id/iv_arena_dropdown"
@@ -287,7 +298,9 @@
                 android:id="@+id/tv_don_t_show_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/don_t_show_me_in_open_search" />
+                android:text="@string/don_t_show_me_in_open_search"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/fontPrimary70"/>
 
             <CheckBox
                 android:id="@+id/cb_open_search"
@@ -319,8 +332,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/about"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_15sdp" />
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_14sdp" />
 
             <ImageView
                 android:id="@+id/iv_about_dropdown"
@@ -344,6 +357,8 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:paddingEnd="@dimen/_15sdp"
             android:paddingStart="@dimen/_15sdp"
+            android:textSize="@dimen/_11sdp"
+            android:textColor="@color/fontPrimary60"
             android:visibility="gone" />
 
         <View
@@ -362,8 +377,8 @@
             android:paddingEnd="@dimen/_15sdp"
             android:paddingStart="@dimen/_15sdp"
             android:text="@string/log_out"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_15sdp" />
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/_14sdp" />
 
         <View
             android:layout_width="match_parent"

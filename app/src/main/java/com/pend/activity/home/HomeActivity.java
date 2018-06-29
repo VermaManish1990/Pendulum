@@ -87,6 +87,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         findViewById(R.id.fl_mirror).setOnClickListener(this);
         findViewById(R.id.fl_contest).setOnClickListener(this);
         findViewById(R.id.iv_profile).setOnClickListener(this);
+        findViewById(R.id.fl_area).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
     }
 
@@ -378,6 +379,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 hideReveal();
                 Intent intentContest = new Intent(HomeActivity.this, ContestActivity.class);
                 startActivity(intentContest);
+                break;
+
+            case R.id.fl_area:
+                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
                 break;
 
             case R.id.fl_menu_view:

@@ -136,7 +136,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
                         SharedPrefUtils.setUserLoggedIn(SettingActivity.this, false);
                         Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
+                        finish();
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
