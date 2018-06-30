@@ -247,9 +247,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                                     break;
                                 }
                             }
-
                         }
-
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }

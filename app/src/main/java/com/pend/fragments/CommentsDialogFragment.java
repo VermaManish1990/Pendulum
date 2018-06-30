@@ -28,6 +28,7 @@ import com.pend.interfaces.IWebServices;
 import com.pend.models.AddAndUpdateCommentResponseModel;
 import com.pend.models.GetPostCommentsResponseModel;
 import com.pend.models.GetPostsResponseModel;
+import com.pend.models.PostLikeResponseModel;
 import com.pend.util.DateUtil;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
@@ -44,7 +45,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class CommentsDialogFragment extends DialogFragment implements IScreen {
+public class CommentsDialogFragment extends DialogFragment implements IScreen, View.OnClickListener {
 
     private static final String ARG_POST_DETAILS = "ARG_POST_DETAILS";
     private static final String TAG = CommentsDialogFragment.class.getSimpleName();
@@ -68,6 +69,8 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen {
     private boolean mIsHasNextPage;
     private boolean mIsLoading;
     private int mCommentId;
+    private boolean mIsLike;
+    private boolean mIsUnLike;
 
     public static CommentsDialogFragment newInstance(GetPostsResponseModel.GetPostsDetails postsDetails) {
         CommentsDialogFragment fragment = new CommentsDialogFragment();
@@ -122,6 +125,9 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen {
         mTvDislike = view.findViewById(R.id.tv_dislike_count);
 
         mRecyclerViewComment = view.findViewById(R.id.recycler_view_comment);
+
+        mIvLike.setOnClickListener(this);
+        mIvDislike.setOnClickListener(this);
     }
 
     private void setInitialData() {
@@ -129,6 +135,8 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen {
         mPageNumber = 1;
         mIsHasNextPage = false;
         mIsLoading = false;
+        mIsLike = false;
+        mIsUnLike = false;
         mCommentList = new ArrayList<>();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
@@ -210,6 +218,28 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen {
                 mIsLoading = false;
                 break;
 
+            case IApiEvent.REQUEST_POST_LIKE_CODE:
+                if (status) {
+                    PostLikeResponseModel postLikeResponseModel = (PostLikeResponseModel) serviceResponse;
+                    if (postLikeResponseModel != null && postLikeResponseModel.status) {
+                        LoggerUtil.d(TAG, postLikeResponseModel.statusCode);
+
+                        if (postLikeResponseModel.Data != null && postLikeResponseModel.Data.likeData != null) {
+
+                            mPostDetails.isLike = postLikeResponseModel.Data.likeData.isLike;
+                            mPostDetails.isUnLike = postLikeResponseModel.Data.likeData.isUnLike;
+                            mPostDetails.likeCount = postLikeResponseModel.Data.likeData.likeCount;
+                            mPostDetails.unlikeCount = postLikeResponseModel.Data.likeData.unlikeCount;
+                            setPostDetails();
+                        }
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                    }
+                } else {
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
+                break;
+
             case IApiEvent.REQUEST_ADD_COMMENT_CODE:
                 if (status) {
                     AddAndUpdateCommentResponseModel addAndUpdateCommentResponseModel = (AddAndUpdateCommentResponseModel) serviceResponse;
@@ -265,7 +295,10 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen {
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
-        ((BaseActivity) mContext).removeProgressDialog();
+        ((BaseActivity) mContext).
+
+                removeProgressDialog();
+
     }
 
     @Override
@@ -304,6 +337,20 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen {
                     protected void deliverResponse(GetPostCommentsResponseModel response) {
                         updateUi(true, actionID, response);
 
+                    }
+                });
+                break;
+
+            case IApiEvent.REQUEST_POST_LIKE_CODE:
+
+                jsonObject = RequestPostDataUtil.postLikeApiRegParam(userId, mPostDetails.postID, mIsLike, mIsUnLike);
+                request = jsonObject.toString();
+                RequestManager.addRequest(new GsonObjectRequest<PostLikeResponseModel>(IWebServices.REQUEST_POST_LIKE_URL, NetworkUtil.getHeaders(mContext),
+                        request, PostLikeResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(PostLikeResponseModel response) {
+                        updateUi(true, actionID, response);
                     }
                 });
                 break;
@@ -361,5 +408,36 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen {
     @Override
     public void onAuthError() {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_like:
+                if (mPostDetails.isLike) {
+                    mIsLike = false;
+                    mIsUnLike = false;
+                } else {
+                    mIsLike = true;
+                    mIsUnLike = false;
+                }
+                getData(IApiEvent.REQUEST_POST_LIKE_CODE);
+                break;
+
+            case R.id.iv_dislike:
+                if (mPostDetails.isUnLike) {
+                    mIsLike = false;
+                    mIsUnLike = false;
+                } else {
+                    mIsLike = false;
+                    mIsUnLike = true;
+                }
+                getData(IApiEvent.REQUEST_POST_LIKE_CODE);
+                break;
+
+            default:
+                LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
+                break;
+        }
     }
 }
