@@ -144,6 +144,7 @@
             android:layout_toStartOf="@+id/rl_checkbox"
             android:background="@drawable/custom_circular_grey_border"
             android:hint="@string/add_a_comment"
+            android:singleLine="true"
             android:paddingBottom="@dimen/_8sdp"
             android:paddingEnd="@dimen/_15sdp"
             android:paddingStart="@dimen/_15sdp"
