@@ -28,6 +28,7 @@ import com.pend.fragments.MirrorUnVotingDialogFragment;
 import com.pend.fragments.MirrorVotingDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
+import com.pend.interfaces.IVotingOrUnVotingDialogCallBack;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.AddAndUpdatePostResponseModel;
 import com.pend.models.GetMirrorDetailsResponseModel;
@@ -48,7 +49,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class MirrorDetailsActivity extends BaseActivity implements View.OnClickListener, RecentPostAdapter.IRecentPostAdapterCallBack ,CommentsDialogFragment.ICommentsDialogCallBack{
+public class MirrorDetailsActivity extends BaseActivity implements View.OnClickListener, RecentPostAdapter.IRecentPostAdapterCallBack,
+        CommentsDialogFragment.ICommentsDialogCallBack,IVotingOrUnVotingDialogCallBack{
 
     private static final String TAG = MirrorDetailsActivity.class.getSimpleName();
     private View mRootView;
@@ -64,6 +66,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     private int mPostId;
     private boolean mIsLike;
     private boolean mIsUnLike;
+    private boolean mIsUpdateRequired;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +106,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     protected void setInitialData() {
 
         mIsVoted = false;
+        mIsUpdateRequired = true;
 
         //for progressbar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -175,7 +179,8 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
 
-                getData(IApiEvent.REQUEST_GET_MIRROR_GRAPH_DATA_CODE);
+                if (mIsUpdateRequired)
+                    getData(IApiEvent.REQUEST_GET_MIRROR_GRAPH_DATA_CODE);
 
                 break;
 
@@ -196,7 +201,8 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
 
-                getData(IApiEvent.REQUEST_GET_POSTS_CODE);
+                if (mIsUpdateRequired)
+                    getData(IApiEvent.REQUEST_GET_POSTS_CODE);
                 break;
 
             case IApiEvent.REQUEST_GET_POSTS_CODE:
@@ -519,6 +525,8 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
         if (mirrorData.mirrorAdmire || mirrorData.mirrorHate || mirrorData.mirrorCantSay) {
             mIsVoted = true;
+        }else {
+            mIsVoted = false;
         }
     }
 
@@ -582,5 +590,11 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         RecentPostAdapter recentPostAdapter = (RecentPostAdapter) mRecyclerViewPost.getAdapter();
         recentPostAdapter.setPostList(mPostList);
         recentPostAdapter.notifyItemChanged(position);
+    }
+
+    @Override
+    public void onVotingOrUnVotingClick() {
+        mIsUpdateRequired = false;
+        getData(IApiEvent.REQUEST_GET_MIRROR_DETAILS_CODE);
     }
 }

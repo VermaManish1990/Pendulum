@@ -15,6 +15,7 @@ import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.interfaces.IApiEvent;
+import com.pend.interfaces.IVotingOrUnVotingDialogCallBack;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.MirrorVoteResponseModel;
 import com.pend.util.LoggerUtil;
@@ -31,6 +32,8 @@ public class MirrorVotingDialogFragment extends DialogFragment implements IScree
 
     private static final String TAG = MirrorVotingDialogFragment.class.getSimpleName();
     private static final String ARG_MIRROR_ID = "ARG_MIRROR_ID";
+    private IVotingOrUnVotingDialogCallBack mIVotingOrUnVotingDialogCallBack;
+
     private RadioGroup mRgVote;
     private Context mContext;
     private int mMirrorId;
@@ -59,6 +62,7 @@ public class MirrorVotingDialogFragment extends DialogFragment implements IScree
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+        mIVotingOrUnVotingDialogCallBack = (IVotingOrUnVotingDialogCallBack) context;
     }
 
     @Nullable
@@ -95,6 +99,7 @@ public class MirrorVotingDialogFragment extends DialogFragment implements IScree
                         LoggerUtil.d(TAG, mirrorVoteResponseModel.statusCode);
 
                         if (mirrorVoteResponseModel.Data != null && mirrorVoteResponseModel.Data.voteData != null) {
+                            mIVotingOrUnVotingDialogCallBack.onVotingOrUnVotingClick();
                             this.dismiss();
                         }
                     } else {
