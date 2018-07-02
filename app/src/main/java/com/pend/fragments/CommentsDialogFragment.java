@@ -52,6 +52,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
 
     private GetPostsResponseModel.GetPostsDetails mPostDetails;
     private ArrayList<GetPostCommentsResponseModel.GetPostCommentsDetails> mCommentList;
+    private ICommentsDialogCallBack mICommentsDialogCallBack;
     private Context mContext;
     private RecyclerView mRecyclerViewComment;
 
@@ -94,6 +95,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+        mICommentsDialogCallBack = (ICommentsDialogCallBack) context;
     }
 
     @Nullable
@@ -230,6 +232,8 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
                             mPostDetails.isUnLike = postLikeResponseModel.Data.likeData.isUnLike;
                             mPostDetails.likeCount = postLikeResponseModel.Data.likeData.likeCount;
                             mPostDetails.unlikeCount = postLikeResponseModel.Data.likeData.unlikeCount;
+
+                            mICommentsDialogCallBack.onPostLikeOrDislikeClick(mPostDetails);
                             setPostDetails();
                         }
                     } else {
@@ -439,5 +443,9 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
+    }
+
+    public interface ICommentsDialogCallBack {
+        void onPostLikeOrDislikeClick(GetPostsResponseModel.GetPostsDetails postDetails);
     }
 }

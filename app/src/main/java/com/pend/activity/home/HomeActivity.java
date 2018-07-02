@@ -43,7 +43,7 @@ import com.pendulum.volley.ext.RequestManager;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends BaseActivity implements View.OnClickListener, HomePostsAdapter.IHomePostsAdapterCallBack {
+public class HomeActivity extends BaseActivity implements View.OnClickListener, HomePostsAdapter.IHomePostsAdapterCallBack, CommentsDialogFragment.ICommentsDialogCallBack {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
     private RecyclerView mRecyclerViewPost;
@@ -307,7 +307,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             case IApiEvent.REQUEST_ADD_POST_CODE:
 
                 //Todo Change variables
-                jsonObject = RequestPostDataUtil.addPostApiRegParam(userId,mMirrorId,"","");
+                jsonObject = RequestPostDataUtil.addPostApiRegParam(userId, mMirrorId, "", "");
                 request = jsonObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<AddAndUpdatePostResponseModel>(IWebServices.REQUEST_ADD_POST_URL, NetworkUtil.getHeaders(this),
                         request, AddAndUpdatePostResponseModel.class, new VolleyErrorListener(this, actionID)) {
@@ -322,7 +322,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             case IApiEvent.REQUEST_UPDATE_POST_CODE:
 
                 //Todo change variables
-                jsonObject = RequestPostDataUtil.updatePostApiRegParam(userId,mPostId,mMirrorId,"","",false,true);
+                jsonObject = RequestPostDataUtil.updatePostApiRegParam(userId, mPostId, mMirrorId, "", "", false, true);
                 request = jsonObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<AddAndUpdatePostResponseModel>(IWebServices.REQUEST_UPDATE_POST_URL, NetworkUtil.getHeaders(this),
                         request, AddAndUpdatePostResponseModel.class, new VolleyErrorListener(this, actionID)) {
@@ -336,7 +336,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
             case IApiEvent.REQUEST_REMOVE_POST_CODE:
 
-                jsonObject = RequestPostDataUtil.removePostApiRegParam(userId, mPostId,mMirrorId);
+                jsonObject = RequestPostDataUtil.removePostApiRegParam(userId, mPostId, mMirrorId);
                 request = jsonObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<BaseResponseModel>(IWebServices.REQUEST_REMOVE_POST_URL, NetworkUtil.getHeaders(this),
                         request, BaseResponseModel.class, new VolleyErrorListener(this, actionID)) {
@@ -469,5 +469,24 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         mIsUnLike = isUnLike;
 
         getData(IApiEvent.REQUEST_POST_LIKE_CODE);
+    }
+
+    @Override
+    public void onPostLikeOrDislikeClick(GetPostsResponseModel.GetPostsDetails postDetails) {
+        int position = 0;
+        for (GetPostsResponseModel.GetPostsDetails tempPostDetails : mPostsDetailsList) {
+            if (tempPostDetails.postID == postDetails.postID) {
+                tempPostDetails.isUnLike = postDetails.isUnLike;
+                tempPostDetails.isLike = postDetails.isLike;
+                tempPostDetails.likeCount = postDetails.likeCount;
+                tempPostDetails.unlikeCount = postDetails.unlikeCount;
+                position = mPostsDetailsList.indexOf(tempPostDetails);
+                break;
+            }
+        }
+
+        HomePostsAdapter homePostsAdapter = (HomePostsAdapter) mRecyclerViewPost.getAdapter();
+        homePostsAdapter.setPostsDetailsList(mPostsDetailsList);
+        homePostsAdapter.notifyItemChanged(position);
     }
 }

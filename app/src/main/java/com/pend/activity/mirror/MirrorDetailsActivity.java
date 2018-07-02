@@ -48,7 +48,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class MirrorDetailsActivity extends BaseActivity implements View.OnClickListener, RecentPostAdapter.IRecentPostAdapterCallBack {
+public class MirrorDetailsActivity extends BaseActivity implements View.OnClickListener, RecentPostAdapter.IRecentPostAdapterCallBack ,CommentsDialogFragment.ICommentsDialogCallBack{
 
     private static final String TAG = MirrorDetailsActivity.class.getSimpleName();
     private View mRootView;
@@ -563,5 +563,24 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         mIsUnLike = isUnLike;
 
         getData(IApiEvent.REQUEST_POST_LIKE_CODE);
+    }
+
+    @Override
+    public void onPostLikeOrDislikeClick(GetPostsResponseModel.GetPostsDetails postDetails) {
+        int position = 0;
+        for (GetPostsResponseModel.GetPostsDetails tempPostDetails : mPostList) {
+            if (tempPostDetails.postID == postDetails.postID) {
+                tempPostDetails.isUnLike = postDetails.isUnLike;
+                tempPostDetails.isLike = postDetails.isLike;
+                tempPostDetails.likeCount = postDetails.likeCount;
+                tempPostDetails.unlikeCount = postDetails.unlikeCount;
+                position = mPostList.indexOf(tempPostDetails);
+                break;
+            }
+        }
+
+        RecentPostAdapter recentPostAdapter = (RecentPostAdapter) mRecyclerViewPost.getAdapter();
+        recentPostAdapter.setPostList(mPostList);
+        recentPostAdapter.notifyItemChanged(position);
     }
 }
