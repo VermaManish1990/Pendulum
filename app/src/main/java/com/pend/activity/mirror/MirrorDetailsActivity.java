@@ -28,7 +28,7 @@ import com.pend.fragments.MirrorUnVotingDialogFragment;
 import com.pend.fragments.MirrorVotingDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
-import com.pend.interfaces.IVotingOrUnVotingDialogCallBack;
+import com.pend.interfaces.IMirrorVotingDialogCallBack;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.AddAndUpdatePostResponseModel;
 import com.pend.models.GetMirrorDetailsResponseModel;
@@ -50,7 +50,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class MirrorDetailsActivity extends BaseActivity implements View.OnClickListener, RecentPostAdapter.IRecentPostAdapterCallBack,
-        CommentsDialogFragment.ICommentsDialogCallBack,IVotingOrUnVotingDialogCallBack{
+        CommentsDialogFragment.ICommentsDialogCallBack,IMirrorVotingDialogCallBack {
 
     private static final String TAG = MirrorDetailsActivity.class.getSimpleName();
     private View mRootView;
@@ -523,11 +523,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                     .into(mIvProfile);
         }
 
-        if (mirrorData.mirrorAdmire || mirrorData.mirrorHate || mirrorData.mirrorCantSay) {
-            mIsVoted = true;
-        }else {
-            mIsVoted = false;
-        }
+        mIsVoted = mirrorData.mirrorAdmire || mirrorData.mirrorHate || mirrorData.mirrorCantSay;
     }
 
     /**

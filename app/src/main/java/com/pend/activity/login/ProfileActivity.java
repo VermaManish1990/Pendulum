@@ -92,7 +92,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             protected void loadMoreItems() {
                 mIsLoading = true;
                 mPageNumber += 1; //Increment page index to load the next one
-                getData(IApiEvent.REQUEST_GET_USER_PROFILE_CODE);
+                getData(IApiEvent.REQUEST_GET_USER_TIME_SHEET_CODE);
             }
 
             @Override
@@ -120,25 +120,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                         if (mUserProfileResponseModel.Data != null && mUserProfileResponseModel.Data.imageData != null && mUserProfileResponseModel.Data.imageData.size() > 0) {
 
                             mViewpagerProfile.setAdapter(new ProfileViewPagerAdapter(this, mUserProfileResponseModel.Data.imageData));
-                        } else {
-
-                            //TODO remove this code
-                            ArrayList<UserProfileResponseModel.ImageDetails> imageData = new ArrayList<>();
-                            UserProfileResponseModel.ImageDetails imageDetails = new UserProfileResponseModel.ImageDetails();
-                            imageDetails.imageURL = "https://cdn.pixabay.com/photo/2016/06/18/17/42/image-1465348_960_720.jpg";
-                            imageData.add(imageDetails);
-                            imageData.add(imageDetails);
-                            imageData.add(imageDetails);
-                            imageData.add(imageDetails);
-                            imageData.add(imageDetails);
-                            imageData.add(imageDetails);
-                            imageData.add(imageDetails);
-                            imageData.add(imageDetails);
-                            imageData.add(imageDetails);
-
-                            mViewpagerProfile.setAdapter(new ProfileViewPagerAdapter(this, imageData));
                         }
-
 
                         if (mUserProfileResponseModel.Data != null && mUserProfileResponseModel.Data.userData != null) {
 

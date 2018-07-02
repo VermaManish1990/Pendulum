@@ -125,7 +125,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
                         Constants.USER_DATA_MODEL_KEY);
 
                 if (userProfileData != null && userProfileData.userData != null) {
-                    mEtName.setText(userProfileData.userData.userName != null ? userProfileData.userData.userName : "");
+                    mEtName.setText(userProfileData.userData.userFullName != null ? userProfileData.userData.userFullName : "");
                     mEtAge.setText(String.valueOf(userProfileData.userData.userAge));
                     mEtGender.setText(userProfileData.userData.userGender != null ? userProfileData.userData.userGender : "");
                     mEtLocation.setText(userProfileData.userData.cityName != null ? userProfileData.userData.cityName : "");

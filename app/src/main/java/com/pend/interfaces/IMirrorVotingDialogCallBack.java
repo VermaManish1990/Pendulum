@@ -1,5 +1,5 @@
 package com.pend.interfaces;
 
-public interface IVotingOrUnVotingDialogCallBack {
+public interface IMirrorVotingDialogCallBack {
     void onVotingOrUnVotingClick();
 }

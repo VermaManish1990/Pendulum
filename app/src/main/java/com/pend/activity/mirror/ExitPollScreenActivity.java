@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pend.BaseActivity;
@@ -19,7 +18,10 @@ import com.pend.fragments.ExitPollUnVotingDialogFragment;
 import com.pend.fragments.ExitPollVotingDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
+import com.pend.interfaces.IExitPollVotingDialogCallBack;
+import com.pend.interfaces.IMirrorVotingDialogCallBack;
 import com.pend.interfaces.IWebServices;
+import com.pend.models.ExitPollVoteResponseModel;
 import com.pend.models.GetExitPollListResponseModel;
 import com.pend.models.GetExitPollMirrorResponseModel;
 import com.pend.models.UserProfileResponseModel;
@@ -34,7 +36,7 @@ import com.pendulum.volley.ext.RequestManager;
 
 import java.util.ArrayList;
 
-public class ExitPollScreenActivity extends BaseActivity implements View.OnClickListener, ExitPollAdapter.IExitPollAdapterCallBack {
+public class ExitPollScreenActivity extends BaseActivity implements View.OnClickListener, ExitPollAdapter.IExitPollAdapterCallBack, IExitPollVotingDialogCallBack {
 
     private static final String TAG = ExitPollScreenActivity.class.getSimpleName();
     private View mRootView;
@@ -276,9 +278,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
     public void onViewClick(int position) {
         GetExitPollListResponseModel.GetExitPollListDetails exitPollListDetails = mExitPollList.get(position);
 
-        if (exitPollListDetails.pollAdmire || exitPollListDetails.pollHate || exitPollListDetails.pollCantSay) {
-            mIsVoted = true;
-        }
+        mIsVoted = exitPollListDetails.pollAdmire || exitPollListDetails.pollHate || exitPollListDetails.pollCantSay;
 
         if (!mIsVoted) {
             DialogFragment votingDialogFragment = ExitPollVotingDialogFragment.newInstance(exitPollListDetails.mirrorID, exitPollListDetails.exitPollID);
@@ -287,5 +287,26 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
             DialogFragment unVotingDialogFragment = ExitPollUnVotingDialogFragment.newInstance(exitPollListDetails.mirrorID, exitPollListDetails.exitPollID);
             unVotingDialogFragment.show(getSupportFragmentManager(), "ExitPollUnVotingDialogFragment");
         }
+    }
+
+    @Override
+    public void onVotingOrUnVotingClick(ExitPollVoteResponseModel.ExitPollVoteDetails exitPollVoteDetails) {
+        int position = 0;
+        for (GetExitPollListResponseModel.GetExitPollListDetails exitPollListDetails : mExitPollList) {
+            if (exitPollListDetails.exitPollID == exitPollVoteDetails.exitPollID) {
+                exitPollListDetails.pollAdmirePer = exitPollVoteDetails.pollAdmirePer;
+                exitPollListDetails.pollHatePer = exitPollVoteDetails.pollHatePer;
+                exitPollListDetails.pollCantSayPer = exitPollVoteDetails.pollCantSayPer;
+                exitPollListDetails.pollAdmire = exitPollVoteDetails.pollAdmire;
+                exitPollListDetails.pollHate = exitPollVoteDetails.pollHate;
+                exitPollListDetails.pollCantSay = exitPollVoteDetails.pollCantSay;
+
+                position = mExitPollList.indexOf(exitPollListDetails);
+            }
+        }
+
+        ExitPollAdapter exitPollAdapter = (ExitPollAdapter) mRecyclerViewExitPoll.getAdapter();
+        exitPollAdapter.setExitPollList(mExitPollList);
+        exitPollAdapter.notifyItemChanged(position);
     }
 }

@@ -16,6 +16,8 @@ import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.interfaces.IApiEvent;
+import com.pend.interfaces.IExitPollVotingDialogCallBack;
+import com.pend.interfaces.IMirrorVotingDialogCallBack;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.ExitPollVoteResponseModel;
 import com.pend.util.LoggerUtil;
@@ -33,6 +35,7 @@ public class ExitPollVotingDialogFragment extends DialogFragment implements IScr
     private static final String TAG = ExitPollVotingDialogFragment.class.getSimpleName();
     private static final String ARG_EXIT_POLL_ID = "ARG_EXIT_POLL_ID";
     private static final String ARG_MIRROR_ID = "ARG_MIRROR_ID";
+    private IExitPollVotingDialogCallBack mIExitPollVotingDialogCallBack;
     private RadioGroup mRgVote;
     private Context mContext;
     private int mMirrorId;
@@ -64,6 +67,7 @@ public class ExitPollVotingDialogFragment extends DialogFragment implements IScr
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+        mIExitPollVotingDialogCallBack = (IExitPollVotingDialogCallBack) context;
     }
 
     @Nullable
@@ -101,6 +105,7 @@ public class ExitPollVotingDialogFragment extends DialogFragment implements IScr
                         LoggerUtil.d(TAG, exitPollVoteResponseModel.statusCode);
 
                         if (exitPollVoteResponseModel.Data != null && exitPollVoteResponseModel.Data.voteData != null) {
+                            mIExitPollVotingDialogCallBack.onVotingOrUnVotingClick(exitPollVoteResponseModel.Data.voteData);
                             this.dismiss();
                         }
                     } else {
