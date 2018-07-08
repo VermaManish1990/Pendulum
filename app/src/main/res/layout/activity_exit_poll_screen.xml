@@ -161,7 +161,7 @@
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="@string/recent_post"
+                android:text="@string/recent_exit_polls"
                 android:textColor="@color/fontPrimary50"
                 android:textStyle="bold" />
 

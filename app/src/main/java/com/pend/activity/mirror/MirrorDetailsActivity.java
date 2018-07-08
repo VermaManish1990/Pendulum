@@ -97,7 +97,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         mProgressBarProfile = findViewById(R.id.progress_bar_profile);
         mRecyclerViewPost = findViewById(R.id.recycler_view_post);
 
-        findViewById(R.id.iv_create_post).setOnClickListener(this);
+        findViewById(R.id.view_create_a_new_post).setOnClickListener(this);
         findViewById(R.id.view_progress_bar_profile).setOnClickListener(this);
         mIvProfile.setOnClickListener(this);
     }
@@ -126,7 +126,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 //        staticLabelsFormatter.setHorizontalLabels(new String[] {"old", "middle", "new"});
 
         GridLabelRenderer gridLabelRenderer = mGraphView.getGridLabelRenderer();
-        gridLabelRenderer.setTextSize(12);
+        gridLabelRenderer.setTextSize(18);
         gridLabelRenderer.setHorizontalLabelsColor(getResources().getColor(R.color.light_black_txt_color));
         gridLabelRenderer.setVerticalLabelsColor(getResources().getColor(R.color.light_black_txt_color));
         gridLabelRenderer.setGridColor(getResources().getColor(R.color.darkGreyBackground));
@@ -468,7 +468,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
 
-            case R.id.iv_create_post:
+            case R.id.view_create_a_new_post:
 
                 Intent intentCreatePost = new Intent(MirrorDetailsActivity.this, CreatePostActivity.class);
                 intentCreatePost.putExtra(Constants.MIRROR_ID_KEY, mMirrorId);

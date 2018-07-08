@@ -118,5 +118,6 @@
     <string name="can_t_add_a_post">Can\'t add a post</string>
     <string name="create_contest">Create Contest</string>
     <string name="what_you_feel_about_exit_poll">What you feel about this exit poll?</string>
+    <string name="recent_exit_polls">Recent Exit Polls</string>
 
 </resources>

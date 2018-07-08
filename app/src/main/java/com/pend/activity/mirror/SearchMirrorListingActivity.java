@@ -1,5 +1,6 @@
 package com.pend.activity.mirror;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
@@ -71,8 +72,7 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
         mSearchDataList = new ArrayList<>();
 
         mRecyclerViewSearch.setLayoutManager(new LinearLayoutManager(this));
-        SearchMirrorAdapter searchMirrorAdapter = new SearchMirrorAdapter(this, mSearchDataList);
-        mRecyclerViewSearch.setAdapter(searchMirrorAdapter);
+        mRecyclerViewSearch.setAdapter(new SearchMirrorAdapter(this, mSearchDataList));
 
     }
 
@@ -107,6 +107,10 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
 
                         if (createMirrorResponseModel.Data != null && createMirrorResponseModel.Data.mirrorData != null) {
                             Snackbar.make(mRootView, R.string.mirror_created_successfully, Snackbar.LENGTH_LONG).show();
+                            Intent intent = new Intent(SearchMirrorListingActivity.this,MirrorDetailsActivity.class);
+                            intent.putExtra(Constants.MIRROR_ID_KEY, createMirrorResponseModel.Data.mirrorData.mirrorID);
+                            startActivity(intent);
+                            finish();
                         }
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
