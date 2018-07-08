@@ -93,9 +93,6 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
                         LoggerUtil.d(TAG, addAndUpdatePostResponseModel.statusCode);
 
                         if(addAndUpdatePostResponseModel.Data!=null&&addAndUpdatePostResponseModel.Data.postData!=null){
-                            Intent intent = new Intent(CreatePostActivity.this, MirrorDetailsActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
                             finish();
                         }
                     } else {

@@ -201,8 +201,6 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
 
-                if (mIsUpdateRequired)
-                    getData(IApiEvent.REQUEST_GET_POSTS_CODE);
                 break;
 
             case IApiEvent.REQUEST_GET_POSTS_CODE:
@@ -355,7 +353,6 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                     @Override
                     protected void deliverResponse(GetMirrorDetailsResponseModel response) {
                         updateUi(true, actionID, response);
-
                     }
                 });
                 break;
@@ -372,7 +369,6 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                     @Override
                     protected void deliverResponse(GetMirrorGraphResponseModel response) {
                         updateUi(true, actionID, response);
-
                     }
                 });
                 break;
@@ -550,6 +546,22 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                 new DataPoint(30, 40)
         });
         mGraphView.addSeries(series);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getData(IApiEvent.REQUEST_GET_POSTS_CODE);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if(mPostList!=null){
+            mPostList.clear();
+        }
     }
 
     @Override
