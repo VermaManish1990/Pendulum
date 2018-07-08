@@ -64,6 +64,13 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
             Picasso.with(mContext)
                     .load(postsDetails.imageURL)
                     .into(holder.ivPost);
+
+            holder.ivPost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mIHomePostsAdapterCallBack.onCommentClick(position);
+                }
+            });
         }
 
         if (postsDetails.commentUserImageURL != null && !postsDetails.commentUserImageURL.equals("")) {
@@ -78,6 +85,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                 mIHomePostsAdapterCallBack.onCommentClick(position);
             }
         });
+
         holder.llLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

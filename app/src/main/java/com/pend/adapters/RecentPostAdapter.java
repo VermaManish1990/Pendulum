@@ -69,6 +69,7 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
                 mIRecentPostAdapterCallBack.onCommentIconClick(position);
             }
         });
+
         holder.ivLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,6 +102,13 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
             Picasso.with(mContext)
                     .load(postsDetails.imageURL)
                     .into(holder.ivPost);
+
+            holder.ivPost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mIRecentPostAdapterCallBack.onCommentIconClick(position);
+                }
+            });
         }
 
         if (postsDetails.commentText != null && !postsDetails.commentText.equals("")) {
