@@ -107,6 +107,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
         mIsVoted = false;
         mIsUpdateRequired = true;
+        mRecyclerViewPost.setNestedScrollingEnabled(false);
 
         //for progressbar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
