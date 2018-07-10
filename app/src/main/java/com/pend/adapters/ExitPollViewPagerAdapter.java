@@ -20,14 +20,15 @@ public class ExitPollViewPagerAdapter extends PagerAdapter {
     private final LayoutInflater mLayoutInflater;
     private final Context mContext;
     private ArrayList<UserProfileResponseModel.ImageDetails> mImageDetailsList;
+    private IExitPollViewPagerAdapterCallBack mIExitPollViewPagerAdapterCallBack;
 
     //TODO Change Array List
     public ExitPollViewPagerAdapter(Context context, ArrayList<UserProfileResponseModel.ImageDetails> imageDetailsList) {
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mContext = context;
+        mIExitPollViewPagerAdapterCallBack = (IExitPollViewPagerAdapterCallBack) context;
         mImageDetailsList = imageDetailsList;
     }
-
 
     @Override
     public int getCount() {
@@ -41,7 +42,7 @@ public class ExitPollViewPagerAdapter extends PagerAdapter {
 
     @NonNull
     @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, final int position) {
 
         UserProfileResponseModel.ImageDetails imageDetails = mImageDetailsList.get(position);
         View itemView = mLayoutInflater.inflate(R.layout.profile_view_pager_item, container, false);
@@ -58,12 +59,22 @@ public class ExitPollViewPagerAdapter extends PagerAdapter {
 
         container.addView(itemView);
 
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIExitPollViewPagerAdapterCallBack.onImageClick(position);
+            }
+        });
+
         return itemView;
     }
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((FrameLayout) object);
+    }
 
+    public interface IExitPollViewPagerAdapterCallBack {
+        void onImageClick(int position);
     }
 }

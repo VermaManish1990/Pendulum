@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pend.BaseActivity;
@@ -33,10 +34,12 @@ import com.pend.util.VolleyErrorListener;
 import com.pendulum.utils.ConnectivityUtils;
 import com.pendulum.volley.ext.GsonObjectRequest;
 import com.pendulum.volley.ext.RequestManager;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ExitPollScreenActivity extends BaseActivity implements View.OnClickListener, ExitPollAdapter.IExitPollAdapterCallBack, IExitPollVotingDialogCallBack {
+public class ExitPollScreenActivity extends BaseActivity implements View.OnClickListener, ExitPollAdapter.IExitPollAdapterCallBack, IExitPollVotingDialogCallBack,
+        ExitPollViewPagerAdapter.IExitPollViewPagerAdapterCallBack {
 
     private static final String TAG = ExitPollScreenActivity.class.getSimpleName();
     private View mRootView;
@@ -51,6 +54,9 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
     private boolean mIsHasNextPage;
     private boolean mIsLoading;
     private boolean mIsVoted;
+    private View mRlLargeView;
+    private ImageView mIvLargeProfile;
+    private ArrayList<UserProfileResponseModel.ImageDetails> mImageDataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +80,15 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
     protected void initUI() {
 
         mRootView = findViewById(R.id.root_view);
+        mRlLargeView = findViewById(R.id.rl_large_view);
+        mIvLargeProfile = findViewById(R.id.iv_large_profile);
         mViewpagerProfile = findViewById(R.id.viewpager_profile);
         mTvCategory = findViewById(R.id.tv_category);
         mTvWikiLink = findViewById(R.id.tv_wiki_link);
         mTvCreatedBy = findViewById(R.id.tv_created_by);
         mRecyclerViewExitPoll = findViewById(R.id.recycler_view_exit_poll);
 
+        findViewById(R.id.iv_close).setOnClickListener(this);
         findViewById(R.id.tv_related_contest).setOnClickListener(this);
         findViewById(R.id.tv_reflections).setOnClickListener(this);
 
@@ -118,20 +127,20 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
         mRecyclerViewExitPoll.setAdapter(new ExitPollAdapter(this, mExitPollList));
 
         //TODO remove this code
-        ArrayList<UserProfileResponseModel.ImageDetails> imageData = new ArrayList<>();
+        mImageDataList = new ArrayList<>();
         UserProfileResponseModel.ImageDetails imageDetails = new UserProfileResponseModel.ImageDetails();
         imageDetails.imageURL = "https://cdn.pixabay.com/photo/2016/06/18/17/42/image-1465348_960_720.jpg";
-        imageData.add(imageDetails);
-        imageData.add(imageDetails);
-        imageData.add(imageDetails);
-        imageData.add(imageDetails);
-        imageData.add(imageDetails);
-        imageData.add(imageDetails);
-        imageData.add(imageDetails);
-        imageData.add(imageDetails);
-        imageData.add(imageDetails);
+        mImageDataList.add(imageDetails);
+        mImageDataList.add(imageDetails);
+        mImageDataList.add(imageDetails);
+        mImageDataList.add(imageDetails);
+        mImageDataList.add(imageDetails);
+        mImageDataList.add(imageDetails);
+        mImageDataList.add(imageDetails);
+        mImageDataList.add(imageDetails);
+        mImageDataList.add(imageDetails);
 
-        mViewpagerProfile.setAdapter(new ExitPollViewPagerAdapter(this, imageData));
+        mViewpagerProfile.setAdapter(new ExitPollViewPagerAdapter(this, mImageDataList));
     }
 
     @Override
@@ -268,6 +277,10 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
             case R.id.tv_share_on_facebook:
                 break;
 
+            case R.id.iv_close:
+                mRlLargeView.setVisibility(View.GONE);
+                break;
+
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
@@ -308,5 +321,24 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
         ExitPollAdapter exitPollAdapter = (ExitPollAdapter) mRecyclerViewExitPoll.getAdapter();
         exitPollAdapter.setExitPollList(mExitPollList);
         exitPollAdapter.notifyItemChanged(position);
+    }
+
+    @Override
+    public void onImageClick(int position) {
+
+        mRlLargeView.setVisibility(View.VISIBLE);
+
+        Picasso.with(this)
+                .load(mImageDataList.get(position).imageURL)
+                .into(mIvLargeProfile);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mRlLargeView.getVisibility() == View.VISIBLE) {
+            mRlLargeView.setVisibility(View.GONE);
+        } else {
+            super.onBackPressed();
+        }
     }
 }
