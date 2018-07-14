@@ -98,13 +98,39 @@ public class OtherUtil {
         void onSpanClick();
     }
 
+    /**
+     * Method is used to get Base64 format of Image.
+     *
+     * @param imagePath imagePath
+     * @return String
+     */
     public static String getBase64Format(String imagePath) {
 
         try {
-            Bitmap bm = Bitmap.createScaledBitmap (BitmapFactory.decodeFile(imagePath), 150, 150, false);
+            Bitmap bm = Bitmap.createScaledBitmap (BitmapFactory.decodeFile(imagePath), 250, 250, false);
 //            Bitmap bm = BitmapFactory.decodeFile(imagePath);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bm.compress(Bitmap.CompressFormat.PNG, 0, baos); //bm is the bitmap object
+            byte[] byteArrayImage = baos.toByteArray();
+
+            return Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Method is used to get Base64 format of Image.
+     *
+     * @param bitmap imagePath
+     * @return String
+     */
+    public static String getBase64FormatFromBitmap(Bitmap bitmap) {
+
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 0, baos); //bm is the bitmap object
             byte[] byteArrayImage = baos.toByteArray();
 
             return Base64.encodeToString(byteArrayImage, Base64.DEFAULT);

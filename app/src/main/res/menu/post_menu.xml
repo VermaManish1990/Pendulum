@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/tools"
+    xmlns:androclass="http://schemas.android.com/apk/res/android">
+
+    <item
+        androclass:title="@string/update_post"
+        android:id="@+id/update_post" />
+
+    <item
+        androclass:title="@string/remove_post"
+        android:id="@+id/remove_post" />
+
+</menu>

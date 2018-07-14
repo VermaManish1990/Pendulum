@@ -119,5 +119,7 @@
     <string name="create_contest">Create Contest</string>
     <string name="what_you_feel_about_exit_poll">What you feel about this exit poll?</string>
     <string name="recent_exit_polls">Recent Exit Polls</string>
+    <string name="update_post">Update Post</string>
+    <string name="remove_post">Remove Post</string>
 
 </resources>

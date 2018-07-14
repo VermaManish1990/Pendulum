@@ -9,6 +9,7 @@ public interface Constants {
     String USER_DETAILS_KEY = "USER_DETAILS_KEY";
     String USER_DATA_MODEL_KEY = "USER_DATA_MODEL_KEY";
     String MIRROR_ID_KEY = "MIRROR_ID_KEY";
+    String POST_DETAILS_KEY = "POST_DETAILS_KEY";
     String SEARCH_TEXT_KEY = "SEARCH_TEXT_KEY";
     String TRENDING_MIRROR_LIST_KEY = "SEARCH_TEXT_KEY";
 
@@ -44,5 +45,8 @@ public interface Constants {
     int REQUEST_TAKE_PHOTO = 2;
     int ALL_PERMISSION_REQUEST_CODE = 3;
     String EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+    String UPDATE_POST = "Update Post";
+    String REMOVE_POST = "Remove Post";
 
 }

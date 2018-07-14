@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,17 +18,18 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
 import com.pend.R;
-import com.pend.activity.mirror.MirrorDetailsActivity;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.AddAndUpdatePostResponseModel;
+import com.pend.models.GetPostsResponseModel;
 import com.pend.util.AndroidPermissionUtils;
 import com.pend.util.ImageFilePathUtil;
 import com.pend.util.LoggerUtil;
@@ -37,6 +40,7 @@ import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
 import com.pendulum.volley.ext.GsonObjectRequest;
 import com.pendulum.volley.ext.RequestManager;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
@@ -50,6 +54,9 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
     private String mEncodedImage;
     private View mRootView;
     private int mMirrorId;
+    private boolean mIsUpdatePost;
+    private GetPostsResponseModel.GetPostsDetails mPostDetails;
+    private Button mBtCreatePost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +65,13 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
 
         Bundle localBundle = getIntent().getExtras();
         if (localBundle != null) {
+
             if (localBundle.containsKey(Constants.MIRROR_ID_KEY)) {
                 mMirrorId = localBundle.getInt(Constants.MIRROR_ID_KEY, 0);
+            }
+
+            if (localBundle.containsKey(Constants.POST_DETAILS_KEY)) {
+                mPostDetails = (GetPostsResponseModel.GetPostsDetails) localBundle.getSerializable(Constants.POST_DETAILS_KEY);
             }
         }
 
@@ -73,13 +85,41 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
         mRootView = findViewById(R.id.root_view);
         mEtPostInfo = findViewById(R.id.et_post_info);
         mIvPost = findViewById(R.id.iv_post);
+        mBtCreatePost = findViewById(R.id.bt_create_post);
+
         mIvPost.setOnClickListener(this);
-        findViewById(R.id.bt_create_post).setOnClickListener(this);
+        mBtCreatePost.setOnClickListener(this);
     }
 
     @Override
     protected void setInitialData() {
 
+        mIsUpdatePost = false;
+        if (mPostDetails != null) {
+
+            mIsUpdatePost = true;
+            mBtCreatePost.setText(getString(R.string.update_post));
+
+            if(mPostDetails.imageURL!=null){
+
+                Picasso.with(this)
+                        .load(mPostDetails.imageURL)
+                        .into(mIvPost, new com.squareup.picasso.Callback() {
+                            @Override
+                            public void onSuccess() {
+                                Bitmap bitmap = ((BitmapDrawable) mIvPost.getDrawable()).getBitmap();
+                                mEncodedImage = OtherUtil.getBase64FormatFromBitmap(bitmap);
+                            }
+
+                            @Override
+                            public void onError() {
+
+                            }
+                        });
+            }
+
+            mEtPostInfo.setText(mPostDetails.postInfo != null ? mPostDetails.postInfo : "");
+        }
 
     }
 
@@ -92,9 +132,27 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
                     if (addAndUpdatePostResponseModel != null && addAndUpdatePostResponseModel.status) {
                         LoggerUtil.d(TAG, addAndUpdatePostResponseModel.statusCode);
 
-                        if(addAndUpdatePostResponseModel.Data!=null&&addAndUpdatePostResponseModel.Data.postData!=null){
+                        if (addAndUpdatePostResponseModel.Data != null && addAndUpdatePostResponseModel.Data.postData != null) {
                             finish();
                         }
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                    }
+                } else {
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
+                break;
+
+            case IApiEvent.REQUEST_UPDATE_POST_CODE:
+                if (status) {
+                    AddAndUpdatePostResponseModel addAndUpdatePostResponseModel = (AddAndUpdatePostResponseModel) serviceResponse;
+                    if (addAndUpdatePostResponseModel != null && addAndUpdatePostResponseModel.status) {
+                        LoggerUtil.d(TAG, addAndUpdatePostResponseModel.statusCode);
+
+                        if (addAndUpdatePostResponseModel.Data != null && addAndUpdatePostResponseModel.Data.postData != null) {
+                            finish();
+                        }
+
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
@@ -127,16 +185,33 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
         int userId = -1;
         try {
             userId = Integer.parseInt(SharedPrefUtils.getUserId(CreatePostActivity.this));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+        JsonObject jsonObject;
+        String request;
 
         switch (actionID) {
             case IApiEvent.REQUEST_ADD_POST_CODE:
 
-                JsonObject requestObject = RequestPostDataUtil.addPostApiRegParam(userId,mMirrorId,mEtPostInfo.getText().toString(),mEncodedImage);
-                String request = requestObject.toString();
+                jsonObject = RequestPostDataUtil.addPostApiRegParam(userId, mMirrorId, mEtPostInfo.getText().toString(), mEncodedImage);
+                request = jsonObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<AddAndUpdatePostResponseModel>(IWebServices.REQUEST_ADD_POST_URL, NetworkUtil.getHeaders(this),
+                        request, AddAndUpdatePostResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(AddAndUpdatePostResponseModel response) {
+                        updateUi(true, actionID, response);
+                    }
+                });
+                break;
+
+            case IApiEvent.REQUEST_UPDATE_POST_CODE:
+
+                jsonObject = RequestPostDataUtil.updatePostApiRegParam(userId, mPostDetails.postID, mMirrorId, mEtPostInfo.getText().toString(), mEncodedImage, false, true);
+                request = jsonObject.toString();
+                RequestManager.addRequest(new GsonObjectRequest<AddAndUpdatePostResponseModel>(IWebServices.REQUEST_UPDATE_POST_URL, NetworkUtil.getHeaders(this),
                         request, AddAndUpdatePostResponseModel.class, new VolleyErrorListener(this, actionID)) {
 
                     @Override
@@ -161,8 +236,13 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_create_post:
+
                 if (mEncodedImage != null) {
-                    getData(IApiEvent.REQUEST_ADD_POST_CODE);
+                    if (mIsUpdatePost) {
+                        getData(IApiEvent.REQUEST_UPDATE_POST_CODE);
+                    } else {
+                        getData(IApiEvent.REQUEST_ADD_POST_CODE);
+                    }
                 } else {
                     Snackbar.make(mRootView, getString(R.string.can_t_add_a_post), Snackbar.LENGTH_LONG).show();
                 }

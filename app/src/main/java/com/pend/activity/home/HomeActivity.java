@@ -9,7 +9,10 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -179,45 +182,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                                     break;
                                 }
                             }
-
                         }
-
-                    } else {
-                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
-                    }
-                } else {
-                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
-                }
-                break;
-
-            case IApiEvent.REQUEST_ADD_POST_CODE:
-                if (status) {
-                    AddAndUpdatePostResponseModel addAndUpdatePostResponseModel = (AddAndUpdatePostResponseModel) serviceResponse;
-                    if (addAndUpdatePostResponseModel != null && addAndUpdatePostResponseModel.status) {
-                        LoggerUtil.d(TAG, addAndUpdatePostResponseModel.statusCode);
-
-                        if (addAndUpdatePostResponseModel.Data != null && addAndUpdatePostResponseModel.Data.postData != null) {
-
-                        }
-
-                    } else {
-                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
-                    }
-                } else {
-                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
-                }
-                break;
-
-            case IApiEvent.REQUEST_UPDATE_POST_CODE:
-                if (status) {
-                    AddAndUpdatePostResponseModel addAndUpdatePostResponseModel = (AddAndUpdatePostResponseModel) serviceResponse;
-                    if (addAndUpdatePostResponseModel != null && addAndUpdatePostResponseModel.status) {
-                        LoggerUtil.d(TAG, addAndUpdatePostResponseModel.statusCode);
-
-                        if (addAndUpdatePostResponseModel.Data != null && addAndUpdatePostResponseModel.Data.postData != null) {
-
-                        }
-
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
@@ -231,6 +196,17 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                     BaseResponseModel baseResponseModel = (BaseResponseModel) serviceResponse;
                     if (baseResponseModel != null && baseResponseModel.status) {
                         LoggerUtil.d(TAG, baseResponseModel.statusCode);
+
+                        int index = 0;
+                        for (GetPostsResponseModel.GetPostsDetails postsDetails : mPostsDetailsList) {
+                            if (mPostId == postsDetails.postID) {
+                                index = mPostsDetailsList.indexOf(postsDetails);
+                            }
+                        }
+                        mPostsDetailsList.remove(index);
+                        HomePostsAdapter homePostsAdapter = (HomePostsAdapter) mRecyclerViewPost.getAdapter();
+                        homePostsAdapter.setPostsDetailsList(mPostsDetailsList);
+                        homePostsAdapter.notifyItemChanged(index);
 
                         Snackbar.make(mRootView, R.string.post_remove_successfully, Snackbar.LENGTH_LONG).show();
 
@@ -299,36 +275,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
                     @Override
                     protected void deliverResponse(PostLikeResponseModel response) {
-                        updateUi(true, actionID, response);
-                    }
-                });
-                break;
-
-            case IApiEvent.REQUEST_ADD_POST_CODE:
-
-                //Todo Change variables
-                jsonObject = RequestPostDataUtil.addPostApiRegParam(userId, mMirrorId, "", "");
-                request = jsonObject.toString();
-                RequestManager.addRequest(new GsonObjectRequest<AddAndUpdatePostResponseModel>(IWebServices.REQUEST_ADD_POST_URL, NetworkUtil.getHeaders(this),
-                        request, AddAndUpdatePostResponseModel.class, new VolleyErrorListener(this, actionID)) {
-
-                    @Override
-                    protected void deliverResponse(AddAndUpdatePostResponseModel response) {
-                        updateUi(true, actionID, response);
-                    }
-                });
-                break;
-
-            case IApiEvent.REQUEST_UPDATE_POST_CODE:
-
-                //Todo change variables
-                jsonObject = RequestPostDataUtil.updatePostApiRegParam(userId, mPostId, mMirrorId, "", "", false, true);
-                request = jsonObject.toString();
-                RequestManager.addRequest(new GsonObjectRequest<AddAndUpdatePostResponseModel>(IWebServices.REQUEST_UPDATE_POST_URL, NetworkUtil.getHeaders(this),
-                        request, AddAndUpdatePostResponseModel.class, new VolleyErrorListener(this, actionID)) {
-
-                    @Override
-                    protected void deliverResponse(AddAndUpdatePostResponseModel response) {
                         updateUi(true, actionID, response);
                     }
                 });
@@ -459,6 +405,36 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     public void onCommentClick(int position) {
         CommentsDialogFragment commentsDialogFragment = CommentsDialogFragment.newInstance(mPostsDetailsList.get(position));
         commentsDialogFragment.show(getSupportFragmentManager(), "CommentsDialogFragment");
+    }
+
+    @Override
+    public void onMenuClick(final int position, View view) {
+        PopupMenu popup = new PopupMenu(this, view, Gravity.END);
+        popup.getMenuInflater().inflate(R.menu.post_menu, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                Intent intent;
+
+                switch (item.getTitle().toString()) {
+                    case Constants.UPDATE_POST:
+                        intent = new Intent(HomeActivity.this, CreatePostActivity.class);
+                        intent.putExtra(Constants.MIRROR_ID_KEY, mMirrorId);
+                        intent.putExtra(Constants.POST_DETAILS_KEY, mPostsDetailsList.get(position));
+                        startActivity(intent);
+                        return true;
+
+                    case Constants.REMOVE_POST:
+                        mPostId = mPostsDetailsList.get(position).postID;
+                        getData(IApiEvent.REQUEST_REMOVE_POST_CODE);
+                        return true;
+                }
+                return false;
+            }
+        });
+        popup.show();
     }
 
     @Override

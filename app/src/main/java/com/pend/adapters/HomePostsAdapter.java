@@ -79,6 +79,13 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                     .into(holder.ivProfile);
         }
 
+        holder.ivMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIHomePostsAdapterCallBack.onMenuClick(position,holder.ivMenu);
+            }
+        });
+
         holder.llComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,6 +162,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         private final View llComment;
         private final View llLike;
         private final View llDislike;
+        private final ImageView ivMenu;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -177,11 +185,14 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
             llComment = itemView.findViewById(R.id.ll_comment);
             llLike = itemView.findViewById(R.id.ll_like);
             llDislike = itemView.findViewById(R.id.ll_dislike);
+
+            ivMenu = itemView.findViewById(R.id.iv_menu);
         }
     }
 
     public interface IHomePostsAdapterCallBack {
         void onCommentClick(int position);
+        void onMenuClick(int position,View view);
 
         void onLikeOrDislikeClick(int position, boolean isLike, boolean isUnLike);
     }

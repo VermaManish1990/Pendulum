@@ -261,42 +261,6 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                 }
                 break;
 
-            case IApiEvent.REQUEST_ADD_POST_CODE:
-                if (status) {
-                    AddAndUpdatePostResponseModel addAndUpdatePostResponseModel = (AddAndUpdatePostResponseModel) serviceResponse;
-                    if (addAndUpdatePostResponseModel != null && addAndUpdatePostResponseModel.status) {
-                        LoggerUtil.d(TAG, addAndUpdatePostResponseModel.statusCode);
-
-                        if (addAndUpdatePostResponseModel.Data != null && addAndUpdatePostResponseModel.Data.postData != null) {
-
-                        }
-
-                    } else {
-                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
-                    }
-                } else {
-                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
-                }
-                break;
-
-            case IApiEvent.REQUEST_UPDATE_POST_CODE:
-                if (status) {
-                    AddAndUpdatePostResponseModel addAndUpdatePostResponseModel = (AddAndUpdatePostResponseModel) serviceResponse;
-                    if (addAndUpdatePostResponseModel != null && addAndUpdatePostResponseModel.status) {
-                        LoggerUtil.d(TAG, addAndUpdatePostResponseModel.statusCode);
-
-                        if (addAndUpdatePostResponseModel.Data != null && addAndUpdatePostResponseModel.Data.postData != null) {
-
-                        }
-
-                    } else {
-                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
-                    }
-                } else {
-                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
-                }
-                break;
-
             case IApiEvent.REQUEST_REMOVE_POST_CODE:
                 if (status) {
                     BaseResponseModel baseResponseModel = (BaseResponseModel) serviceResponse;
@@ -400,36 +364,6 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
                     @Override
                     protected void deliverResponse(PostLikeResponseModel response) {
-                        updateUi(true, actionID, response);
-                    }
-                });
-                break;
-
-            case IApiEvent.REQUEST_ADD_POST_CODE:
-
-                //Todo Change variables
-                jsonObject = RequestPostDataUtil.addPostApiRegParam(userId, mMirrorId, "", "");
-                request = jsonObject.toString();
-                RequestManager.addRequest(new GsonObjectRequest<AddAndUpdatePostResponseModel>(IWebServices.REQUEST_ADD_POST_URL, NetworkUtil.getHeaders(this),
-                        request, AddAndUpdatePostResponseModel.class, new VolleyErrorListener(this, actionID)) {
-
-                    @Override
-                    protected void deliverResponse(AddAndUpdatePostResponseModel response) {
-                        updateUi(true, actionID, response);
-                    }
-                });
-                break;
-
-            case IApiEvent.REQUEST_UPDATE_POST_CODE:
-
-                //Todo change variables
-                jsonObject = RequestPostDataUtil.updatePostApiRegParam(userId, mPostId, mMirrorId, "", "", false, true);
-                request = jsonObject.toString();
-                RequestManager.addRequest(new GsonObjectRequest<AddAndUpdatePostResponseModel>(IWebServices.REQUEST_UPDATE_POST_URL, NetworkUtil.getHeaders(this),
-                        request, AddAndUpdatePostResponseModel.class, new VolleyErrorListener(this, actionID)) {
-
-                    @Override
-                    protected void deliverResponse(AddAndUpdatePostResponseModel response) {
                         updateUi(true, actionID, response);
                     }
                 });
