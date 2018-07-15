@@ -1,20 +1,16 @@
 package com.pend.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,7 +30,6 @@ import com.pend.models.PostLikeResponseModel;
 import com.pend.util.DateUtil;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
-import com.pend.util.OtherUtil;
 import com.pend.util.PaginationScrollListener;
 import com.pend.util.RequestPostDataUtil;
 import com.pend.util.SharedPrefUtils;
@@ -257,7 +252,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
                             mPostDetails.likeCount = postLikeResponseModel.Data.likeData.likeCount;
                             mPostDetails.unlikeCount = postLikeResponseModel.Data.likeData.unlikeCount;
 
-                            mICommentsDialogCallBack.onPostLikeOrDislikeClick(mPostDetails);
+                            mICommentsDialogCallBack.onPostUpdate(mPostDetails);
                             setPostDetails();
                         }
                     } else {
@@ -282,6 +277,13 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
                                     commentDetails.commentText,commentDetails.userFullName,commentDetails.imageName,commentDetails.commentUserImageURL,
                                     commentDetails.createdDatetime));
                             commentsAdapter.notifyItemInserted(mCommentList.size()-1);
+
+                            mPostDetails.commentText = commentDetails.commentText;
+                            mPostDetails.commentCount+=1;
+                            mPostDetails.commentUserImageURL = commentDetails.commentUserImageURL;
+                            mPostDetails.commentUserFullName = commentDetails.userFullName;
+                            mPostDetails.commentUserImageName = commentDetails.imageName;
+                            mICommentsDialogCallBack.onPostUpdate(mPostDetails);
                         }
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -480,6 +482,6 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
     }
 
     public interface ICommentsDialogCallBack {
-        void onPostLikeOrDislikeClick(GetPostsResponseModel.GetPostsDetails postDetails);
+        void onPostUpdate(GetPostsResponseModel.GetPostsDetails postDetails);
     }
 }

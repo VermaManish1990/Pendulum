@@ -302,6 +302,23 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                         LoggerUtil.d(TAG, addAndUpdateCommentResponseModel.statusCode);
 
                         if (addAndUpdateCommentResponseModel.Data != null && addAndUpdateCommentResponseModel.Data.commentData != null) {
+
+                            int position = 0;
+                            for (GetPostsResponseModel.GetPostsDetails tempPostDetails : mPostList) {
+                                if (tempPostDetails.postID == addAndUpdateCommentResponseModel.Data.commentData.postID) {
+
+                                    tempPostDetails.commentCount += 1;
+                                    tempPostDetails.commentUserImageName = addAndUpdateCommentResponseModel.Data.commentData.imageName;
+                                    tempPostDetails.commentUserImageURL = addAndUpdateCommentResponseModel.Data.commentData.commentUserImageURL;
+                                    tempPostDetails.commentUserFullName = addAndUpdateCommentResponseModel.Data.commentData.userFullName;
+                                    tempPostDetails.commentText = addAndUpdateCommentResponseModel.Data.commentData.commentText;
+                                    position = mPostList.indexOf(tempPostDetails);
+                                    break;
+                                }
+                            }
+
+                            RecentPostAdapter recentPostAdapter = (RecentPostAdapter) mRecyclerViewPost.getAdapter();
+                            recentPostAdapter.notifyItemChanged(position);
                             Snackbar.make(mRootView, getString(R.string.add_comment_successfully), Snackbar.LENGTH_LONG).show();
                         }
 
@@ -604,7 +621,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
-    public void onPostLikeOrDislikeClick(GetPostsResponseModel.GetPostsDetails postDetails) {
+    public void onPostUpdate(GetPostsResponseModel.GetPostsDetails postDetails) {
         int position = 0;
         for (GetPostsResponseModel.GetPostsDetails tempPostDetails : mPostList) {
             if (tempPostDetails.postID == postDetails.postID) {
@@ -614,13 +631,18 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                 tempPostDetails.likeCount = postDetails.likeCount;
                 tempPostDetails.unlikeCount = postDetails.unlikeCount;
 
+                tempPostDetails.commentCount = postDetails.commentCount;
+                tempPostDetails.commentUserImageName = postDetails.commentUserImageName;
+                tempPostDetails.commentUserImageURL = postDetails.commentUserImageURL;
+                tempPostDetails.commentUserFullName = postDetails.commentUserFullName;
+                tempPostDetails.commentText = postDetails.commentText;
+
                 position = mPostList.indexOf(tempPostDetails);
                 break;
             }
         }
 
         RecentPostAdapter recentPostAdapter = (RecentPostAdapter) mRecyclerViewPost.getAdapter();
-        recentPostAdapter.setPostList(mPostList);
         recentPostAdapter.notifyItemChanged(position);
     }
 
