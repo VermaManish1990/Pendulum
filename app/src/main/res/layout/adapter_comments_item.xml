@@ -25,11 +25,11 @@
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_toEndOf="@+id/iv_profile"
-            android:layout_toRightOf="@+id/iv_profile"
+            android:layout_toStartOf="@+id/iv_menu"
             android:ellipsize="end"
             android:singleLine="true"
             android:textStyle="bold"
@@ -40,13 +40,22 @@
             android:id="@+id/tv_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tv_name"
             android:layout_alignStart="@+id/tv_name"
             android:layout_below="@+id/tv_name"
+            android:layout_alignEnd="@+id/tv_name"
             android:ellipsize="end"
             android:maxLines="4"
             android:textSize="@dimen/_11sdp"
             android:textColor="@color/fontPrimary40" />
+
+        <ImageView
+            android:id="@+id/iv_menu"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/tv_name"
+            android:contentDescription="@string/image"
+            android:src="@drawable/menu" />
     </RelativeLayout>
 
     <View

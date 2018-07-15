@@ -6,9 +6,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -42,7 +45,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class CommentsDialogFragment extends DialogFragment implements IScreen, View.OnClickListener {
+public class CommentsDialogFragment extends DialogFragment implements IScreen, View.OnClickListener, CommentsAdapter.ICommentsAdapterCallBack {
 
     private static final String ARG_POST_DETAILS = "ARG_POST_DETAILS";
     private static final String TAG = CommentsDialogFragment.class.getSimpleName();
@@ -181,7 +184,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
                 return mIsLoading;
             }
         });
-        mRecyclerViewComment.setAdapter(new CommentsAdapter(mContext, mCommentList));
+        mRecyclerViewComment.setAdapter(new CommentsAdapter(mContext,this, mCommentList));
 
         setPostDetails();
     }
@@ -479,6 +482,30 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
+    }
+
+    @Override
+    public void onMenuClick(int position, View view) {
+        PopupMenu popup = new PopupMenu(mContext, view, Gravity.END);
+        popup.getMenuInflater().inflate(R.menu.comment_menu, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                switch (item.getTitle().toString()) {
+                    case Constants.UPDATE_COMMENT:
+
+                        return true;
+
+                    case Constants.REMOVE_COMMENT:
+
+                        return true;
+                }
+                return false;
+            }
+        });
+        popup.show();
     }
 
     public interface ICommentsDialogCallBack {

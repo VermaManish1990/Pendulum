@@ -48,5 +48,7 @@ public interface Constants {
 
     String UPDATE_POST = "Update Post";
     String REMOVE_POST = "Remove Post";
+    String UPDATE_COMMENT = "Update Comment";
+    String REMOVE_COMMENT = "Remove Comment";
 
 }

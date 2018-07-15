@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.pend.R;
 import com.pend.models.GetPostCommentsResponseModel;
 import com.pend.util.LoggerUtil;
+import com.pend.util.SharedPrefUtils;
+import com.pendulum.persistence.SharedPrefsUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -20,10 +22,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
     private final String TAG = CommentsAdapter.class.getSimpleName();
     private Context mContext;
+    private ICommentsAdapterCallBack mICommentsAdapterCallBack;
     private ArrayList<GetPostCommentsResponseModel.GetPostCommentsDetails> mCommentList;
 
-    public CommentsAdapter(Context context, ArrayList<GetPostCommentsResponseModel.GetPostCommentsDetails> commentList) {
+    public CommentsAdapter(Context context,ICommentsAdapterCallBack iCommentsAdapterCallBack, ArrayList<GetPostCommentsResponseModel.GetPostCommentsDetails> commentList) {
         mContext = context;
+        mICommentsAdapterCallBack = iCommentsAdapterCallBack;
         mCommentList = commentList;
     }
 
@@ -40,9 +44,23 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CommentsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final CommentsAdapter.ViewHolder holder, final int position) {
 
         GetPostCommentsResponseModel.GetPostCommentsDetails postCommentsDetails = mCommentList.get(position);
+
+        int userId = Integer.parseInt(SharedPrefUtils.getUserId(mContext));
+        if (postCommentsDetails.userID == userId) {
+            holder.ivMenu.setVisibility(View.VISIBLE);
+        } else {
+            holder.ivMenu.setVisibility(View.GONE);
+        }
+
+        holder.ivMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mICommentsAdapterCallBack.onMenuClick(position,holder.ivMenu);
+            }
+        });
 
         holder.tvName.setText(postCommentsDetails.userFullName != null ? postCommentsDetails.userFullName : "");
         holder.tvComment.setText(postCommentsDetails.commentText != null ? postCommentsDetails.commentText : "");
@@ -65,6 +83,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         private final ImageView ivProfile;
         private final TextView tvName;
         private final TextView tvComment;
+        private final ImageView ivMenu;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -73,6 +92,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
             ivProfile = itemView.findViewById(R.id.iv_profile);
             tvName = itemView.findViewById(R.id.tv_name);
             tvComment = itemView.findViewById(R.id.tv_comment);
+            ivMenu = itemView.findViewById(R.id.iv_menu);
         }
+    }
+
+    public interface ICommentsAdapterCallBack{
+        void onMenuClick(int position,View view);
     }
 }
