@@ -31,6 +31,7 @@ import com.pend.fragments.CommentsDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
+import com.pend.models.AddAndUpdateCommentResponseModel;
 import com.pend.models.AddAndUpdatePostResponseModel;
 import com.pend.models.GetPostsResponseModel;
 import com.pend.models.PostLikeResponseModel;
@@ -63,6 +64,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     private int mPostId;
     private boolean mIsLike;
     private boolean mIsUnLike;
+    private String mCommentText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,10 +207,27 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         }
                         mPostsDetailsList.remove(index);
                         HomePostsAdapter homePostsAdapter = (HomePostsAdapter) mRecyclerViewPost.getAdapter();
-                        homePostsAdapter.setPostsDetailsList(mPostsDetailsList);
-                        homePostsAdapter.notifyItemChanged(index);
+                        homePostsAdapter.notifyItemRemoved(index);
 
-                        Snackbar.make(mRootView, R.string.post_remove_successfully, Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(mRootView, getString(R.string.post_remove_successfully), Snackbar.LENGTH_LONG).show();
+
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                    }
+                } else {
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
+                break;
+
+            case IApiEvent.REQUEST_ADD_COMMENT_CODE:
+                if (status) {
+                    AddAndUpdateCommentResponseModel addAndUpdateCommentResponseModel = (AddAndUpdateCommentResponseModel) serviceResponse;
+                    if (addAndUpdateCommentResponseModel != null && addAndUpdateCommentResponseModel.status) {
+                        LoggerUtil.d(TAG, addAndUpdateCommentResponseModel.statusCode);
+
+                        if (addAndUpdateCommentResponseModel.Data != null && addAndUpdateCommentResponseModel.Data.commentData != null) {
+                            Snackbar.make(mRootView, getString(R.string.add_comment_successfully) , Snackbar.LENGTH_LONG).show();
+                        }
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -289,6 +308,20 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
                     @Override
                     protected void deliverResponse(BaseResponseModel response) {
+                        updateUi(true, actionID, response);
+                    }
+                });
+                break;
+
+            case IApiEvent.REQUEST_ADD_COMMENT_CODE:
+
+                jsonObject = RequestPostDataUtil.addCommentApiRegParam(userId, mPostId, mCommentText);
+                request = jsonObject.toString();
+                RequestManager.addRequest(new GsonObjectRequest<AddAndUpdateCommentResponseModel>(IWebServices.REQUEST_ADD_COMMENT_URL, NetworkUtil.getHeaders(this),
+                        request, AddAndUpdateCommentResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(AddAndUpdateCommentResponseModel response) {
                         updateUi(true, actionID, response);
                     }
                 });
@@ -435,6 +468,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             }
         });
         popup.show();
+    }
+
+    @Override
+    public void onSendClick(int position, String commentText) {
+        mCommentText = commentText;
+        mPostId = mPostsDetailsList.get(position).postID;
+        getData(IApiEvent.REQUEST_ADD_COMMENT_CODE);
     }
 
     @Override

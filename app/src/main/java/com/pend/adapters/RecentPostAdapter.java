@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,7 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecentPostAdapter.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(@NonNull final RecentPostAdapter.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
         final GetPostsResponseModel.GetPostsDetails postsDetails = mPostList.get(position);
 
@@ -63,6 +64,40 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         }
         holder.tvTime.setText(time);
 
+        holder.etAddAComment.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+
+                    String text = holder.etAddAComment.getText().toString().trim();
+                    if (text.length() > 0) {
+
+                        mIRecentPostAdapterCallBack.onSendClick(position, text);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+        holder.ivSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String text = holder.etAddAComment.getText().toString().trim();
+                if (text.length() > 0) {
+
+                    mIRecentPostAdapterCallBack.onSendClick(position, text);
+                }
+            }
+        });
+        holder.ivMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIRecentPostAdapterCallBack.onMenuClick(position, holder.ivMenu);
+            }
+        });
         holder.ivComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +158,7 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
                         .load(postsDetails.commentUserImageURL)
                         .into(holder.ivCommentUserProfile);
             }
-        }else {
+        } else {
             holder.rlComment.setVisibility(View.GONE);
             holder.view.setVisibility(View.GONE);
         }
@@ -169,6 +204,8 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         private final ImageView ivLike;
         private final ImageView ivDislike;
         private final ImageView ivShare;
+        private final ImageView ivSend;
+        private final ImageView ivMenu;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -189,6 +226,8 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
             tvDislikeCount = itemView.findViewById(R.id.tv_dislike_count);
 
             etAddAComment = itemView.findViewById(R.id.et_add_a_comment);
+            ivSend = itemView.findViewById(R.id.iv_send);
+            ivMenu = itemView.findViewById(R.id.iv_menu);
             cbAnonymous = itemView.findViewById(R.id.cb_anonymous);
 
             ivCommentUserProfile = itemView.findViewById(R.id.iv_comment_user_profile);
@@ -199,6 +238,10 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
 
     public interface IRecentPostAdapterCallBack {
         void onCommentIconClick(int position);
+
+        void onMenuClick(int position, View view);
+
+        void onSendClick(int position, String commentText);
 
         void onLikeOrDislikeClick(int position, boolean isLike, boolean isUnLike);
     }

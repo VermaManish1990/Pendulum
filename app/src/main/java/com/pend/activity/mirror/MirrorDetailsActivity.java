@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,6 +33,7 @@ import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IMirrorVotingDialogCallBack;
 import com.pend.interfaces.IWebServices;
+import com.pend.models.AddAndUpdateCommentResponseModel;
 import com.pend.models.AddAndUpdatePostResponseModel;
 import com.pend.models.GetMirrorDetailsResponseModel;
 import com.pend.models.GetMirrorGraphResponseModel;
@@ -50,7 +54,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class MirrorDetailsActivity extends BaseActivity implements View.OnClickListener, RecentPostAdapter.IRecentPostAdapterCallBack,
-        CommentsDialogFragment.ICommentsDialogCallBack,IMirrorVotingDialogCallBack {
+        CommentsDialogFragment.ICommentsDialogCallBack, IMirrorVotingDialogCallBack {
 
     private static final String TAG = MirrorDetailsActivity.class.getSimpleName();
     private View mRootView;
@@ -67,6 +71,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     private boolean mIsLike;
     private boolean mIsUnLike;
     private boolean mIsUpdateRequired;
+    private String mCommentText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -267,7 +272,36 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                     if (baseResponseModel != null && baseResponseModel.status) {
                         LoggerUtil.d(TAG, baseResponseModel.statusCode);
 
-                        Snackbar.make(mRootView, R.string.post_remove_successfully, Snackbar.LENGTH_LONG).show();
+                        int index = 0;
+                        for (GetPostsResponseModel.GetPostsDetails postsDetails : mPostList) {
+                            if (mPostId == postsDetails.postID) {
+                                index = mPostList.indexOf(postsDetails);
+                                break;
+                            }
+                        }
+                        mPostList.remove(index);
+                        RecentPostAdapter recentPostAdapter = (RecentPostAdapter) mRecyclerViewPost.getAdapter();
+                        recentPostAdapter.notifyItemRemoved(index);
+
+                        Snackbar.make(mRootView, getString(R.string.post_remove_successfully), Snackbar.LENGTH_LONG).show();
+
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                    }
+                } else {
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
+                break;
+
+            case IApiEvent.REQUEST_ADD_COMMENT_CODE:
+                if (status) {
+                    AddAndUpdateCommentResponseModel addAndUpdateCommentResponseModel = (AddAndUpdateCommentResponseModel) serviceResponse;
+                    if (addAndUpdateCommentResponseModel != null && addAndUpdateCommentResponseModel.status) {
+                        LoggerUtil.d(TAG, addAndUpdateCommentResponseModel.statusCode);
+
+                        if (addAndUpdateCommentResponseModel.Data != null && addAndUpdateCommentResponseModel.Data.commentData != null) {
+                            Snackbar.make(mRootView, getString(R.string.add_comment_successfully), Snackbar.LENGTH_LONG).show();
+                        }
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -383,6 +417,19 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                 });
                 break;
 
+            case IApiEvent.REQUEST_ADD_COMMENT_CODE:
+
+                jsonObject = RequestPostDataUtil.addCommentApiRegParam(userId, mPostId, mCommentText);
+                request = jsonObject.toString();
+                RequestManager.addRequest(new GsonObjectRequest<AddAndUpdateCommentResponseModel>(IWebServices.REQUEST_ADD_COMMENT_URL, NetworkUtil.getHeaders(this),
+                        request, AddAndUpdateCommentResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(AddAndUpdateCommentResponseModel response) {
+                        updateUi(true, actionID, response);
+                    }
+                });
+                break;
 
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
@@ -471,6 +518,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 //                series
 //            }
 //        }
+
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
                 new DataPoint(0, 20),
                 new DataPoint(5, 40),
@@ -494,7 +542,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     protected void onPause() {
         super.onPause();
 
-        if(mPostList!=null){
+        if (mPostList != null) {
             mPostList.clear();
         }
     }
@@ -505,6 +553,43 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 //        Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
         CommentsDialogFragment commentsDialogFragment = CommentsDialogFragment.newInstance(mPostList.get(position));
         commentsDialogFragment.show(getSupportFragmentManager(), "CommentsDialogFragment");
+    }
+
+    @Override
+    public void onMenuClick(final int position, View view) {
+        PopupMenu popup = new PopupMenu(this, view, Gravity.END);
+        popup.getMenuInflater().inflate(R.menu.post_menu, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                Intent intent;
+
+                switch (item.getTitle().toString()) {
+                    case Constants.UPDATE_POST:
+                        intent = new Intent(MirrorDetailsActivity.this, CreatePostActivity.class);
+                        intent.putExtra(Constants.MIRROR_ID_KEY, mMirrorId);
+                        intent.putExtra(Constants.POST_DETAILS_KEY, mPostList.get(position));
+                        startActivity(intent);
+                        return true;
+
+                    case Constants.REMOVE_POST:
+                        mPostId = mPostList.get(position).postID;
+                        getData(IApiEvent.REQUEST_REMOVE_POST_CODE);
+                        return true;
+                }
+                return false;
+            }
+        });
+        popup.show();
+    }
+
+    @Override
+    public void onSendClick(int position, String commentText) {
+        mCommentText = commentText;
+        mPostId = mPostList.get(position).postID;
+        getData(IApiEvent.REQUEST_ADD_COMMENT_CODE);
     }
 
     @Override

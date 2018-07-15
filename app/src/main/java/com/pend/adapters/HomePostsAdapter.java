@@ -6,9 +6,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -79,10 +81,38 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                     .into(holder.ivProfile);
         }
 
+        holder.etAddAComment.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+
+                    String text = holder.etAddAComment.getText().toString().trim();
+                    if (text.length() > 0) {
+
+                        mIHomePostsAdapterCallBack.onSendClick(position, text);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+        holder.ivSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String text = holder.etAddAComment.getText().toString().trim();
+                if (text.length() > 0) {
+
+                    mIHomePostsAdapterCallBack.onSendClick(position, text);
+                }
+            }
+        });
         holder.ivMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mIHomePostsAdapterCallBack.onMenuClick(position,holder.ivMenu);
+                mIHomePostsAdapterCallBack.onMenuClick(position, holder.ivMenu);
             }
         });
 
@@ -163,6 +193,8 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         private final View llLike;
         private final View llDislike;
         private final ImageView ivMenu;
+        private final ImageView ivSend;
+        private final EditText etAddAComment;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -187,12 +219,17 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
             llDislike = itemView.findViewById(R.id.ll_dislike);
 
             ivMenu = itemView.findViewById(R.id.iv_menu);
+            ivSend = itemView.findViewById(R.id.iv_send);
+            etAddAComment = itemView.findViewById(R.id.et_add_a_comment);
         }
     }
 
     public interface IHomePostsAdapterCallBack {
         void onCommentClick(int position);
-        void onMenuClick(int position,View view);
+
+        void onMenuClick(int position, View view);
+
+        void onSendClick(int position, String commentText);
 
         void onLikeOrDislikeClick(int position, boolean isLike, boolean isUnLike);
     }

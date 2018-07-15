@@ -116,7 +116,6 @@
             android:layout_alignBottom="@+id/iv_dislike"
             android:layout_alignTop="@+id/iv_dislike"
             android:layout_toEndOf="@+id/iv_dislike"
-            android:layout_toRightOf="@+id/iv_dislike"
             android:gravity="center"
             android:textColor="@color/fontPrimary60" />
 
@@ -125,13 +124,21 @@
             android:layout_width="@dimen/_17sdp"
             android:layout_height="@dimen/_17sdp"
             android:layout_alignBottom="@+id/iv_dislike"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/iv_dislike"
+            android:layout_toStartOf="@+id/iv_menu"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:layout_marginRight="@dimen/_15sdp"
             android:src="@drawable/share"
             android:contentDescription="@string/image" />
+
+        <ImageView
+            android:id="@+id/iv_menu"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/tv_description"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:contentDescription="@string/image"
+            android:src="@drawable/menu" />
 
         <EditText
             android:id="@+id/et_add_a_comment"
@@ -140,8 +147,7 @@
             android:layout_below="@+id/iv_comment"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
-            android:layout_toLeftOf="@+id/rl_checkbox"
-            android:layout_toStartOf="@+id/rl_checkbox"
+            android:layout_toStartOf="@+id/iv_send"
             android:background="@drawable/custom_circular_grey_border"
             android:hint="@string/add_a_comment"
             android:singleLine="true"
@@ -151,16 +157,27 @@
             android:paddingTop="@dimen/_8sdp"
             android:textSize="@dimen/_11sdp" />
 
+        <ImageView
+            android:id="@+id/iv_send"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:textSize="@dimen/_11sdp"
+            android:textAllCaps="false"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/et_add_a_comment"
+            android:layout_alignBottom="@+id/et_add_a_comment"
+            android:src="@drawable/send"
+            android:text="@string/send"/>
+
         <RelativeLayout
             android:id="@+id/rl_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/et_add_a_comment"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:layout_marginRight="@dimen/_15sdp"
-            android:layout_marginBottom="@dimen/_5sdp">
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:visibility="gone">
 
             <CheckBox
                 android:id="@+id/cb_anonymous"
@@ -182,8 +199,9 @@
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
-            android:layout_below="@+id/rl_checkbox"
+            android:layout_below="@+id/et_add_a_comment"
             android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:background="@color/darkGreyBackground" />
 
         <RelativeLayout

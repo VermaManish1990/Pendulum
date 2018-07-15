@@ -121,5 +121,7 @@
     <string name="recent_exit_polls">Recent Exit Polls</string>
     <string name="update_post">Update Post</string>
     <string name="remove_post">Remove Post</string>
+    <string name="send">Send</string>
+    <string name="add_comment_successfully">Add Comment Successfully</string>
 
 </resources>
