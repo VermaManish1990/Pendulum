@@ -184,7 +184,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
                 return mIsLoading;
             }
         });
-        mRecyclerViewComment.setAdapter(new CommentsAdapter(mContext,this, mCommentList));
+        mRecyclerViewComment.setAdapter(new CommentsAdapter(mContext, this, mCommentList));
 
         setPostDetails();
     }
@@ -276,16 +276,18 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
 
                             AddAndUpdateCommentResponseModel.AddAndUpdateCommentDetails commentDetails = addAndUpdateCommentResponseModel.Data.commentData;
                             CommentsAdapter commentsAdapter = (CommentsAdapter) mRecyclerViewComment.getAdapter();
-                            mCommentList.add(new GetPostCommentsResponseModel.GetPostCommentsDetails(commentDetails.userID,commentDetails.commentID,
-                                    commentDetails.commentText,commentDetails.userFullName,commentDetails.imageName,commentDetails.commentUserImageURL,
+                            mCommentList.add(new GetPostCommentsResponseModel.GetPostCommentsDetails(commentDetails.userID, commentDetails.commentID,
+                                    commentDetails.commentText, commentDetails.userFullName, commentDetails.imageName, commentDetails.commentUserImageURL,
                                     commentDetails.createdDatetime));
-                            commentsAdapter.notifyItemInserted(mCommentList.size()-1);
+                            commentsAdapter.notifyItemInserted(mCommentList.size() - 1);
 
                             mPostDetails.commentText = commentDetails.commentText;
-                            mPostDetails.commentCount+=1;
                             mPostDetails.commentUserImageURL = commentDetails.commentUserImageURL;
                             mPostDetails.commentUserFullName = commentDetails.userFullName;
                             mPostDetails.commentUserImageName = commentDetails.imageName;
+                            mPostDetails.commentCount += 1;
+
+                            mTvComment.setText(String.valueOf(mPostDetails.commentCount));
                             mICommentsDialogCallBack.onPostUpdate(mPostDetails);
                         }
                     } else {
@@ -319,6 +321,40 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
                     BaseResponseModel baseResponseModel = (BaseResponseModel) serviceResponse;
                     if (baseResponseModel != null && baseResponseModel.status) {
                         LoggerUtil.d(TAG, baseResponseModel.statusCode);
+
+                        int position = 0;
+                        for (GetPostCommentsResponseModel.GetPostCommentsDetails commentsDetails : mCommentList) {
+                            if (commentsDetails.commentID == mCommentId) {
+                                position = mCommentList.indexOf(commentsDetails);
+                                break;
+                            }
+                        }
+
+                        int size = mCommentList.size();
+                        if (position == size - 1) {
+
+                            if (size > 1) {
+                                GetPostCommentsResponseModel.GetPostCommentsDetails commentDetails = mCommentList.get(size - 2);
+
+                                mPostDetails.commentText = commentDetails.commentText;
+                                mPostDetails.commentUserImageURL = commentDetails.commentUserImageURL;
+                                mPostDetails.commentUserFullName = commentDetails.userFullName;
+                                mPostDetails.commentUserImageName = commentDetails.imageName;
+                            } else {
+                                mPostDetails.commentText = null;
+                                mPostDetails.commentUserImageURL = null;
+                                mPostDetails.commentUserFullName = null;
+                                mPostDetails.commentUserImageName = null;
+                            }
+                        }
+
+                        mPostDetails.commentCount -= 1;
+                        mTvComment.setText(String.valueOf(mPostDetails.commentCount));
+                        mICommentsDialogCallBack.onPostUpdate(mPostDetails);
+
+                        mCommentList.remove(position);
+                        CommentsAdapter commentsAdapter = (CommentsAdapter) mRecyclerViewComment.getAdapter();
+                        commentsAdapter.notifyItemRemoved(position);
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -485,7 +521,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
     }
 
     @Override
-    public void onMenuClick(int position, View view) {
+    public void onMenuClick(final int position, View view) {
         PopupMenu popup = new PopupMenu(mContext, view, Gravity.END);
         popup.getMenuInflater().inflate(R.menu.comment_menu, popup.getMenu());
 
@@ -500,6 +536,8 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
 
                     case Constants.REMOVE_COMMENT:
 
+                        mCommentId = mCommentList.get(position).commentID;
+                        getData(IApiEvent.REQUEST_REMOVE_COMMENT_CODE);
                         return true;
                 }
                 return false;
