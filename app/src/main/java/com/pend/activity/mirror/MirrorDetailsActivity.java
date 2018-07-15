@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -54,7 +55,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class MirrorDetailsActivity extends BaseActivity implements View.OnClickListener, RecentPostAdapter.IRecentPostAdapterCallBack,
-        CommentsDialogFragment.ICommentsDialogCallBack, IMirrorVotingDialogCallBack {
+        CommentsDialogFragment.ICommentsDialogCallBack, IMirrorVotingDialogCallBack,AbsListView.OnScrollListener {
 
     private static final String TAG = MirrorDetailsActivity.class.getSimpleName();
     private View mRootView;
@@ -650,5 +651,20 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     public void onVotingOrUnVotingClick() {
         mIsUpdateRequired = false;
         getData(IApiEvent.REQUEST_GET_MIRROR_DETAILS_CODE);
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        if (SCROLL_STATE_TOUCH_SCROLL == scrollState) {
+            View currentFocus = getCurrentFocus();
+            if (currentFocus != null) {
+                currentFocus.clearFocus();
+            }
+        }
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
     }
 }
