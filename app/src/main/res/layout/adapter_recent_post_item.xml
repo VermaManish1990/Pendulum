@@ -147,6 +147,7 @@
             android:layout_below="@+id/iv_comment"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:layout_toStartOf="@+id/iv_send"
             android:background="@drawable/custom_circular_grey_border"
             android:hint="@string/add_a_comment"
@@ -164,6 +165,7 @@
             android:textSize="@dimen/_11sdp"
             android:textAllCaps="false"
             android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/_5sdp"
             android:layout_alignTop="@+id/et_add_a_comment"
             android:layout_alignBottom="@+id/et_add_a_comment"
             android:src="@drawable/send"
@@ -201,7 +203,7 @@
             android:layout_height="@dimen/_1sdp"
             android:layout_below="@+id/et_add_a_comment"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:background="@color/darkGreyBackground" />
 
         <RelativeLayout

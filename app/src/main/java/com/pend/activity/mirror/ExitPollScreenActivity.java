@@ -307,6 +307,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
         int position = 0;
         for (GetExitPollListResponseModel.GetExitPollListDetails exitPollListDetails : mExitPollList) {
             if (exitPollListDetails.exitPollID == exitPollVoteDetails.exitPollID) {
+
                 exitPollListDetails.pollAdmirePer = exitPollVoteDetails.pollAdmirePer;
                 exitPollListDetails.pollHatePer = exitPollVoteDetails.pollHatePer;
                 exitPollListDetails.pollCantSayPer = exitPollVoteDetails.pollCantSayPer;
@@ -315,6 +316,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                 exitPollListDetails.pollCantSay = exitPollVoteDetails.pollCantSay;
 
                 position = mExitPollList.indexOf(exitPollListDetails);
+                break;
             }
         }
 

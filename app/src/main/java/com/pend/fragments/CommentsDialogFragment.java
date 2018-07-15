@@ -10,10 +10,12 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -72,6 +74,9 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
     private int mCommentId;
     private boolean mIsLike;
     private boolean mIsUnLike;
+    private ImageView mIvSend;
+    private EditText mEtAddAComment;
+    private String mCommentText;
 
     public static CommentsDialogFragment newInstance(GetPostsResponseModel.GetPostsDetails postsDetails) {
         CommentsDialogFragment fragment = new CommentsDialogFragment();
@@ -122,12 +127,14 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
         mIvLike = view.findViewById(R.id.iv_like);
         mIvDislike = view.findViewById(R.id.iv_dislike);
 
+        mEtAddAComment = view.findViewById(R.id.et_add_a_comment);
         mTvComment = view.findViewById(R.id.tv_comment_count);
         mTvLike = view.findViewById(R.id.tv_like_count);
         mTvDislike = view.findViewById(R.id.tv_dislike_count);
 
         mRecyclerViewComment = view.findViewById(R.id.recycler_view_comment);
 
+        view.findViewById(R.id.iv_send).setOnClickListener(this);
         mIvLike.setOnClickListener(this);
         mIvDislike.setOnClickListener(this);
     }
@@ -140,6 +147,23 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
         mIsLike = false;
         mIsUnLike = false;
         mCommentList = new ArrayList<>();
+
+        mEtAddAComment.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+
+                    mCommentText = mEtAddAComment.getText().toString().trim();
+                    if (mCommentText.length() > 0) {
+                        getData(IApiEvent.REQUEST_ADD_COMMENT_CODE);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         mRecyclerViewComment.setLayoutManager(linearLayoutManager);
@@ -252,8 +276,13 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
 
                         if (addAndUpdateCommentResponseModel.Data != null && addAndUpdateCommentResponseModel.Data.commentData != null) {
 
+                            AddAndUpdateCommentResponseModel.AddAndUpdateCommentDetails commentDetails = addAndUpdateCommentResponseModel.Data.commentData;
+                            CommentsAdapter commentsAdapter = (CommentsAdapter) mRecyclerViewComment.getAdapter();
+                            mCommentList.add(new GetPostCommentsResponseModel.GetPostCommentsDetails(commentDetails.userID,commentDetails.commentID,
+                                    commentDetails.commentText,commentDetails.userFullName,commentDetails.imageName,commentDetails.commentUserImageURL,
+                                    commentDetails.createdDatetime));
+                            commentsAdapter.notifyItemInserted(mCommentList.size()-1);
                         }
-
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
@@ -361,8 +390,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
 
             case IApiEvent.REQUEST_ADD_COMMENT_CODE:
 
-                //Todo commentText
-                jsonObject = RequestPostDataUtil.addCommentApiRegParam(userId, mPostDetails.postID, "");
+                jsonObject = RequestPostDataUtil.addCommentApiRegParam(userId, mPostDetails.postID, mCommentText);
                 request = jsonObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<AddAndUpdateCommentResponseModel>(IWebServices.REQUEST_ADD_COMMENT_URL, NetworkUtil.getHeaders(mContext),
                         request, AddAndUpdateCommentResponseModel.class, new VolleyErrorListener(this, actionID)) {
@@ -376,8 +404,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
 
             case IApiEvent.REQUEST_UPDATE_COMMENT_CODE:
 
-                //Todo commentText
-                jsonObject = RequestPostDataUtil.updateCommentApiRegParam(userId, mPostDetails.postID, mCommentId, "");
+                jsonObject = RequestPostDataUtil.updateCommentApiRegParam(userId, mPostDetails.postID, mCommentId, mCommentText);
                 request = jsonObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<AddAndUpdateCommentResponseModel>(IWebServices.REQUEST_UPDATE_COMMENT_URL, NetworkUtil.getHeaders(mContext),
                         request, AddAndUpdateCommentResponseModel.class, new VolleyErrorListener(this, actionID)) {
@@ -437,6 +464,13 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
                     mIsUnLike = true;
                 }
                 getData(IApiEvent.REQUEST_POST_LIKE_CODE);
+                break;
+
+            case R.id.iv_send:
+                mCommentText = mEtAddAComment.getText().toString().trim();
+                if (mCommentText.length() > 0) {
+                    getData(IApiEvent.REQUEST_ADD_COMMENT_CODE);
+                }
                 break;
 
             default:

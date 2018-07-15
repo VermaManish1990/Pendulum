@@ -243,6 +243,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
                         if (postLikeResponseModel.Data != null && postLikeResponseModel.Data.likeData != null) {
 
+                            int position = 0;
                             for (GetPostsResponseModel.GetPostsDetails postsDetails : mPostList) {
                                 if (postsDetails.postID == postLikeResponseModel.Data.likeData.postID) {
 
@@ -251,12 +252,13 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                                     postsDetails.likeCount = postLikeResponseModel.Data.likeData.likeCount;
                                     postsDetails.unlikeCount = postLikeResponseModel.Data.likeData.unlikeCount;
 
-                                    RecentPostAdapter homePostsAdapter = (RecentPostAdapter) mRecyclerViewPost.getAdapter();
-                                    homePostsAdapter.setPostList(mPostList);
-                                    homePostsAdapter.notifyItemChanged(mPostList.indexOf(postsDetails));
+                                    position = mPostList.indexOf(postsDetails);
                                     break;
                                 }
                             }
+                            RecentPostAdapter homePostsAdapter = (RecentPostAdapter) mRecyclerViewPost.getAdapter();
+                            homePostsAdapter.setPostList(mPostList);
+                            homePostsAdapter.notifyItemChanged(position);
                         }
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -606,10 +608,12 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         int position = 0;
         for (GetPostsResponseModel.GetPostsDetails tempPostDetails : mPostList) {
             if (tempPostDetails.postID == postDetails.postID) {
+
                 tempPostDetails.isUnLike = postDetails.isUnLike;
                 tempPostDetails.isLike = postDetails.isLike;
                 tempPostDetails.likeCount = postDetails.likeCount;
                 tempPostDetails.unlikeCount = postDetails.unlikeCount;
+
                 position = mPostList.indexOf(tempPostDetails);
                 break;
             }

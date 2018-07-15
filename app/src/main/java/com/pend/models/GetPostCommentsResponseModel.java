@@ -22,5 +22,16 @@ public class GetPostCommentsResponseModel extends BaseResponseModel {
         public String imageName;
         public String commentUserImageURL;
         public String createdDatetime;
+
+        public GetPostCommentsDetails(int userID, int commentID, String commentText, String userFullName, String imageName,
+                                      String commentUserImageURL, String createdDatetime) {
+            this.userID = userID;
+            this.commentID = commentID;
+            this.commentText = commentText;
+            this.userFullName = userFullName;
+            this.imageName = imageName;
+            this.commentUserImageURL = commentUserImageURL;
+            this.createdDatetime = createdDatetime;
+        }
     }
 }
