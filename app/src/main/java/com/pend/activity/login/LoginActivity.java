@@ -1,5 +1,6 @@
 package com.pend.activity.login;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -19,6 +20,7 @@ import com.pend.interfaces.IWebServices;
 import com.pend.models.LoginResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.OtherUtil;
 import com.pend.util.RequestPostDataUtil;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
@@ -80,9 +82,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                        OtherUtil.showAlertDialog(getString(R.string.invalid_credential), this, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                    OtherUtil.showAlertDialog(getString(R.string.invalid_credential), this, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
                 }
                 break;
 

@@ -65,6 +65,7 @@
     <string name="take_photo">Take Photo</string>
     <string name="choose_from_library">Choose from Library</string>
     <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
     <string name="type_1_contest">TYPE 1 Contest</string>
     <string name="type_2_contest">TYPE 2 Contest</string>
     <string name="add_photo">Add Photo!</string>
@@ -125,5 +126,6 @@
     <string name="add_comment_successfully">Add Comment Successfully</string>
     <string name="update_comment">Update Comment</string>
     <string name="remove_comment">Remove Comment</string>
+    <string name="invalid_credential">Invalid credential</string>
 
 </resources>

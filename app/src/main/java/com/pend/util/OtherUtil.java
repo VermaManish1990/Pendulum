@@ -1,9 +1,12 @@
 package com.pend.util;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
@@ -15,6 +18,8 @@ import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.TextView;
+
+import com.pend.R;
 
 import java.io.ByteArrayOutputStream;
 import java.util.regex.Matcher;
@@ -107,7 +112,7 @@ public class OtherUtil {
     public static String getBase64Format(String imagePath) {
 
         try {
-            Bitmap bm = Bitmap.createScaledBitmap (BitmapFactory.decodeFile(imagePath), 250, 250, false);
+            Bitmap bm = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imagePath), 250, 250, false);
 //            Bitmap bm = BitmapFactory.decodeFile(imagePath);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bm.compress(Bitmap.CompressFormat.PNG, 0, baos); //bm is the bitmap object
@@ -176,4 +181,51 @@ public class OtherUtil {
         context.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         return displayMetrics.heightPixels;
     }
+
+    /**
+     * Method to show Alert Dialog with only positive button with callback
+     *
+     * @param message       message for alert
+     * @param context       context
+     * @param clickListener Callback for ok
+     */
+    public static void showAlertDialog(String message, Context context, DialogInterface.OnClickListener clickListener) {
+        LoggerUtil.v(OtherUtil.class.getSimpleName(), "showAlertDialog");
+        if (context == null || ((Activity) context).isDestroyed() || ((Activity) context).isFinishing()) {
+            return;
+        }
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setPositiveButton(context.getString(R.string.ok), clickListener);
+        builder.setMessage(Html.fromHtml(message));
+        builder.setCancelable(false);
+        builder.setTitle(context.getResources().getString(R.string.app_name));
+        if (!((Activity) context).isDestroyed() && !((Activity) context).isFinishing()) {
+            builder.show();
+        }
+    }
+
+    /**
+     * Method to show Alert Dialog with positive and negative button with callback
+     *
+     * @param message             message for alert
+     * @param context             context
+     * @param clickListenerOk     Callback for ok
+     * @param clickListenerCancel callback for cancel
+     */
+    public static void showAlertDialog(String message, Context context, DialogInterface.OnClickListener clickListenerOk, DialogInterface.OnClickListener clickListenerCancel) {
+        LoggerUtil.v(OtherUtil.class.getSimpleName(), "showAlertDialog");
+        if (context == null || ((Activity) context).isDestroyed() || ((Activity) context).isFinishing()) {
+            return;
+        }
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setPositiveButton(context.getString(R.string.ok), clickListenerOk);
+        builder.setNegativeButton(context.getString(R.string.cancel), clickListenerCancel);
+        builder.setMessage(Html.fromHtml(message));
+        builder.setCancelable(false);
+        builder.setTitle(context.getResources().getString(R.string.app_name));
+        if (!((Activity) context).isDestroyed() && !((Activity) context).isFinishing()) {
+            builder.show();
+        }
+    }
+
 }
