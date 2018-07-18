@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.pend.R;
 import com.pend.activity.contest.ContestActivity;
@@ -40,7 +41,6 @@ public class QuarterViewFragmentDialog extends DialogFragment implements View.On
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.MY_DIALOG);
     }
 
     @Override
@@ -58,6 +58,7 @@ public class QuarterViewFragmentDialog extends DialogFragment implements View.On
         Window window = dialog.getWindow();
         if ( window!= null) {
             window.setGravity(Gravity.BOTTOM | Gravity.START);
+            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         }
         dialog.setCanceledOnTouchOutside(true);
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
