@@ -14,6 +14,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class FollowingMirrorAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<GetFollowingMirrorResponseModel.GetFollowingMirrorDetails> mMirrorList;
@@ -67,12 +69,17 @@ public class FollowingMirrorAdapter extends BaseAdapter {
 
         TextView tvName = view.findViewById(R.id.tv_name);
         TextView tvCount = view.findViewById(R.id.tv_count);
-        ImageView ivProfile = view.findViewById(R.id.iv_profile);
+        CircleImageView ivProfile = view.findViewById(R.id.iv_profile);
 
         tvName.setText(mirrorDetails.mirrorName != null ? mirrorDetails.mirrorName : "");
         tvCount.setText(String.valueOf(mirrorDetails.activeUsers));
 
-        if(mirrorDetails.imageURL != null && !mirrorDetails.imageURL.equals("")){
+        if (mirrorDetails.imageURL != null && !mirrorDetails.imageURL.equals("")) {
+
+            if (mirrorDetails.mirrorAdmire || mirrorDetails.mirrorHate || mirrorDetails.mirrorCantSay) {
+                ivProfile.setBorderWidth(4);
+                ivProfile.setBorderColor(mContext.getResources().getColor(R.color.green));
+            }
 
             Picasso.with(mContext)
                     .load(mirrorDetails.imageURL)
