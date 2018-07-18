@@ -4,14 +4,17 @@ import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.pend.fragments.QuarterViewFragmentDialog;
 import com.pendulum.ui.IScreen;
 
 public abstract class BaseActivity extends AppCompatActivity implements IScreen {
     private Dialog customProgressDialog;
+    private QuarterViewFragmentDialog customQuarterDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +68,40 @@ public abstract class BaseActivity extends AppCompatActivity implements IScreen 
         if (!customProgressDialog.isShowing()) {
             customProgressDialog.show();
         }
+    }
+
+    public void showQuarterViewDialog() {
+        if (isFinishing()) {
+            return;
+        }
+        if (customQuarterDialog == null) {
+            customQuarterDialog = new QuarterViewFragmentDialog();
+            customQuarterDialog.show(getSupportFragmentManager(), "CreateMirrorDialogFragment");
+        }
+    }
+
+    public void hideQuarterViewDialog() {
+        if (isFinishing()) {
+            return;
+        }
+        if (customQuarterDialog != null) {
+            customQuarterDialog.dismiss();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public boolean isOpenQuarterDialog(){
+        return customQuarterDialog.isOpen();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void openQuarterDialog(){
+        customQuarterDialog.showReveal();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void closeQuarterDialog(){
+        customQuarterDialog.hideReveal();
     }
 
     /**

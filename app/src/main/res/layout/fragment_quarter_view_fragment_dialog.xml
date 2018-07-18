@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context="com.pend.activity.home.HomeActivity">
+    tools:context=".fragments.QuarterViewFragmentDialog">
 
     <RelativeLayout
         android:id="@+id/rl_quarter_view"
@@ -26,7 +26,6 @@
             android:id="@+id/iv_profile"
             android:layout_width="@dimen/_80sdp"
             android:layout_height="@dimen/_80sdp"
-            android:layout_marginLeft="@dimen/_30sdp"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_120sdp"
             android:src="@drawable/profile" />
@@ -35,7 +34,6 @@
             android:id="@+id/fl_mirror"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_30sdp"
             android:layout_marginStart="@dimen/_30sdp"
             android:background="@drawable/custom_black_circle_bg"
             android:padding="@dimen/_15sdp">
@@ -69,7 +67,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/_30sdp"
-            android:layout_marginLeft="@dimen/_185sdp"
             android:layout_marginStart="@dimen/_185sdp"
             android:background="@drawable/custom_black_circle_bg"
             android:padding="@dimen/_15sdp">
@@ -93,7 +90,6 @@
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_5sdp"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:src="@drawable/menu_white"
