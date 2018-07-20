@@ -168,7 +168,6 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
                 String trendingMirrorUrl = IWebServices.REQUEST_GET_TRENDING_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
                         + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
 
-//                        + "&" + Constants.PARAM_SEARCH_TEXT + "=" + String.valueOf("search text");
                 RequestManager.addRequest(new GsonObjectRequest<GetTrendingAndIntroducedMirrorResponseModel>(trendingMirrorUrl,
                         NetworkUtil.getHeaders(mContext), null, GetTrendingAndIntroducedMirrorResponseModel.class,
                         new VolleyErrorListener(this, actionID)) {

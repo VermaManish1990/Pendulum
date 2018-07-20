@@ -21,11 +21,12 @@ import com.pend.util.LoggerUtil;
 
 import java.util.ArrayList;
 
-public class MirrorActivity extends BaseActivity implements View.OnClickListener,IMirrorFragmentCallBack,IntroducedMirrorFragment.IntroducedMirrorFragmentCallBack {
+public class MirrorActivity extends BaseActivity implements View.OnClickListener,IMirrorFragmentCallBack {
 
     private static final String TAG = MirrorActivity.class.getSimpleName();
     private View mRootView;
     private ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mMirrorList;
+    private ViewPager mViewPagerMirror;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +45,10 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
         findViewById(R.id.custom_search_view).setOnClickListener(this);
 
         TabLayout tabLayoutMirror = findViewById(R.id.tab_layout_mirror);
-        ViewPager viewPagerMirror = findViewById(R.id.view_pager_mirror);
+        mViewPagerMirror = findViewById(R.id.view_pager_mirror);
 
-        setupViewPager(viewPagerMirror);
-        tabLayoutMirror.setupWithViewPager(viewPagerMirror, true);
+        setupViewPager(mViewPagerMirror);
+        tabLayoutMirror.setupWithViewPager(mViewPagerMirror, true);
     }
 
     @Override
@@ -92,7 +93,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
         switch (view.getId()) {
             case R.id.custom_search_view:
                 Intent intent = new Intent(MirrorActivity.this, SearchInNewsFeedActivity.class);
-                intent.putExtra(Constants.TRENDING_MIRROR_LIST_KEY,mMirrorList);
+                intent.putExtra(Constants.MIRROR_FRAGMENT_POSITION,mViewPagerMirror.getCurrentItem());
                 startActivity(intent);
                 break;
 
@@ -106,10 +107,5 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
     public void onCreateMirrorClick() {
         DialogFragment createMirrorDialogFragment = new CreateMirrorDialogFragment();
         createMirrorDialogFragment.show(getSupportFragmentManager(), "CreateMirrorDialogFragment");
-    }
-
-    @Override
-    public void onTrendingMirrorResultUpdated(ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mirrorList) {
-        mMirrorList = mirrorList;
     }
 }

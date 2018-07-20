@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_130sdp"
             android:contentDescription="@string/image"
-            android:scaleType="fitXY" />
+            android:scaleType="centerInside" />
 
         <TextView
             android:id="@+id/tv_description"
@@ -28,23 +28,21 @@
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:layout_toLeftOf="@+id/tv_time"
             android:layout_toStartOf="@+id/tv_time"
-            android:textSize="@dimen/_11sdp"
-            android:textColor="@color/fontPrimary50" />
+            android:textColor="@color/fontPrimary50"
+            android:textSize="@dimen/_11sdp" />
 
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/tv_description"
             android:layout_below="@+id/iv_post"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
-            android:textSize="@dimen/_11sdp"
-            android:textColor="@color/fontPrimary50" />
+            android:textColor="@color/fontPrimary50"
+            android:textSize="@dimen/_11sdp" />
 
         <ImageView
             android:id="@+id/iv_comment"
@@ -52,7 +50,6 @@
             android:layout_height="@dimen/_20sdp"
             android:layout_below="@+id/tv_description"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_15sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:contentDescription="@string/image"
@@ -66,7 +63,6 @@
             android:layout_alignBottom="@+id/iv_comment"
             android:layout_alignTop="@+id/iv_comment"
             android:layout_toEndOf="@+id/iv_comment"
-            android:layout_toRightOf="@+id/iv_comment"
             android:gravity="center"
             android:textColor="@color/fontPrimary60" />
 
@@ -76,10 +72,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/iv_comment"
             android:layout_alignTop="@+id/iv_comment"
-            android:layout_marginLeft="@dimen/_15sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_toEndOf="@+id/tv_comment_count"
-            android:layout_toRightOf="@+id/tv_comment_count"
             android:contentDescription="@string/image"
             android:padding="@dimen/_2sdp"
             android:src="@drawable/like" />
@@ -91,7 +85,6 @@
             android:layout_alignBottom="@+id/iv_like"
             android:layout_alignTop="@+id/iv_like"
             android:layout_toEndOf="@+id/iv_like"
-            android:layout_toRightOf="@+id/iv_like"
             android:gravity="center"
             android:textColor="@color/fontPrimary60" />
 
@@ -101,10 +94,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/iv_like"
             android:layout_alignTop="@+id/iv_like"
-            android:layout_marginLeft="@dimen/_15sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_toEndOf="@+id/tv_like_count"
-            android:layout_toRightOf="@+id/tv_like_count"
             android:contentDescription="@string/image"
             android:padding="@dimen/_2sdp"
             android:src="@drawable/dislike" />
@@ -125,10 +116,10 @@
             android:layout_height="@dimen/_17sdp"
             android:layout_alignBottom="@+id/iv_dislike"
             android:layout_alignTop="@+id/iv_dislike"
-            android:layout_toStartOf="@+id/iv_menu"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:src="@drawable/share"
-            android:contentDescription="@string/image" />
+            android:layout_toStartOf="@+id/iv_menu"
+            android:contentDescription="@string/image"
+            android:src="@drawable/share" />
 
         <ImageView
             android:id="@+id/iv_menu"
@@ -145,31 +136,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_comment"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
             android:layout_toStartOf="@+id/iv_send"
             android:background="@drawable/custom_circular_grey_border"
             android:hint="@string/add_a_comment"
-            android:singleLine="true"
             android:paddingBottom="@dimen/_8sdp"
             android:paddingEnd="@dimen/_15sdp"
             android:paddingStart="@dimen/_15sdp"
             android:paddingTop="@dimen/_8sdp"
+            android:singleLine="true"
             android:textSize="@dimen/_11sdp" />
 
         <ImageView
             android:id="@+id/iv_send"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
-            android:textSize="@dimen/_11sdp"
-            android:textAllCaps="false"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:layout_alignTop="@+id/et_add_a_comment"
             android:layout_alignBottom="@+id/et_add_a_comment"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/et_add_a_comment"
+            android:layout_marginEnd="@dimen/_5sdp"
             android:src="@drawable/send"
-            android:text="@string/send"/>
+            android:text="@string/send"
+            android:textAllCaps="false"
+            android:textSize="@dimen/_11sdp" />
 
         <RelativeLayout
             android:id="@+id/rl_checkbox"
@@ -177,8 +168,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/et_add_a_comment"
-            android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
             android:visibility="gone">
 
             <CheckBox
@@ -192,8 +183,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cb_anonymous"
                 android:text="@string/anonymous"
-                android:textSize="@dimen/_10sdp"
-                android:textColor="@color/fontPrimary40"/>
+                android:textColor="@color/fontPrimary40"
+                android:textSize="@dimen/_10sdp" />
 
         </RelativeLayout>
 
@@ -229,23 +220,21 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_toEndOf="@+id/iv_comment_user_profile"
-                android:layout_toRightOf="@+id/iv_comment_user_profile"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:textSize="@dimen/_11sdp"
-                android:textColor="@color/fontPrimary70" />
+                android:textColor="@color/fontPrimary70"
+                android:textSize="@dimen/_11sdp" />
 
             <TextView
                 android:id="@+id/tv_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/tv_name"
                 android:layout_alignStart="@+id/tv_name"
                 android:layout_below="@+id/tv_name"
                 android:ellipsize="end"
                 android:maxLines="4"
-                android:textSize="@dimen/_11sdp"
-                android:textColor="@color/fontPrimary40" />
+                android:textColor="@color/fontPrimary40"
+                android:textSize="@dimen/_11sdp" />
         </RelativeLayout>
 
     </RelativeLayout>

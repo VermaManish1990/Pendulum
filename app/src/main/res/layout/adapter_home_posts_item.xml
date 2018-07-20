@@ -30,11 +30,8 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_toEndOf="@+id/iv_profile"
-            android:layout_toLeftOf="@+id/tv_share_on_facebook"
-            android:layout_toRightOf="@+id/iv_profile"
             android:layout_toStartOf="@+id/tv_share_on_facebook"
             android:ellipsize="end"
             android:singleLine="true"
@@ -46,10 +43,8 @@
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tv_name"
             android:layout_alignStart="@+id/tv_name"
             android:layout_below="@+id/tv_name"
-            android:layout_toLeftOf="@+id/tv_share_on_facebook"
             android:layout_toStartOf="@+id/tv_share_on_facebook"
             android:ellipsize="end"
             android:singleLine="true"
@@ -61,7 +56,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:background="@drawable/custom_rounded_grey_border"
             android:gravity="center"
             android:paddingBottom="@dimen/_5sdp"
@@ -91,7 +85,7 @@
         android:layout_height="@dimen/_200sdp"
         android:background="@color/black"
         android:contentDescription="@string/image"
-        android:scaleType="fitXY" />
+        android:scaleType="centerInside" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -134,7 +128,6 @@
                     android:id="@+id/tv_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_5sdp"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:textColor="@color/fontPrimary60"
                     android:textSize="@dimen/_10sdp" />
@@ -165,7 +158,6 @@
                     android:id="@+id/tv_like"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_5sdp"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:textColor="@color/fontPrimary60"
                     android:textSize="@dimen/_10sdp" />
@@ -193,7 +185,6 @@
                     android:id="@+id/tv_dislike"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_5sdp"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:textColor="@color/fontPrimary60"
                     android:textSize="@dimen/_10sdp" />

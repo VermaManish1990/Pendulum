@@ -41,7 +41,6 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
     private RecyclerView mRecyclerViewIntroduced;
     private View mRootView;
     private int mPageNumber;
-    private IntroducedMirrorFragmentCallBack mIntroducedMirrorFragmentCallBack;
     private IMirrorFragmentCallBack mIMirrorFragmentCallBack;
     private TextView mTvDataNotAvailable;
     private boolean mIsHasNextPage;
@@ -52,7 +51,6 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
         super.onAttach(context);
         mContext = context;
         mIMirrorFragmentCallBack = (IMirrorFragmentCallBack) context;
-        mIntroducedMirrorFragmentCallBack = (IntroducedMirrorFragmentCallBack) context;
     }
 
     @Override
@@ -219,9 +217,5 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
-    }
-
-    public interface IntroducedMirrorFragmentCallBack {
-        void onTrendingMirrorResultUpdated(ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mirrorList);
     }
 }

@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.pend.R;
 import com.pend.models.GetTrendingAndIntroducedMirrorResponseModel;
-import com.pend.models.SearchMirrorResponseModel;
 import com.pend.util.LoggerUtil;
 import com.squareup.picasso.Picasso;
 
@@ -21,11 +20,13 @@ public class MirrorSearchAdapter extends RecyclerView.Adapter<MirrorSearchAdapte
 
     private static final String TAG = MirrorSearchAdapter.class.getSimpleName();
     private final Context mContext;
+    private IMirrorSearchAdapterCallBack mIMirrorSearchAdapterCallBack;
     private ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mSearchDataList;
 
-    public MirrorSearchAdapter(Context context, ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> searchDataList) {
+    public MirrorSearchAdapter(Context context,IMirrorSearchAdapterCallBack mirrorSearchAdapterCallBack, ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> searchDataList) {
         mContext = context;
         mSearchDataList = searchDataList;
+        mIMirrorSearchAdapterCallBack = mirrorSearchAdapterCallBack;
     }
 
     public void setSearchDataList(ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> searchDataList) {
@@ -41,7 +42,7 @@ public class MirrorSearchAdapter extends RecyclerView.Adapter<MirrorSearchAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MirrorSearchAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MirrorSearchAdapter.ViewHolder holder, final int position) {
         GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails mirrorDetails = mSearchDataList.get(position);
 
         holder.tvName.setText(mirrorDetails.mirrorName != null ? mirrorDetails.mirrorName : "");
@@ -52,6 +53,13 @@ public class MirrorSearchAdapter extends RecyclerView.Adapter<MirrorSearchAdapte
                     .load(mirrorDetails.imageURL != null ? mirrorDetails.imageURL : "")
                     .into(holder.ivProfile);
         }
+
+        holder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIMirrorSearchAdapterCallBack.onMirrorClick(position);
+            }
+        });
     }
 
     @Override
@@ -71,5 +79,9 @@ public class MirrorSearchAdapter extends RecyclerView.Adapter<MirrorSearchAdapte
             ivProfile = itemView.findViewById(R.id.iv_profile);
             tvName = itemView.findViewById(R.id.tv_name);
         }
+    }
+
+    public interface IMirrorSearchAdapterCallBack{
+        void onMirrorClick(int position);
     }
 }

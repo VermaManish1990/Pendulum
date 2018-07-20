@@ -4,10 +4,10 @@
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_120sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
     android:layout_marginEnd="@dimen/_10sdp"
     android:layout_marginStart="@dimen/_10sdp"
     android:layout_marginTop="@dimen/_5sdp"
-    android:layout_marginBottom="@dimen/_5sdp"
     android:elevation="@dimen/_3sdp"
     app:cardCornerRadius="@dimen/_10sdp">
 
@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/image"
-            android:scaleType="fitXY" />
+            android:scaleType="centerInside" />
 
         <View
             android:layout_width="match_parent"

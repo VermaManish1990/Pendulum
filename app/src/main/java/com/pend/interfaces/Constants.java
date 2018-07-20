@@ -11,8 +11,7 @@ public interface Constants {
     String MIRROR_ID_KEY = "MIRROR_ID_KEY";
     String POST_DETAILS_KEY = "POST_DETAILS_KEY";
     String SEARCH_TEXT_KEY = "SEARCH_TEXT_KEY";
-    String TRENDING_MIRROR_LIST_KEY = "SEARCH_TEXT_KEY";
-
+    String MIRROR_FRAGMENT_POSITION = "MIRROR_FRAGMENT_POSITION";
 
     //Header Keys
     String PARAM_SECURITY_KEY = "SecurityKey";

@@ -20,7 +20,7 @@ import com.pend.util.LoggerUtil;
 import java.util.ArrayList;
 
 
-public class MirrorSearchFragment extends BaseFragment implements View.OnClickListener {
+public class MirrorSearchFragment extends BaseFragment implements View.OnClickListener, MirrorSearchAdapter.IMirrorSearchAdapterCallBack {
 
     private static final String TAG = MirrorSearchFragment.class.getSimpleName();
     private static final String ARG_MIRROR_LIST = "ARG_MIRROR_LIST";
@@ -91,9 +91,32 @@ public class MirrorSearchFragment extends BaseFragment implements View.OnClickLi
 
         if (mSearchDataList != null) {
 
+            if (mSearchDataList.size() > 0) {
+                mRlMirrorData.setVisibility(View.VISIBLE);
+                mRlNoResult.setVisibility(View.GONE);
+            } else {
+                mRlMirrorData.setVisibility(View.GONE);
+                mRlNoResult.setVisibility(View.VISIBLE);
+            }
             mRecyclerViewMirror.setLayoutManager(new LinearLayoutManager(mContext));
-            MirrorSearchAdapter mirrorSearchAdapter = new MirrorSearchAdapter(mContext, mSearchDataList);
+            MirrorSearchAdapter mirrorSearchAdapter = new MirrorSearchAdapter(mContext, this, mSearchDataList);
             mRecyclerViewMirror.setAdapter(mirrorSearchAdapter);
+        }
+    }
+
+    public void setSearchDataList(ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> searchDataList) {
+        mSearchDataList = searchDataList;
+
+        if (mSearchDataList != null && mSearchDataList.size() > 0) {
+
+            mRlMirrorData.setVisibility(View.VISIBLE);
+            mRlNoResult.setVisibility(View.GONE);
+            MirrorSearchAdapter mirrorSearchAdapter = (MirrorSearchAdapter) mRecyclerViewMirror.getAdapter();
+            mirrorSearchAdapter.setSearchDataList(mSearchDataList);
+            mirrorSearchAdapter.notifyDataSetChanged();
+        } else {
+            mRlMirrorData.setVisibility(View.GONE);
+            mRlNoResult.setVisibility(View.VISIBLE);
         }
     }
 
@@ -130,5 +153,10 @@ public class MirrorSearchFragment extends BaseFragment implements View.OnClickLi
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
+    }
+
+    @Override
+    public void onMirrorClick(int position) {
+
     }
 }
