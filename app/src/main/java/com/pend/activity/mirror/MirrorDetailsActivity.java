@@ -284,7 +284,8 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                         }
                         mPostList.remove(index);
                         RecentPostAdapter recentPostAdapter = (RecentPostAdapter) mRecyclerViewPost.getAdapter();
-                        recentPostAdapter.notifyItemRemoved(index);
+                        recentPostAdapter.setPostList(mPostList);
+                        recentPostAdapter.notifyDataSetChanged();
 
                         Snackbar.make(mRootView, getString(R.string.post_remove_successfully), Snackbar.LENGTH_LONG).show();
 

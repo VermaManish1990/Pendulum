@@ -279,7 +279,8 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
                             mCommentList.add(new GetPostCommentsResponseModel.GetPostCommentsDetails(commentDetails.userID, commentDetails.commentID,
                                     commentDetails.commentText, commentDetails.userFullName, commentDetails.imageName, commentDetails.commentUserImageURL,
                                     commentDetails.createdDatetime));
-                            commentsAdapter.notifyItemInserted(mCommentList.size() - 1);
+                            commentsAdapter.setCommentList(mCommentList);
+                            commentsAdapter.notifyDataSetChanged();
 
                             mPostDetails.commentText = commentDetails.commentText;
                             mPostDetails.commentUserImageURL = commentDetails.commentUserImageURL;
@@ -354,7 +355,8 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
 
                         mCommentList.remove(position);
                         CommentsAdapter commentsAdapter = (CommentsAdapter) mRecyclerViewComment.getAdapter();
-                        commentsAdapter.notifyItemRemoved(position);
+                        commentsAdapter.setCommentList(mCommentList);
+                        commentsAdapter.notifyDataSetChanged();
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));

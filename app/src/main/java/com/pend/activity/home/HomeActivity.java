@@ -209,7 +209,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         }
                         mPostsDetailsList.remove(index);
                         HomePostsAdapter homePostsAdapter = (HomePostsAdapter) mRecyclerViewPost.getAdapter();
-                        homePostsAdapter.notifyItemRemoved(index);
+                        homePostsAdapter.setPostsDetailsList(mPostsDetailsList);
+                        homePostsAdapter.notifyDataSetChanged();
 
                         Snackbar.make(mRootView, getString(R.string.post_remove_successfully), Snackbar.LENGTH_LONG).show();
 
