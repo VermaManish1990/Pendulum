@@ -1,6 +1,7 @@
 package com.pend.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,12 +13,15 @@ import android.widget.TextView;
 
 import com.pend.BaseFragment;
 import com.pend.R;
+import com.pend.activity.mirror.MirrorDetailsActivity;
 import com.pend.adapters.MirrorSearchAdapter;
+import com.pend.interfaces.Constants;
 import com.pend.interfaces.IMirrorFragmentCallBack;
 import com.pend.models.GetTrendingAndIntroducedMirrorResponseModel;
 import com.pend.util.LoggerUtil;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class MirrorSearchFragment extends BaseFragment implements View.OnClickListener, MirrorSearchAdapter.IMirrorSearchAdapterCallBack {
@@ -157,6 +161,15 @@ public class MirrorSearchFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     public void onMirrorClick(int position) {
+        GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails mirrorDetails = mSearchDataList.get(position);
+        Intent intent = new Intent(mContext, MirrorDetailsActivity.class);
+        intent.putExtra(Constants.MIRROR_ID_KEY, mirrorDetails.mirrorID);
+        startActivity(intent);
 
+        try {
+            Objects.requireNonNull(getActivity()).finish();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 }
