@@ -15,8 +15,8 @@
             <ImageView
                 android:id="@+id/iv_post"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_130sdp"
-                android:scaleType="centerInside"
+                android:layout_height="@dimen/_150sdp"
+                android:scaleType="fitXY"
                 android:contentDescription="@string/image" />
 
             <TextView

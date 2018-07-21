@@ -1,12 +1,16 @@
 package com.pend.activity.home;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +21,7 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
+import android.view.Surface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -58,6 +63,7 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
     private GetPostsResponseModel.GetPostsDetails mPostDetails;
     private Button mBtCreatePost;
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +106,7 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
             mIsUpdatePost = true;
             mBtCreatePost.setText(getString(R.string.update_post));
 
-            if(mPostDetails.imageURL!=null){
+            if (mPostDetails.imageURL != null) {
 
                 Picasso.with(this)
                         .load(mPostDetails.imageURL)
@@ -321,6 +327,7 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(this,
                 getApplicationContext().getPackageName() + ".my.package.name.provider", mPhotoPath));
+        intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         startActivityForResult(intent, Constants.REQUEST_TAKE_PHOTO);
     }
 
@@ -386,4 +393,40 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
             }
         }
     }
+
+    public int getCorrectCameraOrientation(Camera.CameraInfo info, Camera camera) {
+
+        int rotation = this.getWindowManager().getDefaultDisplay().getRotation();
+        int degrees = 0;
+
+        switch (rotation) {
+            case Surface.ROTATION_0:
+                degrees = 0;
+                break;
+
+            case Surface.ROTATION_90:
+                degrees = 90;
+                break;
+
+            case Surface.ROTATION_180:
+                degrees = 180;
+                break;
+
+            case Surface.ROTATION_270:
+                degrees = 270;
+                break;
+
+        }
+
+        int result;
+        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+            result = (info.orientation + degrees) % 360;
+            result = (360 - result) % 360;
+        } else {
+            result = (info.orientation - degrees + 360) % 360;
+        }
+
+        return result;
+    }
+
 }
