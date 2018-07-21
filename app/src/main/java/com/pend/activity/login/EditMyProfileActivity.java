@@ -1,10 +1,13 @@
 package com.pend.activity.login;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,12 +23,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.EditText;
 
 import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
 import com.pend.R;
+import com.pend.activity.contest.ContestActivity;
+import com.pend.activity.mirror.MirrorActivity;
 import com.pend.adapters.UploadImageAdapter;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
@@ -71,6 +78,9 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
     private String mEncodedImage;
     private AddUserImageResponseModel.AddUserImageDetails mDeleteImageDetails;
     private AddUserImageResponseModel.AddUserImageDetails mUpdateImageDetails;
+    private View mRlQuarterView;
+    private View mFlQuarterBlackView;
+    private View mFlMenuView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +110,17 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
         mEtAge.addTextChangedListener(EditMyProfileActivity.this);
         mEtGender.addTextChangedListener(EditMyProfileActivity.this);
         mEtLocation.addTextChangedListener(EditMyProfileActivity.this);
+
+        View quarterView = findViewById(R.id.quarter_view);
+        mRlQuarterView = quarterView.findViewById(R.id.rl_quarter_view);
+        mFlQuarterBlackView = quarterView.findViewById(R.id.fl_quarter_black_view);
+        mFlMenuView = quarterView.findViewById(R.id.fl_menu_view);
+
+        quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
+        quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
+        quarterView.findViewById(R.id.iv_profile).setOnClickListener(this);
+        quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
+        mFlMenuView.setOnClickListener(this);
 
         findViewById(R.id.bt_save).setOnClickListener(this);
         findViewById(R.id.iv_upload_photo).setOnClickListener(this);
@@ -356,6 +377,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onClick(View view) {
 
@@ -374,6 +396,33 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
                 mPhotoPath = new File(imagesFolder, "myProfile.jpg");
                 selectImageDialog();
 
+                break;
+
+            case R.id.iv_profile:
+                hideReveal();
+                Intent intentProfile = new Intent(this, ProfileActivity.class);
+                startActivity(intentProfile);
+                break;
+
+            case R.id.fl_mirror:
+                hideReveal();
+                Intent intentMirror = new Intent(this, MirrorActivity.class);
+                startActivity(intentMirror);
+                break;
+
+            case R.id.fl_contest:
+                hideReveal();
+                Intent intentContest = new Intent(this, ContestActivity.class);
+                startActivity(intentContest);
+                break;
+
+            case R.id.fl_area:
+                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                break;
+
+            case R.id.fl_menu_view:
+                mFlMenuView.setVisibility(View.GONE);
+                showReveal();
                 break;
 
             default:
@@ -664,4 +713,62 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
         builder.show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    void showReveal() {
+        int cx = 0;
+        int cy = mRlQuarterView.getHeight();
+        float finalRadius = (float) Math.hypot(cx, cy);
+
+        Animator anim = ViewAnimationUtils.createCircularReveal(mRlQuarterView, cx, cy, 0, finalRadius);
+        anim.addListener(new AnimatorListenerAdapter() {
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mRlQuarterView.setVisibility(View.VISIBLE);
+            }
+        });
+        anim.start();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    void hideReveal() {
+
+        int cx = 0;
+        int cy = mRlQuarterView.getHeight();
+        float initialRadius = (float) Math.hypot(cx, cy);
+
+        Animator anim = ViewAnimationUtils.createCircularReveal(mRlQuarterView, cx, cy, initialRadius, 0);
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mRlQuarterView.setVisibility(View.GONE);
+                mFlMenuView.setVisibility(View.VISIBLE);
+            }
+        });
+        anim.start();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onBackPressed() {
+        if (mRlQuarterView.getVisibility() == View.VISIBLE) {
+            hideReveal();
+        }else {
+            super.onBackPressed();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        Rect outRect = new Rect();
+        mFlQuarterBlackView.getGlobalVisibleRect(outRect);
+
+        if (mRlQuarterView.getVisibility() == View.VISIBLE && !outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+            hideReveal();
+        }
+        return super.dispatchTouchEvent(event);
+    }
 }

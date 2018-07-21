@@ -1,48 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".activity.home.CreatePostActivity">
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/input_layout_post"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_20sdp"
-        android:layout_marginStart="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:hint="@string/post_info">
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/et_post_info"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_post"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:hint="@string/post_info">
 
-    <ImageView
-        android:id="@+id/iv_post"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_100sdp"
-        android:layout_margin="@dimen/_20sdp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/upload_photo"
-        android:contentDescription="@string/image" />
+            <EditText
+                android:id="@+id/et_post_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
 
-    <Button
-        android:id="@+id/bt_create_post"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/custom_blue_button"
-        android:paddingEnd="@dimen/_20sdp"
-        android:paddingStart="@dimen/_20sdp"
-        android:text="@string/create_post"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_15sdp" />
+        <ImageView
+            android:id="@+id/iv_post"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_margin="@dimen/_20sdp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/upload_photo"
+            android:contentDescription="@string/image" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/bt_create_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/custom_blue_button"
+            android:paddingEnd="@dimen/_20sdp"
+            android:paddingStart="@dimen/_20sdp"
+            android:text="@string/create_post"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15sdp" />
+    </LinearLayout>
+
+    <include
+        android:id="@+id/quarter_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_220sdp"
+        android:layout_alignParentBottom="true"
+        layout="@layout/quarter_view"/>
+
+</RelativeLayout>

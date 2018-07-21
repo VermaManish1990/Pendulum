@@ -199,12 +199,22 @@
 
     </ScrollView>
 
+    <include
+        android:id="@+id/quarter_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_220sdp"
+        android:layout_alignParentBottom="true"
+        layout="@layout/quarter_view"/>
+
     <Button
         android:id="@+id/bt_create_contest"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary"
+        android:paddingStart="@dimen/_20sdp"
+        android:paddingEnd="@dimen/_20sdp"
+        android:background="@drawable/custom_blue_button"
         android:text="@string/create"
         android:textColor="@color/white"
         android:textSize="@dimen/_15sdp" />
