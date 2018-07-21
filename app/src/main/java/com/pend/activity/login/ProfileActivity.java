@@ -47,6 +47,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private RecyclerView mRecyclerViewTimeSheet;
     private boolean mIsHasNextPage;
     private boolean mIsLoading;
+    private boolean mIsUpdateRequired;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void setInitialData() {
+        mIsUpdateRequired = false;
         mIsHasNextPage = false;
         mIsLoading = false;
         mPageNumber = 1;
@@ -137,7 +139,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                     Snackbar.make(mRootView, getString(R.string.server_error_from_api), Snackbar.LENGTH_LONG).show();
                 }
-                getData(IApiEvent.REQUEST_GET_USER_TIME_SHEET_CODE);
+
+                if (!mIsUpdateRequired) {
+                    getData(IApiEvent.REQUEST_GET_USER_TIME_SHEET_CODE);
+                } else {
+                    mIsUpdateRequired = false;
+                }
                 break;
 
             case IApiEvent.REQUEST_GET_USER_TIME_SHEET_CODE:
@@ -262,5 +269,21 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mIsUpdateRequired) {
+            getData(IApiEvent.REQUEST_GET_USER_PROFILE_CODE);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        mIsUpdateRequired = true;
     }
 }

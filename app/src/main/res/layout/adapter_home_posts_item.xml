@@ -85,6 +85,7 @@
         android:layout_height="@dimen/_200sdp"
         android:background="@color/black"
         android:contentDescription="@string/image"
+        android:adjustViewBounds="true"
         android:scaleType="centerInside" />
 
     <RelativeLayout
