@@ -65,6 +65,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     private boolean mIsLike;
     private boolean mIsUnLike;
     private String mCommentText;
+    private boolean mIsUpdateRequired;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +99,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void setInitialData() {
+        mIsUpdateRequired = false;
         mIsHasNextPage = false;
         mIsLoading = false;
         mPageNumber = 1;
@@ -530,5 +532,23 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
         HomePostsAdapter homePostsAdapter = (HomePostsAdapter) mRecyclerViewPost.getAdapter();
         homePostsAdapter.notifyItemChanged(position);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mIsUpdateRequired) {
+            mIsUpdateRequired = false;
+            mPostsDetailsList.clear();
+            getData(IApiEvent.REQUEST_GET_POSTS_CODE);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        mIsUpdateRequired = true;
     }
 }
