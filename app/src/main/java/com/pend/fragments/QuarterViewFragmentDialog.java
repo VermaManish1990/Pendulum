@@ -6,18 +6,14 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
@@ -68,7 +64,7 @@ public class QuarterViewFragmentDialog extends DialogFragment implements View.On
             }
         });
 
-        View view = inflater.inflate(R.layout.fragment_quarter_view_fragment_dialog, container, false);
+        View view = inflater.inflate(R.layout.quarter_view, container, false);
 
         mRlQuarterView = view.findViewById(R.id.rl_quarter_view);
         mFlQuarterBlackView = view.findViewById(R.id.fl_quarter_black_view);

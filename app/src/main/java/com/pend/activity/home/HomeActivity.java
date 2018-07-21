@@ -85,15 +85,18 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     protected void initUI() {
 
         mRootView = findViewById(R.id.root_view);
-        mRlQuarterView = findViewById(R.id.rl_quarter_view);
-        mFlQuarterBlackView = findViewById(R.id.fl_quarter_black_view);
-        mFlMenuView = findViewById(R.id.fl_menu_view);
         mRecyclerViewPost = findViewById(R.id.recycler_view_post);
         mTvDataNotAvailable = findViewById(R.id.tv_data_not_available);
-        findViewById(R.id.fl_mirror).setOnClickListener(this);
-        findViewById(R.id.fl_contest).setOnClickListener(this);
-        findViewById(R.id.iv_profile).setOnClickListener(this);
-        findViewById(R.id.fl_area).setOnClickListener(this);
+
+        View quarterView = findViewById(R.id.quarter_view);
+        mRlQuarterView = quarterView.findViewById(R.id.rl_quarter_view);
+        mFlQuarterBlackView = quarterView.findViewById(R.id.fl_quarter_black_view);
+        mFlMenuView = quarterView.findViewById(R.id.fl_menu_view);
+
+        quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
+        quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
+        quarterView.findViewById(R.id.iv_profile).setOnClickListener(this);
+        quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
     }
 
