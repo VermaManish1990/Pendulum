@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pend.BaseActivity;
@@ -27,10 +28,11 @@ import com.pend.util.VolleyErrorListener;
 import com.pendulum.utils.ConnectivityUtils;
 import com.pendulum.volley.ext.GsonObjectRequest;
 import com.pendulum.volley.ext.RequestManager;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ProfileActivity extends BaseActivity implements View.OnClickListener {
+public class ProfileActivity extends BaseActivity implements View.OnClickListener,ProfileViewPagerAdapter.IProfileViewPagerAdapterCallBack {
 
     private static final String TAG = ProfileActivity.class.getSimpleName();
     private ViewPager mViewpagerProfile;
@@ -48,6 +50,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private boolean mIsHasNextPage;
     private boolean mIsLoading;
     private boolean mIsUpdateRequired;
+    private ImageView mIvLargeProfile;
+    private View mRlLargeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +68,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     protected void initUI() {
 
         mRootView = findViewById(R.id.root_view);
+        mRlLargeView = findViewById(R.id.rl_large_view);
+        mIvLargeProfile = findViewById(R.id.iv_large_profile);
         mViewpagerProfile = findViewById(R.id.viewpager_profile);
         mTabLayout = findViewById(R.id.tab_layout);
         mTvName = findViewById(R.id.tv_name);
@@ -74,6 +80,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         findViewById(R.id.iv_setting).setOnClickListener(this);
         findViewById(R.id.iv_edit).setOnClickListener(this);
+        findViewById(R.id.iv_close).setOnClickListener(this);
     }
 
     @Override
@@ -265,6 +272,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 }
                 break;
 
+            case R.id.iv_close:
+                mRlLargeView.setVisibility(View.GONE);
+                break;
+
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
@@ -285,5 +296,24 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         super.onPause();
 
         mIsUpdateRequired = true;
+    }
+
+    @Override
+    public void onImageClick(int position) {
+
+        mRlLargeView.setVisibility(View.VISIBLE);
+
+        Picasso.with(this)
+                .load(mUserProfileResponseModel.Data.imageData.get(position).imageURL)
+                .into(mIvLargeProfile);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mRlLargeView.getVisibility() == View.VISIBLE) {
+            mRlLargeView.setVisibility(View.GONE);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

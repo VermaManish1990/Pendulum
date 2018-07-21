@@ -19,13 +19,14 @@ public class ProfileViewPagerAdapter extends PagerAdapter {
 
     private final LayoutInflater mLayoutInflater;
     private final Context mContext;
+    private IProfileViewPagerAdapterCallBack mIProfileViewPagerAdapterCallBack;
     private ArrayList<UserProfileResponseModel.ImageDetails> mImageDetailsList;
 
     public ProfileViewPagerAdapter(Context context, ArrayList<UserProfileResponseModel.ImageDetails> imageDetailsList) {
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mContext = context;
         mImageDetailsList = imageDetailsList;
-
+        mIProfileViewPagerAdapterCallBack = (IProfileViewPagerAdapterCallBack) context;
     }
 
     public void setImageDetailsList(ArrayList<UserProfileResponseModel.ImageDetails> imageDetailsList) {
@@ -34,7 +35,7 @@ public class ProfileViewPagerAdapter extends PagerAdapter {
 
     @NonNull
     @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, final int position) {
 
         UserProfileResponseModel.ImageDetails imageDetails = mImageDetailsList.get(position);
         View itemView = mLayoutInflater.inflate(R.layout.profile_view_pager_item, container, false);
@@ -48,6 +49,13 @@ public class ProfileViewPagerAdapter extends PagerAdapter {
 //                .resize(250, 200)                        // optional
 //                .rotate(90)                             // optional
                 .into(imageView);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIProfileViewPagerAdapterCallBack.onImageClick(position);
+            }
+        });
 
         container.addView(itemView);
 
@@ -68,5 +76,9 @@ public class ProfileViewPagerAdapter extends PagerAdapter {
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((FrameLayout) object);
 
+    }
+
+    public interface IProfileViewPagerAdapterCallBack{
+        void onImageClick(int position);
     }
 }
