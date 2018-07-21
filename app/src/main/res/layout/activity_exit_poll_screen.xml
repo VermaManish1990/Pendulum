@@ -1,202 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:weightSum="9"
     tools:context=".activity.mirror.ExitPollScreenActivity">
 
-    <com.pend.widget.CustomViewPager
-        android:id="@+id/viewpager_profile"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3">
-
-    </com.pend.widget.CustomViewPager>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="6">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_15sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp">
-
-                <TextView
-                    android:id="@+id/tv_category_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:text="@string/category"
-                    android:textColor="@color/fontPrimary50"
-                    android:textSize="@dimen/_9sdp" />
-
-                <TextView
-                    android:id="@+id/tv_category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/tv_category_text"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_toEndOf="@+id/tv_category_text"
-                    android:layout_toLeftOf="@+id/tv_related_contest"
-                    android:layout_toRightOf="@+id/tv_category_text"
-                    android:layout_toStartOf="@+id/tv_related_contest"
-                    android:ellipsize="end"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/_9sdp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_wiki_link_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_category_text"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:text="@string/wiki_link"
-                    android:textColor="@color/fontPrimary50"
-                    android:textSize="@dimen/_9sdp" />
-
-                <TextView
-                    android:id="@+id/tv_wiki_link"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/tv_wiki_link_text"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_toEndOf="@+id/tv_wiki_link_text"
-                    android:layout_toLeftOf="@+id/tv_related_contest"
-                    android:layout_toRightOf="@+id/tv_wiki_link_text"
-                    android:layout_toStartOf="@+id/tv_related_contest"
-                    android:ellipsize="end"
-                    android:textColor="@color/colorBlue"
-                    android:textSize="@dimen/_9sdp" />
-
-                <TextView
-                    android:id="@+id/tv_created_by_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_wiki_link_text"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:text="@string/created_by"
-                    android:textColor="@color/fontPrimary50"
-                    android:textSize="@dimen/_9sdp" />
-
-                <TextView
-                    android:id="@+id/tv_created_by"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/tv_created_by_text"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_toEndOf="@+id/tv_created_by_text"
-                    android:layout_toLeftOf="@+id/tv_related_contest"
-                    android:layout_toRightOf="@+id/tv_created_by_text"
-                    android:layout_toStartOf="@+id/tv_related_contest"
-                    android:ellipsize="end"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/_9sdp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_related_contest"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignTop="@+id/tv_category_text"
-                    android:background="@drawable/custom_rounded_grey_border"
-                    android:paddingBottom="@dimen/_7sdp"
-                    android:paddingEnd="@dimen/_15sdp"
-                    android:paddingStart="@dimen/_15sdp"
-                    android:paddingTop="@dimen/_7sdp"
-                    android:text="@string/related_contest"
-                    android:textColor="@color/fontPrimary50"
-                    android:textSize="@dimen/_9sdp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_reflections"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/tv_related_contest"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignStart="@+id/tv_related_contest"
-                    android:layout_below="@+id/tv_related_contest"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:background="@drawable/custom_rounded_grey_border"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/_7sdp"
-                    android:paddingTop="@dimen/_7sdp"
-                    android:text="@string/reflections"
-                    android:textColor="@color/fontPrimary50"
-                    android:textSize="@dimen/_9sdp"
-                    android:textStyle="bold" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_1sdp"
-                android:background="@color/darkGreyBackground" />
-
-            <TextView
-                android:id="@+id/tv_recent_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:text="@string/recent_exit_polls"
-                android:textColor="@color/fontPrimary50"
-                android:textStyle="bold" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view_exit_poll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="horizontal" />
-
-        </LinearLayout>
-
-    </ScrollView>
-
-    <RelativeLayout
-        android:id="@+id/rl_large_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:orientation="vertical"
+        android:weightSum="9">
 
-        <ImageView
-            android:id="@+id/iv_large_profile"
+        <com.pend.widget.CustomViewPager
+            android:id="@+id/viewpager_profile"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3">
+
+        </com.pend.widget.CustomViewPager>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp">
+
+                    <TextView
+                        android:id="@+id/tv_category_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="@string/category"
+                        android:textColor="@color/fontPrimary50"
+                        android:textSize="@dimen/_9sdp" />
+
+                    <TextView
+                        android:id="@+id/tv_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/tv_category_text"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_toEndOf="@+id/tv_category_text"
+                        android:layout_toLeftOf="@+id/tv_related_contest"
+                        android:layout_toRightOf="@+id/tv_category_text"
+                        android:layout_toStartOf="@+id/tv_related_contest"
+                        android:ellipsize="end"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/_9sdp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_wiki_link_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_category_text"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="@string/wiki_link"
+                        android:textColor="@color/fontPrimary50"
+                        android:textSize="@dimen/_9sdp" />
+
+                    <TextView
+                        android:id="@+id/tv_wiki_link"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/tv_wiki_link_text"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_toEndOf="@+id/tv_wiki_link_text"
+                        android:layout_toLeftOf="@+id/tv_related_contest"
+                        android:layout_toRightOf="@+id/tv_wiki_link_text"
+                        android:layout_toStartOf="@+id/tv_related_contest"
+                        android:ellipsize="end"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="@dimen/_9sdp" />
+
+                    <TextView
+                        android:id="@+id/tv_created_by_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_wiki_link_text"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="@string/created_by"
+                        android:textColor="@color/fontPrimary50"
+                        android:textSize="@dimen/_9sdp" />
+
+                    <TextView
+                        android:id="@+id/tv_created_by"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/tv_created_by_text"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_toEndOf="@+id/tv_created_by_text"
+                        android:layout_toLeftOf="@+id/tv_related_contest"
+                        android:layout_toRightOf="@+id/tv_created_by_text"
+                        android:layout_toStartOf="@+id/tv_related_contest"
+                        android:ellipsize="end"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/_9sdp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_related_contest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@+id/tv_category_text"
+                        android:background="@drawable/custom_rounded_grey_border"
+                        android:paddingBottom="@dimen/_7sdp"
+                        android:paddingEnd="@dimen/_15sdp"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:paddingTop="@dimen/_7sdp"
+                        android:text="@string/related_contest"
+                        android:textColor="@color/fontPrimary50"
+                        android:textSize="@dimen/_9sdp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_reflections"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/tv_related_contest"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignStart="@+id/tv_related_contest"
+                        android:layout_below="@+id/tv_related_contest"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/custom_rounded_grey_border"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/_7sdp"
+                        android:paddingTop="@dimen/_7sdp"
+                        android:text="@string/reflections"
+                        android:textColor="@color/fontPrimary50"
+                        android:textSize="@dimen/_9sdp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:background="@color/darkGreyBackground" />
+
+                <TextView
+                    android:id="@+id/tv_recent_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="@string/recent_exit_polls"
+                    android:textColor="@color/fontPrimary50"
+                    android:textStyle="bold" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view_exit_poll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="horizontal" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <RelativeLayout
+            android:id="@+id/rl_large_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/profile"
-            android:contentDescription="@string/image" />
+            android:visibility="gone">
 
-        <ImageView
-            android:id="@+id/iv_close"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="@dimen/_10sdp"
-            android:src="@drawable/cross"
-            android:contentDescription="@string/image" />
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/iv_large_profile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/image"
+                android:src="@drawable/profile" />
 
-</LinearLayout>
+            <ImageView
+                android:id="@+id/iv_close"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="@dimen/_10sdp"
+                android:contentDescription="@string/image"
+                android:src="@drawable/cross" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <include
+        android:id="@+id/quarter_view"
+        layout="@layout/quarter_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_220sdp"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

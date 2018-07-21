@@ -1,181 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".activity.mirror.MirrorDetailsActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:scrollbars="vertical">
 
-        <android.support.v7.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:cardCornerRadius="@dimen/_5sdp">
+            android:orientation="vertical">
 
-            <RelativeLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp">
-
-                <com.pend.widget.RoundedCornerImageView
-                    android:id="@+id/iv_profile"
-                    android:layout_width="@dimen/_90sdp"
-                    android:layout_height="@dimen/_96sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/profile"
-                    app:fk_left_bottom_corner_radius="@dimen/_5sdp"
-                    app:fk_left_top_corner_radius="@dimen/_5sdp"
-                    app:fk_right_bottom_corner_radius="@dimen/_5sdp"
-                    app:fk_right_top_corner_radius="@dimen/_5sdp" />
-
-                <com.jjoe64.graphview.GraphView
-                    android:id="@+id/graph_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_106sdp"
-                    android:layout_toEndOf="@+id/iv_profile"
-                    android:layout_toRightOf="@+id/iv_profile" />
-
-                <TextView
-                    android:id="@+id/tv_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignEnd="@+id/iv_profile"
-                    android:layout_alignLeft="@+id/iv_profile"
-                    android:layout_alignRight="@+id/iv_profile"
-                    android:layout_alignStart="@+id/iv_profile"
-                    android:layout_below="@+id/iv_profile"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
+                android:background="@color/white"
+                app:cardCornerRadius="@dimen/_5sdp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/tv_name"
-                    android:layout_below="@+id/graph_view"
-                    android:layout_toEndOf="@+id/tv_name"
-                    android:layout_toRightOf="@+id/tv_name">
+                    android:layout_margin="@dimen/_10sdp">
+
+                    <com.pend.widget.RoundedCornerImageView
+                        android:id="@+id/iv_mirror_profile"
+                        android:layout_width="@dimen/_90sdp"
+                        android:layout_height="@dimen/_96sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/profile"
+                        app:fk_left_bottom_corner_radius="@dimen/_5sdp"
+                        app:fk_left_top_corner_radius="@dimen/_5sdp"
+                        app:fk_right_bottom_corner_radius="@dimen/_5sdp"
+                        app:fk_right_top_corner_radius="@dimen/_5sdp" />
+
+                    <com.jjoe64.graphview.GraphView
+                        android:id="@+id/graph_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_106sdp"
+                        android:layout_toEndOf="@+id/iv_mirror_profile" />
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignEnd="@+id/iv_mirror_profile"
+                        android:layout_alignStart="@+id/iv_mirror_profile"
+                        android:layout_below="@+id/iv_mirror_profile"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/tv_name"
+                        android:layout_below="@+id/graph_view"
+                        android:layout_toEndOf="@+id/tv_name">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/_12sdp" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_tap_here_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_name"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="@string/tap_here_to_vote"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <com.pend.widget.progressbar.CustomProgressBar
+                        android:id="@+id/progress_bar_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_below="@+id/tv_tap_here_text"
+                        android:max="100"
+                        android:progress="0"
+                        android:progressDrawable="@android:color/transparent" />
+
+                    <View
+                        android:id="@+id/view_progress_bar_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_alignBottom="@+id/progress_bar_profile"
+                        android:layout_alignTop="@+id/progress_bar_profile"
+                        android:background="@color/transparent" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/view_create_a_new_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@color/white"
+                android:elevation="@dimen/_3sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp">
+
+                    <ImageView
+                        android:id="@+id/iv_create_post"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:contentDescription="@string/image"
+                        android:src="@drawable/add" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:textSize="@dimen/_12sdp"
-                        android:textColor="@color/colorAccent" />
-
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_toEndOf="@+id/iv_create_post"
+                        android:text="@string/create_a_new_post"
+                        android:textSize="@dimen/_13sdp" />
                 </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/tv_tap_here_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_name"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:textSize="@dimen/_11sdp"
-                    android:text="@string/tap_here_to_vote" />
-
-                <com.pend.widget.progressbar.CustomProgressBar
-                    android:id="@+id/progress_bar_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_25sdp"
-                    android:layout_below="@+id/tv_tap_here_text"
-                    android:max="100"
-                    android:progress="0"
-                    android:progressDrawable="@android:color/transparent" />
-
-                <View
-                    android:id="@+id/view_progress_bar_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_25sdp"
-                    android:layout_alignBottom="@+id/progress_bar_profile"
-                    android:layout_alignTop="@+id/progress_bar_profile"
-                    android:background="@color/transparent" />
-
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/view_create_a_new_post"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_12sdp"
-            android:layout_marginStart="@dimen/_12sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/white"
-            android:elevation="@dimen/_3sdp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp">
-
-                <ImageView
-                    android:id="@+id/iv_create_post"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:contentDescription="@string/image"
-                    android:src="@drawable/add" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/_15sdp"
-                    android:layout_marginStart="@dimen/_15sdp"
-                    android:layout_toEndOf="@+id/iv_create_post"
-                    android:layout_toRightOf="@+id/iv_create_post"
-                    android:text="@string/create_a_new_post"
-                    android:textSize="@dimen/_13sdp" />
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:textColor="@color/fontPrimary50"
-            android:text="@string/recent_post" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view_post"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_12sdp"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginTop="-5dp"
-                android:scrollbars="vertical"
-                android:visibility="gone" />
+            </android.support.v7.widget.CardView>
 
             <TextView
-                android:id="@+id/tv_data_not_available"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:text="@string/data_not_available"
-                android:textSize="@dimen/_15sdp"
-                android:visibility="visible" />
-        </FrameLayout>
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="@string/recent_post"
+                android:textColor="@color/fontPrimary50" />
 
-    </LinearLayout>
-</ScrollView>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view_post"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="-5dp"
+                    android:scrollbars="vertical"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_data_not_available"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="@string/data_not_available"
+                    android:textSize="@dimen/_15sdp"
+                    android:visibility="visible" />
+            </FrameLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <include
+        android:id="@+id/quarter_view"
+        layout="@layout/quarter_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_220sdp"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

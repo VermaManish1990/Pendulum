@@ -1,17 +1,26 @@
 package com.pend.activity.mirror;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 
 import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
 import com.pend.R;
+import com.pend.activity.contest.ContestActivity;
 import com.pend.activity.login.EditMyProfileActivity;
+import com.pend.activity.login.ProfileActivity;
 import com.pend.adapters.SearchMirrorAdapter;
 import com.pend.fragments.CreateMirrorDialogFragment;
 import com.pend.interfaces.Constants;
@@ -39,6 +48,9 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
     private String mSearchText;
     private ArrayList<SearchMirrorResponseModel.SearchMirrorDetails> mSearchDataList;
     private SearchMirrorResponseModel.SearchMirrorDetails mMirrorDetails;
+    private View mRlQuarterView;
+    private View mFlQuarterBlackView;
+    private View mFlMenuView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +75,18 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
 
         mRootView = findViewById(R.id.root_view);
         mRecyclerViewSearch = findViewById(R.id.recycler_view_search);
+
+        View quarterView = findViewById(R.id.quarter_view);
+        mRlQuarterView = quarterView.findViewById(R.id.rl_quarter_view);
+        mFlQuarterBlackView = quarterView.findViewById(R.id.fl_quarter_black_view);
+        mFlMenuView = quarterView.findViewById(R.id.fl_menu_view);
+
+        quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
+        quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
+        quarterView.findViewById(R.id.iv_profile).setOnClickListener(this);
+        quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
+        mFlMenuView.setOnClickListener(this);
+
 
         findViewById(R.id.tv_create_mirror).setOnClickListener(this);
     }
@@ -199,6 +223,7 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -207,10 +232,96 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
                 createMirrorDialogFragment.show(getSupportFragmentManager(), "CreateMirrorDialogFragment");
                 break;
 
+            case R.id.iv_profile:
+                hideReveal();
+                Intent intentProfile = new Intent(this, ProfileActivity.class);
+                startActivity(intentProfile);
+                break;
+
+            case R.id.fl_mirror:
+                hideReveal();
+                Intent intentMirror = new Intent(this, MirrorActivity.class);
+                startActivity(intentMirror);
+                break;
+
+            case R.id.fl_contest:
+                hideReveal();
+                Intent intentContest = new Intent(this, ContestActivity.class);
+                startActivity(intentContest);
+                break;
+
+            case R.id.fl_area:
+                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                break;
+
+            case R.id.fl_menu_view:
+                mFlMenuView.setVisibility(View.GONE);
+                showReveal();
+                break;
+
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    void showReveal() {
+        int cx = 0;
+        int cy = mRlQuarterView.getHeight();
+        float finalRadius = (float) Math.hypot(cx, cy);
+
+        Animator anim = ViewAnimationUtils.createCircularReveal(mRlQuarterView, cx, cy, 0, finalRadius);
+        anim.addListener(new AnimatorListenerAdapter() {
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mRlQuarterView.setVisibility(View.VISIBLE);
+            }
+        });
+        anim.start();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    void hideReveal() {
+
+        int cx = 0;
+        int cy = mRlQuarterView.getHeight();
+        float initialRadius = (float) Math.hypot(cx, cy);
+
+        Animator anim = ViewAnimationUtils.createCircularReveal(mRlQuarterView, cx, cy, initialRadius, 0);
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mRlQuarterView.setVisibility(View.GONE);
+                mFlMenuView.setVisibility(View.VISIBLE);
+            }
+        });
+        anim.start();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onBackPressed() {
+        if (mRlQuarterView.getVisibility() == View.VISIBLE) {
+            hideReveal();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        Rect outRect = new Rect();
+        mFlQuarterBlackView.getGlobalVisibleRect(outRect);
+
+        if (mRlQuarterView.getVisibility() == View.VISIBLE && !outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+            hideReveal();
+        }
+        return super.dispatchTouchEvent(event);
     }
 
     @Override

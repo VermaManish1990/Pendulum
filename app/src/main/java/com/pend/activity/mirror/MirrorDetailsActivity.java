@@ -1,8 +1,12 @@
 package com.pend.activity.mirror;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +14,9 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,7 +31,9 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.pend.BaseActivity;
 import com.pend.BaseResponseModel;
 import com.pend.R;
+import com.pend.activity.contest.ContestActivity;
 import com.pend.activity.home.CreatePostActivity;
+import com.pend.activity.login.ProfileActivity;
 import com.pend.adapters.RecentPostAdapter;
 import com.pend.fragments.CommentsDialogFragment;
 import com.pend.fragments.MirrorUnVotingDialogFragment;
@@ -73,6 +81,9 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     private boolean mIsUnLike;
     private boolean mIsUpdateRequired;
     private String mCommentText;
+    private View mRlQuarterView;
+    private View mFlQuarterBlackView;
+    private View mFlMenuView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,12 +107,24 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     protected void initUI() {
 
         mRootView = findViewById(R.id.root_view);
-        mIvProfile = findViewById(R.id.iv_profile);
+        mIvProfile = findViewById(R.id.iv_mirror_profile);
         mGraphView = findViewById(R.id.graph_view);
         mTvName = findViewById(R.id.tv_name);
         mTvDataNotAvailable = findViewById(R.id.tv_data_not_available);
         mProgressBarProfile = findViewById(R.id.progress_bar_profile);
         mRecyclerViewPost = findViewById(R.id.recycler_view_post);
+
+        View quarterView = findViewById(R.id.quarter_view);
+        mRlQuarterView = quarterView.findViewById(R.id.rl_quarter_view);
+        mFlQuarterBlackView = quarterView.findViewById(R.id.fl_quarter_black_view);
+        mFlMenuView = quarterView.findViewById(R.id.fl_menu_view);
+
+        quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
+        quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
+        quarterView.findViewById(R.id.iv_profile).setOnClickListener(this);
+        quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
+        mFlMenuView.setOnClickListener(this);
+
 
         findViewById(R.id.view_create_a_new_post).setOnClickListener(this);
         findViewById(R.id.view_progress_bar_profile).setOnClickListener(this);
@@ -116,9 +139,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         mRecyclerViewPost.setNestedScrollingEnabled(false);
 
         //for progressbar
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            mProgressBarProfile.getThumb().mutate().setAlpha(0);
-        }
+        mProgressBarProfile.getThumb().mutate().setAlpha(0);
 
         //for graph
         Viewport viewport = mGraphView.getViewport();
@@ -463,6 +484,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -474,7 +496,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                 startActivity(intentCreatePost);
                 break;
 
-            case R.id.iv_profile:
+            case R.id.iv_mirror_profile:
 
                 Intent intent = new Intent(MirrorDetailsActivity.this, ExitPollScreenActivity.class);
                 intent.putExtra(Constants.MIRROR_ID_KEY, mMirrorId);
@@ -490,6 +512,34 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                     unVotingDialogFragment.show(getSupportFragmentManager(), "MirrorUnVotingDialogFragment");
                 }
                 break;
+
+            case R.id.iv_profile:
+                hideReveal();
+                Intent intentProfile = new Intent(this, ProfileActivity.class);
+                startActivity(intentProfile);
+                break;
+
+            case R.id.fl_mirror:
+                hideReveal();
+                Intent intentMirror = new Intent(this, MirrorActivity.class);
+                startActivity(intentMirror);
+                break;
+
+            case R.id.fl_contest:
+                hideReveal();
+                Intent intentContest = new Intent(this, ContestActivity.class);
+                startActivity(intentContest);
+                break;
+
+            case R.id.fl_area:
+                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                break;
+
+            case R.id.fl_menu_view:
+                mFlMenuView.setVisibility(View.GONE);
+                showReveal();
+                break;
+
 
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
@@ -668,4 +718,64 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    void showReveal() {
+        int cx = 0;
+        int cy = mRlQuarterView.getHeight();
+        float finalRadius = (float) Math.hypot(cx, cy);
+
+        Animator anim = ViewAnimationUtils.createCircularReveal(mRlQuarterView, cx, cy, 0, finalRadius);
+        anim.addListener(new AnimatorListenerAdapter() {
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mRlQuarterView.setVisibility(View.VISIBLE);
+            }
+        });
+        anim.start();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    void hideReveal() {
+
+        int cx = 0;
+        int cy = mRlQuarterView.getHeight();
+        float initialRadius = (float) Math.hypot(cx, cy);
+
+        Animator anim = ViewAnimationUtils.createCircularReveal(mRlQuarterView, cx, cy, initialRadius, 0);
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mRlQuarterView.setVisibility(View.GONE);
+                mFlMenuView.setVisibility(View.VISIBLE);
+            }
+        });
+        anim.start();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onBackPressed() {
+        if (mRlQuarterView.getVisibility() == View.VISIBLE) {
+            hideReveal();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        Rect outRect = new Rect();
+        mFlQuarterBlackView.getGlobalVisibleRect(outRect);
+
+        if (mRlQuarterView.getVisibility() == View.VISIBLE && !outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+            hideReveal();
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
 }
