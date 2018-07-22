@@ -7,10 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".activity.mirror.MirrorDetailsActivity">
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical">
+        android:fillViewport="true"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -175,7 +175,7 @@
             </FrameLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
     <include
         android:id="@+id/quarter_view"
