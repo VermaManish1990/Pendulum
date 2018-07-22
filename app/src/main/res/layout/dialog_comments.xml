@@ -16,7 +16,8 @@
                 android:id="@+id/iv_post"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_150sdp"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
                 android:contentDescription="@string/image" />
 
             <TextView
@@ -28,7 +29,6 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:textSize="@dimen/_11sdp"
-                android:layout_toLeftOf="@+id/tv_time"
                 android:layout_toStartOf="@+id/tv_time"
                 android:textColor="@color/fontPrimary50" />
 
@@ -37,14 +37,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_below="@+id/iv_post"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:textSize="@dimen/_11sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:textColor="@color/fontPrimary50"
-                android:text="2w" />
+                android:textColor="@color/fontPrimary50" />
 
             <ImageView
                 android:id="@+id/iv_comment"
@@ -52,7 +50,6 @@
                 android:layout_height="@dimen/_20sdp"
                 android:layout_below="@+id/tv_description"
                 android:layout_marginBottom="@dimen/_10sdp"
-                android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginStart="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:contentDescription="@string/image"
@@ -66,7 +63,6 @@
                 android:layout_alignBottom="@+id/iv_comment"
                 android:layout_alignTop="@+id/iv_comment"
                 android:layout_toEndOf="@+id/iv_comment"
-                android:layout_toRightOf="@+id/iv_comment"
                 android:gravity="center"
                 android:textColor="@color/fontPrimary50" />
 
@@ -76,10 +72,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/iv_comment"
                 android:layout_alignTop="@+id/iv_comment"
-                android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginStart="@dimen/_15sdp"
                 android:layout_toEndOf="@+id/tv_comment_count"
-                android:layout_toRightOf="@+id/tv_comment_count"
                 android:contentDescription="@string/image"
                 android:padding="@dimen/_2sdp"
                 android:src="@drawable/like" />
@@ -91,7 +85,6 @@
                 android:layout_alignBottom="@+id/iv_like"
                 android:layout_alignTop="@+id/iv_like"
                 android:layout_toEndOf="@+id/iv_like"
-                android:layout_toRightOf="@+id/iv_like"
                 android:gravity="center"
                 android:textColor="@color/fontPrimary50" />
 
@@ -101,10 +94,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/iv_like"
                 android:layout_alignTop="@+id/iv_like"
-                android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginStart="@dimen/_15sdp"
                 android:layout_toEndOf="@+id/tv_like_count"
-                android:layout_toRightOf="@+id/tv_like_count"
                 android:contentDescription="@string/image"
                 android:padding="@dimen/_2sdp"
                 android:src="@drawable/dislike" />
@@ -116,7 +107,6 @@
                 android:layout_alignBottom="@+id/iv_dislike"
                 android:layout_alignTop="@+id/iv_dislike"
                 android:layout_toEndOf="@+id/iv_dislike"
-                android:layout_toRightOf="@+id/iv_dislike"
                 android:gravity="center"
                 android:textColor="@color/fontPrimary50" />
 
