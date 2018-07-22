@@ -159,7 +159,6 @@
                     android:layout_marginEnd="@dimen/_12sdp"
                     android:layout_marginStart="@dimen/_12sdp"
                     android:layout_marginTop="-5dp"
-                    android:scrollbars="vertical"
                     android:visibility="gone" />
 
                 <TextView

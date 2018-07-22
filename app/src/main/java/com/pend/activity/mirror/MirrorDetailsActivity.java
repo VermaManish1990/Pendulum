@@ -136,7 +136,11 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
         mIsVoted = false;
         mIsUpdateRequired = true;
-        mRecyclerViewPost.setNestedScrollingEnabled(false);
+
+        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+            // only for gingerbread and newer versions
+            mRecyclerViewPost.setNestedScrollingEnabled(false);
+        }
 
         //for progressbar
         mProgressBarProfile.getThumb().mutate().setAlpha(0);
