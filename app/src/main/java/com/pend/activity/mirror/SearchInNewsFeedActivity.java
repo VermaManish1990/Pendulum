@@ -110,6 +110,7 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
     protected void setInitialData() {
 
         mPageNumber = 1;
+        mIsMirror = true;
         mMirrorList = new ArrayList<>();
         mBtMirror.setTextColor(getResources().getColor(R.color.white));
         mBtMirror.setBackground(getResources().getDrawable(R.drawable.custom_blue_button));
@@ -344,33 +345,39 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
 
             case R.id.bt_mirror:
 
-                mIsMirror = true;
+                if (!mIsMirror) {
 
-                mBtMirror.setTextColor(getResources().getColor(R.color.white));
-                mBtMirror.setBackground(getResources().getDrawable(R.drawable.custom_blue_button));
+                    mIsMirror = true;
 
-                mBtContest.setTextColor(getResources().getColor(R.color.black));
-                mBtContest.setBackground(getResources().getDrawable(R.drawable.custom_blue_border));
+                    mBtMirror.setTextColor(getResources().getColor(R.color.white));
+                    mBtMirror.setBackground(getResources().getDrawable(R.drawable.custom_blue_button));
 
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.add(R.id.fl_container, mMirrorSearchFragment);
-                transaction.commit();
+                    mBtContest.setTextColor(getResources().getColor(R.color.black));
+                    mBtContest.setBackground(getResources().getDrawable(R.drawable.custom_blue_border));
+
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.add(R.id.fl_container, mMirrorSearchFragment);
+                    transaction.commit();
+                }
                 break;
 
             case R.id.bt_contest:
 
-                mIsMirror = false;
+                if (mIsMirror) {
 
-                mBtContest.setTextColor(getResources().getColor(R.color.white));
-                mBtContest.setBackground(getResources().getDrawable(R.drawable.custom_blue_button));
+                    mIsMirror = false;
 
-                mBtMirror.setTextColor(getResources().getColor(R.color.black));
-                mBtMirror.setBackground(getResources().getDrawable(R.drawable.custom_blue_border));
+                    mBtContest.setTextColor(getResources().getColor(R.color.white));
+                    mBtContest.setBackground(getResources().getDrawable(R.drawable.custom_blue_button));
 
-                ContestSearchFragment contestSearchFragment = new ContestSearchFragment();
-                FragmentTransaction transactionContest = getSupportFragmentManager().beginTransaction();
-                transactionContest.replace(R.id.fl_container, contestSearchFragment);
-                transactionContest.commit();
+                    mBtMirror.setTextColor(getResources().getColor(R.color.black));
+                    mBtMirror.setBackground(getResources().getDrawable(R.drawable.custom_blue_border));
+
+                    ContestSearchFragment contestSearchFragment = new ContestSearchFragment();
+                    FragmentTransaction transactionContest = getSupportFragmentManager().beginTransaction();
+                    transactionContest.replace(R.id.fl_container, contestSearchFragment);
+                    transactionContest.commit();
+                }
                 break;
 
             case R.id.iv_profile:

@@ -19,7 +19,7 @@
             android:layout_height="@dimen/_180sdp"
             android:contentDescription="@string/image"
             android:adjustViewBounds="true"
-            android:scaleType="centerInside" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/tv_description"

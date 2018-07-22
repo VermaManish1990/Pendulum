@@ -75,6 +75,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
     private ImageView mIvSend;
     private EditText mEtAddAComment;
     private String mCommentText;
+    private boolean mIsUpdateComment;
 
     public static CommentsDialogFragment newInstance(GetPostsResponseModel.GetPostsDetails postsDetails) {
         CommentsDialogFragment fragment = new CommentsDialogFragment();
@@ -144,6 +145,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
         mIsLoading = false;
         mIsLike = false;
         mIsUnLike = false;
+        mIsUpdateComment = false;
         mCommentList = new ArrayList<>();
 
         mEtAddAComment.setOnKeyListener(new View.OnKeyListener() {
@@ -155,7 +157,12 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
 
                     mCommentText = mEtAddAComment.getText().toString().trim();
                     if (mCommentText.length() > 0) {
-                        getData(IApiEvent.REQUEST_ADD_COMMENT_CODE);
+                        if (mIsUpdateComment) {
+                            mIsUpdateComment = false;
+                            getData(IApiEvent.REQUEST_UPDATE_COMMENT_CODE);
+                        } else {
+                            getData(IApiEvent.REQUEST_ADD_COMMENT_CODE);
+                        }
                     }
                     return true;
                 }
@@ -268,6 +275,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
 
             case IApiEvent.REQUEST_ADD_COMMENT_CODE:
                 if (status) {
+                    mEtAddAComment.setText("");
                     AddAndUpdateCommentResponseModel addAndUpdateCommentResponseModel = (AddAndUpdateCommentResponseModel) serviceResponse;
                     if (addAndUpdateCommentResponseModel != null && addAndUpdateCommentResponseModel.status) {
                         LoggerUtil.d(TAG, addAndUpdateCommentResponseModel.statusCode);
@@ -301,12 +309,37 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
 
             case IApiEvent.REQUEST_UPDATE_COMMENT_CODE:
                 if (status) {
+                    mEtAddAComment.setText("");
+
                     AddAndUpdateCommentResponseModel addAndUpdateCommentResponseModel = (AddAndUpdateCommentResponseModel) serviceResponse;
                     if (addAndUpdateCommentResponseModel != null && addAndUpdateCommentResponseModel.status) {
                         LoggerUtil.d(TAG, addAndUpdateCommentResponseModel.statusCode);
 
                         if (addAndUpdateCommentResponseModel.Data != null && addAndUpdateCommentResponseModel.Data.commentData != null) {
 
+                            int position = 0;
+                            for (GetPostCommentsResponseModel.GetPostCommentsDetails commentsDetails : mCommentList) {
+                                if (commentsDetails.commentID == addAndUpdateCommentResponseModel.Data.commentData.commentID) {
+
+                                    commentsDetails.commentText = addAndUpdateCommentResponseModel.Data.commentData.commentText;
+                                    position = mCommentList.indexOf(commentsDetails);
+                                    break;
+                                }
+                            }
+
+                            CommentsAdapter commentsAdapter = (CommentsAdapter) mRecyclerViewComment.getAdapter();
+                            commentsAdapter.notifyItemChanged(position);
+
+                            int size = mCommentList.size();
+                            if (position == size - 1) {
+
+                                if (size > 0) {
+                                    GetPostCommentsResponseModel.GetPostCommentsDetails commentDetails = mCommentList.get(position);
+
+                                    mPostDetails.commentText = commentDetails.commentText;
+                                    mICommentsDialogCallBack.onPostUpdate(mPostDetails);
+                                }
+                            }
                         }
 
                     } else {
@@ -512,7 +545,12 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
             case R.id.iv_send:
                 mCommentText = mEtAddAComment.getText().toString().trim();
                 if (mCommentText.length() > 0) {
-                    getData(IApiEvent.REQUEST_ADD_COMMENT_CODE);
+                    if (mIsUpdateComment) {
+                        mIsUpdateComment = false;
+                        getData(IApiEvent.REQUEST_UPDATE_COMMENT_CODE);
+                    } else {
+                        getData(IApiEvent.REQUEST_ADD_COMMENT_CODE);
+                    }
                 }
                 break;
 
@@ -534,6 +572,9 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
                 switch (item.getTitle().toString()) {
                     case Constants.UPDATE_COMMENT:
 
+                        mEtAddAComment.setText(String.valueOf(mCommentList.get(position).commentText));
+                        mCommentId = mCommentList.get(position).commentID;
+                        mIsUpdateComment = true;
                         return true;
 
                     case Constants.REMOVE_COMMENT:
@@ -551,4 +592,5 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
     public interface ICommentsDialogCallBack {
         void onPostUpdate(GetPostsResponseModel.GetPostsDetails postDetails);
     }
+
 }
