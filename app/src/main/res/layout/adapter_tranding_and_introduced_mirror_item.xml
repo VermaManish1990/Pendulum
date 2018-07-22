@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/image"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerInside" />
 
         <View
             android:layout_width="match_parent"
@@ -34,7 +34,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/tv_post_count"
-            android:layout_alignLeft="@+id/tv_post_count"
             android:layout_alignStart="@+id/tv_post_count"
             android:textColor="@color/white"
             android:textSize="@dimen/_14sdp"
@@ -46,7 +45,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/_5sdp"
-            android:layout_marginLeft="@dimen/_15sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:textColor="@color/white" />
     </RelativeLayout>
