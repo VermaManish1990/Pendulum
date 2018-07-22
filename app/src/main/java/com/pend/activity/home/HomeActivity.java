@@ -296,7 +296,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             case IApiEvent.REQUEST_GET_POSTS_CODE:
 
                 //TODO Change mirrorId.
-                mMirrorId = 31;
+                mMirrorId = 6;
                 String reflectionUserUrl = IWebServices.REQUEST_GET_POSTS_URL + Constants.PARAM_USER_ID + "=" + userId
                         + "&" + Constants.PARAM_MIRROR_ID + "=" + mMirrorId
                         + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
