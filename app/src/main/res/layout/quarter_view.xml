@@ -52,13 +52,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_30sdp"
-            android:layout_marginTop="70dp"
-            android:rotation="10"
-            android:text="Mirror"
+            android:layout_marginStart="@dimen/_28sdp"
+            android:layout_marginTop="72dp"
+            android:rotation="11"
+            android:text="@string/mirror"
             android:textColor="@color/white"
+            android:textSize="@dimen/_15sdp"
             android:textStyle="bold"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <FrameLayout
             android:id="@+id/fl_mirror"
@@ -79,14 +80,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="127dp"
-            android:rotation="35"
-            android:text="Contest"
+            android:layout_marginStart="115dp"
+            android:rotation="40"
+            android:text="@string/contest"
             android:textColor="@color/white"
+            android:textSize="@dimen/_15sdp"
             android:textStyle="bold"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <FrameLayout
             android:id="@+id/fl_contest"
@@ -107,15 +108,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/fl_contest"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="40dp"
-            android:layout_marginStart="182dp"
-            android:rotation="55"
-            android:text="Area"
+            android:layout_marginStart="190dp"
+            android:rotation="62"
+            android:text="@string/area"
             android:textColor="@color/white"
+            android:textSize="@dimen/_15sdp"
             android:textStyle="bold"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
 
         <FrameLayout
