@@ -2,6 +2,7 @@ package com.pend.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -21,6 +22,7 @@ import com.facebook.share.widget.ShareDialog;
 import com.pend.R;
 import com.pend.models.GetPostsResponseModel;
 import com.pend.util.LoggerUtil;
+import com.pend.util.OtherUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -165,6 +167,13 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                         shareDialog.show(content);  // Show facebook ShareDialog
                     }
 
+                } else {
+                    OtherUtil.showAlertDialog(mContext.getString(R.string.facebook_error_message), mContext, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
                 }
             }
         });
