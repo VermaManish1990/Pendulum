@@ -52,12 +52,14 @@
                     android:layout_centerVertical="true"
                     android:background="@drawable/custom_blue_button"
                     android:text="@string/save"
+                    android:layout_margin="@dimen/margin10"
                     android:textSize="@dimen/_15sdp"
                     android:textAllCaps="false"
                     android:textColor="@color/white" />
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/account_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
@@ -188,6 +190,7 @@
                 android:background="@color/darkGreyBackground" />
 
             <RelativeLayout
+                android:id="@+id/mirror_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -251,6 +254,7 @@
                 android:background="@color/darkGreyBackground" />
 
             <RelativeLayout
+                android:id="@+id/arena_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -314,6 +318,7 @@
                 android:background="@color/darkGreyBackground" />
 
             <RelativeLayout
+                android:id="@+id/about_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -363,7 +368,7 @@
 
             <TextView
                 android:id="@+id/tv_logout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:paddingEnd="@dimen/_15sdp"

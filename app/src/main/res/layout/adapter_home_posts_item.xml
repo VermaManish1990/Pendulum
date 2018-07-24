@@ -85,6 +85,8 @@
         android:layout_height="@dimen/_200sdp"
         android:background="@color/black"
         android:contentDescription="@string/image"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop" />
 

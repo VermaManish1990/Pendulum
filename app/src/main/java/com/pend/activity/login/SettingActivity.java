@@ -14,6 +14,7 @@ import android.view.ViewAnimationUtils;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
@@ -120,6 +121,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         mIvArenaDropdown.setOnClickListener(this);
         mIvAccountDropdown.setOnClickListener(this);
         mIvMirrorDropdown.setOnClickListener(this);
+
+        findViewById(R.id.about_layout).setOnClickListener(this);
+        findViewById(R.id.arena_layout).setOnClickListener(this);
+        findViewById(R.id.mirror_layout).setOnClickListener(this);
+        findViewById(R.id.account_layout).setOnClickListener(this);
     }
 
     @Override
@@ -277,51 +283,63 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 getData(IApiEvent.REQUEST_USER_LOGOUT_CODE);
                 break;
 
+            case R.id.about_layout:
             case R.id.iv_about_dropdown:
                 if (mIsAboutOpen) {
                     mIsAboutOpen = false;
-                    mIvAboutDropdown.setImageDrawable(getResources().getDrawable(R.drawable.right));
+//                    mIvAboutDropdown.setImageDrawable(getResources().getDrawable(R.drawable.right));
                     mTvAbout.setVisibility(View.GONE);
+                    mIvAboutDropdown.setRotation(0f);
                 } else {
                     mIsAboutOpen = true;
-                    mIvAboutDropdown.setImageDrawable(getResources().getDrawable(R.drawable.down));
+//                    mIvAboutDropdown.setImageDrawable(getResources().getDrawable(R.drawable.down));
                     mTvAbout.setVisibility(View.VISIBLE);
+                    mIvAboutDropdown.setRotation(90f);
                 }
                 break;
 
+            case R.id.arena_layout:
             case R.id.iv_arena_dropdown:
                 if (mIsArenaOpen) {
                     mIsArenaOpen = false;
-                    mIvArenaDropdown.setImageDrawable(getResources().getDrawable(R.drawable.right));
+                   // mIvArenaDropdown.setImageDrawable(getResources().getDrawable(R.drawable.right));
+                    mIvArenaDropdown.setRotation(0f);
                     mRlArenaView.setVisibility(View.GONE);
                 } else {
                     mIsArenaOpen = true;
-                    mIvArenaDropdown.setImageDrawable(getResources().getDrawable(R.drawable.down));
+//                    mIvArenaDropdown.setImageDrawable(getResources().getDrawable(R.drawable.down));
+                    mIvArenaDropdown.setRotation(90f);
                     mRlArenaView.setVisibility(View.VISIBLE);
                 }
                 break;
 
+            case R.id.mirror_layout:
             case R.id.iv_mirror_dropdown:
                 if (mIsMirrorOpen) {
                     mIsMirrorOpen = false;
-                    mIvMirrorDropdown.setImageDrawable(getResources().getDrawable(R.drawable.right));
+//                    mIvMirrorDropdown.setImageDrawable(getResources().getDrawable(R.drawable.right));
                     mRlMirrorView.setVisibility(View.GONE);
+                    mIvMirrorDropdown.setRotation(0f);
                 } else {
                     mIsMirrorOpen = true;
-                    mIvMirrorDropdown.setImageDrawable(getResources().getDrawable(R.drawable.down));
+//                    mIvMirrorDropdown.setImageDrawable(getResources().getDrawable(R.drawable.down));
+                    mIvMirrorDropdown.setRotation(90f);
                     mRlMirrorView.setVisibility(View.VISIBLE);
                 }
                 break;
 
+            case R.id.account_layout:
             case R.id.iv_account_dropdown:
                 if (mIsAccountOpen) {
                     mIsAccountOpen = false;
-                    mIvAccountDropdown.setImageDrawable(getResources().getDrawable(R.drawable.right));
+//                    mIvAccountDropdown.setImageDrawable(getResources().getDrawable(R.drawable.right));
+                    mIvAccountDropdown.setRotation(0f);
                     mRlAccountView.setVisibility(View.GONE);
                 } else {
                     mIsAccountOpen = true;
-                    mIvAccountDropdown.setImageDrawable(getResources().getDrawable(R.drawable.down));
+//                    mIvAccountDropdown.setImageDrawable(getResources().getDrawable(R.drawable.down));
                     mRlAccountView.setVisibility(View.VISIBLE);
+                    mIvAccountDropdown.setRotation(90f);
                 }
                 break;
 

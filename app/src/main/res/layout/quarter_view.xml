@@ -8,11 +8,28 @@
     android:background="@color/transparent"
     tools:context=".fragments.QuarterViewFragmentDialog">
 
+    <FrameLayout
+        android:id="@+id/fl_menu_view"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/custom_quarter_circle_bg">
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:src="@drawable/menu_white"
+            app:fabSize="mini" />
+    </FrameLayout>
+
     <RelativeLayout
         android:id="@+id/rl_quarter_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_220sdp"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:visibility="gone">
 
         <FrameLayout
@@ -20,6 +37,7 @@
             android:layout_width="@dimen/_220sdp"
             android:layout_height="@dimen/_190sdp"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
             android:background="@drawable/custom_quarter_circle_bg" />
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -30,6 +48,18 @@
             android:layout_marginTop="@dimen/_120sdp"
             android:src="@drawable/profile" />
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginTop="70dp"
+            android:rotation="10"
+            android:text="Mirror"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
         <FrameLayout
             android:id="@+id/fl_mirror"
             android:layout_width="wrap_content"
@@ -38,12 +68,25 @@
             android:background="@drawable/custom_black_circle_bg"
             android:padding="@dimen/_15sdp">
 
+
             <ImageView
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:contentDescription="@string/image"
                 android:src="@drawable/mirror" />
         </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="127dp"
+            android:rotation="35"
+            android:text="Contest"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <FrameLayout
             android:id="@+id/fl_contest"
@@ -60,6 +103,20 @@
                 android:contentDescription="@string/image"
                 android:src="@drawable/contest" />
         </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/fl_contest"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="40dp"
+            android:layout_marginStart="182dp"
+            android:rotation="55"
+            android:text="Area"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
 
         <FrameLayout
             android:id="@+id/fl_area"
@@ -79,21 +136,5 @@
         </FrameLayout>
 
     </RelativeLayout>
-
-    <FrameLayout
-        android:id="@+id/fl_menu_view"
-        android:layout_width="@dimen/_60sdp"
-        android:layout_height="@dimen/_60sdp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/custom_quarter_circle_bg">
-
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:src="@drawable/menu_white"
-            app:fabSize="mini" />
-    </FrameLayout>
 
 </RelativeLayout>
