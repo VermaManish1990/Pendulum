@@ -31,6 +31,7 @@ import com.pend.models.UserProfileResponseModel;
 import com.pend.models.UserTimeSheetResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.OtherUtil;
 import com.pend.util.PaginationScrollListener;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
@@ -167,7 +168,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
-                    Snackbar.make(mRootView, getString(R.string.server_error_from_api), Snackbar.LENGTH_LONG).show();
+                    OtherUtil.showErrorMessage(this,serviceResponse);
                 }
 
                 if (!mIsUpdateRequired) {
@@ -201,7 +202,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
-                    Snackbar.make(mRootView, getString(R.string.server_error_from_api), Snackbar.LENGTH_LONG).show();
+                    OtherUtil.showErrorMessage(this,serviceResponse);
                 }
 
                 mIsLoading = false;

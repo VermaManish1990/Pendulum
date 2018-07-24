@@ -91,12 +91,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
-                    OtherUtil.showAlertDialog(getString(R.string.invalid_credential), this, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+                    OtherUtil.showErrorMessage(this,serviceResponse);
                 }
                 break;
 
@@ -110,6 +105,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
+                    OtherUtil.showErrorMessage(this,serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;

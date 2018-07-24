@@ -37,6 +37,7 @@ import com.pend.models.GetExitPollMirrorResponseModel;
 import com.pend.models.UserProfileResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.OtherUtil;
 import com.pend.util.PaginationScrollListener;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
@@ -189,7 +190,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
-                    Snackbar.make(mRootView, getString(R.string.server_error_from_api), Snackbar.LENGTH_LONG).show();
+                    OtherUtil.showErrorMessage(this,serviceResponse);
                 }
                 getData(IApiEvent.REQUEST_GET_EXIT_POLL_LIST_CODE);
                 break;
@@ -216,7 +217,6 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
-                    Snackbar.make(mRootView, getString(R.string.server_error_from_api), Snackbar.LENGTH_LONG).show();
                 }
 
                 mIsLoading = false;

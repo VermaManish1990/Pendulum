@@ -2,6 +2,7 @@ package com.pend.activity.login;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Build;
@@ -30,6 +31,7 @@ import com.pend.models.UpdateUserSettingResponseModel;
 import com.pend.models.UserProfileResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.OtherUtil;
 import com.pend.util.RequestPostDataUtil;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
@@ -173,6 +175,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
+                    OtherUtil.showErrorMessage(this,serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -194,6 +197,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
+                    OtherUtil.showErrorMessage(this,serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -280,7 +284,19 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_logout:
-                getData(IApiEvent.REQUEST_USER_LOGOUT_CODE);
+
+                OtherUtil.showAlertDialog(getString(R.string.logout_message),this, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        getData(IApiEvent.REQUEST_USER_LOGOUT_CODE);
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
                 break;
 
             case R.id.about_layout:

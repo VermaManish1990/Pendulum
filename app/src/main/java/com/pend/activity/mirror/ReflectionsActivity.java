@@ -27,6 +27,7 @@ import com.pend.models.GetReflectionUsersResponseModel;
 import com.pend.util.GridPaginationScrollListener;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.OtherUtil;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
 import com.pendulum.utils.ConnectivityUtils;
@@ -155,6 +156,7 @@ public class ReflectionsActivity extends BaseActivity implements View.OnClickLis
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
+                    OtherUtil.showErrorMessage(this,serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
 

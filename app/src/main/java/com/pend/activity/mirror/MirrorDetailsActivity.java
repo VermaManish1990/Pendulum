@@ -50,6 +50,7 @@ import com.pend.models.GetPostsResponseModel;
 import com.pend.models.PostLikeResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.OtherUtil;
 import com.pend.util.RequestPostDataUtil;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
@@ -208,6 +209,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
+                    OtherUtil.showErrorMessage(this,serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
 
@@ -290,6 +292,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
+                    OtherUtil.showErrorMessage(this,serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -318,6 +321,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
+                    OtherUtil.showErrorMessage(this,serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -353,6 +357,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
+                    OtherUtil.showErrorMessage(this,serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;

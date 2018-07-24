@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -42,6 +41,7 @@ import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.AddAndUpdatePostResponseModel;
+import com.pend.models.ErrorResponseModel;
 import com.pend.models.GetPostsResponseModel;
 import com.pend.util.AndroidPermissionUtils;
 import com.pend.util.ImageFilePathUtil;
@@ -167,6 +167,7 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
+                    OtherUtil.showErrorMessage(this,serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -185,6 +186,7 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
+                    OtherUtil.showErrorMessage(this,serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;

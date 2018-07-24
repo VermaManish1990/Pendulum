@@ -37,6 +37,7 @@ import com.pend.models.GetPostsResponseModel;
 import com.pend.models.PostLikeResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.OtherUtil;
 import com.pend.util.PaginationScrollListener;
 import com.pend.util.RequestPostDataUtil;
 import com.pend.util.SharedPrefUtils;
@@ -161,6 +162,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
 
@@ -196,6 +198,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -223,6 +226,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -258,6 +262,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;

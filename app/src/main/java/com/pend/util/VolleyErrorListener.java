@@ -10,8 +10,8 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 
 import com.google.gson.Gson;
-import com.pend.BaseActivity;
 import com.pend.interfaces.Constants;
+import com.pend.models.ErrorExceptionModel;
 import com.pend.models.ErrorResponseModel;
 import com.pendulum.ui.IScreen;
 
@@ -28,6 +28,7 @@ public class VolleyErrorListener implements Response.ErrorListener {
     private final IScreen SCREEN;
     private final String TAG = VolleyErrorListener.class.getSimpleName();
     private ErrorResponseModel mErrorResponseModel;
+    private ErrorExceptionModel mErrorExceptionModel;
 
     public VolleyErrorListener(final IScreen SCREEN, final int ACTION) {
         LoggerUtil.v(TAG, "VolleyErrorListener");
@@ -52,6 +53,9 @@ public class VolleyErrorListener implements Response.ErrorListener {
                 Gson gson = new Gson();
                 mErrorResponseModel = gson.fromJson(str, ErrorResponseModel.class);
 
+                if (mErrorResponseModel != null && mErrorResponseModel.error == null)
+                    mErrorExceptionModel = gson.fromJson(str, ErrorExceptionModel.class);
+
             } catch (Exception ex) {
                 LoggerUtil.e(TAG, ex.toString());
                 SCREEN.updateUi(false, ACTION, "Bad Request");
@@ -62,22 +66,24 @@ public class VolleyErrorListener implements Response.ErrorListener {
 
             LoggerUtil.e(TAG, "Code=" + code + " str=" + str);
 
-            LoggerUtil.e(TAG, "errorModelArrayList=Null");
             if (code >= 400 && code < 500) {
 
                 LoggerUtil.e(TAG, "ACTION = Bad Request");
-                if (mErrorResponseModel != null) {
+                if (mErrorResponseModel != null && mErrorResponseModel.error != null) {
                     SCREEN.updateUi(false, ACTION, mErrorResponseModel);
-
+                } else if (mErrorExceptionModel != null && mErrorExceptionModel.Message != null) {
+                    SCREEN.updateUi(false, ACTION, mErrorExceptionModel.Message);
                 } else {
                     SCREEN.updateUi(false, ACTION, "Bad Request");
                 }
+
             } else if (code >= 500) {
 
                 LoggerUtil.e(TAG, "ACTION = Server error");
-                if (mErrorResponseModel != null) {
+                if (mErrorResponseModel != null && mErrorResponseModel.error != null) {
                     SCREEN.updateUi(false, ACTION, mErrorResponseModel);
-
+                } else if (mErrorExceptionModel != null && mErrorExceptionModel.Message != null) {
+                    SCREEN.updateUi(false, ACTION, mErrorExceptionModel.Message);
                 } else {
                     SCREEN.updateUi(false, ACTION, "Server error");
                 }

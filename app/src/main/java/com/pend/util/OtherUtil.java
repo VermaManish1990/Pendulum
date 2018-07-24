@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.pend.R;
+import com.pend.models.ErrorResponseModel;
 
 import java.io.ByteArrayOutputStream;
 import java.util.regex.Matcher;
@@ -226,6 +227,36 @@ public class OtherUtil {
         if (!((Activity) context).isDestroyed() && !((Activity) context).isFinishing()) {
             builder.show();
         }
+    }
+
+    /**
+     * Method is used to show error message when api fail or give some error message.
+     *
+     * @param context         context
+     * @param serviceResponse serviceResponse
+     */
+    public static void showErrorMessage(Context context, Object serviceResponse) {
+        String errorMessage;
+        if (serviceResponse instanceof ErrorResponseModel) {
+            ErrorResponseModel errorResponseModel = (ErrorResponseModel) serviceResponse;
+            if (errorResponseModel.error != null && errorResponseModel.error.additionalMessage != null) {
+
+                errorMessage = errorResponseModel.error.additionalMessage;
+            } else {
+                errorMessage = context.getString(R.string.server_error_from_api);
+            }
+        } else if (serviceResponse instanceof String) {
+            errorMessage = (String) serviceResponse;
+        } else {
+            errorMessage = context.getString(R.string.server_error_from_api);
+        }
+
+        OtherUtil.showAlertDialog(errorMessage != null ? errorMessage : context.getString(R.string.server_error_from_api), context, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
     }
 
 }
