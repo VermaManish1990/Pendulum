@@ -162,7 +162,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
+                    mPostsDetailsList.clear();
+                    HomePostsAdapter homePostsAdapter = (HomePostsAdapter) mRecyclerViewPost.getAdapter();
+                    homePostsAdapter.setPostsDetailsList(mPostsDetailsList);
+                    homePostsAdapter.notifyDataSetChanged();
                     OtherUtil.showErrorMessage(this, serviceResponse);
+
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
 
