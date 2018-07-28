@@ -5,6 +5,7 @@
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".activity.mirror.MirrorDetailsActivity">
 
     <android.support.v4.widget.NestedScrollView
@@ -110,17 +111,17 @@
                 android:id="@+id/view_create_a_new_post"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_7sdp"
                 android:layout_marginEnd="@dimen/_12sdp"
                 android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_7sdp"
                 android:background="@color/white"
                 android:elevation="@dimen/_3sdp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_10sdp">
+                    android:layout_margin="@dimen/_8sdp">
 
                     <ImageView
                         android:id="@+id/iv_create_post"
@@ -144,7 +145,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:text="@string/recent_post"
                 android:textColor="@color/fontPrimary50" />
 

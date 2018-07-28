@@ -126,7 +126,6 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
 
-
         findViewById(R.id.view_create_a_new_post).setOnClickListener(this);
         findViewById(R.id.view_progress_bar_profile).setOnClickListener(this);
         mIvProfile.setOnClickListener(this);
@@ -155,6 +154,9 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         viewport.setYAxisBoundsManual(true);
         viewport.setXAxisBoundsManual(true);
         viewport.setScrollable(true);
+        viewport.setScalableY(true);
+        viewport.setScalable(true);
+        viewport.setScrollableY(true);
 
 //        staticLabelsFormatter.setHorizontalLabels(new String[] {"old", "middle", "new"});
 
@@ -187,6 +189,11 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                 new DataPoint(25, 90),
                 new DataPoint(30, 40)
         });
+
+        series.setColor(getResources().getColor(R.color.sky_blue));
+        series.setDrawDataPoints(true);
+        series.setDataPointsRadius(10);
+        series.setThickness(2);
         mGraphView.addSeries(series);
     }
 
