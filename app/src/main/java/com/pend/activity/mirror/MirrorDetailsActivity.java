@@ -64,7 +64,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class MirrorDetailsActivity extends BaseActivity implements View.OnClickListener, RecentPostAdapter.IRecentPostAdapterCallBack,
-        CommentsDialogFragment.ICommentsDialogCallBack, IMirrorVotingDialogCallBack,AbsListView.OnScrollListener {
+        CommentsDialogFragment.ICommentsDialogCallBack, IMirrorVotingDialogCallBack, AbsListView.OnScrollListener {
 
     private static final String TAG = MirrorDetailsActivity.class.getSimpleName();
     private View mRootView;
@@ -180,21 +180,21 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
             }
         });
 
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
-                new DataPoint(0, 20),
-                new DataPoint(5, 40),
-                new DataPoint(10, 70),
-                new DataPoint(15, 20),
-                new DataPoint(20, 30),
-                new DataPoint(25, 90),
-                new DataPoint(30, 40)
-        });
-
-        series.setColor(getResources().getColor(R.color.sky_blue));
-        series.setDrawDataPoints(true);
-        series.setDataPointsRadius(10);
-        series.setThickness(2);
-        mGraphView.addSeries(series);
+//        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
+//                new DataPoint(0, 20),
+//                new DataPoint(5, 40),
+//                new DataPoint(10, 70),
+//                new DataPoint(15, 20),
+//                new DataPoint(20, 30),
+//                new DataPoint(25, 90),
+//                new DataPoint(30, 40)
+//        });
+//
+//        series.setColor(getResources().getColor(R.color.sky_blue));
+//        series.setDrawDataPoints(true);
+//        series.setDataPointsRadius(10);
+//        series.setThickness(2);
+//        mGraphView.addSeries(series);
     }
 
     @Override
@@ -216,7 +216,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
 
@@ -299,7 +299,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -328,7 +328,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -364,7 +364,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -416,9 +416,10 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
             case IApiEvent.REQUEST_GET_MIRROR_GRAPH_DATA_CODE:
 
+
                 String mirrorGraphDataUrl = IWebServices.REQUEST_GET_MIRROR_GRAPH_DATA_URL + Constants.PARAM_USER_ID + "=" + userId
                         + "&" + Constants.PARAM_MIRROR_ID + "=" + String.valueOf(mMirrorId)
-                        + "&" + Constants.PARAM_MONTH + "=" + String.valueOf("1")
+                        + "&" + Constants.PARAM_MONTH + "=" + String.valueOf("7")
                         + "&" + Constants.PARAM_YEAR + "=" + String.valueOf("2018");
                 RequestManager.addRequest(new GsonObjectRequest<GetMirrorGraphResponseModel>(mirrorGraphDataUrl, NetworkUtil.getHeaders(this),
                         null, GetMirrorGraphResponseModel.class, new VolleyErrorListener(this, actionID)) {
@@ -598,23 +599,26 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
      */
     private void setMirrorGraphData(ArrayList<GetMirrorGraphResponseModel.GetMirrorGraphDetails> graphData) {
 
-        //TODO change graph data
-//        if(graphData!=null&&graphData.size()>0){
-//            LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
-//            for( GetMirrorGraphResponseModel.GetMirrorGraphDetails graphDetails : graphData){
-//                series
-//            }
-//        }
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+        if (graphData != null && graphData.size() > 0) {
+            for (int index = graphData.size() - 1; index >= 0; index--) {
 
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
-                new DataPoint(0, 20),
-                new DataPoint(5, 40),
-                new DataPoint(10, 60),
-                new DataPoint(15, 20),
-                new DataPoint(20, 50),
-                new DataPoint(25, 90),
-                new DataPoint(30, 40)
-        });
+                GetMirrorGraphResponseModel.GetMirrorGraphDetails graphDetails = graphData.get(index);
+                if (graphDetails.createdDate != null) {
+
+                    String[] date = graphDetails.createdDate.split("/");
+                    if (date.length > 1) {
+
+                        series.appendData(new DataPoint(Double.parseDouble(date[1]), graphDetails.percentage), true, 30);
+                    }
+                }
+            }
+        }
+
+        series.setColor(getResources().getColor(R.color.sky_blue));
+        series.setDrawDataPoints(true);
+        series.setDataPointsRadius(10);
+        series.setThickness(2);
         mGraphView.addSeries(series);
     }
 

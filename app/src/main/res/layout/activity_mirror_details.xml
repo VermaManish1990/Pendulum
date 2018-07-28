@@ -10,8 +10,8 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:fillViewport="true"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,8 +44,8 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/yellow_circle"
-                        android:layout_marginStart="@dimen/_80sdp" />
+                        android:layout_marginStart="@dimen/_80sdp"
+                        android:src="@drawable/yellow_circle" />
 
                     <com.jjoe64.graphview.GraphView
                         android:id="@+id/graph_view"
@@ -73,14 +73,35 @@
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/tv_name"
                         android:layout_below="@+id/graph_view"
-                        android:layout_toEndOf="@+id/tv_name">
+                        android:layout_toEndOf="@+id/tv_name"
+                        android:gravity="center_horizontal">
+
+                        <ImageView
+                            android:id="@+id/iv_back"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toStartOf="@+id/tv_date"
+                            android:contentDescription="@string/image"
+                            android:src="@drawable/back" />
 
                         <TextView
+                            android:id="@+id/tv_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:text="Jan 2010"
                             android:textColor="@color/colorAccent"
                             android:textSize="@dimen/_12sdp" />
+
+                        <ImageView
+                            android:id="@+id/id_forward"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/tv_date"
+                            android:contentDescription="@string/image"
+                            android:src="@drawable/right" />
 
                     </RelativeLayout>
 
