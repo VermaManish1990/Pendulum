@@ -43,11 +43,11 @@ import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IMirrorVotingDialogCallBack;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.AddAndUpdateCommentResponseModel;
-import com.pend.models.AddAndUpdatePostResponseModel;
 import com.pend.models.GetMirrorDetailsResponseModel;
 import com.pend.models.GetMirrorGraphResponseModel;
 import com.pend.models.GetPostsResponseModel;
 import com.pend.models.PostLikeResponseModel;
+import com.pend.util.DateUtil;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
 import com.pend.util.OtherUtil;
@@ -85,6 +85,10 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     private View mRlQuarterView;
     private View mFlQuarterBlackView;
     private View mFlMenuView;
+    private TextView mTvDate;
+    private int mMonth;
+    private int mYear;
+    private ImageView mIvForward;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +115,8 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         mIvProfile = findViewById(R.id.iv_mirror_profile);
         mGraphView = findViewById(R.id.graph_view);
         mTvName = findViewById(R.id.tv_name);
+        mTvDate = findViewById(R.id.tv_date);
+        mIvForward = findViewById(R.id.iv_forward);
         mTvDataNotAvailable = findViewById(R.id.tv_data_not_available);
         mProgressBarProfile = findViewById(R.id.progress_bar_profile);
         mRecyclerViewPost = findViewById(R.id.recycler_view_post);
@@ -126,6 +132,8 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
 
+        findViewById(R.id.iv_back).setOnClickListener(this);
+        mIvForward.setOnClickListener(this);
         findViewById(R.id.view_create_a_new_post).setOnClickListener(this);
         findViewById(R.id.view_progress_bar_profile).setOnClickListener(this);
         mIvProfile.setOnClickListener(this);
@@ -136,6 +144,9 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
         mIsVoted = false;
         mIsUpdateRequired = true;
+        mMonth = DateUtil.getCurrentMonth();
+        mYear = DateUtil.getCurrentYear();
+        mTvDate.setText(String.valueOf(DateUtil.getMonthAndYearName(mMonth, mYear)));
 
         if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
             // only for gingerbread and newer versions
@@ -239,6 +250,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
+                    mGraphView.removeAllSeries();
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
 
@@ -416,11 +428,10 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
             case IApiEvent.REQUEST_GET_MIRROR_GRAPH_DATA_CODE:
 
-
                 String mirrorGraphDataUrl = IWebServices.REQUEST_GET_MIRROR_GRAPH_DATA_URL + Constants.PARAM_USER_ID + "=" + userId
                         + "&" + Constants.PARAM_MIRROR_ID + "=" + String.valueOf(mMirrorId)
-                        + "&" + Constants.PARAM_MONTH + "=" + String.valueOf("7")
-                        + "&" + Constants.PARAM_YEAR + "=" + String.valueOf("2018");
+                        + "&" + Constants.PARAM_MONTH + "=" + mMonth
+                        + "&" + Constants.PARAM_YEAR + "=" + mYear;
                 RequestManager.addRequest(new GsonObjectRequest<GetMirrorGraphResponseModel>(mirrorGraphDataUrl, NetworkUtil.getHeaders(this),
                         null, GetMirrorGraphResponseModel.class, new VolleyErrorListener(this, actionID)) {
 
@@ -530,6 +541,38 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                 }
                 break;
 
+            case R.id.iv_back:
+                mMonth--;
+                if (mMonth == 0) {
+                    mMonth = 12;
+                    mYear--;
+                }
+
+                if (mMonth < DateUtil.getCurrentMonth()) {
+                    mIvForward.setVisibility(View.VISIBLE);
+                }
+
+                mTvDate.setText(String.valueOf(DateUtil.getMonthAndYearName(mMonth,mYear)));
+                getData(IApiEvent.REQUEST_GET_MIRROR_GRAPH_DATA_CODE);
+
+                break;
+
+            case R.id.iv_forward:
+                mMonth++;
+                if (mMonth == 13) {
+                    mMonth = 1;
+                    mYear++;
+                }
+
+                if (mMonth == DateUtil.getCurrentMonth()) {
+                    mIvForward.setVisibility(View.GONE);
+                }
+
+                mTvDate.setText(String.valueOf(DateUtil.getMonthAndYearName(mMonth,mYear)));
+                getData(IApiEvent.REQUEST_GET_MIRROR_GRAPH_DATA_CODE);
+
+                break;
+
             case R.id.iv_profile:
                 hideReveal();
                 Intent intentProfile = new Intent(this, ProfileActivity.class);
@@ -599,6 +642,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
      */
     private void setMirrorGraphData(ArrayList<GetMirrorGraphResponseModel.GetMirrorGraphDetails> graphData) {
 
+        mGraphView.removeAllSeries();
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
         if (graphData != null && graphData.size() > 0) {
             for (int index = graphData.size() - 1; index >= 0; index--) {

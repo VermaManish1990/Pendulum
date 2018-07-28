@@ -1,7 +1,10 @@
 package com.pend.util;
 
+import android.annotation.SuppressLint;
+
 import com.pend.interfaces.Constants;
 
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -67,5 +70,66 @@ public class DateUtil {
             LoggerUtil.e(TAG, "parseDate" + e.toString());
         }
         return cal.getTime();
+    }
+
+    /**
+     * Method is used to get Month name by Month number.
+     *
+     * @param month month
+     * @return String
+     */
+    public String getMonthFullName(int month) {
+        return new DateFormatSymbols().getMonths()[month - 1];
+    }
+
+    /**
+     * Method is used to get short name of month.
+     *
+     * @param monthNumber Month Number starts with 0. For <b>January</b> it is <b>0</b> and for <b>December</b> it is <b>11</b>.
+     *                    but here we assumed 1 as a <b>January</b> and 12 as a <b>December</b>.
+     * @return String
+     */
+    public static String getMonthShortName(int monthNumber) {
+        String monthName = "";
+
+        if (monthNumber >= 1 && monthNumber <= 12)
+            try {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.MONTH, monthNumber - 1);
+
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM");
+                simpleDateFormat.setCalendar(calendar);
+                monthName = simpleDateFormat.format(calendar.getTime());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        return monthName;
+    }
+
+    /**
+     * Method is used to get current Month number.
+     *
+     * @return int -- current Month
+     */
+    public static int getCurrentMonth() {
+        Calendar c = Calendar.getInstance();
+        return c.get(Calendar.MONTH) + 1;
+    }
+
+    /**
+     * Method is used to get current Year number.
+     *
+     * @return int -- current Year
+     */
+    public static int getCurrentYear() {
+        Calendar c = Calendar.getInstance();
+        return c.get(Calendar.YEAR);
+    }
+
+    public static String getMonthAndYearName(int month, int year) {
+        String date = "";
+        date = date + getMonthShortName(month);
+        date = date + " " + year;
+        return date;
     }
 }

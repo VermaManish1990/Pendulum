@@ -45,7 +45,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_80sdp"
-                        android:src="@drawable/yellow_circle" />
+                        android:src="@drawable/yellow_circle"
+                        android:contentDescription="@string/image" />
 
                     <com.jjoe64.graphview.GraphView
                         android:id="@+id/graph_view"
@@ -65,7 +66,7 @@
                         android:gravity="center"
                         android:maxLines="2"
                         android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/_12sdp"
+                        android:textSize="@dimen/_11sdp"
                         android:textStyle="bold" />
 
                     <RelativeLayout
@@ -80,8 +81,12 @@
                             android:id="@+id/iv_back"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/tv_date"
+                            android:layout_alignTop="@+id/tv_date"
                             android:layout_toStartOf="@+id/tv_date"
                             android:contentDescription="@string/image"
+                            android:paddingEnd="@dimen/_10sdp"
+                            android:paddingStart="@dimen/_10sdp"
                             android:src="@drawable/back" />
 
                         <TextView
@@ -89,19 +94,23 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginEnd="@dimen/_15sdp"
-                            android:layout_marginStart="@dimen/_15sdp"
-                            android:text="Jan 2010"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
                             android:textColor="@color/colorAccent"
-                            android:textSize="@dimen/_12sdp" />
+                            android:textSize="@dimen/_11sdp" />
 
                         <ImageView
-                            android:id="@+id/id_forward"
+                            android:id="@+id/iv_forward"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/tv_date"
+                            android:layout_alignTop="@+id/tv_date"
                             android:layout_toEndOf="@+id/tv_date"
                             android:contentDescription="@string/image"
-                            android:src="@drawable/right" />
+                            android:paddingEnd="@dimen/_10sdp"
+                            android:paddingStart="@dimen/_10sdp"
+                            android:src="@drawable/right"
+                            android:visibility="gone" />
 
                     </RelativeLayout>
 
@@ -152,8 +161,8 @@
 
                     <ImageView
                         android:id="@+id/iv_create_post"
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
                         android:contentDescription="@string/image"
                         android:src="@drawable/add" />
 
@@ -164,7 +173,7 @@
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_toEndOf="@+id/iv_create_post"
                         android:text="@string/create_a_new_post"
-                        android:textSize="@dimen/_13sdp" />
+                        android:textSize="@dimen/_12sdp" />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
