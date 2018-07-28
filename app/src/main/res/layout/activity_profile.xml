@@ -103,7 +103,18 @@
                     android:layout_toEndOf="@+id/iv_setting"
                     android:contentDescription="@string/image"
                     android:src="@drawable/edit" />
+
             </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/iv_message"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
+                android:src="@drawable/message"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:contentDescription="@string/image" />
 
             <View
                 android:id="@+id/view2"

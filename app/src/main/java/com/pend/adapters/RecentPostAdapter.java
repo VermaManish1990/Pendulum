@@ -64,6 +64,18 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         }
         holder.tvTime.setText(time);
 
+        if(postsDetails.isLike){
+            holder.ivLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.like_green));
+        }else {
+            holder.ivLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.like));
+        }
+
+        if(postsDetails.isUnLike){
+            holder.ivDislike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.dislike_red));
+        }else {
+            holder.ivDislike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.dislike));
+        }
+
         holder.etAddAComment.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // If the event is a key-down event on the "enter" button

@@ -4,8 +4,8 @@
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="@dimen/_5sdp"
-    android:elevation="@dimen/_2sdp">
+    android:elevation="@dimen/_2sdp"
+    app:cardCornerRadius="@dimen/_5sdp">
 
 
     <RelativeLayout
@@ -15,39 +15,38 @@
 
         <ImageView
             android:id="@+id/iv_profile"
-            android:layout_width="@dimen/_140sdp"
+            android:layout_width="@dimen/_135sdp"
             android:layout_height="@dimen/_130sdp"
             android:layout_centerHorizontal="true"
+            android:contentDescription="@string/image"
             android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/tv_name"
-            android:layout_width="@dimen/_100sdp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/iv_profile"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_8sdp"
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:ellipsize="end"
             android:singleLine="true"
+            android:layout_toStartOf="@+id/iv_message"
             android:textColor="@color/colorAccent"
-            android:textSize="@dimen/_12sdp" />
+            android:textSize="@dimen/_11sdp" />
 
         <ImageView
             android:id="@+id/iv_message"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_width="@dimen/_17sdp"
+            android:layout_height="@dimen/_17sdp"
             android:layout_below="@+id/iv_profile"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
-            android:layout_alignTop="@+id/tv_name"
-            android:layout_toEndOf="@+id/tv_name"
-            android:layout_toRightOf="@+id/tv_name"
-            android:layout_alignBottom="@+id/tv_name"
-            android:src="@drawable/setting" />
+            android:layout_marginTop="@dimen/_9sdp"
+            android:layout_alignEnd="@+id/iv_profile"
+            android:contentDescription="@string/image"
+            android:src="@drawable/message" />
     </RelativeLayout>
 
 

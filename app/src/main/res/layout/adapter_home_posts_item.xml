@@ -125,7 +125,7 @@
                     android:layout_width="@dimen/_13sdp"
                     android:layout_height="@dimen/_13sdp"
                     android:contentDescription="@string/image"
-                    android:src="@drawable/setting" />
+                    android:src="@drawable/message" />
 
                 <TextView
                     android:id="@+id/tv_comment"

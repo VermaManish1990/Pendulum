@@ -9,9 +9,11 @@ public interface Constants {
     String USER_DETAILS_KEY = "USER_DETAILS_KEY";
     String USER_DATA_MODEL_KEY = "USER_DATA_MODEL_KEY";
     String MIRROR_ID_KEY = "MIRROR_ID_KEY";
+    String USER_ID_KEY = "USER_ID_KEY";
     String POST_DETAILS_KEY = "POST_DETAILS_KEY";
     String SEARCH_TEXT_KEY = "SEARCH_TEXT_KEY";
     String MIRROR_FRAGMENT_POSITION = "MIRROR_FRAGMENT_POSITION";
+    String IS_OTHER_PROFILE = "IS_OTHER_PROFILE";
 
     //Header Keys
     String PARAM_SECURITY_KEY = "SecurityKey";

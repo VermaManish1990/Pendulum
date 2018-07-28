@@ -55,7 +55,7 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:contentDescription="@string/image"
             android:padding="@dimen/_3sdp"
-            android:src="@drawable/setting" />
+            android:src="@drawable/message" />
 
         <TextView
             android:id="@+id/tv_comment_count"

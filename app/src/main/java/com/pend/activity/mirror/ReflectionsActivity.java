@@ -122,7 +122,10 @@ public class ReflectionsActivity extends BaseActivity implements View.OnClickLis
         mGridViewReflection.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                Intent intent = new Intent(ReflectionsActivity.this, ProfileActivity.class);
+                intent.putExtra(Constants.USER_ID_KEY,mUserDataList.get(position).userID);
+                intent.putExtra(Constants.IS_OTHER_PROFILE,true);
+                startActivity(intent);
             }
         });
     }
@@ -156,7 +159,7 @@ public class ReflectionsActivity extends BaseActivity implements View.OnClickLis
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
 

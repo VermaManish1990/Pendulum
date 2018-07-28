@@ -69,11 +69,27 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private View mFlMenuView;
     private TextView mTvHome;
     private ImageView mIvProfile;
+    private ImageView mIvMessage;
+    private int mUserId;
+    private boolean mIsOtherProfile;
+    private View mRlSettingAndEditView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        mIsOtherProfile = false;
+        Bundle localBundle = getIntent().getExtras();
+        if (localBundle != null) {
+            if (localBundle.containsKey(Constants.USER_ID_KEY)) {
+                mUserId = localBundle.getInt(Constants.USER_ID_KEY, 0);
+            }
+
+            if (localBundle.containsKey(Constants.IS_OTHER_PROFILE)) {
+                mIsOtherProfile = localBundle.getBoolean(Constants.IS_OTHER_PROFILE, false);
+            }
+        }
 
         initUI();
         setInitialData();
@@ -93,6 +109,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         mTvAge = findViewById(R.id.tv_age);
         mTvCity = findViewById(R.id.tv_city);
         mTvToken = findViewById(R.id.tv_token);
+        mIvMessage = findViewById(R.id.iv_message);
+        mRlSettingAndEditView = findViewById(R.id.rl_setting_and_edit);
         mRecyclerViewTimeSheet = findViewById(R.id.recycler_view_time_sheet);
 
         View quarterView = findViewById(R.id.quarter_view);
@@ -108,6 +126,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         mFlMenuView.setOnClickListener(this);
         mTvHome.setOnClickListener(this);
 
+        mIvMessage.setOnClickListener(this);
         findViewById(R.id.iv_setting).setOnClickListener(this);
         findViewById(R.id.iv_edit).setOnClickListener(this);
         findViewById(R.id.iv_close).setOnClickListener(this);
@@ -123,6 +142,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         mIvProfile.setVisibility(View.GONE);
         mTvHome.setVisibility(View.VISIBLE);
+
+        if (mIsOtherProfile) {
+            mRlSettingAndEditView.setVisibility(View.GONE);
+            mIvMessage.setVisibility(View.VISIBLE);
+        } else {
+            mRlSettingAndEditView.setVisibility(View.VISIBLE);
+            mIvMessage.setVisibility(View.GONE);
+        }
 
         mTabLayout.setupWithViewPager(mViewpagerProfile, true);
 
@@ -237,10 +264,19 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
         showProgressDialog();
 
+        if (!mIsOtherProfile) {
+            try {
+                mUserId = Integer.parseInt(SharedPrefUtils.getUserId(this));
+            } catch (Exception e) {
+                e.printStackTrace();
+                mUserId = -1;
+            }
+        }
+
         switch (actionID) {
             case IApiEvent.REQUEST_GET_USER_PROFILE_CODE:
 
-                String userProfileUrl = IWebServices.REQUEST_GET_USER_PROFILE_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this);
+                String userProfileUrl = IWebServices.REQUEST_GET_USER_PROFILE_URL + Constants.PARAM_USER_ID + "=" + mUserId;
                 RequestManager.addRequest(new GsonObjectRequest<UserProfileResponseModel>(userProfileUrl, NetworkUtil.getHeaders(this), null,
                         UserProfileResponseModel.class, new VolleyErrorListener(this, actionID)) {
 
@@ -254,8 +290,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
             case IApiEvent.REQUEST_GET_USER_TIME_SHEET_CODE:
 
-                //TODO Pagination
-                String userTimeSheetUrl = IWebServices.REQUEST_GET_USER_TIME_SHEET_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this) + "&" +
+                String userTimeSheetUrl = IWebServices.REQUEST_GET_USER_TIME_SHEET_URL + Constants.PARAM_USER_ID + "=" + mUserId + "&" +
                         Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
                 RequestManager.addRequest(new GsonObjectRequest<UserTimeSheetResponseModel>(userTimeSheetUrl, NetworkUtil.getHeaders(this), null,
                         UserTimeSheetResponseModel.class, new VolleyErrorListener(this, actionID)) {
@@ -304,6 +339,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 } else {
                     Snackbar.make(mRootView, getString(R.string.user_profile_details_not_available), Snackbar.LENGTH_LONG).show();
                 }
+                break;
+
+            case R.id.iv_message:
+                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
                 break;
 
             case R.id.iv_close:
@@ -422,10 +461,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         } else if (mRlLargeView.getVisibility() == View.VISIBLE) {
             mRlLargeView.setVisibility(View.GONE);
         } else {
-            Intent intentHome = new Intent(this, HomeActivity.class);
-            intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intentHome);
-            finish();
+            if (mIsOtherProfile) {
+                super.onBackPressed();
+            } else {
+                Intent intentHome = new Intent(this, HomeActivity.class);
+                intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intentHome);
+                finish();
+            }
         }
     }
 

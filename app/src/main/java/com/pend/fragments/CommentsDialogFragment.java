@@ -212,6 +212,18 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
         mTvLike.setText(String.valueOf(mPostDetails.likeCount));
         mTvDislike.setText(String.valueOf(mPostDetails.unlikeCount));
 
+        if (mPostDetails.isLike) {
+            mIvLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.like_green));
+        } else {
+            mIvLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.like));
+        }
+
+        if (mPostDetails.isUnLike) {
+            mIvDislike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.dislike_red));
+        } else {
+            mIvDislike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.dislike));
+        }
+
         if (mPostDetails.imageURL != null && !mPostDetails.imageURL.equals("")) {
 
             Picasso.with(mContext)
