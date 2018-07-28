@@ -18,6 +18,7 @@ import android.view.ViewAnimationUtils;
 import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.activity.contest.ContestActivity;
+import com.pend.activity.home.HomeActivity;
 import com.pend.activity.login.ProfileActivity;
 import com.pend.adapters.FragmentViewPagerAdapter;
 import com.pend.fragments.CreateMirrorDialogFragment;
@@ -198,7 +199,10 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
         if (mRlQuarterView.getVisibility() == View.VISIBLE) {
             hideReveal();
         } else {
-            super.onBackPressed();
+            Intent intentHome = new Intent(this, HomeActivity.class);
+            intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intentHome);
+            finish();
         }
     }
 

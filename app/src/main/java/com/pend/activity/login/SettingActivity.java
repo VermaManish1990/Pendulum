@@ -12,10 +12,10 @@ import android.support.design.widget.Snackbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
@@ -23,6 +23,7 @@ import com.pend.BaseActivity;
 import com.pend.BaseResponseModel;
 import com.pend.R;
 import com.pend.activity.contest.ContestActivity;
+import com.pend.activity.home.HomeActivity;
 import com.pend.activity.mirror.MirrorActivity;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
@@ -71,6 +72,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private View mRlQuarterView;
     private View mFlQuarterBlackView;
     private View mFlMenuView;
+    private ImageView mIvProfile;
+    private TextView mTvHome;
 
 
     @Override
@@ -108,12 +111,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         mRlQuarterView = quarterView.findViewById(R.id.rl_quarter_view);
         mFlQuarterBlackView = quarterView.findViewById(R.id.fl_quarter_black_view);
         mFlMenuView = quarterView.findViewById(R.id.fl_menu_view);
+        mTvHome = quarterView.findViewById(R.id.tv_home);
+        mIvProfile = quarterView.findViewById(R.id.iv_profile);
 
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
-        quarterView.findViewById(R.id.iv_profile).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
+        mTvHome.setOnClickListener(this);
 
         findViewById(R.id.tv_logout).setOnClickListener(this);
         findViewById(R.id.bt_save).setOnClickListener(this);
@@ -138,6 +143,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         mIsAccountOpen = false;
         mIsArenaOpen = false;
         mIsMirrorOpen = false;
+
+        mIvProfile.setVisibility(View.GONE);
+        mTvHome.setVisibility(View.VISIBLE);
 
         Bundle localBundle = getIntent().getExtras();
         if (localBundle != null) {
@@ -175,7 +183,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -197,7 +205,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -285,7 +293,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         switch (view.getId()) {
             case R.id.tv_logout:
 
-                OtherUtil.showAlertDialog(getString(R.string.logout_message),this, new DialogInterface.OnClickListener() {
+                OtherUtil.showAlertDialog(getString(R.string.logout_message), this, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         getData(IApiEvent.REQUEST_USER_LOGOUT_CODE);
@@ -318,7 +326,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.iv_arena_dropdown:
                 if (mIsArenaOpen) {
                     mIsArenaOpen = false;
-                   // mIvArenaDropdown.setImageDrawable(getResources().getDrawable(R.drawable.right));
+                    // mIvArenaDropdown.setImageDrawable(getResources().getDrawable(R.drawable.right));
                     mIvArenaDropdown.setRotation(0f);
                     mRlArenaView.setVisibility(View.GONE);
                 } else {
@@ -391,6 +399,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
             case R.id.fl_area:
                 Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                break;
+
+            case R.id.tv_home:
+                hideReveal();
+                Intent intentHome = new Intent(this, HomeActivity.class);
+                intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intentHome);
+                finish();
                 break;
 
             case R.id.fl_menu_view:

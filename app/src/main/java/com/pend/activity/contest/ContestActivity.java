@@ -16,6 +16,7 @@ import android.view.ViewAnimationUtils;
 
 import com.pend.BaseActivity;
 import com.pend.R;
+import com.pend.activity.home.HomeActivity;
 import com.pend.activity.login.ProfileActivity;
 import com.pend.activity.mirror.MirrorActivity;
 import com.pend.activity.mirror.SearchInNewsFeedActivity;
@@ -189,7 +190,10 @@ public class ContestActivity extends BaseActivity implements View.OnClickListene
         if (mRlQuarterView.getVisibility() == View.VISIBLE) {
             hideReveal();
         } else {
-            super.onBackPressed();
+            Intent intentHome = new Intent(this, HomeActivity.class);
+            intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intentHome);
+            finish();
         }
     }
 

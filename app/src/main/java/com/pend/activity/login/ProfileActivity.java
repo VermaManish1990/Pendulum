@@ -15,12 +15,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.activity.contest.ContestActivity;
+import com.pend.activity.home.HomeActivity;
 import com.pend.activity.mirror.MirrorActivity;
 import com.pend.adapters.ProfileViewPagerAdapter;
 import com.pend.adapters.TimeSheetAdapter;
@@ -42,7 +44,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ProfileActivity extends BaseActivity implements View.OnClickListener,ProfileViewPagerAdapter.IProfileViewPagerAdapterCallBack {
+public class ProfileActivity extends BaseActivity implements View.OnClickListener, ProfileViewPagerAdapter.IProfileViewPagerAdapterCallBack {
 
     private static final String TAG = ProfileActivity.class.getSimpleName();
     private ViewPager mViewpagerProfile;
@@ -65,6 +67,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private View mRlQuarterView;
     private View mFlQuarterBlackView;
     private View mFlMenuView;
+    private TextView mTvHome;
+    private ImageView mIvProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,12 +99,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         mRlQuarterView = quarterView.findViewById(R.id.rl_quarter_view);
         mFlQuarterBlackView = quarterView.findViewById(R.id.fl_quarter_black_view);
         mFlMenuView = quarterView.findViewById(R.id.fl_menu_view);
+        mTvHome = quarterView.findViewById(R.id.tv_home);
+        mIvProfile = quarterView.findViewById(R.id.iv_profile);
 
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
-        quarterView.findViewById(R.id.iv_profile).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
+        mTvHome.setOnClickListener(this);
 
         findViewById(R.id.iv_setting).setOnClickListener(this);
         findViewById(R.id.iv_edit).setOnClickListener(this);
@@ -114,6 +120,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         mIsLoading = false;
         mPageNumber = 1;
         mTimeSheetDetailsList = new ArrayList<>();
+
+        mIvProfile.setVisibility(View.GONE);
+        mTvHome.setVisibility(View.VISIBLE);
 
         mTabLayout.setupWithViewPager(mViewpagerProfile, true);
 
@@ -168,7 +177,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                 }
 
                 if (!mIsUpdateRequired) {
@@ -202,7 +211,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                 }
 
                 mIsLoading = false;
@@ -323,6 +332,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
                 break;
 
+            case R.id.tv_home:
+                hideReveal();
+                Intent intentHome = new Intent(this, HomeActivity.class);
+                intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intentHome);
+                finish();
+                break;
+
             case R.id.fl_menu_view:
                 mFlMenuView.setVisibility(View.GONE);
                 showReveal();
@@ -402,10 +419,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     public void onBackPressed() {
         if (mRlQuarterView.getVisibility() == View.VISIBLE) {
             hideReveal();
-        }else if (mRlLargeView.getVisibility() == View.VISIBLE) {
+        } else if (mRlLargeView.getVisibility() == View.VISIBLE) {
             mRlLargeView.setVisibility(View.GONE);
-        }else {
-            super.onBackPressed();
+        } else {
+            Intent intentHome = new Intent(this, HomeActivity.class);
+            intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intentHome);
+            finish();
         }
     }
 

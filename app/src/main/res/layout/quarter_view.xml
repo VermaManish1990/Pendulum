@@ -13,6 +13,7 @@
         android:layout_width="@dimen/_60sdp"
         android:layout_height="@dimen/_60sdp"
         android:layout_alignParentBottom="true"
+        android:visibility="visible"
         android:background="@drawable/custom_quarter_circle_bg">
 
         <android.support.design.widget.FloatingActionButton
@@ -46,7 +47,22 @@
             android:layout_height="@dimen/_80sdp"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_120sdp"
-            android:src="@drawable/profile" />
+            android:src="@drawable/profile"
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/tv_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/_140sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:padding="@dimen/_10sdp"
+            android:textStyle="bold"
+            android:rotation="40"
+            android:textSize="@dimen/_25sdp"
+            android:visibility="gone"/>
 
 
         <TextView
