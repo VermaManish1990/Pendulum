@@ -136,7 +136,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/tv_created_by"
         android:contentDescription="@string/image"
-        android:src="@drawable/setting" />
+        android:src="@drawable/group" />
 
     <TextView
         android:id="@+id/tv_comment_count"

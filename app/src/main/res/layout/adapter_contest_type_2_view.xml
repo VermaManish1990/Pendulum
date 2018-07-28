@@ -186,7 +186,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/tv_created_by"
-        android:src="@drawable/setting"
+        android:src="@drawable/group"
         android:contentDescription="@string/image" />
 
     <TextView
