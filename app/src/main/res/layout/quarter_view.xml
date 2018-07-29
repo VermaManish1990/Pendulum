@@ -88,6 +88,7 @@
 
 
             <ImageView
+                android:id="@+id/iv_mirror"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:contentDescription="@string/image"
@@ -117,6 +118,7 @@
             android:padding="@dimen/_15sdp">
 
             <ImageView
+                android:id="@+id/iv_contest"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:contentDescription="@string/image"
