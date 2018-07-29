@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
@@ -64,7 +66,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class MirrorDetailsActivity extends BaseActivity implements View.OnClickListener, RecentPostAdapter.IRecentPostAdapterCallBack,
-        CommentsDialogFragment.ICommentsDialogCallBack, IMirrorVotingDialogCallBack, AbsListView.OnScrollListener {
+        CommentsDialogFragment.ICommentsDialogCallBack, IMirrorVotingDialogCallBack {
 
     private static final String TAG = MirrorDetailsActivity.class.getSimpleName();
     private View mRootView;
@@ -86,9 +88,14 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     private View mFlQuarterBlackView;
     private View mFlMenuView;
     private TextView mTvDate;
+    private TextView mTvTapHereText;
     private int mMonth;
     private int mYear;
     private ImageView mIvForward;
+    private boolean mControl;
+    private View mViewCreateANewPost;
+    private View mViewMirrorDetails;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +124,9 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         mTvName = findViewById(R.id.tv_name);
         mTvDate = findViewById(R.id.tv_date);
         mIvForward = findViewById(R.id.iv_forward);
+        mViewMirrorDetails = findViewById(R.id.view_mirror_details);
+        mViewCreateANewPost = findViewById(R.id.view_create_a_new_post);
+        mTvTapHereText = findViewById(R.id.tv_tap_here_text);
         mTvDataNotAvailable = findViewById(R.id.tv_data_not_available);
         mProgressBarProfile = findViewById(R.id.progress_bar_profile);
         mRecyclerViewPost = findViewById(R.id.recycler_view_post);
@@ -134,14 +144,29 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
         findViewById(R.id.iv_back).setOnClickListener(this);
         mIvForward.setOnClickListener(this);
-        findViewById(R.id.view_create_a_new_post).setOnClickListener(this);
+        mViewCreateANewPost.setOnClickListener(this);
         findViewById(R.id.view_progress_bar_profile).setOnClickListener(this);
         mIvProfile.setOnClickListener(this);
+
+        ((NestedScrollView) findViewById(R.id.scrollView)).setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
+                if (scrollY < oldScrollY && !mControl) {
+                    onScrollDown();
+                    mControl = true;
+                } else if (scrollY > oldScrollY && mControl) {
+                    onScrollUp();
+                    mControl = false;
+                }
+            }
+        });
     }
 
     @Override
     protected void setInitialData() {
 
+        mControl = true;
         mIsVoted = false;
         mIsUpdateRequired = true;
         mMonth = DateUtil.getCurrentMonth();
@@ -552,7 +577,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                     mIvForward.setVisibility(View.VISIBLE);
                 }
 
-                mTvDate.setText(String.valueOf(DateUtil.getMonthAndYearName(mMonth,mYear)));
+                mTvDate.setText(String.valueOf(DateUtil.getMonthAndYearName(mMonth, mYear)));
                 getData(IApiEvent.REQUEST_GET_MIRROR_GRAPH_DATA_CODE);
 
                 break;
@@ -568,7 +593,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                     mIvForward.setVisibility(View.GONE);
                 }
 
-                mTvDate.setText(String.valueOf(DateUtil.getMonthAndYearName(mMonth,mYear)));
+                mTvDate.setText(String.valueOf(DateUtil.getMonthAndYearName(mMonth, mYear)));
                 getData(IApiEvent.REQUEST_GET_MIRROR_GRAPH_DATA_CODE);
 
                 break;
@@ -633,6 +658,12 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         }
 
         mIsVoted = mirrorData.mirrorAdmire || mirrorData.mirrorHate || mirrorData.mirrorCantSay;
+
+        if (mIsVoted) {
+            mTvTapHereText.setText(String.valueOf(getResources().getString(R.string.tap_here_to_change_the_vote)));
+        } else {
+            mTvTapHereText.setText(String.valueOf(getResources().getString(R.string.tap_here_to_vote)));
+        }
     }
 
     /**
@@ -768,19 +799,14 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         getData(IApiEvent.REQUEST_GET_MIRROR_DETAILS_CODE);
     }
 
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-        if (SCROLL_STATE_TOUCH_SCROLL == scrollState) {
-            View currentFocus = getCurrentFocus();
-            if (currentFocus != null) {
-                currentFocus.clearFocus();
-            }
-        }
+    private void onScrollDown() {
+        mViewMirrorDetails.setVisibility(View.VISIBLE);
+        mViewCreateANewPost.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
+    private void onScrollUp() {
+        mViewMirrorDetails.setVisibility(View.GONE);
+        mViewCreateANewPost.setVisibility(View.GONE);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

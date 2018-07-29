@@ -56,7 +56,6 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
     private ViewPager mViewpagerProfile;
     private TextView mTvCreatedBy;
     private TextView mTvWikiLink;
-    private TextView mTvCategory;
     private int mPageNumber;
     private int mMirrorId;
     private ArrayList<GetExitPollListResponseModel.GetExitPollListDetails> mExitPollList;
@@ -96,7 +95,6 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
         mRlLargeView = findViewById(R.id.rl_large_view);
         mIvLargeProfile = findViewById(R.id.iv_large_profile);
         mViewpagerProfile = findViewById(R.id.viewpager_profile);
-        mTvCategory = findViewById(R.id.tv_category);
         mTvWikiLink = findViewById(R.id.tv_wiki_link);
         mTvCreatedBy = findViewById(R.id.tv_created_by);
         mRecyclerViewExitPoll = findViewById(R.id.recycler_view_exit_poll);
@@ -179,7 +177,6 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                         if (exitPollMirrorResponseModel.Data != null && exitPollMirrorResponseModel.Data.mirrorData != null) {
 
                             GetExitPollMirrorResponseModel.GetExitPollMirrorDetails mirrorDetails = exitPollMirrorResponseModel.Data.mirrorData;
-                            mTvCategory.setText(mirrorDetails.mirrorName != null ? mirrorDetails.mirrorName : "");
                             mTvWikiLink.setText(mirrorDetails.mirrorWikiLink != null ? mirrorDetails.mirrorWikiLink : "");
                             mTvCreatedBy.setText(mirrorDetails.userFullName != null ? mirrorDetails.userFullName : "");
                         }

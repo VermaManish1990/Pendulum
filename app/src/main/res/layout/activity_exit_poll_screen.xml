@@ -40,52 +40,14 @@
                     android:layout_marginTop="@dimen/_10sdp">
 
                     <TextView
-                        android:id="@+id/tv_category_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:text="@string/category"
-                        android:textColor="@color/fontPrimary50"
-                        android:textSize="@dimen/_9sdp" />
-
-                    <TextView
-                        android:id="@+id/tv_category"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/tv_category_text"
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_toEndOf="@+id/tv_category_text"
-                        android:layout_toLeftOf="@+id/tv_related_contest"
-                        android:layout_toRightOf="@+id/tv_category_text"
-                        android:layout_toStartOf="@+id/tv_related_contest"
-                        android:ellipsize="end"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/_9sdp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_wiki_link_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_category_text"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:text="@string/wiki_link"
-                        android:textColor="@color/fontPrimary50"
-                        android:textSize="@dimen/_9sdp" />
-
-                    <TextView
                         android:id="@+id/tv_wiki_link"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/tv_wiki_link_text"
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_toEndOf="@+id/tv_wiki_link_text"
-                        android:layout_toLeftOf="@+id/tv_related_contest"
-                        android:layout_toRightOf="@+id/tv_wiki_link_text"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_toStartOf="@+id/tv_related_contest"
                         android:ellipsize="end"
+                        android:maxLines="2"
                         android:textColor="@color/colorBlue"
                         android:textSize="@dimen/_9sdp" />
 
@@ -93,7 +55,7 @@
                         android:id="@+id/tv_created_by_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_wiki_link_text"
+                        android:layout_below="@+id/tv_wiki_link"
                         android:layout_marginTop="@dimen/_15sdp"
                         android:text="@string/created_by"
                         android:textColor="@color/fontPrimary50"
@@ -104,11 +66,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/tv_created_by_text"
-                        android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_toEndOf="@+id/tv_created_by_text"
-                        android:layout_toLeftOf="@+id/tv_related_contest"
-                        android:layout_toRightOf="@+id/tv_created_by_text"
                         android:layout_toStartOf="@+id/tv_related_contest"
                         android:ellipsize="end"
                         android:textColor="@color/colorAccent"
@@ -120,8 +79,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignTop="@+id/tv_category_text"
                         android:background="@drawable/custom_rounded_grey_border"
                         android:paddingBottom="@dimen/_7sdp"
                         android:paddingEnd="@dimen/_15sdp"
@@ -136,9 +93,7 @@
                         android:id="@+id/tv_reflections"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/tv_related_contest"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
                         android:layout_alignStart="@+id/tv_related_contest"
                         android:layout_below="@+id/tv_related_contest"
                         android:layout_marginTop="@dimen/_10sdp"
