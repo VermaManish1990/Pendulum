@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.activity.contest.ContestActivity;
+import com.pend.activity.home.HomeActivity;
 import com.pend.activity.login.ProfileActivity;
 import com.pend.adapters.ExitPollAdapter;
 import com.pend.adapters.ExitPollViewPagerAdapter;
@@ -29,7 +30,6 @@ import com.pend.fragments.ExitPollVotingDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IExitPollVotingDialogCallBack;
-import com.pend.interfaces.IMirrorVotingDialogCallBack;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.ExitPollVoteResponseModel;
 import com.pend.models.GetExitPollListResponseModel;
@@ -104,6 +104,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
         mFlQuarterBlackView = quarterView.findViewById(R.id.fl_quarter_black_view);
         mFlMenuView = quarterView.findViewById(R.id.fl_menu_view);
 
+        ((TextView) quarterView.findViewById(R.id.tv_mirror)).setText(String.valueOf(getResources().getString(R.string.home)));
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
         quarterView.findViewById(R.id.iv_profile).setOnClickListener(this);
@@ -310,8 +311,10 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
 
             case R.id.fl_mirror:
                 hideReveal();
-                Intent intentMirror = new Intent(this, MirrorActivity.class);
-                startActivity(intentMirror);
+                Intent intentHome = new Intent(this, HomeActivity.class);
+                intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intentHome);
+                finish();
                 break;
 
             case R.id.fl_contest:

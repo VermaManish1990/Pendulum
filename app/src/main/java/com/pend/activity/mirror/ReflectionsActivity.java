@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.activity.contest.ContestActivity;
+import com.pend.activity.home.HomeActivity;
 import com.pend.activity.login.ProfileActivity;
 import com.pend.adapters.ReflectionMirrorAdapter;
 import com.pend.interfaces.Constants;
@@ -81,6 +82,7 @@ public class ReflectionsActivity extends BaseActivity implements View.OnClickLis
         mFlQuarterBlackView = quarterView.findViewById(R.id.fl_quarter_black_view);
         mFlMenuView = quarterView.findViewById(R.id.fl_menu_view);
 
+        ((TextView) quarterView.findViewById(R.id.tv_mirror)).setText(String.valueOf(getResources().getString(R.string.home)));
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
         quarterView.findViewById(R.id.iv_profile).setOnClickListener(this);
@@ -225,8 +227,10 @@ public class ReflectionsActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.fl_mirror:
                 hideReveal();
-                Intent intentMirror = new Intent(this, MirrorActivity.class);
-                startActivity(intentMirror);
+                Intent intentHome = new Intent(this, HomeActivity.class);
+                intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intentHome);
+                finish();
                 break;
 
             case R.id.fl_contest:
