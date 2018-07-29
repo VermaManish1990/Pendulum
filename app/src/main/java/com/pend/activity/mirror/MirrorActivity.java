@@ -38,11 +38,11 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
 
     private static final String TAG = MirrorActivity.class.getSimpleName();
     private View mRootView;
-    private ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mMirrorList;
     private ViewPager mViewPagerMirror;
     private View mRlQuarterView;
     private View mFlQuarterBlackView;
     private View mFlMenuView;
+    private boolean mIsUpdateRequired;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
         mFlQuarterBlackView = quarterView.findViewById(R.id.fl_quarter_black_view);
         mFlMenuView = quarterView.findViewById(R.id.fl_menu_view);
 
-        ((ImageView)quarterView.findViewById(R.id.iv_mirror)).setImageDrawable(getResources().getDrawable(R.drawable.home));
+        ((ImageView) quarterView.findViewById(R.id.iv_mirror)).setImageDrawable(getResources().getDrawable(R.drawable.home));
         ((TextView) quarterView.findViewById(R.id.tv_mirror)).setText(String.valueOf(getResources().getString(R.string.home)));
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
@@ -83,7 +83,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void setInitialData() {
 
-        mMirrorList = new ArrayList<>();
+        mIsUpdateRequired = false;
     }
 
     /**
@@ -228,5 +228,23 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
     public void onCreateMirrorClick() {
         DialogFragment createMirrorDialogFragment = new CreateMirrorDialogFragment();
         createMirrorDialogFragment.show(getSupportFragmentManager(), "CreateMirrorDialogFragment");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        mIsUpdateRequired = true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(mIsUpdateRequired){
+
+            mIsUpdateRequired = false;
+            setupViewPager(mViewPagerMirror);
+        }
     }
 }
