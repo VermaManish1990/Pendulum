@@ -148,7 +148,7 @@
             android:paddingStart="@dimen/_15sdp"
             android:paddingTop="@dimen/_8sdp"
             android:singleLine="true"
-            android:textSize="@dimen/_11sdp" />
+            android:textSize="@dimen/_10sdp" />
 
         <ImageView
             android:id="@+id/iv_send"

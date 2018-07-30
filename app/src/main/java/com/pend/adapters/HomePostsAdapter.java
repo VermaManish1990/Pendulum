@@ -86,7 +86,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
             holder.ivPost.setVisibility(View.GONE);
         }
 
-        if (postsDetails.commentUserImageURL != null && !postsDetails.commentUserImageURL.equals("")) {
+        if (postsDetails.userImageNameURL != null && !postsDetails.userImageNameURL.equals("")) {
             Picasso.with(mContext)
                     .load(postsDetails.commentUserImageURL)
                     .into(holder.ivProfile);

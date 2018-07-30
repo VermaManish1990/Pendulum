@@ -49,7 +49,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/fontPrimary40"
-            android:textSize="@dimen/_11sdp" />
+            android:textSize="@dimen/_9sdp" />
 
         <TextView
             android:id="@+id/tv_share_on_facebook"
@@ -65,7 +65,7 @@
             android:text="@string/share_on_facebook"
             android:textAllCaps="false"
             android:textColor="@color/fontPrimary40"
-            android:textSize="@dimen/_11sdp" />
+            android:textSize="@dimen/_9sdp" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -74,7 +74,7 @@
             android:layout_below="@+id/iv_profile"
             android:layout_marginTop="@dimen/_15sdp"
             android:textColor="@color/colorAccent"
-            android:textSize="@dimen/_14sdp"
+            android:textSize="@dimen/_13sdp"
             android:textStyle="bold" />
 
     </RelativeLayout>
@@ -218,7 +218,7 @@
             android:paddingEnd="@dimen/_15sdp"
             android:paddingStart="@dimen/_15sdp"
             android:paddingTop="@dimen/_8sdp"
-            android:textSize="@dimen/_11sdp" />
+            android:textSize="@dimen/_10sdp" />
 
         <ImageView
             android:id="@+id/iv_send"

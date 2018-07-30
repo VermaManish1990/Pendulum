@@ -29,6 +29,8 @@ public class GetPostsResponseModel extends BaseResponseModel {
         public String commentUserImageName;
         public String commentUserImageURL;
         public String commentText;
+        public String userImageName;
+        public String userImageNameURL;
 
         public boolean isLike;
         public boolean isUnLike;
