@@ -167,7 +167,7 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -186,7 +186,7 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -225,7 +225,7 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
         switch (actionID) {
             case IApiEvent.REQUEST_ADD_POST_CODE:
 
-                jsonObject = RequestPostDataUtil.addPostApiRegParam(userId, mMirrorId, mEtPostInfo.getText().toString(), mEncodedImage);
+                jsonObject = RequestPostDataUtil.addPostApiRegParam(userId, mMirrorId, mEtPostInfo.getText().toString(), mEncodedImage != null ? mEncodedImage : "");
                 request = jsonObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<AddAndUpdatePostResponseModel>(IWebServices.REQUEST_ADD_POST_URL, NetworkUtil.getHeaders(this),
                         request, AddAndUpdatePostResponseModel.class, new VolleyErrorListener(this, actionID)) {
@@ -268,7 +268,8 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.bt_create_post:
 
-                if (mEncodedImage != null) {
+                if (mEncodedImage != null || mEtPostInfo.getText().toString().length() > 0) {
+
                     if (mIsUpdatePost) {
                         getData(IApiEvent.REQUEST_UPDATE_POST_CODE);
                     } else {
@@ -444,41 +445,6 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
                 }
             }
         }
-    }
-
-    public int getCorrectCameraOrientation(Camera.CameraInfo info, Camera camera) {
-
-        int rotation = this.getWindowManager().getDefaultDisplay().getRotation();
-        int degrees = 0;
-
-        switch (rotation) {
-            case Surface.ROTATION_0:
-                degrees = 0;
-                break;
-
-            case Surface.ROTATION_90:
-                degrees = 90;
-                break;
-
-            case Surface.ROTATION_180:
-                degrees = 180;
-                break;
-
-            case Surface.ROTATION_270:
-                degrees = 270;
-                break;
-
-        }
-
-        int result;
-        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-            result = (info.orientation + degrees) % 360;
-            result = (360 - result) % 360;
-        } else {
-            result = (info.orientation - degrees + 360) % 360;
-        }
-
-        return result;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

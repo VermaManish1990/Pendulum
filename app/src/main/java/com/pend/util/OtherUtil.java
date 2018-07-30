@@ -113,7 +113,7 @@ public class OtherUtil {
     public static String getBase64Format(String imagePath) {
 
         try {
-            Bitmap bm = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imagePath), 1080, 720, false);
+            Bitmap bm = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imagePath), 720, 480, false);
 //            Bitmap bm = BitmapFactory.decodeFile(imagePath);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bm.compress(Bitmap.CompressFormat.PNG, 0, baos); //bm is the bitmap object
