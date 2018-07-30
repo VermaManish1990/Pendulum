@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_13sdp"
+                android:textSize="@dimen/_11sdp"
                 android:textStyle="bold" />
 
             <TextView
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="@dimen/_13sdp" />
+                android:textSize="@dimen/_10sdp" />
 
             <TextView
                 android:id="@+id/tv_city"
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textColor="@color/colorAccent"
-                android:textSize="@dimen/_13sdp" />
+                android:textSize="@dimen/_10sdp" />
 
             <TextView
                 android:id="@+id/tv_token"
@@ -69,37 +69,39 @@
                 android:paddingEnd="@dimen/_15sdp"
                 android:text="@string/token"
                 android:textColor="@color/colorAccent"
-                android:textSize="@dimen/_10sdp"
+                android:textSize="@dimen/_9sdp"
                 tools:ignore="RtlSymmetry" />
 
             <View
                 android:id="@+id/view1"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_1sdp"
-                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_2sdp"
                 android:background="@color/darkGreyBackground" />
 
             <RelativeLayout
                 android:id="@+id/rl_setting_and_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:gravity="center">
 
                 <ImageView
                     android:id="@+id/iv_setting"
-                    android:layout_width="@dimen/_23sdp"
-                    android:layout_height="@dimen/_23sdp"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
                     android:contentDescription="@string/image"
+                    android:padding="@dimen/_2sdp"
                     android:src="@drawable/setting" />
 
                 <ImageView
                     android:id="@+id/iv_edit"
-                    android:layout_width="@dimen/_23sdp"
-                    android:layout_height="@dimen/_23sdp"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
                     android:layout_alignBottom="@+id/iv_setting"
                     android:layout_alignTop="@+id/iv_setting"
                     android:layout_marginStart="@dimen/_30sdp"
+                    android:padding="@dimen/_2sdp"
                     android:layout_toEndOf="@+id/iv_setting"
                     android:contentDescription="@string/image"
                     android:src="@drawable/edit" />
@@ -108,27 +110,29 @@
 
             <ImageView
                 android:id="@+id/iv_message"
-                android:layout_width="@dimen/_23sdp"
-                android:layout_height="@dimen/_23sdp"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:src="@drawable/message"
                 android:layout_gravity="center_horizontal"
                 android:visibility="gone"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:padding="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:contentDescription="@string/image" />
 
             <View
                 android:id="@+id/view2"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_1sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:background="@color/darkGreyBackground" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_7sdp"
                 android:paddingStart="@dimen/_20sdp"
                 android:text="@string/time_sheet"
+                android:textSize="@dimen/_11sdp"
                 android:textColor="@color/fontPrimary40"
                 tools:ignore="RtlSymmetry" />
 

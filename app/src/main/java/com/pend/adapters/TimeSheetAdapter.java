@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pend.R;
@@ -41,7 +42,44 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         UserTimeSheetResponseModel.UserTimeSheetDetails timeSheetDetails = mTimeSheetDetailsList.get(position);
-        holder.tvMessage.setText(timeSheetDetails.mirrorName != null ? timeSheetDetails.mirrorName : "");
+
+        if (timeSheetDetails.type != null) {
+
+            switch (timeSheetDetails.type) {
+                case "Post":
+                    holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.setting));
+                    holder.tvMessage.setText(String.valueOf("Added a new post on " + timeSheetDetails.mirrorName + "'s mirror."));
+
+                    break;
+
+                case "MirrorVote":
+                    holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.checkbox));
+                    holder.tvMessage.setText(String.valueOf("Voted " + timeSheetDetails.vote + " for " + timeSheetDetails.mirrorName + "."));
+
+                    break;
+
+                case "UnLike":
+                    holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.dislike_red));
+                    holder.tvMessage.setText(String.valueOf("Disliked a post on " + timeSheetDetails.mirrorName + "'s mirror."));
+
+                    break;
+
+                case "Like":
+                    holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.like_green));
+                    holder.tvMessage.setText(String.valueOf("Liked a post on " + timeSheetDetails.mirrorName + "'s mirror."));
+
+                    break;
+
+                case "Comment":
+                    holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.message));
+                    holder.tvMessage.setText(String.valueOf("Commented on a post on " + timeSheetDetails.mirrorName + "'s mirror."));
+
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }
 
     @Override
@@ -51,12 +89,14 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvMessage;
+        private final ImageView ivIcon;
         private final View rootView;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             tvMessage = itemView.findViewById(R.id.tv_message);
+            ivIcon = itemView.findViewById(R.id.iv_icon);
             rootView = itemView.findViewById(R.id.root_view);
         }
     }

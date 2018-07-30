@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/root_view"
@@ -9,12 +9,20 @@
     android:background="@drawable/custom_rounded_grey_border"
     android:padding="@dimen/_15sdp">
 
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="@dimen/_15sdp"
+        android:layout_height="@dimen/_15sdp"
+        android:contentDescription="@string/image" />
+
     <TextView
         android:id="@+id/tv_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textSize="@dimen/_10sdp"
+        android:textSize="@dimen/_9sdp"
+        android:layout_toEndOf="@+id/iv_icon"
+        android:layout_marginStart="@dimen/_10sdp"
         android:textColor="@color/fontPrimary40" />
 
-</FrameLayout>
+</RelativeLayout>
