@@ -21,7 +21,6 @@
             android:layout_marginBottom="@dimen/_8sdp"
             android:layout_marginTop="@dimen/_15sdp"
             android:scaleType="fitXY"
-            android:src="@drawable/profile"
             app:fk_left_bottom_corner_radius="@dimen/_5sdp"
             app:fk_left_top_corner_radius="@dimen/_5sdp"
             app:fk_right_bottom_corner_radius="@dimen/_5sdp"
