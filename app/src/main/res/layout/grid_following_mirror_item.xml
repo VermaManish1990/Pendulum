@@ -13,21 +13,41 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/iv_profile"
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="@dimen/_60sdp"
+        <com.pend.widget.RoundedCornerImageView
+            android:id="@+id/profile_border"
+            android:layout_width="@dimen/_56sdp"
+            android:layout_height="@dimen/_56sdp"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/_8sdp"
             android:layout_marginTop="@dimen/_15sdp"
-            android:src="@drawable/profile" />
+            android:scaleType="fitXY"
+            android:src="@drawable/custom_circular_grey_border"
+            app:fk_left_bottom_corner_radius="@dimen/_5sdp"
+            app:fk_left_top_corner_radius="@dimen/_5sdp"
+            app:fk_right_bottom_corner_radius="@dimen/_5sdp"
+            app:fk_right_top_corner_radius="@dimen/_5sdp"/>
+
+        <com.pend.widget.RoundedCornerImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="@dimen/_51sdp"
+            android:layout_height="@dimen/_51sdp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_17sdp"
+            android:scaleType="fitXY"
+            android:src="@drawable/profile"
+            app:fk_left_bottom_corner_radius="@dimen/_5sdp"
+            app:fk_left_top_corner_radius="@dimen/_5sdp"
+            app:fk_right_bottom_corner_radius="@dimen/_5sdp"
+            app:fk_right_top_corner_radius="@dimen/_5sdp" />
+
 
         <TextView
             android:id="@+id/tv_count"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
             android:layout_above="@+id/tv_name"
-            android:layout_toEndOf="@+id/iv_profile"
+            android:layout_toEndOf="@+id/profile_border"
             android:background="@drawable/custom_blue_ring_view"
             android:ellipsize="end"
             android:gravity="center"
@@ -46,7 +66,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/_10sdp"
+            android:textSize="@dimen/_9sdp"
             android:textStyle="bold" />
     </RelativeLayout>
 

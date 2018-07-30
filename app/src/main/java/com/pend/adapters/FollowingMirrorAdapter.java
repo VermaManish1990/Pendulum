@@ -69,17 +69,17 @@ public class FollowingMirrorAdapter extends BaseAdapter {
 
         TextView tvName = view.findViewById(R.id.tv_name);
         TextView tvCount = view.findViewById(R.id.tv_count);
-        CircleImageView ivProfile = view.findViewById(R.id.iv_profile);
+        ImageView ivProfile = view.findViewById(R.id.iv_profile);
+        ImageView flProfile = view.findViewById(R.id.profile_border);
 
         tvName.setText(mirrorDetails.mirrorName != null ? mirrorDetails.mirrorName : "");
         tvCount.setText(String.valueOf(mirrorDetails.activeUsers));
 
         if (mirrorDetails.imageURL != null && !mirrorDetails.imageURL.equals("")) {
 
-            if (mirrorDetails.mirrorAdmire || mirrorDetails.mirrorHate || mirrorDetails.mirrorCantSay) {
-                ivProfile.setBorderWidth(4);
-                ivProfile.setBorderColor(mContext.getResources().getColor(R.color.green));
-            }
+//            if (mirrorDetails.mirrorAdmire || mirrorDetails.mirrorHate || mirrorDetails.mirrorCantSay) {
+//                flProfile.setImageResource(R.color.green);
+//            }
 
             Picasso.with(mContext)
                     .load(mirrorDetails.imageURL)
