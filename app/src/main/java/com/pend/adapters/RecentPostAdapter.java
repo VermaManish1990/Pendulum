@@ -76,6 +76,14 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
             holder.ivDislike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.dislike));
         }
 
+        if (postsDetails.userImageNameURL != null && !postsDetails.userImageNameURL.equals("")) {
+            Picasso.with(mContext)
+                    .load(postsDetails.commentUserImageURL)
+                    .into(holder.ivProfile);
+        }
+        holder.tvUserName.setText(postsDetails.userFullName != null ? postsDetails.userFullName : "");
+        holder.tvCreatedTime.setText(postsDetails.createdDatetime != null ? postsDetails.createdDatetime : "");
+
         holder.etAddAComment.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // If the event is a key-down event on the "enter" button
@@ -165,7 +173,7 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
 
             holder.rlComment.setVisibility(View.VISIBLE);
             holder.view.setVisibility(View.VISIBLE);
-            holder.tvName.setText(postsDetails.commentUserFullName != null ? postsDetails.commentUserFullName : "");
+            holder.tvCommentUserName.setText(postsDetails.commentUserFullName != null ? postsDetails.commentUserFullName : "");
             holder.tvComment.setText(postsDetails.commentText != null ? postsDetails.commentText : "");
             if (postsDetails.commentUserImageURL != null && !postsDetails.commentUserImageURL.equals("")) {
 
@@ -207,8 +215,10 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         private final TextView tvCommentCount;
         private final TextView tvLikeCount;
         private final TextView tvDislikeCount;
-        private final TextView tvName;
+        private final TextView tvCommentUserName;
         private final TextView tvComment;
+        private final TextView tvUserName;
+        private final TextView tvCreatedTime;
 
         private final EditText etAddAComment;
         private final CheckBox cbAnonymous;
@@ -221,11 +231,15 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         private final ImageView ivShare;
         private final ImageView ivSend;
         private final ImageView ivMenu;
+        private final ImageView ivProfile;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             view = itemView.findViewById(R.id.view);
+            ivProfile = itemView.findViewById(R.id.iv_profile);
+            tvUserName = itemView.findViewById(R.id.tv_user_name);
+            tvCreatedTime = itemView.findViewById(R.id.tv_created_time);
             rlComment = itemView.findViewById(R.id.rl_comment);
             ivPost = itemView.findViewById(R.id.iv_post);
             tvDescription = itemView.findViewById(R.id.tv_description);
@@ -246,7 +260,7 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
             cbAnonymous = itemView.findViewById(R.id.cb_anonymous);
 
             ivCommentUserProfile = itemView.findViewById(R.id.iv_comment_user_profile);
-            tvName = itemView.findViewById(R.id.tv_name);
+            tvCommentUserName = itemView.findViewById(R.id.tv_comment_user_name);
             tvComment = itemView.findViewById(R.id.tv_comment);
         }
     }
