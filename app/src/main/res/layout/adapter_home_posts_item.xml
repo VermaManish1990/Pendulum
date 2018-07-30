@@ -197,8 +197,8 @@
 
         <ImageView
             android:id="@+id/iv_menu"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
+            android:layout_width="@dimen/_22sdp"
+            android:layout_height="@dimen/_22sdp"
             android:layout_alignParentEnd="true"
             android:contentDescription="@string/image"
             android:src="@drawable/menu" />

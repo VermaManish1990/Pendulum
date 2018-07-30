@@ -47,7 +47,7 @@
             <ImageView
                 android:id="@+id/iv_comment"
                 android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_20sdp"
+                android:layout_height="@dimen/_18sdp"
                 android:layout_below="@+id/tv_description"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_marginStart="@dimen/_15sdp"
@@ -64,11 +64,12 @@
                 android:layout_alignTop="@+id/iv_comment"
                 android:layout_toEndOf="@+id/iv_comment"
                 android:gravity="center"
+                android:textSize="@dimen/_10sdp"
                 android:textColor="@color/fontPrimary50" />
 
             <ImageView
                 android:id="@+id/iv_like"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/_25sdp"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/iv_comment"
                 android:layout_alignTop="@+id/iv_comment"
@@ -86,11 +87,12 @@
                 android:layout_alignTop="@+id/iv_like"
                 android:layout_toEndOf="@+id/iv_like"
                 android:gravity="center"
+                android:textSize="@dimen/_10sdp"
                 android:textColor="@color/fontPrimary50" />
 
             <ImageView
                 android:id="@+id/iv_dislike"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/_25sdp"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/iv_like"
                 android:layout_alignTop="@+id/iv_like"
@@ -108,6 +110,7 @@
                 android:layout_alignTop="@+id/iv_dislike"
                 android:layout_toEndOf="@+id/iv_dislike"
                 android:gravity="center"
+                android:textSize="@dimen/_10sdp"
                 android:textColor="@color/fontPrimary50" />
 
             <EditText
@@ -126,7 +129,7 @@
                 android:paddingEnd="@dimen/_15sdp"
                 android:paddingStart="@dimen/_15sdp"
                 android:paddingTop="@dimen/_8sdp"
-                android:textSize="@dimen/_11sdp" />
+                android:textSize="@dimen/_10sdp" />
 
             <ImageView
                 android:id="@+id/iv_send"
@@ -152,9 +155,8 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:text="@string/comments"
         android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/_15sdp"
-        android:textStyle="bold"
-        android:layout_marginLeft="@dimen/_10sdp" />
+        android:textSize="@dimen/_13sdp"
+        android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_comment"
