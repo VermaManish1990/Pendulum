@@ -226,9 +226,12 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
 
         if (mPostDetails.imageURL != null && !mPostDetails.imageURL.equals("")) {
 
+            mIvPost.setVisibility(View.VISIBLE);
             Picasso.with(mContext)
                     .load(mPostDetails.imageURL)
                     .into(mIvPost);
+        }else {
+            mIvPost.setVisibility(View.GONE);
         }
     }
 

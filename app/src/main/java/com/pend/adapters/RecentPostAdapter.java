@@ -146,6 +146,7 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
 
         if (postsDetails.imageURL != null && !postsDetails.imageURL.equals("")) {
 
+            holder.ivPost.setVisibility(View.VISIBLE);
             Picasso.with(mContext)
                     .load(postsDetails.imageURL)
                     .into(holder.ivPost);
@@ -156,6 +157,8 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
                     mIRecentPostAdapterCallBack.onCommentIconClick(position);
                 }
             });
+        }else {
+            holder.ivPost.setVisibility(View.GONE);
         }
 
         if (postsDetails.commentText != null && !postsDetails.commentText.equals("")) {

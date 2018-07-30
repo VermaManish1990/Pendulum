@@ -60,11 +60,18 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         holder.tvLike.setText(String.valueOf(postsDetails.likeCount));
         holder.tvDislike.setText(String.valueOf(postsDetails.unlikeCount));
 
-        holder.tvTitle.setText(postsDetails.postInfo != null ? postsDetails.postInfo : "");
+        if (postsDetails.postInfo != null && postsDetails.postInfo.length() > 0){
+            holder.tvTitle.setVisibility(View.VISIBLE);
+            holder.tvTitle.setText(postsDetails.postInfo);
+        }else {
+            holder.tvTitle.setVisibility(View.GONE);
+        }
+
         holder.tvName.setText(postsDetails.userFullName != null ? postsDetails.userFullName : "");
         holder.tvTime.setText(postsDetails.createdDatetime != null ? postsDetails.createdDatetime : "");
 
         if (postsDetails.imageURL != null && !postsDetails.imageURL.equals("")) {
+            holder.ivPost.setVisibility(View.VISIBLE);
             Picasso.with(mContext)
                     .load(postsDetails.imageURL)
                     .into(holder.ivPost);
@@ -75,6 +82,8 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                     mIHomePostsAdapterCallBack.onCommentClick(position);
                 }
             });
+        } else {
+            holder.ivPost.setVisibility(View.GONE);
         }
 
         if (postsDetails.commentUserImageURL != null && !postsDetails.commentUserImageURL.equals("")) {
