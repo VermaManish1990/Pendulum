@@ -67,7 +67,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private View mRlQuarterView;
     private View mFlQuarterBlackView;
     private View mFlMenuView;
-    private TextView mTvHome;
     private ImageView mIvProfile;
     private ImageView mIvMessage;
     private int mUserId;
@@ -117,14 +116,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         mRlQuarterView = quarterView.findViewById(R.id.rl_quarter_view);
         mFlQuarterBlackView = quarterView.findViewById(R.id.fl_quarter_black_view);
         mFlMenuView = quarterView.findViewById(R.id.fl_menu_view);
-        mTvHome = quarterView.findViewById(R.id.tv_home);
         mIvProfile = quarterView.findViewById(R.id.iv_profile);
 
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
-        mTvHome.setOnClickListener(this);
+        mIvProfile.setOnClickListener(this);
 
         mIvMessage.setOnClickListener(this);
         findViewById(R.id.iv_setting).setOnClickListener(this);
@@ -140,8 +138,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         mPageNumber = 1;
         mTimeSheetDetailsList = new ArrayList<>();
 
-        mIvProfile.setVisibility(View.GONE);
-        mTvHome.setVisibility(View.VISIBLE);
+        mIvProfile.setImageDrawable(getResources().getDrawable(R.drawable.home_large));
 
         if (mIsOtherProfile) {
             mRlSettingAndEditView.setVisibility(View.GONE);
@@ -351,8 +348,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
             case R.id.iv_profile:
                 hideReveal();
-                Intent intentProfile = new Intent(this, ProfileActivity.class);
-                startActivity(intentProfile);
+                Intent intentHome = new Intent(this, HomeActivity.class);
+                intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intentHome);
+                finish();
                 break;
 
             case R.id.fl_mirror:
@@ -369,14 +368,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
             case R.id.fl_area:
                 Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
-                break;
-
-            case R.id.tv_home:
-                hideReveal();
-                Intent intentHome = new Intent(this, HomeActivity.class);
-                intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intentHome);
-                finish();
                 break;
 
             case R.id.fl_menu_view:
