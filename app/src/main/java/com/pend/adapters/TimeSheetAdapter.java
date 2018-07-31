@@ -19,11 +19,13 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.View
 
     private static final String TAG = TimeSheetAdapter.class.getSimpleName();
     private Context mContext;
+    private ITimeSheetAdapterCallBack mITimeSheetAdapterCallBack;
     private ArrayList<UserTimeSheetResponseModel.UserTimeSheetDetails> mTimeSheetDetailsList;
 
     public TimeSheetAdapter(Context context, ArrayList<UserTimeSheetResponseModel.UserTimeSheetDetails> timeSheetDetailsList) {
         mTimeSheetDetailsList = timeSheetDetailsList;
         mContext = context;
+        mITimeSheetAdapterCallBack = (ITimeSheetAdapterCallBack) context;
     }
 
     public void setTimeSheetDetailsList(ArrayList<UserTimeSheetResponseModel.UserTimeSheetDetails> timeSheetDetailsList) {
@@ -40,7 +42,7 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         UserTimeSheetResponseModel.UserTimeSheetDetails timeSheetDetails = mTimeSheetDetailsList.get(position);
 
         if (timeSheetDetails.type != null) {
@@ -80,6 +82,13 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.View
                     break;
             }
         }
+
+        holder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mITimeSheetAdapterCallBack.onLogDetailsClick(position);
+            }
+        });
     }
 
     @Override
@@ -99,6 +108,10 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.View
             ivIcon = itemView.findViewById(R.id.iv_icon);
             rootView = itemView.findViewById(R.id.root_view);
         }
+    }
+
+    public interface ITimeSheetAdapterCallBack{
+        void onLogDetailsClick(int position);
     }
 
 }

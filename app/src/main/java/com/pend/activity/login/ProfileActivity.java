@@ -26,9 +26,12 @@ import com.pend.activity.home.HomeActivity;
 import com.pend.activity.mirror.MirrorActivity;
 import com.pend.adapters.ProfileViewPagerAdapter;
 import com.pend.adapters.TimeSheetAdapter;
+import com.pend.fragments.CommentsDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
+import com.pend.models.GetPostDetailsResponseModel;
+import com.pend.models.GetPostsResponseModel;
 import com.pend.models.UserProfileResponseModel;
 import com.pend.models.UserTimeSheetResponseModel;
 import com.pend.util.LoggerUtil;
@@ -44,7 +47,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ProfileActivity extends BaseActivity implements View.OnClickListener, ProfileViewPagerAdapter.IProfileViewPagerAdapterCallBack {
+public class ProfileActivity extends BaseActivity implements View.OnClickListener, ProfileViewPagerAdapter.IProfileViewPagerAdapterCallBack,
+        TimeSheetAdapter.ITimeSheetAdapterCallBack,CommentsDialogFragment.ICommentsDialogCallBack {
 
     private static final String TAG = ProfileActivity.class.getSimpleName();
     private ViewPager mViewpagerProfile;
@@ -72,6 +76,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private int mUserId;
     private boolean mIsOtherProfile;
     private View mRlSettingAndEditView;
+    private int mMirrorId;
+    private int mPostId;
+    private GetPostDetailsResponseModel mPostDetailsResponseModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -241,6 +248,49 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 mIsLoading = false;
                 break;
 
+            case IApiEvent.REQUEST_GET_POST_DETAIL_CODE:
+                if (status) {
+                    mPostDetailsResponseModel = (GetPostDetailsResponseModel) serviceResponse;
+                    if (mPostDetailsResponseModel != null && mPostDetailsResponseModel.status) {
+                        LoggerUtil.d(TAG, mPostDetailsResponseModel.statusCode);
+
+                        if (mPostDetailsResponseModel.Data != null && mPostDetailsResponseModel.Data.postData != null) {
+
+                            GetPostsResponseModel.GetPostsDetails postsDetails = new GetPostsResponseModel.GetPostsDetails();
+
+                            postsDetails.postInfo = mPostDetailsResponseModel.Data.postData.postInfo;
+                            postsDetails.isUnLike = mPostDetailsResponseModel.Data.postData.isUnLike;
+                            postsDetails.isLike = mPostDetailsResponseModel.Data.postData.isLike;
+                            postsDetails.imageURL = mPostDetailsResponseModel.Data.postData.imageURL;
+                            postsDetails.imageName = mPostDetailsResponseModel.Data.postData.imageName;
+                            postsDetails.commentUserImageURL = mPostDetailsResponseModel.Data.postData.commentUserImageURL;
+                            postsDetails.commentCount = mPostDetailsResponseModel.Data.postData.commentCount;
+                            postsDetails.commentText = mPostDetailsResponseModel.Data.postData.commentText;
+                            postsDetails.commentUserFullName = mPostDetailsResponseModel.Data.postData.commentUserFullName;
+                            postsDetails.commentUserImageName = mPostDetailsResponseModel.Data.postData.commentUserImageName;
+                            postsDetails.postID = mPostDetailsResponseModel.Data.postData.postID;
+                            postsDetails.unlikeCount = mPostDetailsResponseModel.Data.postData.unlikeCount;
+                            postsDetails.likeCount = mPostDetailsResponseModel.Data.postData.likeCount;
+                            postsDetails.createdDatetime = mPostDetailsResponseModel.Data.postData.createdDatetime;
+                            postsDetails.userFullName = mPostDetailsResponseModel.Data.postData.userFullName;
+                            postsDetails.userID = mPostDetailsResponseModel.Data.postData.userID;
+
+                            CommentsDialogFragment commentsDialogFragment = CommentsDialogFragment.newInstance(postsDetails);
+                            commentsDialogFragment.show(getSupportFragmentManager(), "CommentsDialogFragment");
+                        }
+
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                        Snackbar.make(mRootView, getString(R.string.server_error_from_api), Snackbar.LENGTH_LONG).show();
+                    }
+                } else {
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                    OtherUtil.showErrorMessage(this, serviceResponse);
+                }
+
+                mIsLoading = false;
+                break;
+
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
@@ -294,6 +344,22 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
                     @Override
                     protected void deliverResponse(UserTimeSheetResponseModel response) {
+                        updateUi(true, actionID, response);
+
+                    }
+                });
+                break;
+
+            case IApiEvent.REQUEST_GET_POST_DETAIL_CODE:
+
+                String postDetailsUrl = IWebServices.REQUEST_GET_POST_DETAIL_URL + Constants.PARAM_USER_ID + "=" + mUserId + "&" +
+                        Constants.PARAM_MIRROR_ID + "=" + mMirrorId + "&" +
+                        Constants.PARAM_POST_ID + "=" + mPostId;
+                RequestManager.addRequest(new GsonObjectRequest<GetPostDetailsResponseModel>(postDetailsUrl, NetworkUtil.getHeaders(this), null,
+                        GetPostDetailsResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(GetPostDetailsResponseModel response) {
                         updateUi(true, actionID, response);
 
                     }
@@ -473,5 +539,20 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             hideReveal();
         }
         return super.dispatchTouchEvent(event);
+    }
+
+    @Override
+    public void onLogDetailsClick(int position) {
+
+        mMirrorId = mTimeSheetDetailsList.get(position).mirrorid;
+        mPostId = mTimeSheetDetailsList.get(position).postID;
+
+        if (mPostId != 0)
+            getData(IApiEvent.REQUEST_GET_POST_DETAIL_CODE);
+    }
+
+    @Override
+    public void onPostUpdate(GetPostsResponseModel.GetPostsDetails postDetails) {
+
     }
 }
