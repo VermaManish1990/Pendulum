@@ -3,6 +3,7 @@ package com.pend.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,34 +48,40 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.View
 
         if (timeSheetDetails.type != null) {
 
+            String sourceString = null;
             switch (timeSheetDetails.type) {
                 case "Post":
                     holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.setting));
-                    holder.tvMessage.setText(String.valueOf("Added a new post on " + timeSheetDetails.mirrorName + "'s mirror."));
+                    sourceString = "Added a new <b>post</b> on <b>" + timeSheetDetails.mirrorName + "'s"+ "</b> mirror.";
+                    holder.tvMessage.setText(Html.fromHtml(sourceString));
 
                     break;
 
                 case "MirrorVote":
                     holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.checkbox));
-                    holder.tvMessage.setText(String.valueOf("Voted " + timeSheetDetails.vote + " for " + timeSheetDetails.mirrorName + "."));
+                    sourceString = "Voted <b>" + timeSheetDetails.vote + "</b> for <b>" + timeSheetDetails.mirrorName + "</b>.";
+                    holder.tvMessage.setText(Html.fromHtml(sourceString));
 
                     break;
 
                 case "UnLike":
                     holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.dislike_red));
-                    holder.tvMessage.setText(String.valueOf("Disliked a post on " + timeSheetDetails.mirrorName + "'s mirror."));
+                    sourceString = "Disliked a <b>post</b> on <b>" + timeSheetDetails.mirrorName + "'s</b> mirror.";
+                    holder.tvMessage.setText(Html.fromHtml(sourceString));
 
                     break;
 
                 case "Like":
                     holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.like_green));
-                    holder.tvMessage.setText(String.valueOf("Liked a post on " + timeSheetDetails.mirrorName + "'s mirror."));
+                    sourceString = "Liked a <b>post</b> on <b>" + timeSheetDetails.mirrorName + "'s</b> mirror.";
+                    holder.tvMessage.setText(Html.fromHtml(sourceString));
 
                     break;
 
                 case "Comment":
                     holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.message));
-                    holder.tvMessage.setText(String.valueOf("Commented on a post on " + timeSheetDetails.mirrorName + "'s mirror."));
+                    sourceString ="Commented on a <b>post</b> on <b>" + timeSheetDetails.mirrorName + "'s</b> mirror.";
+                    holder.tvMessage.setText(Html.fromHtml(sourceString));
 
                     break;
 
