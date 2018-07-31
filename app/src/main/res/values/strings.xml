@@ -132,5 +132,6 @@
     <string name="facebook_error_message">Please install facebook to share post</string>
     <string name="area">Area</string>
     <string name="home">Home</string>
+    <string name="exit_polls">Exit Polls</string>
 
 </resources>

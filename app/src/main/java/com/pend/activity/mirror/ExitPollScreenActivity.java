@@ -105,7 +105,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
         mFlMenuView = quarterView.findViewById(R.id.fl_menu_view);
 
         ((TextView) quarterView.findViewById(R.id.tv_mirror)).setText(String.valueOf(getResources().getString(R.string.home)));
-        ((ImageView)quarterView.findViewById(R.id.iv_mirror)).setImageDrawable(getResources().getDrawable(R.drawable.home));
+        ((ImageView) quarterView.findViewById(R.id.iv_mirror)).setImageDrawable(getResources().getDrawable(R.drawable.home));
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
         quarterView.findViewById(R.id.iv_profile).setOnClickListener(this);
@@ -113,8 +113,12 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
         mFlMenuView.setOnClickListener(this);
 
         findViewById(R.id.iv_close).setOnClickListener(this);
+        findViewById(R.id.iv_related_contest).setOnClickListener(this);
         findViewById(R.id.tv_related_contest).setOnClickListener(this);
+        findViewById(R.id.iv_reflection).setOnClickListener(this);
         findViewById(R.id.tv_reflections).setOnClickListener(this);
+        findViewById(R.id.iv_exit_polls).setOnClickListener(this);
+        findViewById(R.id.tv_exit_polls).setOnClickListener(this);
 
     }
 
@@ -189,7 +193,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                 }
                 getData(IApiEvent.REQUEST_GET_EXIT_POLL_LIST_CODE);
                 break;
@@ -286,10 +290,18 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
+            case R.id.iv_exit_polls:
+            case R.id.tv_exit_polls:
+                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                break;
+
+            case R.id.iv_related_contest:
             case R.id.tv_related_contest:
                 Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
                 break;
 
+            case R.id.iv_reflection:
             case R.id.tv_reflections:
 
                 Intent intentReflection = new Intent(ExitPollScreenActivity.this, ReflectionsActivity.class);
@@ -429,7 +441,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
     public void onBackPressed() {
         if (mRlQuarterView.getVisibility() == View.VISIBLE) {
             hideReveal();
-        }else if (mRlLargeView.getVisibility() == View.VISIBLE) {
+        } else if (mRlLargeView.getVisibility() == View.VISIBLE) {
             mRlLargeView.setVisibility(View.GONE);
         } else {
             super.onBackPressed();

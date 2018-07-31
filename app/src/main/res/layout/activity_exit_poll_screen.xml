@@ -36,16 +36,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_15sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp">
+                    android:layout_marginStart="@dimen/_10sdp">
 
                     <TextView
                         android:id="@+id/tv_wiki_link"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:layout_toStartOf="@+id/tv_related_contest"
+                        android:layout_centerHorizontal="true"
                         android:ellipsize="end"
                         android:maxLines="2"
                         android:textColor="@color/colorBlue"
@@ -56,7 +53,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_wiki_link"
-                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:text="@string/created_by"
                         android:textColor="@color/fontPrimary50"
                         android:textSize="@dimen/_9sdp" />
@@ -68,41 +65,8 @@
                         android:layout_alignTop="@+id/tv_created_by_text"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_toEndOf="@+id/tv_created_by_text"
-                        android:layout_toStartOf="@+id/tv_related_contest"
                         android:ellipsize="end"
                         android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/_9sdp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_related_contest"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:background="@drawable/custom_rounded_grey_border"
-                        android:paddingBottom="@dimen/_7sdp"
-                        android:paddingEnd="@dimen/_15sdp"
-                        android:paddingStart="@dimen/_15sdp"
-                        android:paddingTop="@dimen/_7sdp"
-                        android:text="@string/related_contest"
-                        android:textColor="@color/fontPrimary50"
-                        android:textSize="@dimen/_9sdp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_reflections"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignStart="@+id/tv_related_contest"
-                        android:layout_below="@+id/tv_related_contest"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:background="@drawable/custom_rounded_grey_border"
-                        android:gravity="center"
-                        android:paddingBottom="@dimen/_7sdp"
-                        android:paddingTop="@dimen/_7sdp"
-                        android:text="@string/reflections"
-                        android:textColor="@color/fontPrimary50"
                         android:textSize="@dimen/_9sdp"
                         android:textStyle="bold" />
 
@@ -111,6 +75,85 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_1sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:background="@color/darkGreyBackground" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:paddingBottom="@dimen/_15sdp"
+                    android:paddingTop="@dimen/_15sdp">
+
+                    <ImageView
+                        android:id="@+id/iv_exit_polls"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:contentDescription="@string/image"
+                        android:src="@drawable/setting" />
+
+                    <TextView
+                        android:id="@+id/tv_exit_polls"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_reflection"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/exit_polls"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/_9sdp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/iv_related_contest"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_centerHorizontal="true"
+                        android:contentDescription="@string/image"
+                        android:src="@drawable/setting" />
+
+                    <TextView
+                        android:id="@+id/tv_related_contest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_related_contest"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/related_contest"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/_9sdp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/iv_reflection"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="@dimen/_12sdp"
+                        android:contentDescription="@string/image"
+                        android:src="@drawable/setting" />
+
+                    <TextView
+                        android:id="@+id/tv_reflections"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@+id/iv_reflection"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/reflections"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/_9sdp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
                     android:background="@color/darkGreyBackground" />
 
                 <TextView
@@ -121,6 +164,7 @@
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:text="@string/recent_exit_polls"
+                    android:textSize="@dimen/_11sdp"
                     android:textColor="@color/fontPrimary50"
                     android:textStyle="bold" />
 

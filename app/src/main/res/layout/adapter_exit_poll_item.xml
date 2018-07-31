@@ -17,11 +17,10 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:textColor="@color/colorAccent"
-            android:textSize="@dimen/_13sdp"
+            android:textSize="@dimen/_12sdp"
             android:textStyle="bold" />
 
         <TextView
@@ -29,7 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/_8sdp"
             android:background="@drawable/custom_rounded_grey_border"
             android:padding="@dimen/_5sdp"
@@ -76,15 +74,13 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/tv_admire_view"
             android:layout_alignTop="@+id/tv_admire_view"
-            android:layout_marginLeft="@dimen/_15sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_toEndOf="@+id/tv_admire_view"
-            android:layout_toRightOf="@+id/tv_admire_view"
             android:ellipsize="end"
             android:gravity="center"
             android:singleLine="true"
             android:text="@string/admire"
-            android:textSize="@dimen/_10sdp"
+            android:textSize="@dimen/_9sdp"
             android:textColor="@color/fontPrimary40" />
 
         <TextView
@@ -104,15 +100,13 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/tv_hate_view"
             android:layout_alignTop="@+id/tv_hate_view"
-            android:layout_marginLeft="@dimen/_15sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_toEndOf="@+id/tv_hate_view"
-            android:layout_toRightOf="@+id/tv_hate_view"
             android:ellipsize="end"
             android:gravity="center"
             android:singleLine="true"
             android:text="@string/hate"
-            android:textSize="@dimen/_10sdp"
+            android:textSize="@dimen/_9sdp"
             android:textColor="@color/fontPrimary40" />
 
         <TextView
@@ -132,15 +126,13 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/tv_can_t_say_view"
             android:layout_alignTop="@+id/tv_can_t_say_view"
-            android:layout_marginLeft="@dimen/_15sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_toEndOf="@+id/tv_can_t_say_view"
-            android:layout_toRightOf="@+id/tv_can_t_say_view"
             android:ellipsize="end"
             android:gravity="center"
             android:singleLine="true"
             android:text="@string/can_t_say"
-            android:textSize="@dimen/_10sdp"
+            android:textSize="@dimen/_9sdp"
             android:textColor="@color/fontPrimary40" />
 
     </RelativeLayout>
