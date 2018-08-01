@@ -1,6 +1,7 @@
 package com.pend.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +23,7 @@ import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
 import com.pend.BaseResponseModel;
 import com.pend.R;
+import com.pend.activity.login.ProfileActivity;
 import com.pend.adapters.CommentsAdapter;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
@@ -230,7 +232,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
             Picasso.with(mContext)
                     .load(mPostDetails.imageURL)
                     .into(mIvPost);
-        }else {
+        } else {
             mIvPost.setVisibility(View.GONE);
         }
     }
@@ -602,6 +604,21 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
             }
         });
         popup.show();
+    }
+
+    @Override
+    public void onUserProfileClick(int position, int userId) {
+        try {
+            Intent intent = new Intent(mContext, ProfileActivity.class);
+            if (!(userId == Integer.parseInt(SharedPrefUtils.getUserId(mContext)))) {
+
+                intent.putExtra(Constants.USER_ID_KEY, userId);
+                intent.putExtra(Constants.IS_OTHER_PROFILE, true);
+            }
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public interface ICommentsDialogCallBack {

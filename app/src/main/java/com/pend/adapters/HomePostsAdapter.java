@@ -60,10 +60,10 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         holder.tvLike.setText(String.valueOf(postsDetails.likeCount));
         holder.tvDislike.setText(String.valueOf(postsDetails.unlikeCount));
 
-        if (postsDetails.postInfo != null && postsDetails.postInfo.length() > 0){
+        if (postsDetails.postInfo != null && postsDetails.postInfo.length() > 0) {
             holder.tvTitle.setVisibility(View.VISIBLE);
             holder.tvTitle.setText(postsDetails.postInfo);
-        }else {
+        } else {
             holder.tvTitle.setVisibility(View.GONE);
         }
 
@@ -92,15 +92,28 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                     .into(holder.ivProfile);
         }
 
-        if(postsDetails.isLike){
+        holder.tvName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIHomePostsAdapterCallBack.onUserProfileClick(position, postsDetails.userID);
+            }
+        });
+        holder.ivProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIHomePostsAdapterCallBack.onUserProfileClick(position, postsDetails.userID);
+            }
+        });
+
+        if (postsDetails.isLike) {
             holder.ivLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.like_green));
-        }else {
+        } else {
             holder.ivLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.like));
         }
 
-        if(postsDetails.isUnLike){
+        if (postsDetails.isUnLike) {
             holder.ivDislike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.dislike_red));
-        }else {
+        } else {
             holder.ivDislike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.dislike));
         }
 
@@ -260,6 +273,8 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         void onMenuClick(int position, View view);
 
         void onSendClick(int position, String commentText);
+
+        void onUserProfileClick(int position, int userId);
 
         void onLikeOrDislikeClick(int position, boolean isLike, boolean isUnLike);
     }

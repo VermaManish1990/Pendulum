@@ -25,7 +25,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     private ICommentsAdapterCallBack mICommentsAdapterCallBack;
     private ArrayList<GetPostCommentsResponseModel.GetPostCommentsDetails> mCommentList;
 
-    public CommentsAdapter(Context context,ICommentsAdapterCallBack iCommentsAdapterCallBack, ArrayList<GetPostCommentsResponseModel.GetPostCommentsDetails> commentList) {
+    public CommentsAdapter(Context context, ICommentsAdapterCallBack iCommentsAdapterCallBack, ArrayList<GetPostCommentsResponseModel.GetPostCommentsDetails> commentList) {
         mContext = context;
         mICommentsAdapterCallBack = iCommentsAdapterCallBack;
         mCommentList = commentList;
@@ -46,7 +46,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull final CommentsAdapter.ViewHolder holder, final int position) {
 
-        GetPostCommentsResponseModel.GetPostCommentsDetails postCommentsDetails = mCommentList.get(position);
+        final GetPostCommentsResponseModel.GetPostCommentsDetails postCommentsDetails = mCommentList.get(position);
 
         int userId = Integer.parseInt(SharedPrefUtils.getUserId(mContext));
         if (postCommentsDetails.userID == userId) {
@@ -58,7 +58,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         holder.ivMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mICommentsAdapterCallBack.onMenuClick(position,holder.ivMenu);
+                mICommentsAdapterCallBack.onMenuClick(position, holder.ivMenu);
+            }
+        });
+
+        holder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mICommentsAdapterCallBack.onUserProfileClick(position, postCommentsDetails.userID);
             }
         });
 
@@ -96,7 +103,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         }
     }
 
-    public interface ICommentsAdapterCallBack{
-        void onMenuClick(int position,View view);
+    public interface ICommentsAdapterCallBack {
+        void onMenuClick(int position, View view);
+
+        void onUserProfileClick(int position, int userId);
     }
 }

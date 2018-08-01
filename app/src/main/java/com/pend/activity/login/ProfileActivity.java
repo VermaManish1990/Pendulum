@@ -24,6 +24,7 @@ import com.pend.R;
 import com.pend.activity.contest.ContestActivity;
 import com.pend.activity.home.HomeActivity;
 import com.pend.activity.mirror.MirrorActivity;
+import com.pend.activity.mirror.MirrorDetailsActivity;
 import com.pend.adapters.ProfileViewPagerAdapter;
 import com.pend.adapters.TimeSheetAdapter;
 import com.pend.fragments.CommentsDialogFragment;
@@ -48,7 +49,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener, ProfileViewPagerAdapter.IProfileViewPagerAdapterCallBack,
-        TimeSheetAdapter.ITimeSheetAdapterCallBack,CommentsDialogFragment.ICommentsDialogCallBack {
+        TimeSheetAdapter.ITimeSheetAdapterCallBack, CommentsDialogFragment.ICommentsDialogCallBack {
 
     private static final String TAG = ProfileActivity.class.getSimpleName();
     private ViewPager mViewpagerProfile;
@@ -549,6 +550,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         if (mPostId != 0)
             getData(IApiEvent.REQUEST_GET_POST_DETAIL_CODE);
+        else {
+            Intent intent = new Intent(this, MirrorDetailsActivity.class);
+            intent.putExtra(Constants.MIRROR_ID_KEY, mMirrorId);
+            startActivity(intent);
+        }
     }
 
     @Override

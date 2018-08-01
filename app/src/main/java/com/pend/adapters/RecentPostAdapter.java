@@ -64,15 +64,15 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         }
         holder.tvTime.setText(time);
 
-        if(postsDetails.isLike){
+        if (postsDetails.isLike) {
             holder.ivLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.like_green));
-        }else {
+        } else {
             holder.ivLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.like));
         }
 
-        if(postsDetails.isUnLike){
+        if (postsDetails.isUnLike) {
             holder.ivDislike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.dislike_red));
-        }else {
+        } else {
             holder.ivDislike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.dislike));
         }
 
@@ -81,6 +81,20 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
                     .load(postsDetails.commentUserImageURL)
                     .into(holder.ivProfile);
         }
+
+        holder.tvUserName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIRecentPostAdapterCallBack.onUserProfileClick(position, postsDetails.userID);
+            }
+        });
+        holder.ivProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIRecentPostAdapterCallBack.onUserProfileClick(position, postsDetails.userID);
+            }
+        });
+
         holder.tvUserName.setText(postsDetails.userFullName != null ? postsDetails.userFullName : "");
         holder.tvCreatedTime.setText(postsDetails.createdDatetime != null ? postsDetails.createdDatetime : "");
 
@@ -165,7 +179,7 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
                     mIRecentPostAdapterCallBack.onCommentIconClick(position);
                 }
             });
-        }else {
+        } else {
             holder.ivPost.setVisibility(View.GONE);
         }
 
@@ -271,6 +285,8 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         void onMenuClick(int position, View view);
 
         void onSendClick(int position, String commentText);
+
+        void onUserProfileClick(int position, int userId);
 
         void onLikeOrDislikeClick(int position, boolean isLike, boolean isUnLike);
     }

@@ -764,6 +764,21 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
+    public void onUserProfileClick(int position, int userId) {
+        try {
+            Intent intent = new Intent(MirrorDetailsActivity.this, ProfileActivity.class);
+            if (!(userId == Integer.parseInt(SharedPrefUtils.getUserId(this)))) {
+
+                intent.putExtra(Constants.USER_ID_KEY, userId);
+                intent.putExtra(Constants.IS_OTHER_PROFILE, true);
+            }
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void onLikeOrDislikeClick(int position, boolean isLike, boolean isUnLike) {
         mPostId = mPostList.get(position).postID;
         mIsLike = isLike;

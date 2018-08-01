@@ -513,6 +513,21 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
+    public void onUserProfileClick(int position, int userId) {
+        try {
+            Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+            if (!(userId == Integer.parseInt(SharedPrefUtils.getUserId(this)))) {
+
+                intent.putExtra(Constants.USER_ID_KEY, userId);
+                intent.putExtra(Constants.IS_OTHER_PROFILE, true);
+            }
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void onLikeOrDislikeClick(int position, boolean isLike, boolean isUnLike) {
 
         mPostId = mPostsDetailsList.get(position).postID;
