@@ -275,6 +275,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                             postsDetails.createdDatetime = mPostDetailsResponseModel.Data.postData.createdDatetime;
                             postsDetails.userFullName = mPostDetailsResponseModel.Data.postData.userFullName;
                             postsDetails.userID = mPostDetailsResponseModel.Data.postData.userID;
+                            postsDetails.userImageName = mPostDetailsResponseModel.Data.postData.userImageName;
+                            postsDetails.userImageNameURL = mPostDetailsResponseModel.Data.postData.userImageNameURL;
 
                             CommentsDialogFragment commentsDialogFragment = CommentsDialogFragment.newInstance(postsDetails);
                             commentsDialogFragment.show(getSupportFragmentManager(), "CommentsDialogFragment");
