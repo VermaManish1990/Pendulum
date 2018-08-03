@@ -114,7 +114,7 @@
                         android:layout_height="@dimen/_20sdp"
                         android:layout_centerHorizontal="true"
                         android:contentDescription="@string/image"
-                        android:src="@drawable/setting" />
+                        android:src="@drawable/contest" />
 
                     <TextView
                         android:id="@+id/tv_related_contest"
@@ -135,7 +135,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="@dimen/_12sdp"
                         android:contentDescription="@string/image"
-                        android:src="@drawable/setting" />
+                        android:src="@drawable/reflection" />
 
                     <TextView
                         android:id="@+id/tv_reflections"
