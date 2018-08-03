@@ -91,7 +91,6 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
         quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
 
-
         findViewById(R.id.tv_create_mirror).setOnClickListener(this);
     }
 
@@ -99,9 +98,9 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
     protected void setInitialData() {
         mSearchDataList = new ArrayList<>();
 
+        mRecyclerViewSearch.setNestedScrollingEnabled(false);
         mRecyclerViewSearch.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerViewSearch.setAdapter(new SearchMirrorAdapter(this, mSearchDataList));
-
     }
 
     @Override

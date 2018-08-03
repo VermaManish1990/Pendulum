@@ -45,6 +45,8 @@
                         android:layout_centerHorizontal="true"
                         android:ellipsize="end"
                         android:maxLines="2"
+                        android:autoLink="web"
+                        android:textColorLink="@color/colorBlue"
                         android:textColor="@color/colorBlue"
                         android:textSize="@dimen/_9sdp" />
 

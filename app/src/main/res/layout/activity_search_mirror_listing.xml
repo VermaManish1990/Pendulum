@@ -7,32 +7,29 @@
     android:scrollbars="vertical"
     tools:context=".activity.mirror.SearchMirrorListingActivity">
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:scrollbars="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_search"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/_20sdp"
-                android:scrollbars="vertical">
-
-            </android.support.v7.widget.RecyclerView>
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical" />
 
             <TextView
                 android:id="@+id/tv_create_mirror"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/_30sdp"
-                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_below="@+id/recycler_view_search"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:background="@drawable/custom_rounded_grey_border"
                 android:paddingBottom="@dimen/_12sdp"
                 android:paddingEnd="@dimen/_30sdp"
@@ -40,9 +37,8 @@
                 android:paddingTop="@dimen/_12sdp"
                 android:text="@string/create_mirror"
                 android:textSize="@dimen/_15sdp" />
-
-        </LinearLayout>
-    </ScrollView>
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 
     <include
         android:id="@+id/quarter_view"
