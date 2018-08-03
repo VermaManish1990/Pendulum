@@ -146,6 +146,8 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                        mMirrorList.clear();
+                        mMirrorSearchFragment.setSearchDataList(mMirrorList);
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
@@ -171,6 +173,8 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                        mMirrorList.clear();
+                        mMirrorSearchFragment.setSearchDataList(mMirrorList);
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
@@ -202,6 +206,8 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                        mMirrorList.clear();
+                        mMirrorSearchFragment.setSearchDataList(mMirrorList);
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));

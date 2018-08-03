@@ -11,12 +11,12 @@
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <android.support.v7.widget.CardView
@@ -47,8 +47,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_80sdp"
-                        android:src="@drawable/yellow_circle"
-                        android:contentDescription="@string/image" />
+                        android:contentDescription="@string/image"
+                        android:src="@drawable/yellow_circle" />
 
                     <com.jjoe64.graphview.GraphView
                         android:id="@+id/graph_view"
@@ -163,8 +163,8 @@
 
                     <ImageView
                         android:id="@+id/iv_create_post"
-                        android:layout_width="@dimen/_18sdp"
-                        android:layout_height="@dimen/_18sdp"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
                         android:contentDescription="@string/image"
                         android:src="@drawable/add" />
 
@@ -175,7 +175,7 @@
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_toEndOf="@+id/iv_create_post"
                         android:text="@string/create_a_new_post"
-                        android:textSize="@dimen/_12sdp" />
+                        android:textSize="@dimen/_10sdp" />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
@@ -184,17 +184,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_15sdp"
                 android:text="@string/recent_post"
-                android:textSize="@dimen/_11sdp"
-                android:textColor="@color/fontPrimary50" />
+                android:textColor="@color/fontPrimary50"
+                android:textSize="@dimen/_11sdp" />
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_view_post"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginEnd="@dimen/_12sdp"
                     android:layout_marginStart="@dimen/_12sdp"
                     android:layout_marginTop="-5dp"

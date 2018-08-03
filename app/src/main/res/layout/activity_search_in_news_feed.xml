@@ -36,10 +36,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/bt_mirror"
             android:layout_alignTop="@+id/bt_mirror"
-            android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_toEndOf="@+id/bt_mirror"
-            android:layout_toRightOf="@+id/bt_mirror"
             android:background="@drawable/custom_blue_border"
             android:text="@string/contest"
             android:textAllCaps="false" />
