@@ -95,7 +95,7 @@
                         android:layout_height="@dimen/_20sdp"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:contentDescription="@string/image"
-                        android:src="@drawable/setting" />
+                        android:src="@drawable/exit_poll" />
 
                     <TextView
                         android:id="@+id/tv_exit_polls"
