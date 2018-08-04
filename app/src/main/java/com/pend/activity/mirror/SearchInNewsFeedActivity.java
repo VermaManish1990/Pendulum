@@ -122,7 +122,7 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
 
         mMirrorSearchFragment = MirrorSearchFragment.newInstance(mMirrorList);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fl_container, mMirrorSearchFragment);
+        transaction.replace(R.id.fl_container, mMirrorSearchFragment);
         transaction.commit();
     }
 
@@ -367,7 +367,7 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
                     mBtContest.setBackground(getResources().getDrawable(R.drawable.custom_blue_border));
 
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.add(R.id.fl_container, mMirrorSearchFragment);
+                    transaction.replace(R.id.fl_container, mMirrorSearchFragment);
                     transaction.commit();
                 }
                 break;
