@@ -73,6 +73,7 @@
     <string name="my_images">MyImages</string>
     <string name="profile_uploaded_successfully">Profile Uploaded Successfully</string>
     <string name="update_image">Update Image</string>
+    <string name="set_as_profile_image">Set as Profile Image</string>
     <string name="delete_image">Delete Image</string>
     <string name="can_t_delete">Can\'t Delete</string>
     <string name="can_t_update">Can\'t Update</string>

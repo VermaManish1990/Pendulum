@@ -22,11 +22,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
@@ -81,6 +83,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
     private View mRlQuarterView;
     private View mFlQuarterBlackView;
     private View mFlMenuView;
+    private TextView mTvNote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +102,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
         mEtAge = findViewById(R.id.et_age);
         mEtGender = findViewById(R.id.et_gender);
         mEtLocation = findViewById(R.id.et_location);
+        mTvNote = findViewById(R.id.tv_note);
         mRecyclerViewProfile = findViewById(R.id.recycler_view_profile);
 
         mInputLayoutName = findViewById(R.id.input_layout_name);
@@ -129,6 +133,8 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
 
     @Override
     protected void setInitialData() {
+
+        mTvNote.setText(Html.fromHtml("<b>Note : </b> Long press this image to set image as profile or delete this image."));
 
         int userId = -1;
         try {
@@ -179,7 +185,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -202,7 +208,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -225,7 +231,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
                             }
                         }
 
-                        if(deleteImageDetails!=null){
+                        if (deleteImageDetails != null) {
                             imageDetailsList.remove(deleteImageDetails);
                         }
 
@@ -239,7 +245,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -270,7 +276,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -355,7 +361,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
 
             case IApiEvent.REQUEST_SET_USER_IMAGE_CODE:
 
-                requestObject = RequestPostDataUtil.setUserImageApiRegParam(userId, mUpdateImageDetails.imageID, mUpdateImageDetails.isProfileImage);
+                requestObject = RequestPostDataUtil.setUserImageApiRegParam(userId, mUpdateImageDetails.imageID, true);
                 request = requestObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<SetUserImageResponseModel>(IWebServices.REQUEST_SET_USER_IMAGE_URL, NetworkUtil.getHeaders(this),
                         request, SetUserImageResponseModel.class, new
@@ -518,7 +524,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
 
                 case Constants.REQUEST_TAKE_PHOTO:
 
-                    if(mPhotoPath!=null){
+                    if (mPhotoPath != null) {
                         imagePath = mPhotoPath.getPath();
                     }
                     selectedImage = Uri.parse(imagePath);
@@ -673,7 +679,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
      * Method is used to show an Alert Dialog for select Delete and Update option
      */
     private void deleteAndUpdateImageDialog(final int position) {
-        final CharSequence[] items = new String[]{getString(R.string.delete_image), getString(R.string.update_image), getString(R.string.cancel)};
+        final CharSequence[] items = new String[]{getString(R.string.delete_image), getString(R.string.set_as_profile_image), getString(R.string.cancel)};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.add_photo));
 
@@ -696,7 +702,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
 
                         break;
 
-                    case "Update Image":
+                    case "Set as Profile Image":
 
                         uploadImageAdapter = (UploadImageAdapter) mRecyclerViewProfile.getAdapter();
                         mUpdateImageDetails = uploadImageAdapter.getImageDetailsList().get(position);
@@ -759,7 +765,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
     public void onBackPressed() {
         if (mRlQuarterView.getVisibility() == View.VISIBLE) {
             hideReveal();
-        }else {
+        } else {
             super.onBackPressed();
         }
     }
