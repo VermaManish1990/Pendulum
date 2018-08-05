@@ -36,7 +36,7 @@ public class ExitPollUnVotingDialogFragment extends DialogFragment implements IS
     private static final String ARG_EXIT_POLL_ID = "ARG_EXIT_POLL_ID";
     private IExitPollVotingDialogCallBack mIExitPollVotingDialogCallBack;
     private RadioGroup mRgVote;
-    private Context mContext;
+    private BaseActivity mContext;
     private int mMirrorId;
     private int mExitPollId;
     private boolean mIsAdmire;
@@ -65,7 +65,7 @@ public class ExitPollUnVotingDialogFragment extends DialogFragment implements IS
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        mContext = (BaseActivity) context;
         mIExitPollVotingDialogCallBack = (IExitPollVotingDialogCallBack) context;
     }
 
@@ -124,7 +124,10 @@ public class ExitPollUnVotingDialogFragment extends DialogFragment implements IS
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
-        ((BaseActivity) mContext).removeProgressDialog();
+        if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
+
+            mContext.removeProgressDialog();
+        }
     }
 
     @Override
@@ -134,12 +137,15 @@ public class ExitPollUnVotingDialogFragment extends DialogFragment implements IS
 
     @Override
     public void getData(final int actionID) {
-        if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
-//            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
-            return;
-        }
 
-        ((BaseActivity) mContext).showProgressDialog();
+        if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
+
+            if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
+//            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
+                return;
+            }
+            mContext.showProgressDialog();
+        }
 
         int userId = -1;
         try {

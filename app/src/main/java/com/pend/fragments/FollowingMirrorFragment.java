@@ -35,7 +35,7 @@ import java.util.ArrayList;
 
 public class FollowingMirrorFragment extends BaseFragment {
 
-    private Context mContext;
+    private BaseActivity mContext;
     private View mRootView;
     private GridView mGridViewFollowingMirror;
     private final String TAG = FollowingMirrorFragment.class.getSimpleName();
@@ -48,7 +48,7 @@ public class FollowingMirrorFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        mContext = (BaseActivity) context;
     }
 
     @Override
@@ -155,7 +155,11 @@ public class FollowingMirrorFragment extends BaseFragment {
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
-        ((BaseActivity) mContext).removeProgressDialog();
+
+        if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
+
+            mContext.removeProgressDialog();
+        }
     }
 
     @Override
@@ -165,12 +169,15 @@ public class FollowingMirrorFragment extends BaseFragment {
 
     @Override
     public void getData(final int actionID) {
-        if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
-            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
-            return;
-        }
 
-        ((BaseActivity) mContext).showProgressDialog();
+        if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
+
+            if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
+                Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
+                return;
+            }
+            mContext.showProgressDialog();
+        }
 
         switch (actionID) {
             case IApiEvent.REQUEST_GET_FOLLOWING_CODE:

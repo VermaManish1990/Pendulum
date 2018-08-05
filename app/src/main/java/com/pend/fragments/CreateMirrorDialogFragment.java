@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
 
+import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.activity.mirror.SearchMirrorListingActivity;
 import com.pend.interfaces.Constants;
@@ -20,12 +21,12 @@ public class CreateMirrorDialogFragment extends DialogFragment implements View.O
 
     private static final String TAG = CreateMirrorDialogFragment.class.getSimpleName();
     private EditText mETName;
-    private Context mContext;
+    private BaseActivity mContext;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        mContext = (BaseActivity) context;
     }
 
     @Nullable

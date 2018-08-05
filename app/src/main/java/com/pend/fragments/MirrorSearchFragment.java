@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.pend.BaseActivity;
 import com.pend.BaseFragment;
 import com.pend.R;
 import com.pend.activity.mirror.MirrorDetailsActivity;
@@ -28,7 +29,7 @@ public class MirrorSearchFragment extends BaseFragment implements View.OnClickLi
 
     private static final String TAG = MirrorSearchFragment.class.getSimpleName();
     private static final String ARG_MIRROR_LIST = "ARG_MIRROR_LIST";
-    private Context mContext;
+    private BaseActivity mContext;
     private RecyclerView mRecyclerViewMirror;
     private TextView mTvSeeMore;
     private View mRlNoResult;
@@ -63,7 +64,7 @@ public class MirrorSearchFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        mContext = (BaseActivity) context;
         mIMirrorFragmentCallBack = (IMirrorFragmentCallBack) context;
     }
 
@@ -161,15 +162,19 @@ public class MirrorSearchFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     public void onMirrorClick(int position) {
-        GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails mirrorDetails = mSearchDataList.get(position);
-        Intent intent = new Intent(mContext, MirrorDetailsActivity.class);
-        intent.putExtra(Constants.MIRROR_ID_KEY, mirrorDetails.mirrorID);
-        startActivity(intent);
 
-        try {
-            Objects.requireNonNull(getActivity()).finish();
-        }catch (NullPointerException e){
-            e.printStackTrace();
+        if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
+
+            GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails mirrorDetails = mSearchDataList.get(position);
+            Intent intent = new Intent(mContext, MirrorDetailsActivity.class);
+            intent.putExtra(Constants.MIRROR_ID_KEY, mirrorDetails.mirrorID);
+            startActivity(intent);
+
+            try {
+                Objects.requireNonNull(getActivity()).finish();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

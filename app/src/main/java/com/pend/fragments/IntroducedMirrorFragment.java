@@ -37,7 +37,7 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
 
     private final String TAG = IntroducedMirrorFragment.class.getSimpleName();
     private ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mMirrorList;
-    private Context mContext;
+    private  BaseActivity mContext;
     private RecyclerView mRecyclerViewIntroduced;
     private View mRootView;
     private int mPageNumber;
@@ -49,7 +49,7 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        mContext = (BaseActivity) context;
         mIMirrorFragmentCallBack = (IMirrorFragmentCallBack) context;
     }
 
@@ -149,7 +149,11 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
-        ((BaseActivity) mContext).removeProgressDialog();
+
+        if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
+
+            mContext.removeProgressDialog();
+        }
     }
 
     @Override
@@ -159,12 +163,15 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
 
     @Override
     public void getData(final int actionID) {
-        if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
-            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
-            return;
-        }
 
-        ((BaseActivity) mContext).showProgressDialog();
+        if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
+
+            if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
+                Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
+                return;
+            }
+            mContext.showProgressDialog();
+        }
 
         switch (actionID) {
             case IApiEvent.REQUEST_GET_INTRODUCED_CODE:

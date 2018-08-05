@@ -35,7 +35,7 @@ public class MirrorVotingDialogFragment extends DialogFragment implements IScree
     private IMirrorVotingDialogCallBack mIMirrorVotingDialogCallBack;
 
     private RadioGroup mRgVote;
-    private Context mContext;
+    private BaseActivity mContext;
     private int mMirrorId;
     private boolean mIsAdmire;
     private boolean mIsHate;
@@ -61,7 +61,7 @@ public class MirrorVotingDialogFragment extends DialogFragment implements IScree
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        mContext = (BaseActivity) context;
         mIMirrorVotingDialogCallBack = (IMirrorVotingDialogCallBack) context;
     }
 
@@ -115,8 +115,10 @@ public class MirrorVotingDialogFragment extends DialogFragment implements IScree
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
-        ((BaseActivity) mContext).removeProgressDialog();
-    }
+        if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
+
+            mContext.removeProgressDialog();
+        }    }
 
     @Override
     public void onEvent(int eventId, Object eventData) {
@@ -125,12 +127,15 @@ public class MirrorVotingDialogFragment extends DialogFragment implements IScree
 
     @Override
     public void getData(final int actionID) {
-        if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
-//            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
-            return;
-        }
 
-        ((BaseActivity) mContext).showProgressDialog();
+        if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
+
+            if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
+//            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
+                return;
+            }
+            mContext.showProgressDialog();
+        }
 
         int userId = -1;
         try {

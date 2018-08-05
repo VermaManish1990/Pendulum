@@ -22,6 +22,7 @@ import com.pend.interfaces.IWebServices;
 import com.pend.models.GetTrendingAndIntroducedMirrorResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.OtherUtil;
 import com.pend.util.PaginationScrollListener;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
@@ -37,17 +38,18 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
     private final String TAG = TrendingMirrorFragment.class.getSimpleName();
     private ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mMirrorList;
     private RecyclerView mRecyclerViewTrending;
-    private Context mContext;
+    private BaseActivity mContext;
     private View mRootView;
     private int mPageNumber;
     private TextView mTvDataNotAvailable;
     private boolean mIsLoading;
     private boolean mIsHasNextPage;
+    private String mSearchText;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        mContext = (BaseActivity) context;
     }
 
     @Override
@@ -104,6 +106,34 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
         mRecyclerViewTrending.setAdapter(new TrendingAndIntroducedMirrorAdapter(mContext, this, mMirrorList));
     }
 
+    public void searchMirrorData(String searchText) {
+        mSearchText = searchText;
+        mPageNumber = 1;
+        mIsLoading = false;
+        mIsHasNextPage = false;
+
+        if (mMirrorList != null) {
+            mMirrorList.clear();
+        } else {
+            mMirrorList = new ArrayList<>();
+        }
+        getData(IApiEvent.REQUEST_GET_TRENDING_CODE);
+    }
+
+    public void cancelSearchMirrorData() {
+        mSearchText = "";
+        mPageNumber = 1;
+        mIsLoading = false;
+        mIsHasNextPage = false;
+
+        if (mMirrorList != null) {
+            mMirrorList.clear();
+        } else {
+            mMirrorList = new ArrayList<>();
+        }
+        getData(IApiEvent.REQUEST_GET_TRENDING_CODE);
+    }
+
     @Override
     public void updateUi(boolean status, int actionID, Object serviceResponse) {
         switch (actionID) {
@@ -133,9 +163,13 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
                         }
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                        mTvDataNotAvailable.setVisibility(View.VISIBLE);
+                        mRecyclerViewTrending.setVisibility(View.GONE);
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                    mTvDataNotAvailable.setVisibility(View.VISIBLE);
+                    mRecyclerViewTrending.setVisibility(View.GONE);
                 }
 
                 mIsLoading = false;
@@ -145,7 +179,11 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
-        ((BaseActivity) mContext).removeProgressDialog();
+
+        if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
+
+            mContext.removeProgressDialog();
+        }
     }
 
     @Override
@@ -155,18 +193,32 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
 
     @Override
     public void getData(final int actionID) {
-        if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
-            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
-            return;
+        if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
+
+            if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
+                Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
+                return;
+            }
+            mContext.showProgressDialog();
         }
 
-        ((BaseActivity) mContext).showProgressDialog();
 
         switch (actionID) {
             case IApiEvent.REQUEST_GET_TRENDING_CODE:
 
-                String trendingMirrorUrl = IWebServices.REQUEST_GET_TRENDING_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
-                        + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
+                String trendingMirrorUrl;
+                if (mSearchText != null) {
+
+                    mSearchText = OtherUtil.replaceWithPattern(mSearchText, " ");
+                    mSearchText = mSearchText.replaceAll(" ", "%20");
+
+                    trendingMirrorUrl = IWebServices.REQUEST_GET_TRENDING_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
+                            + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber)
+                            + "&" + Constants.PARAM_SEARCH_TEXT + "=" + mSearchText;
+                } else {
+                    trendingMirrorUrl = IWebServices.REQUEST_GET_TRENDING_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
+                            + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
+                }
 
                 RequestManager.addRequest(new GsonObjectRequest<GetTrendingAndIntroducedMirrorResponseModel>(trendingMirrorUrl,
                         NetworkUtil.getHeaders(mContext), null, GetTrendingAndIntroducedMirrorResponseModel.class,
@@ -192,9 +244,13 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
 
     @Override
     public void onMirrorClick(int position) {
-        GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails mirrorDetails = mMirrorList.get(position);
-        Intent intent = new Intent(mContext, MirrorDetailsActivity.class);
-        intent.putExtra(Constants.MIRROR_ID_KEY, mirrorDetails.mirrorID);
-        startActivity(intent);
+
+        if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
+
+            GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails mirrorDetails = mMirrorList.get(position);
+            Intent intent = new Intent(mContext, MirrorDetailsActivity.class);
+            intent.putExtra(Constants.MIRROR_ID_KEY, mirrorDetails.mirrorID);
+            startActivity(intent);
+        }
     }
 }

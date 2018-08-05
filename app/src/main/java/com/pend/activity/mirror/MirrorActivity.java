@@ -11,9 +11,12 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,22 +30,27 @@ import com.pend.fragments.CreateMirrorDialogFragment;
 import com.pend.fragments.FollowingMirrorFragment;
 import com.pend.fragments.IntroducedMirrorFragment;
 import com.pend.fragments.TrendingMirrorFragment;
-import com.pend.interfaces.Constants;
 import com.pend.interfaces.IMirrorFragmentCallBack;
-import com.pend.models.GetTrendingAndIntroducedMirrorResponseModel;
 import com.pend.util.LoggerUtil;
 
-import java.util.ArrayList;
-
-public class MirrorActivity extends BaseActivity implements View.OnClickListener, IMirrorFragmentCallBack {
+public class MirrorActivity extends BaseActivity implements View.OnClickListener, IMirrorFragmentCallBack, TextWatcher {
 
     private static final String TAG = MirrorActivity.class.getSimpleName();
+    private static final int TRENDING_MIRROR = 0;
+    private static final int FOLLOWING_MIRROR = 1;
+    private static final int INTRODUCED_MIRROR = 2;
     private View mRootView;
     private ViewPager mViewPagerMirror;
     private View mRlQuarterView;
     private View mFlQuarterBlackView;
     private View mFlMenuView;
     private boolean mIsUpdateRequired;
+    private EditText mEtSearch;
+    private ImageView mIvSearch;
+    private TrendingMirrorFragment mTrendingMirrorFragment;
+    private FollowingMirrorFragment mFollowingMirrorFragment;
+    private IntroducedMirrorFragment mIntroducedMirrorFragment;
+    private boolean mIsSearchData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +79,11 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
         quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
 
-        findViewById(R.id.custom_search_view).setOnClickListener(this);
+        View view = findViewById(R.id.custom_search_view);
+        mEtSearch = view.findViewById(R.id.et_search);
+        mIvSearch = view.findViewById(R.id.iv_search);
+        mIvSearch.setOnClickListener(this);
+        mEtSearch.addTextChangedListener(this);
 
         TabLayout tabLayoutMirror = findViewById(R.id.tab_layout_mirror);
         mViewPagerMirror = findViewById(R.id.view_pager_mirror);
@@ -84,16 +96,22 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
     protected void setInitialData() {
 
         mIsUpdateRequired = false;
+        mIsSearchData = true;
     }
 
     /**
      * Method is used to setting up View Pager
      */
     private void setupViewPager(ViewPager viewPager) {
+
+        mTrendingMirrorFragment = new TrendingMirrorFragment();
+        mFollowingMirrorFragment = new FollowingMirrorFragment();
+        mIntroducedMirrorFragment = new IntroducedMirrorFragment();
+
         FragmentViewPagerAdapter adapter = new FragmentViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new TrendingMirrorFragment(), getString(R.string.trending));
-        adapter.addFragment(new FollowingMirrorFragment(), getString(R.string.following));
-        adapter.addFragment(new IntroducedMirrorFragment(), getString(R.string.introduced));
+        adapter.addFragment(mTrendingMirrorFragment, getString(R.string.trending));
+        adapter.addFragment(mFollowingMirrorFragment, getString(R.string.following));
+        adapter.addFragment(mIntroducedMirrorFragment, getString(R.string.introduced));
         viewPager.setAdapter(adapter);
     }
 
@@ -121,10 +139,34 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.custom_search_view:
-                Intent intent = new Intent(MirrorActivity.this, SearchInNewsFeedActivity.class);
-                intent.putExtra(Constants.MIRROR_FRAGMENT_POSITION, mViewPagerMirror.getCurrentItem());
-                startActivity(intent);
+
+            case R.id.iv_search:
+
+                String searchText = mEtSearch.getText().toString().trim();
+                int item = mViewPagerMirror.getCurrentItem();
+
+                switch (item) {
+                    case TRENDING_MIRROR:
+                        if (mIsSearchData) {
+                            mIsSearchData = false;
+                            mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.cross_white));
+                            mTrendingMirrorFragment.searchMirrorData(searchText);
+                        } else {
+                            mIsSearchData = true;
+                            mEtSearch.setText("");
+                            mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+                            mTrendingMirrorFragment.cancelSearchMirrorData();
+                        }
+                        break;
+
+                    case FOLLOWING_MIRROR:
+//                        mFollowingMirrorFragment.searchMirrorData(searchText);
+                        break;
+
+                    case INTRODUCED_MIRROR:
+//                        mIntroducedMirrorFragment.searchMirrorData(searchText);
+                        break;
+                }
                 break;
 
             case R.id.iv_profile:
@@ -241,10 +283,26 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
     protected void onResume() {
         super.onResume();
 
-        if(mIsUpdateRequired){
+        if (mIsUpdateRequired) {
 
             mIsUpdateRequired = false;
             setupViewPager(mViewPagerMirror);
         }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        mIsSearchData = true;
+        mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }

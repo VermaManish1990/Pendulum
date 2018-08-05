@@ -7,13 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.pend.BaseActivity;
 import com.pend.BaseFragment;
 import com.pend.R;
 
 
 public class ContestSearchFragment extends BaseFragment {
 
-    private Context mContext;
+    private BaseActivity mContext;
 
     /**
      * Use this factory method to create a new instance of
@@ -40,7 +41,7 @@ public class ContestSearchFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        mContext = (BaseActivity) context;
     }
 
     @Override

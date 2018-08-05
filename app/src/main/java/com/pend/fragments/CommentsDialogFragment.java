@@ -55,7 +55,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
     private GetPostsResponseModel.GetPostsDetails mPostDetails;
     private ArrayList<GetPostCommentsResponseModel.GetPostCommentsDetails> mCommentList;
     private ICommentsDialogCallBack mICommentsDialogCallBack;
-    private Context mContext;
+    private BaseActivity mContext;
     private RecyclerView mRecyclerViewComment;
 
     private ImageView mIvComment;
@@ -100,7 +100,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        mContext = (BaseActivity) context;
         mICommentsDialogCallBack = (ICommentsDialogCallBack) context;
     }
 
@@ -421,9 +421,10 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
-        ((BaseActivity) mContext).
+        if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
 
-                removeProgressDialog();
+            mContext.removeProgressDialog();
+        }
 
     }
 
@@ -434,12 +435,15 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
 
     @Override
     public void getData(final int actionID) {
-        if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
-//            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
-            return;
-        }
 
-        ((BaseActivity) mContext).showProgressDialog();
+        if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
+
+            if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
+//            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
+                return;
+            }
+            mContext.showProgressDialog();
+        }
 
         JsonObject jsonObject;
         String request;

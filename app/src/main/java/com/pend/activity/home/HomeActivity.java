@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
@@ -67,6 +68,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     private boolean mIsUnLike;
     private String mCommentText;
     private boolean mIsUpdateRequired;
+    private EditText mEtSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +90,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         mRootView = findViewById(R.id.root_view);
         mRecyclerViewPost = findViewById(R.id.recycler_view_post);
         mTvDataNotAvailable = findViewById(R.id.tv_data_not_available);
+
+        View view = findViewById(R.id.custom_search_view);
+        mEtSearch = view.findViewById(R.id.et_search);
 
         View quarterView = findViewById(R.id.quarter_view);
         mRlQuarterView = quarterView.findViewById(R.id.rl_quarter_view);

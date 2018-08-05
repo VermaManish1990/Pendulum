@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.pend.BaseActivity;
 import com.pend.BaseFragment;
 import com.pend.R;
 import com.pend.adapters.ContestAdapter;
@@ -21,12 +22,12 @@ public class FollowingContestFragment extends BaseFragment {
     private View mRootView;
     private TextView mTvDataNotAvailable;
     private RecyclerView mRecyclerViewFollowing;
-    private Context mContext;
+    private BaseActivity mContext;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        mContext = (BaseActivity) context;
     }
 
     @Override

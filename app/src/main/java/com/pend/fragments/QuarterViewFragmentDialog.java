@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.activity.contest.ContestActivity;
 import com.pend.activity.login.ProfileActivity;
@@ -32,7 +33,7 @@ public class QuarterViewFragmentDialog extends DialogFragment implements View.On
     private View mRlQuarterView;
     private View mFlQuarterBlackView;
     private View mFlMenuView;
-    private Context mContext;
+    private BaseActivity mContext;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class QuarterViewFragmentDialog extends DialogFragment implements View.On
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        mContext = (BaseActivity) context;
     }
 
     @Override
@@ -90,6 +91,10 @@ public class QuarterViewFragmentDialog extends DialogFragment implements View.On
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onClick(View view) {
+
+        if (!(mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded())) {
+            return;
+        }
         switch (view.getId()) {
             case R.id.iv_profile:
                 hideReveal();

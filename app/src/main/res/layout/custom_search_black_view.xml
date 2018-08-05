@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view_search"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/_20sdp"
     android:layout_marginStart="@dimen/_20sdp"
-    android:id="@+id/root_view_search"
     android:background="@drawable/custom_circular_grey_bg"
     android:paddingBottom="@dimen/_9sdp"
     android:paddingEnd="@dimen/_20sdp"
-    android:paddingStart="@dimen/_20sdp"
-    android:paddingTop="@dimen/_9sdp">
+    android:paddingStart="@dimen/_20sdp">
 
     <ImageView
         android:id="@+id/iv_search"
-        android:layout_width="@dimen/_17sdp"
-        android:layout_height="@dimen/_17sdp"
-        android:contentDescription="@string/image"
-        android:src="@drawable/search" />
-
-    <TextView
-        android:id="@+id/et_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_marginStart="@dimen/_20sdp"
-        android:layout_toEndOf="@+id/iv_search"
-        android:layout_toRightOf="@+id/iv_search"
-        android:background="@null"
+        android:contentDescription="@string/image"
+        android:padding="@dimen/_5sdp"
+        android:src="@drawable/search"
+        android:tint="@color/white" />
+
+    <EditText
+        android:id="@+id/et_search"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_toStartOf="@+id/iv_search"
         android:hint="@string/search_for_mirror"
-        android:textColorHint="@color/white"
         android:textColor="@color/white"
-        android:textSize="@dimen/_12sdp" />
+        android:singleLine="true"
+        android:textColorHint="@color/white"
+        android:textSize="@dimen/_11sdp" />
 
 </RelativeLayout>

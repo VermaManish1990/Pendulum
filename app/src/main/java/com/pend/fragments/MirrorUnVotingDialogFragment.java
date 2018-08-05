@@ -33,7 +33,7 @@ public class MirrorUnVotingDialogFragment extends DialogFragment implements IScr
     private static final String ARG_MIRROR_ID = "ARG_MIRROR_ID";
     private IMirrorVotingDialogCallBack mIMirrorVotingDialogCallBack;
     private RadioGroup mRgVote;
-    private Context mContext;
+    private BaseActivity mContext;
     private int mMirrorId;
     private boolean mIsAdmire;
     private boolean mIsHate;
@@ -52,14 +52,14 @@ public class MirrorUnVotingDialogFragment extends DialogFragment implements IScr
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mMirrorId = getArguments().getInt(ARG_MIRROR_ID,0);
+            mMirrorId = getArguments().getInt(ARG_MIRROR_ID, 0);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        mContext = (BaseActivity) context;
         mIMirrorVotingDialogCallBack = (IMirrorVotingDialogCallBack) context;
     }
 
@@ -117,7 +117,10 @@ public class MirrorUnVotingDialogFragment extends DialogFragment implements IScr
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
-        ((BaseActivity) mContext).removeProgressDialog();
+        if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
+
+            mContext.removeProgressDialog();
+        }
     }
 
     @Override
@@ -127,12 +130,15 @@ public class MirrorUnVotingDialogFragment extends DialogFragment implements IScr
 
     @Override
     public void getData(final int actionID) {
-        if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
-//            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
-            return;
-        }
 
-        ((BaseActivity) mContext).showProgressDialog();
+        if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
+
+            if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
+//            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
+                return;
+            }
+            mContext.showProgressDialog();
+        }
 
         int userId = -1;
         try {

@@ -7,12 +7,28 @@
     android:background="@color/white"
     tools:context="com.pend.activity.home.HomeActivity">
 
+    <FrameLayout
+        android:id="@+id/fl_custom_search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:paddingBottom="@dimen/_12sdp"
+        android:paddingTop="@dimen/_15sdp">
+
+        <include
+            android:id="@+id/custom_search_view"
+            layout="@layout/custom_search_black_view" />
+
+    </FrameLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_post"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/fl_custom_search_view"
+        android:layout_marginTop="@dimen/_10sdp"
         android:scrollbars="vertical"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <TextView
         android:id="@+id/tv_data_not_available"
@@ -25,9 +41,9 @@
 
     <include
         android:id="@+id/quarter_view"
+        layout="@layout/quarter_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_220sdp"
-        android:layout_alignParentBottom="true"
-        layout="@layout/quarter_view"/>
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>
