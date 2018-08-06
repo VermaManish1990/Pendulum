@@ -32,6 +32,8 @@ import com.pend.fragments.IntroducedMirrorFragment;
 import com.pend.fragments.TrendingMirrorFragment;
 import com.pend.interfaces.IMirrorFragmentCallBack;
 import com.pend.util.LoggerUtil;
+import com.pend.util.SharedPrefUtils;
+import com.squareup.picasso.Picasso;
 
 public class MirrorActivity extends BaseActivity implements View.OnClickListener, IMirrorFragmentCallBack, TextWatcher {
 
@@ -51,6 +53,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
     private FollowingMirrorFragment mFollowingMirrorFragment;
     private IntroducedMirrorFragment mIntroducedMirrorFragment;
     private boolean mIsSearchData;
+    private ImageView mIvProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +78,10 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
         ((TextView) quarterView.findViewById(R.id.tv_mirror)).setText(String.valueOf(getResources().getString(R.string.home)));
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
-        quarterView.findViewById(R.id.iv_profile).setOnClickListener(this);
+        mIvProfile = quarterView.findViewById(R.id.iv_profile);
         quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
+        mIvProfile.setOnClickListener(this);
 
         View view = findViewById(R.id.custom_search_view);
         mEtSearch = view.findViewById(R.id.et_search);
@@ -94,6 +98,14 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void setInitialData() {
+
+        String imageUrl = SharedPrefUtils.getProfileImageUrl(this);
+
+        if (imageUrl != null && !imageUrl.equals("")) {
+            Picasso.with(this)
+                    .load(imageUrl)
+                    .into(mIvProfile);
+        }
 
         mIsUpdateRequired = false;
         mIsSearchData = true;
@@ -160,11 +172,29 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
                         break;
 
                     case FOLLOWING_MIRROR:
-//                        mFollowingMirrorFragment.searchMirrorData(searchText);
+                        if (mIsSearchData) {
+                            mIsSearchData = false;
+                            mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.cross_white));
+                            mFollowingMirrorFragment.searchMirrorData(searchText);
+                        } else {
+                            mIsSearchData = true;
+                            mEtSearch.setText("");
+                            mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+                            mFollowingMirrorFragment.cancelSearchMirrorData();
+                        }
                         break;
 
                     case INTRODUCED_MIRROR:
-//                        mIntroducedMirrorFragment.searchMirrorData(searchText);
+                        if (mIsSearchData) {
+                            mIsSearchData = false;
+                            mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.cross_white));
+                            mIntroducedMirrorFragment.searchMirrorData(searchText);
+                        } else {
+                            mIsSearchData = true;
+                            mEtSearch.setText("");
+                            mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+                            mIntroducedMirrorFragment.cancelSearchMirrorData();
+                        }
                         break;
                 }
                 break;

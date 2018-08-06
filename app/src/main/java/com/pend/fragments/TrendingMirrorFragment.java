@@ -18,6 +18,7 @@ import com.pend.activity.mirror.MirrorDetailsActivity;
 import com.pend.adapters.TrendingAndIntroducedMirrorAdapter;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
+import com.pend.interfaces.IMirrorFragmentCallBack;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.GetTrendingAndIntroducedMirrorResponseModel;
 import com.pend.util.LoggerUtil;
@@ -33,7 +34,7 @@ import com.pendulum.volley.ext.RequestManager;
 import java.util.ArrayList;
 
 
-public class TrendingMirrorFragment extends BaseFragment implements TrendingAndIntroducedMirrorAdapter.ITrendingAndIntroducedMirrorAdapterCallBack {
+public class TrendingMirrorFragment extends BaseFragment implements TrendingAndIntroducedMirrorAdapter.ITrendingAndIntroducedMirrorAdapterCallBack, View.OnClickListener {
 
     private final String TAG = TrendingMirrorFragment.class.getSimpleName();
     private ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mMirrorList;
@@ -41,15 +42,17 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
     private BaseActivity mContext;
     private View mRootView;
     private int mPageNumber;
-    private TextView mTvDataNotAvailable;
+    private View mDataNotAvailableView;
     private boolean mIsLoading;
     private boolean mIsHasNextPage;
     private String mSearchText;
+    private IMirrorFragmentCallBack mIMirrorFragmentCallBack;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = (BaseActivity) context;
+        mIMirrorFragmentCallBack = (IMirrorFragmentCallBack) context;
     }
 
     @Override
@@ -69,13 +72,16 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
     protected void initUI(View view) {
 
         mRootView = view.findViewById(R.id.root_view);
-        mTvDataNotAvailable = view.findViewById(R.id.tv_data_not_available);
+        mDataNotAvailableView = view.findViewById(R.id.fl_data_not_available);
         mRecyclerViewTrending = view.findViewById(R.id.recycler_view_trending);
+
+        view.findViewById(R.id.bt_create_mirror).setOnClickListener(this);
     }
 
     @Override
     protected void setInitialData() {
 
+        mSearchText = null;
         mPageNumber = 1;
         mIsLoading = false;
         mIsHasNextPage = false;
@@ -146,7 +152,7 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
 
                         if (trendingAndIntroducedMirrorResponseModel.Data != null && trendingAndIntroducedMirrorResponseModel.Data.mirrorList != null) {
 
-                            mTvDataNotAvailable.setVisibility(View.GONE);
+                            mDataNotAvailableView.setVisibility(View.GONE);
                             mRecyclerViewTrending.setVisibility(View.VISIBLE);
 
                             mIsHasNextPage = !trendingAndIntroducedMirrorResponseModel.Data.hasNextPage;
@@ -158,17 +164,17 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
                             trendingAndIntroducedMirrorAdapter.setMirrorList(mMirrorList);
                             trendingAndIntroducedMirrorAdapter.notifyDataSetChanged();
                         } else {
-                            mTvDataNotAvailable.setVisibility(View.VISIBLE);
+                            mDataNotAvailableView.setVisibility(View.VISIBLE);
                             mRecyclerViewTrending.setVisibility(View.GONE);
                         }
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
-                        mTvDataNotAvailable.setVisibility(View.VISIBLE);
+                        mDataNotAvailableView.setVisibility(View.VISIBLE);
                         mRecyclerViewTrending.setVisibility(View.GONE);
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
-                    mTvDataNotAvailable.setVisibility(View.VISIBLE);
+                    mDataNotAvailableView.setVisibility(View.VISIBLE);
                     mRecyclerViewTrending.setVisibility(View.GONE);
                 }
 
@@ -200,8 +206,9 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
                 return;
             }
             mContext.showProgressDialog();
+        }else {
+            return;
         }
-
 
         switch (actionID) {
             case IApiEvent.REQUEST_GET_TRENDING_CODE:
@@ -251,6 +258,19 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
             Intent intent = new Intent(mContext, MirrorDetailsActivity.class);
             intent.putExtra(Constants.MIRROR_ID_KEY, mirrorDetails.mirrorID);
             startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.bt_create_mirror:
+                mIMirrorFragmentCallBack.onCreateMirrorClick();
+                break;
+
+            default:
+                LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
+                break;
         }
     }
 }

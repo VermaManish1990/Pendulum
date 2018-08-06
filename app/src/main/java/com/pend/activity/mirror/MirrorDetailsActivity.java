@@ -96,6 +96,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     private boolean mControl;
     private View mViewCreateANewPost;
     private View mViewMirrorDetails;
+    private ImageView mIvQuarterProfile;
 
 
     @Override
@@ -141,9 +142,10 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         ((TextView) quarterView.findViewById(R.id.tv_mirror)).setText(String.valueOf(getResources().getString(R.string.home)));
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
-        quarterView.findViewById(R.id.iv_profile).setOnClickListener(this);
+        mIvQuarterProfile = quarterView.findViewById(R.id.iv_profile);
         quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
+        mIvQuarterProfile.setOnClickListener(this);
 
         findViewById(R.id.iv_back).setOnClickListener(this);
         mIvForward.setOnClickListener(this);
@@ -168,6 +170,14 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void setInitialData() {
+
+        String imageUrl = SharedPrefUtils.getProfileImageUrl(this);
+
+        if (imageUrl != null && !imageUrl.equals("")) {
+            Picasso.with(this)
+                    .load(imageUrl)
+                    .into(mIvQuarterProfile);
+        }
 
         mControl = true;
         mIsVoted = false;

@@ -43,6 +43,7 @@ import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
 import com.pendulum.volley.ext.GsonObjectRequest;
 import com.pendulum.volley.ext.RequestManager;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -65,6 +66,7 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
     private View mRlQuarterView;
     private View mFlQuarterBlackView;
     private View mFlMenuView;
+    private ImageView mIvProfile;
 
 
     @Override
@@ -102,9 +104,10 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
         ((TextView) quarterView.findViewById(R.id.tv_mirror)).setText(String.valueOf(getResources().getString(R.string.home)));
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
-        quarterView.findViewById(R.id.iv_profile).setOnClickListener(this);
+        mIvProfile = quarterView.findViewById(R.id.iv_profile);
         quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
+        mIvProfile.setOnClickListener(this);
 
         mBtMirror.setOnClickListener(this);
         mBtContest.setOnClickListener(this);
@@ -113,6 +116,14 @@ public class SearchInNewsFeedActivity extends BaseActivity implements View.OnCli
 
     @Override
     protected void setInitialData() {
+
+        String imageUrl = SharedPrefUtils.getProfileImageUrl(this);
+
+        if (imageUrl != null && !imageUrl.equals("")) {
+            Picasso.with(this)
+                    .load(imageUrl)
+                    .into(mIvProfile);
+        }
 
         mPageNumber = 1;
         mIsMirror = true;

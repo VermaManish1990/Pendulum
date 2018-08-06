@@ -23,6 +23,7 @@ import com.pend.interfaces.IWebServices;
 import com.pend.models.GetTrendingAndIntroducedMirrorResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.OtherUtil;
 import com.pend.util.PaginationScrollListener;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
@@ -37,7 +38,7 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
 
     private final String TAG = IntroducedMirrorFragment.class.getSimpleName();
     private ArrayList<GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails> mMirrorList;
-    private  BaseActivity mContext;
+    private BaseActivity mContext;
     private RecyclerView mRecyclerViewIntroduced;
     private View mRootView;
     private int mPageNumber;
@@ -45,6 +46,7 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
     private TextView mTvDataNotAvailable;
     private boolean mIsHasNextPage;
     private boolean mIsLoading;
+    private String mSearchText;
 
     @Override
     public void onAttach(Context context) {
@@ -77,6 +79,7 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
     @Override
     protected void setInitialData() {
 
+        mSearchText = null;
         mIsHasNextPage = false;
         mIsLoading = false;
         mPageNumber = 1;
@@ -104,6 +107,34 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
             }
         });
         mRecyclerViewIntroduced.setAdapter(new TrendingAndIntroducedMirrorAdapter(mContext, this, mMirrorList));
+    }
+
+    public void searchMirrorData(String searchText) {
+        mSearchText = searchText;
+        mPageNumber = 1;
+        mIsLoading = false;
+        mIsHasNextPage = false;
+
+        if (mMirrorList != null) {
+            mMirrorList.clear();
+        } else {
+            mMirrorList = new ArrayList<>();
+        }
+        getData(IApiEvent.REQUEST_GET_INTRODUCED_CODE);
+    }
+
+    public void cancelSearchMirrorData() {
+        mSearchText = "";
+        mPageNumber = 1;
+        mIsLoading = false;
+        mIsHasNextPage = false;
+
+        if (mMirrorList != null) {
+            mMirrorList.clear();
+        } else {
+            mMirrorList = new ArrayList<>();
+        }
+        getData(IApiEvent.REQUEST_GET_INTRODUCED_CODE);
     }
 
     @Override
@@ -137,9 +168,13 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
                         }
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                        mTvDataNotAvailable.setVisibility(View.VISIBLE);
+                        mRecyclerViewIntroduced.setVisibility(View.GONE);
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                    mTvDataNotAvailable.setVisibility(View.VISIBLE);
+                    mRecyclerViewIntroduced.setVisibility(View.GONE);
                 }
 
                 mIsLoading = false;
@@ -171,16 +206,27 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
                 return;
             }
             mContext.showProgressDialog();
+        }else {
+            return;
         }
 
         switch (actionID) {
             case IApiEvent.REQUEST_GET_INTRODUCED_CODE:
 
-                //TODO Search text
-                String introducedMirrorUrl = IWebServices.REQUEST_GET_INTRODUCED_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
-                        + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
+                String introducedMirrorUrl;
+                if (mSearchText != null) {
 
-//                        + "&" + Constants.PARAM_SEARCH_TEXT + "=" + String.valueOf("search text");
+                    mSearchText = OtherUtil.replaceWithPattern(mSearchText, " ");
+                    mSearchText = mSearchText.replaceAll(" ", "%20");
+
+                    introducedMirrorUrl = IWebServices.REQUEST_GET_INTRODUCED_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
+                            + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber)
+                            + "&" + Constants.PARAM_SEARCH_TEXT + "=" + mSearchText;
+                } else {
+                    introducedMirrorUrl = IWebServices.REQUEST_GET_INTRODUCED_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
+                            + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
+                }
+
                 RequestManager.addRequest(new GsonObjectRequest<GetTrendingAndIntroducedMirrorResponseModel>(introducedMirrorUrl,
                         NetworkUtil.getHeaders(mContext), null, GetTrendingAndIntroducedMirrorResponseModel.class,
                         new VolleyErrorListener(this, actionID)) {

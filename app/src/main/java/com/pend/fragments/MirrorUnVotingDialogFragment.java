@@ -138,6 +138,8 @@ public class MirrorUnVotingDialogFragment extends DialogFragment implements IScr
                 return;
             }
             mContext.showProgressDialog();
+        }else {
+            return;
         }
 
         int userId = -1;

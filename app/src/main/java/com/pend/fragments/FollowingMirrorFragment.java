@@ -18,12 +18,13 @@ import com.pend.activity.mirror.MirrorDetailsActivity;
 import com.pend.adapters.FollowingMirrorAdapter;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
+import com.pend.interfaces.IMirrorFragmentCallBack;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.GetFollowingMirrorResponseModel;
-import com.pend.models.GetTrendingAndIntroducedMirrorResponseModel;
 import com.pend.util.GridPaginationScrollListener;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.OtherUtil;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
 import com.pendulum.utils.ConnectivityUtils;
@@ -33,7 +34,7 @@ import com.pendulum.volley.ext.RequestManager;
 import java.util.ArrayList;
 
 
-public class FollowingMirrorFragment extends BaseFragment {
+public class FollowingMirrorFragment extends BaseFragment implements View.OnClickListener {
 
     private BaseActivity mContext;
     private View mRootView;
@@ -41,14 +42,17 @@ public class FollowingMirrorFragment extends BaseFragment {
     private final String TAG = FollowingMirrorFragment.class.getSimpleName();
     private ArrayList<GetFollowingMirrorResponseModel.GetFollowingMirrorDetails> mMirrorList;
     private int mPageNumber;
-    private TextView mTvDataNotAvailable;
+    private View mDataNotAvailableView;
     private boolean mIsLoading;
     private boolean mIsHasNextPage;
+    private String mSearchText;
+    private IMirrorFragmentCallBack mIMirrorFragmentCallBack;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = (BaseActivity) context;
+        mIMirrorFragmentCallBack = (IMirrorFragmentCallBack) context;
     }
 
     @Override
@@ -67,13 +71,16 @@ public class FollowingMirrorFragment extends BaseFragment {
     @Override
     protected void initUI(View view) {
         mRootView = view.findViewById(R.id.root_view);
-        mTvDataNotAvailable = view.findViewById(R.id.tv_data_not_available);
+        mDataNotAvailableView = view.findViewById(R.id.fl_data_not_available);
         mGridViewFollowingMirror = view.findViewById(R.id.grid_view_following_mirror);
+
+        view.findViewById(R.id.bt_create_mirror).setOnClickListener(this);
     }
 
     @Override
     protected void setInitialData() {
 
+        mSearchText = null;
         mPageNumber = 1;
         mIsLoading = false;
         mIsHasNextPage = false;
@@ -116,6 +123,35 @@ public class FollowingMirrorFragment extends BaseFragment {
 
     }
 
+    public void searchMirrorData(String searchText) {
+        mSearchText = searchText;
+        mPageNumber = 1;
+        mIsLoading = false;
+        mIsHasNextPage = false;
+
+        if (mMirrorList != null) {
+            mMirrorList.clear();
+        } else {
+            mMirrorList = new ArrayList<>();
+        }
+        getData(IApiEvent.REQUEST_GET_FOLLOWING_CODE);
+    }
+
+    public void cancelSearchMirrorData() {
+        mSearchText = "";
+        mPageNumber = 1;
+        mIsLoading = false;
+        mIsHasNextPage = false;
+
+        if (mMirrorList != null) {
+            mMirrorList.clear();
+        } else {
+            mMirrorList = new ArrayList<>();
+        }
+        getData(IApiEvent.REQUEST_GET_FOLLOWING_CODE);
+    }
+
+
     @Override
     public void updateUi(boolean status, int actionID, Object serviceResponse) {
         switch (actionID) {
@@ -127,7 +163,7 @@ public class FollowingMirrorFragment extends BaseFragment {
 
                         if (followingMirrorResponseModel.Data != null && followingMirrorResponseModel.Data.mirrorList != null) {
 
-                            mTvDataNotAvailable.setVisibility(View.GONE);
+                            mDataNotAvailableView.setVisibility(View.GONE);
                             mGridViewFollowingMirror.setVisibility(View.VISIBLE);
 
                             mIsHasNextPage = !followingMirrorResponseModel.Data.hasNextPage;
@@ -137,15 +173,19 @@ public class FollowingMirrorFragment extends BaseFragment {
                             followingMirrorAdapter.setMirrorList(mMirrorList);
                             followingMirrorAdapter.notifyDataSetChanged();
                         } else {
-                            mTvDataNotAvailable.setVisibility(View.VISIBLE);
+                            mDataNotAvailableView.setVisibility(View.VISIBLE);
                             mGridViewFollowingMirror.setVisibility(View.GONE);
                         }
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                        mDataNotAvailableView.setVisibility(View.VISIBLE);
+                        mGridViewFollowingMirror.setVisibility(View.GONE);
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                    mDataNotAvailableView.setVisibility(View.VISIBLE);
+                    mGridViewFollowingMirror.setVisibility(View.GONE);
                 }
 
                 mIsLoading = false;
@@ -177,15 +217,27 @@ public class FollowingMirrorFragment extends BaseFragment {
                 return;
             }
             mContext.showProgressDialog();
+        } else {
+            return;
         }
 
         switch (actionID) {
             case IApiEvent.REQUEST_GET_FOLLOWING_CODE:
 
-                String followingMirrorUrl = IWebServices.REQUEST_GET_FOLLOWING_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
-                        + "&" + Constants.PARAM_PAGE_NUMBER + "=" + mPageNumber;
+                String followingMirrorUrl;
+                if (mSearchText != null) {
 
-//                        + "&" + Constants.PARAM_SEARCH_TEXT + "=" + String.valueOf("search text");
+                    mSearchText = OtherUtil.replaceWithPattern(mSearchText, " ");
+                    mSearchText = mSearchText.replaceAll(" ", "%20");
+
+                    followingMirrorUrl = IWebServices.REQUEST_GET_FOLLOWING_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
+                            + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber)
+                            + "&" + Constants.PARAM_SEARCH_TEXT + "=" + mSearchText;
+                } else {
+                    followingMirrorUrl = IWebServices.REQUEST_GET_FOLLOWING_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
+                            + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
+                }
+
                 RequestManager.addRequest(new GsonObjectRequest<GetFollowingMirrorResponseModel>(followingMirrorUrl,
                         NetworkUtil.getHeaders(mContext), null, GetFollowingMirrorResponseModel.class,
                         new VolleyErrorListener(this, actionID)) {
@@ -207,5 +259,18 @@ public class FollowingMirrorFragment extends BaseFragment {
     @Override
     public void onAuthError() {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.bt_create_mirror:
+                mIMirrorFragmentCallBack.onCreateMirrorClick();
+                break;
+
+            default:
+                LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
+                break;
+        }
     }
 }

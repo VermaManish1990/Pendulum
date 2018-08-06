@@ -145,6 +145,8 @@ public class ExitPollUnVotingDialogFragment extends DialogFragment implements IS
                 return;
             }
             mContext.showProgressDialog();
+        }else {
+            return;
         }
 
         int userId = -1;

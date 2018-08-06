@@ -69,6 +69,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
     private View mRlQuarterView;
     private View mFlQuarterBlackView;
     private View mFlMenuView;
+    private ImageView mIvProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,9 +109,10 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
         ((ImageView) quarterView.findViewById(R.id.iv_mirror)).setImageDrawable(getResources().getDrawable(R.drawable.home));
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
-        quarterView.findViewById(R.id.iv_profile).setOnClickListener(this);
+        mIvProfile = quarterView.findViewById(R.id.iv_profile);
         quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
+        mIvProfile.setOnClickListener(this);
 
         findViewById(R.id.iv_close).setOnClickListener(this);
         findViewById(R.id.iv_related_contest).setOnClickListener(this);
@@ -124,6 +126,14 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void setInitialData() {
+
+        String imageUrl = SharedPrefUtils.getProfileImageUrl(this);
+
+        if (imageUrl != null && !imageUrl.equals("")) {
+            Picasso.with(this)
+                    .load(imageUrl)
+                    .into(mIvProfile);
+        }
 
         mIsVoted = false;
         mPageNumber = 1;

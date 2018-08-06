@@ -22,6 +22,10 @@ public class GetTrendingAndIntroducedMirrorResponseModel extends BaseResponseMod
         public String mirrorInfo;
         public String mirrorWikiLink;
 
+        public boolean mirrorAdmire;
+        public boolean mirrorHate;
+        public boolean mirrorCantSay;
+
         public GetTrendingAndIntroducedMirrorDetails(int mirrorID, String mirrorName, String imageURL, String mirrorInfo, String mirrorWikiLink) {
             this.mirrorID = mirrorID;
             this.mirrorName = mirrorName;

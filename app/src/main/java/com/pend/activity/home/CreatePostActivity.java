@@ -73,6 +73,7 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
     private View mRlQuarterView;
     private View mFlQuarterBlackView;
     private View mFlMenuView;
+    private ImageView mIvProfile;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -111,9 +112,10 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
 
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
-        quarterView.findViewById(R.id.iv_profile).setOnClickListener(this);
+        mIvProfile = quarterView.findViewById(R.id.iv_profile);
         quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
+        mIvProfile.setOnClickListener(this);
 
         mIvPost.setOnClickListener(this);
         mBtCreatePost.setOnClickListener(this);
@@ -121,6 +123,14 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void setInitialData() {
+
+        String imageUrl = SharedPrefUtils.getProfileImageUrl(this);
+
+        if (imageUrl != null && !imageUrl.equals("")) {
+            Picasso.with(this)
+                    .load(imageUrl)
+                    .into(mIvProfile);
+        }
 
         mIsUpdatePost = false;
         if (mPostDetails != null) {

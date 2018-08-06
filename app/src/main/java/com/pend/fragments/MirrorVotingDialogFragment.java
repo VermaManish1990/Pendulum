@@ -135,6 +135,8 @@ public class MirrorVotingDialogFragment extends DialogFragment implements IScree
                 return;
             }
             mContext.showProgressDialog();
+        }else {
+            return;
         }
 
         int userId = -1;

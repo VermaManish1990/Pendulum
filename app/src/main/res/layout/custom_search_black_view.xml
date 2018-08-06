@@ -32,6 +32,7 @@
         android:hint="@string/search_for_mirror"
         android:textColor="@color/white"
         android:singleLine="true"
+        android:background="@null"
         android:textColorHint="@color/white"
         android:textSize="@dimen/_11sdp" />
 

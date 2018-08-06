@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:paddingBottom="@dimen/_12sdp"
-        android:paddingTop="@dimen/_15sdp">
+        android:paddingTop="@dimen/_15sdp"
+        android:visibility="gone">
 
         <include
             android:id="@+id/custom_search_view"

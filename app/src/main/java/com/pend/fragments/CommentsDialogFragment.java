@@ -443,6 +443,8 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
                 return;
             }
             mContext.showProgressDialog();
+        }else {
+            return;
         }
 
         JsonObject jsonObject;

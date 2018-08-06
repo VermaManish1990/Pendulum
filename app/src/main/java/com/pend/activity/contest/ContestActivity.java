@@ -27,6 +27,8 @@ import com.pend.fragments.FollowingContestFragment;
 import com.pend.fragments.IntroducedContestFragment;
 import com.pend.fragments.TrendingContestFragment;
 import com.pend.util.LoggerUtil;
+import com.pend.util.SharedPrefUtils;
+import com.squareup.picasso.Picasso;
 
 public class ContestActivity extends BaseActivity implements View.OnClickListener {
 
@@ -35,6 +37,7 @@ public class ContestActivity extends BaseActivity implements View.OnClickListene
     private View mRlQuarterView;
     private View mFlQuarterBlackView;
     private View mFlMenuView;
+    private ImageView mIvProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +57,14 @@ public class ContestActivity extends BaseActivity implements View.OnClickListene
         mFlQuarterBlackView = quarterView.findViewById(R.id.fl_quarter_black_view);
         mFlMenuView = quarterView.findViewById(R.id.fl_menu_view);
 
-        ((ImageView)quarterView.findViewById(R.id.iv_contest)).setImageDrawable(getResources().getDrawable(R.drawable.home));
+        ((ImageView) quarterView.findViewById(R.id.iv_contest)).setImageDrawable(getResources().getDrawable(R.drawable.home));
         ((TextView) quarterView.findViewById(R.id.tv_contest)).setText(String.valueOf(getResources().getString(R.string.home)));
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
-        quarterView.findViewById(R.id.iv_profile).setOnClickListener(this);
+        mIvProfile = quarterView.findViewById(R.id.iv_profile);
         quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
+        mIvProfile.setOnClickListener(this);
 
         findViewById(R.id.custom_search_view).setOnClickListener(this);
 
@@ -86,7 +90,13 @@ public class ContestActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void setInitialData() {
 
+        String imageUrl = SharedPrefUtils.getProfileImageUrl(this);
 
+        if (imageUrl != null && !imageUrl.equals("")) {
+            Picasso.with(this)
+                    .load(imageUrl)
+                    .into(mIvProfile);
+        }
     }
 
     @Override

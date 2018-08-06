@@ -36,6 +36,8 @@ import com.pend.util.AndroidPermissionUtils;
 import com.pend.util.ImageFilePathUtil;
 import com.pend.util.LoggerUtil;
 import com.pend.util.OtherUtil;
+import com.pend.util.SharedPrefUtils;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
@@ -48,6 +50,7 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
     private View mRlQuarterView;
     private View mFlQuarterBlackView;
     private View mFlMenuView;
+    private ImageView mIvProfile;
 
 
     @Override
@@ -73,9 +76,10 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
         ((TextView) quarterView.findViewById(R.id.tv_contest)).setText(String.valueOf(getResources().getString(R.string.home)));
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
-        quarterView.findViewById(R.id.iv_profile).setOnClickListener(this);
+        mIvProfile = quarterView.findViewById(R.id.iv_profile);
         quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
+        mIvProfile.setOnClickListener(this);
 
         findViewById(R.id.iv_upload_photo).setOnClickListener(this);
         findViewById(R.id.bt_create_contest).setOnClickListener(this);
@@ -84,7 +88,13 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
     @Override
     protected void setInitialData() {
 
+        String imageUrl = SharedPrefUtils.getProfileImageUrl(this);
 
+        if (imageUrl != null && !imageUrl.equals("")) {
+            Picasso.with(this)
+                    .load(imageUrl)
+                    .into(mIvProfile);
+        }
     }
 
     @Override

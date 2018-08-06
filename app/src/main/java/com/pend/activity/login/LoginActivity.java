@@ -74,11 +74,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     if (loginResponseModel != null && loginResponseModel.status) {
                         LoggerUtil.d(TAG, loginResponseModel.statusCode);
 
-                        SharedPrefUtils.setUserLoggedIn(LoginActivity.this, true);
-                        SharedPrefUtils.setUserId(LoginActivity.this, String.valueOf(loginResponseModel.Data.userData.userID));
-                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                        startActivity(intent);
-                        finish();
+                        if (loginResponseModel.Data != null) {
+
+                            if (loginResponseModel.Data.imageData != null && loginResponseModel.Data.imageData.size() > 0) {
+
+                                SharedPrefUtils.setProfileImageUrl(LoginActivity.this, loginResponseModel.Data.imageData.get(0).imageURL);
+                            }
+                            if (loginResponseModel.Data.userData != null) {
+
+                                SharedPrefUtils.setUserLoggedIn(LoginActivity.this, true);
+                                SharedPrefUtils.setUserId(LoginActivity.this, String.valueOf(loginResponseModel.Data.userData.userID));
+                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -91,7 +101,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                 }
                 break;
 
@@ -105,7 +115,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;

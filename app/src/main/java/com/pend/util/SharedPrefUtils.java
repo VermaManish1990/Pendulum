@@ -8,6 +8,7 @@ public class SharedPrefUtils {
     private static final String PENDULUM_SHARED_PREF = "PENDULUM_SHARED_PREF";
     private static final String IS_USER_LOGGED_IN = "IS_USER_LOGGED_IN";
     private static final String USER_ID = "USER_ID";
+    private static final String IMAGE_URL = "IMAGE_URL";
     private static final String IS_DATA_BASE_COPIED = "IS_DATA_BASE_COPIED";
 
     /**
@@ -80,4 +81,38 @@ public class SharedPrefUtils {
         }
     }
 
+    /**
+     * Method is used to get profile image url from Local Mobile Storage
+     *
+     * @param context application context
+     * @return image url
+     */
+    public static String getProfileImageUrl(Context context) {
+        LoggerUtil.v(SharedPrefUtils.class.getSimpleName(), "getProfileImageUrl");
+        try {
+            SharedPreferences sharedPref = context.getSharedPreferences(PENDULUM_SHARED_PREF, Context.MODE_PRIVATE);
+            return sharedPref.getString(IMAGE_URL, null);
+        } catch (NullPointerException e) {
+            LoggerUtil.e(SharedPrefUtils.class.getSimpleName(), "error");
+            return null;
+        }
+    }
+
+    /**
+     * Method is used to store profile image url in Local Mobile Storage
+     *
+     * @param context application context
+     * @param imageUrl  imageUrl
+     */
+    public static void setProfileImageUrl(Context context, String imageUrl) {
+        LoggerUtil.v(SharedPrefUtils.class.getSimpleName(), "setProfileImageUrl");
+        try {
+            SharedPreferences sharedPref = context.getSharedPreferences(PENDULUM_SHARED_PREF, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(IMAGE_URL, imageUrl);
+            editor.apply();
+        } catch (NullPointerException e) {
+            LoggerUtil.e(SharedPrefUtils.class.getSimpleName(), "error");
+        }
+    }
 }

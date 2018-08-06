@@ -18,13 +18,34 @@
         android:stretchMode="columnWidth"
         android:visibility="gone"/>
 
-    <TextView
-        android:id="@+id/tv_data_not_available"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/fl_data_not_available"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/data_not_available"
-        android:textSize="@dimen/_15sdp"
-        android:visibility="visible" />
+        android:layout_gravity="center_vertical"
+        android:visibility="visible"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_data_not_available"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/data_not_available"
+            android:textSize="@dimen/_15sdp" />
+
+        <Button
+            android:id="@+id/bt_create_mirror"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/custom_blue_button"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingStart="@dimen/_10sdp"
+            android:text="@string/create_mirror"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+    </LinearLayout>
 
 </FrameLayout>
