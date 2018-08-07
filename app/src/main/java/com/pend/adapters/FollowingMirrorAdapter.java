@@ -70,9 +70,16 @@ public class FollowingMirrorAdapter extends BaseAdapter {
         TextView tvName = view.findViewById(R.id.tv_name);
         TextView tvCount = view.findViewById(R.id.tv_count);
         ImageView ivProfile = view.findViewById(R.id.iv_profile);
+        ImageView ivVote = view.findViewById(R.id.iv_vote);
 
         tvName.setText(mirrorDetails.mirrorName != null ? mirrorDetails.mirrorName : "");
         tvCount.setText(String.valueOf(mirrorDetails.activeUsers));
+
+        if (mirrorDetails.mirrorAdmire || mirrorDetails.mirrorHate || mirrorDetails.mirrorCantSay) {
+            ivVote.setVisibility(View.VISIBLE);
+        } else {
+            ivVote.setVisibility(View.GONE);
+        }
 
         if (mirrorDetails.imageURL != null && !mirrorDetails.imageURL.equals("")) {
 

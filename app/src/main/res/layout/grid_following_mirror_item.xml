@@ -26,6 +26,15 @@
             app:fk_right_bottom_corner_radius="@dimen/_5sdp"
             app:fk_right_top_corner_radius="@dimen/_5sdp" />
 
+        <ImageView
+            android:id="@+id/iv_vote"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_alignStart="@+id/tv_count"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:src="@drawable/yellow_circle"
+            android:visibility="gone"
+            android:contentDescription="@string/image" />
 
         <TextView
             android:id="@+id/tv_count"
