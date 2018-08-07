@@ -14,7 +14,7 @@
         android:background="@color/colorPrimary"
         android:paddingBottom="@dimen/_12sdp"
         android:paddingTop="@dimen/_15sdp"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <include
             android:id="@+id/custom_search_view"
@@ -29,7 +29,16 @@
         android:layout_below="@+id/fl_custom_search_view"
         android:layout_marginTop="@dimen/_10sdp"
         android:scrollbars="vertical"
-        android:visibility="visible" />
+        android:visibility="gone" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_mirror"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/fl_custom_search_view"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:scrollbars="vertical"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_data_not_available"
@@ -38,7 +47,7 @@
         android:layout_centerInParent="true"
         android:text="@string/data_not_available"
         android:textSize="@dimen/_15sdp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <include
         android:id="@+id/quarter_view"

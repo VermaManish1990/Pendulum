@@ -24,7 +24,7 @@ public class ReflectionMirrorAdapter extends BaseAdapter {
         mUserDataList = userDataList;
     }
 
-    public void setUserDataList(ArrayList<GetReflectionUsersResponseModel.GetReflectionUsersDetails> userDataList){
+    public void setUserDataList(ArrayList<GetReflectionUsersResponseModel.GetReflectionUsersDetails> userDataList) {
         mUserDataList = userDataList;
     }
 
@@ -70,6 +70,16 @@ public class ReflectionMirrorAdapter extends BaseAdapter {
         TextView tvName = view.findViewById(R.id.tv_name);
         ImageView ivMessage = view.findViewById(R.id.iv_message);
         ImageView ivProfile = view.findViewById(R.id.iv_profile);
+
+        if (reflectionUsersDetails.mirrorAdmire) {
+            ivMessage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.message_green));
+        } else if (reflectionUsersDetails.mirrorHate) {
+            ivMessage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.message_red));
+        } else if (reflectionUsersDetails.mirrorCantSay) {
+            ivMessage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.message_yellow));
+        } else {
+            ivMessage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.message));
+        }
 
         tvName.setText(reflectionUsersDetails.userFullName != null ? reflectionUsersDetails.userFullName : "");
         Picasso.with(mContext)

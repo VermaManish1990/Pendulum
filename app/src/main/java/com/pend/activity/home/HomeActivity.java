@@ -11,6 +11,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -28,7 +30,9 @@ import com.pend.R;
 import com.pend.activity.contest.ContestActivity;
 import com.pend.activity.login.ProfileActivity;
 import com.pend.activity.mirror.MirrorActivity;
+import com.pend.activity.mirror.MirrorDetailsActivity;
 import com.pend.adapters.HomePostsAdapter;
+import com.pend.adapters.SearchInNewsFeedAdapter;
 import com.pend.fragments.CommentsDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
@@ -37,6 +41,8 @@ import com.pend.models.AddAndUpdateCommentResponseModel;
 import com.pend.models.AddAndUpdatePostResponseModel;
 import com.pend.models.GetPostsResponseModel;
 import com.pend.models.PostLikeResponseModel;
+import com.pend.models.SearchInNewsFeedResponseModel;
+import com.pend.models.SearchMirrorResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
 import com.pend.util.OtherUtil;
@@ -51,11 +57,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends BaseActivity implements View.OnClickListener, HomePostsAdapter.IHomePostsAdapterCallBack, CommentsDialogFragment.ICommentsDialogCallBack {
+public class HomeActivity extends BaseActivity implements View.OnClickListener, HomePostsAdapter.IHomePostsAdapterCallBack,
+        CommentsDialogFragment.ICommentsDialogCallBack, SearchInNewsFeedAdapter.IMirrorSearchAdapterCallBack, TextWatcher {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
     private RecyclerView mRecyclerViewPost;
     private ArrayList<GetPostsResponseModel.GetPostsDetails> mPostsDetailsList;
+    private ArrayList<SearchInNewsFeedResponseModel.MirrorDetails> mMirrorList;
     private int mPageNumber = 1;
     private int mMirrorId;
     private TextView mTvDataNotAvailable;
@@ -72,6 +80,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     private boolean mIsUpdateRequired;
     private EditText mEtSearch;
     private ImageView mIvProfile;
+    private RecyclerView mRecyclerViewMirror;
+    private boolean mIsSearchData;
+    private ImageView mIvSearch;
+    private String mSearchText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,10 +104,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
         mRootView = findViewById(R.id.root_view);
         mRecyclerViewPost = findViewById(R.id.recycler_view_post);
+        mRecyclerViewMirror = findViewById(R.id.recycler_view_mirror);
         mTvDataNotAvailable = findViewById(R.id.tv_data_not_available);
-
-        View view = findViewById(R.id.custom_search_view);
-        mEtSearch = view.findViewById(R.id.et_search);
 
         View quarterView = findViewById(R.id.quarter_view);
         mRlQuarterView = quarterView.findViewById(R.id.rl_quarter_view);
@@ -108,6 +118,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
         mIvProfile.setOnClickListener(this);
+
+        View view = findViewById(R.id.custom_search_view);
+        mEtSearch = view.findViewById(R.id.et_search);
+        mIvSearch = view.findViewById(R.id.iv_search);
+        mIvSearch.setOnClickListener(this);
+        mEtSearch.addTextChangedListener(this);
     }
 
     @Override
@@ -121,15 +137,17 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                     .into(mIvProfile);
         }
 
+        mIsSearchData = true;
         mIsUpdateRequired = false;
         mIsHasNextPage = false;
         mIsLoading = false;
         mPageNumber = 1;
         mPostsDetailsList = new ArrayList<>();
+        mMirrorList = new ArrayList<>();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mRecyclerViewPost.setLayoutManager(linearLayoutManager);
-
+        mRecyclerViewPost.setVisibility(View.VISIBLE);
         mRecyclerViewPost.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
             @Override
             protected void loadMoreItems() {
@@ -149,6 +167,28 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             }
         });
         mRecyclerViewPost.setAdapter(new HomePostsAdapter(this, mPostsDetailsList));
+
+        LinearLayoutManager linearLayoutManager1Mirror = new LinearLayoutManager(this);
+        mRecyclerViewMirror.setLayoutManager(linearLayoutManager1Mirror);
+        mRecyclerViewMirror.addOnScrollListener(new PaginationScrollListener(linearLayoutManager1Mirror) {
+            @Override
+            protected void loadMoreItems() {
+                mIsLoading = true;
+                mPageNumber += 1; //Increment page index to load the next one
+                getData(IApiEvent.REQUEST_SEARCH_NEWS_FEED_MIRROR_CODE);
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return mIsHasNextPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return mIsLoading;
+            }
+        });
+        mRecyclerViewMirror.setAdapter(new SearchInNewsFeedAdapter(this, mMirrorList));
     }
 
     @Override
@@ -163,6 +203,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         if (postsResponseModel.Data != null && postsResponseModel.Data.postList != null) {
 
                             mTvDataNotAvailable.setVisibility(View.GONE);
+                            mRecyclerViewMirror.setVisibility(View.GONE);
                             mRecyclerViewPost.setVisibility(View.VISIBLE);
 
                             mIsHasNextPage = !postsResponseModel.Data.hasNextPage;
@@ -174,16 +215,63 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         } else {
                             mTvDataNotAvailable.setVisibility(View.VISIBLE);
                             mRecyclerViewPost.setVisibility(View.GONE);
+                            mRecyclerViewMirror.setVisibility(View.GONE);
                         }
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                        mTvDataNotAvailable.setVisibility(View.VISIBLE);
+                        mRecyclerViewPost.setVisibility(View.GONE);
+                        mRecyclerViewMirror.setVisibility(View.GONE);
                     }
                 } else {
                     mPostsDetailsList.clear();
                     HomePostsAdapter homePostsAdapter = (HomePostsAdapter) mRecyclerViewPost.getAdapter();
                     homePostsAdapter.setPostsDetailsList(mPostsDetailsList);
                     homePostsAdapter.notifyDataSetChanged();
+                    OtherUtil.showErrorMessage(this, serviceResponse);
+
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
+
+                mIsLoading = false;
+                break;
+
+            case IApiEvent.REQUEST_SEARCH_NEWS_FEED_MIRROR_CODE:
+                if (status) {
+                    SearchInNewsFeedResponseModel searchInNewsFeedResponseModel = (SearchInNewsFeedResponseModel) serviceResponse;
+                    if (searchInNewsFeedResponseModel != null && searchInNewsFeedResponseModel.status) {
+                        LoggerUtil.d(TAG, searchInNewsFeedResponseModel.statusCode);
+
+                        if (searchInNewsFeedResponseModel.Data != null && searchInNewsFeedResponseModel.Data.mirrorList != null) {
+
+                            mTvDataNotAvailable.setVisibility(View.GONE);
+                            mRecyclerViewPost.setVisibility(View.GONE);
+                            mRecyclerViewMirror.setVisibility(View.VISIBLE);
+
+                            mIsHasNextPage = !searchInNewsFeedResponseModel.Data.hasNextPage;
+
+                            SearchInNewsFeedAdapter searchInNewsFeedAdapter = (SearchInNewsFeedAdapter) mRecyclerViewMirror.getAdapter();
+                            mMirrorList.addAll(searchInNewsFeedResponseModel.Data.mirrorList);
+                            searchInNewsFeedAdapter.setSearchDataList(mMirrorList);
+                            searchInNewsFeedAdapter.notifyDataSetChanged();
+                        } else {
+                            mTvDataNotAvailable.setVisibility(View.VISIBLE);
+                            mRecyclerViewPost.setVisibility(View.GONE);
+                            mRecyclerViewMirror.setVisibility(View.GONE);
+                        }
+
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                        mTvDataNotAvailable.setVisibility(View.VISIBLE);
+                        mRecyclerViewPost.setVisibility(View.GONE);
+                        mRecyclerViewMirror.setVisibility(View.GONE);
+                    }
+                } else {
+                    mMirrorList.clear();
+                    SearchInNewsFeedAdapter searchInNewsFeedAdapter = (SearchInNewsFeedAdapter) mRecyclerViewMirror.getAdapter();
+                    searchInNewsFeedAdapter.setSearchDataList(mMirrorList);
+                    searchInNewsFeedAdapter.notifyDataSetChanged();
                     OtherUtil.showErrorMessage(this, serviceResponse);
 
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
@@ -325,10 +413,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
                 //TODO Change mirrorId.
                 mMirrorId = 6;
-                String reflectionUserUrl = IWebServices.REQUEST_GET_POSTS_URL + Constants.PARAM_USER_ID + "=" + userId
+                String getPostsUrl = IWebServices.REQUEST_GET_POSTS_URL + Constants.PARAM_USER_ID + "=" + userId
                         + "&" + Constants.PARAM_MIRROR_ID + "=" + mMirrorId
                         + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
-                RequestManager.addRequest(new GsonObjectRequest<GetPostsResponseModel>(reflectionUserUrl, NetworkUtil.getHeaders(this),
+                RequestManager.addRequest(new GsonObjectRequest<GetPostsResponseModel>(getPostsUrl, NetworkUtil.getHeaders(this),
                         null, GetPostsResponseModel.class, new VolleyErrorListener(this, actionID)) {
 
                     @Override
@@ -336,6 +424,30 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         updateUi(true, actionID, response);
                     }
                 });
+                break;
+
+            case IApiEvent.REQUEST_SEARCH_NEWS_FEED_MIRROR_CODE:
+
+                if (mSearchText != null) {
+
+                    mSearchText = OtherUtil.replaceWithPattern(mSearchText, " ");
+                    mSearchText = mSearchText.replaceAll(" ", "%20");
+
+                    String searchInNewsFeedUrl = IWebServices.REQUEST_SEARCH_NEWS_FEED_MIRROR_URL + Constants.PARAM_USER_ID + "=" + userId
+                            + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber)
+                            + "&" + Constants.PARAM_SEARCH_TEXT + "=" + mSearchText;
+                    RequestManager.addRequest(new GsonObjectRequest<SearchInNewsFeedResponseModel>(searchInNewsFeedUrl, NetworkUtil.getHeaders(this),
+                            null, SearchInNewsFeedResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                        @Override
+                        protected void deliverResponse(SearchInNewsFeedResponseModel response) {
+                            updateUi(true, actionID, response);
+                        }
+                    });
+                }else {
+                    removeProgressDialog();
+                }
+
                 break;
 
             case IApiEvent.REQUEST_POST_LIKE_CODE:
@@ -395,6 +507,23 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
+            case R.id.iv_search:
+
+                mSearchText = mEtSearch.getText().toString().trim();
+
+                if (mIsSearchData) {
+                    mIsSearchData = false;
+                    mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.cross_white));
+                    searchMirrorData();
+                } else {
+                    mIsSearchData = true;
+                    mEtSearch.setText("");
+                    mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+                    cancelSearchMirrorData();
+                }
+                break;
+
             case R.id.iv_profile:
                 hideReveal();
                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
@@ -426,6 +555,39 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
         }
+    }
+
+    public void searchMirrorData() {
+        mPageNumber = 1;
+        mIsLoading = false;
+        mIsUpdateRequired = false;
+        mIsHasNextPage = false;
+
+        if (mMirrorList != null) {
+            mMirrorList.clear();
+        } else {
+            mMirrorList = new ArrayList<>();
+        }
+        mRecyclerViewMirror.setVisibility(View.VISIBLE);
+        mRecyclerViewPost.setVisibility(View.GONE);
+        getData(IApiEvent.REQUEST_SEARCH_NEWS_FEED_MIRROR_CODE);
+    }
+
+    public void cancelSearchMirrorData() {
+        mSearchText = "";
+        mPageNumber = 1;
+        mIsLoading = false;
+        mIsUpdateRequired = false;
+        mIsHasNextPage = false;
+
+        if (mPostsDetailsList != null) {
+            mPostsDetailsList.clear();
+        } else {
+            mPostsDetailsList = new ArrayList<>();
+        }
+        mRecyclerViewMirror.setVisibility(View.GONE);
+        mRecyclerViewPost.setVisibility(View.VISIBLE);
+        getData(IApiEvent.REQUEST_GET_POSTS_CODE);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -587,6 +749,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         if (mIsUpdateRequired) {
             mIsUpdateRequired = false;
             mPostsDetailsList.clear();
+            mRecyclerViewPost.setVisibility(View.VISIBLE);
             getData(IApiEvent.REQUEST_GET_POSTS_CODE);
         }
     }
@@ -596,5 +759,31 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         super.onPause();
 
         mIsUpdateRequired = true;
+    }
+
+    @Override
+    public void onMirrorClick(int position) {
+
+        SearchInNewsFeedResponseModel.MirrorDetails mirrorDetails = mMirrorList.get(position);
+
+        Intent intent = new Intent(this, MirrorDetailsActivity.class);
+        intent.putExtra(Constants.MIRROR_ID_KEY, mirrorDetails.mirrorID);
+        startActivity(intent);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        mIsSearchData = true;
+        mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }

@@ -15,7 +15,7 @@ import com.pend.BaseActivity;
 import com.pend.BaseFragment;
 import com.pend.R;
 import com.pend.activity.mirror.MirrorDetailsActivity;
-import com.pend.adapters.MirrorSearchAdapter;
+import com.pend.adapters.SearchInNewsFeedAdapter;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IMirrorFragmentCallBack;
 import com.pend.models.GetTrendingAndIntroducedMirrorResponseModel;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 
-public class MirrorSearchFragment extends BaseFragment implements View.OnClickListener, MirrorSearchAdapter.IMirrorSearchAdapterCallBack {
+public class MirrorSearchFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = MirrorSearchFragment.class.getSimpleName();
     private static final String ARG_MIRROR_LIST = "ARG_MIRROR_LIST";
@@ -104,8 +104,8 @@ public class MirrorSearchFragment extends BaseFragment implements View.OnClickLi
                 mRlNoResult.setVisibility(View.VISIBLE);
             }
             mRecyclerViewMirror.setLayoutManager(new LinearLayoutManager(mContext));
-            MirrorSearchAdapter mirrorSearchAdapter = new MirrorSearchAdapter(mContext, this, mSearchDataList);
-            mRecyclerViewMirror.setAdapter(mirrorSearchAdapter);
+//            SearchInNewsFeedAdapter mirrorSearchAdapter = new SearchInNewsFeedAdapter(mContext, this, mSearchDataList);
+//            mRecyclerViewMirror.setAdapter(mirrorSearchAdapter);
         }
     }
 
@@ -116,9 +116,9 @@ public class MirrorSearchFragment extends BaseFragment implements View.OnClickLi
 
             mRlMirrorData.setVisibility(View.VISIBLE);
             mRlNoResult.setVisibility(View.GONE);
-            MirrorSearchAdapter mirrorSearchAdapter = (MirrorSearchAdapter) mRecyclerViewMirror.getAdapter();
-            mirrorSearchAdapter.setSearchDataList(mSearchDataList);
-            mirrorSearchAdapter.notifyDataSetChanged();
+            SearchInNewsFeedAdapter searchInNewsFeedAdapter = (SearchInNewsFeedAdapter) mRecyclerViewMirror.getAdapter();
+//            searchInNewsFeedAdapter.setSearchDataList(mSearchDataList);
+            searchInNewsFeedAdapter.notifyDataSetChanged();
         } else {
             mRlMirrorData.setVisibility(View.GONE);
             mRlNoResult.setVisibility(View.VISIBLE);
@@ -157,24 +157,6 @@ public class MirrorSearchFragment extends BaseFragment implements View.OnClickLi
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
-        }
-    }
-
-    @Override
-    public void onMirrorClick(int position) {
-
-        if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
-
-            GetTrendingAndIntroducedMirrorResponseModel.GetTrendingAndIntroducedMirrorDetails mirrorDetails = mSearchDataList.get(position);
-            Intent intent = new Intent(mContext, MirrorDetailsActivity.class);
-            intent.putExtra(Constants.MIRROR_ID_KEY, mirrorDetails.mirrorID);
-            startActivity(intent);
-
-            try {
-                Objects.requireNonNull(getActivity()).finish();
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

@@ -4,34 +4,46 @@
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/_10sdp"
+    android:paddingBottom="@dimen/_2sdp"
     android:paddingEnd="@dimen/_10sdp"
     android:paddingStart="@dimen/_10sdp"
-    android:paddingBottom="@dimen/_2sdp">
+    android:paddingTop="@dimen/_10sdp">
 
     <com.pend.widget.RoundedCornerImageView
         android:id="@+id/iv_profile"
-        android:layout_width="@dimen/_66sdp"
-        android:layout_height="@dimen/_76sdp"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_65sdp"
+        android:layout_marginTop="@dimen/_8sdp"
         android:contentDescription="@string/image"
-        android:src="@drawable/profile"
         android:scaleType="fitXY"
+        android:src="@drawable/profile"
         app:fk_left_bottom_corner_radius="@dimen/_5sdp"
         app:fk_left_top_corner_radius="@dimen/_5sdp"
         app:fk_right_bottom_corner_radius="@dimen/_5sdp"
-        app:fk_right_top_corner_radius="@dimen/_5sdp"/>
+        app:fk_right_top_corner_radius="@dimen/_5sdp" />
+
+    <ImageView
+        android:id="@+id/iv_vote"
+        android:layout_width="@dimen/_22sdp"
+        android:layout_height="@dimen/_22sdp"
+        android:layout_marginStart="@dimen/_48sdp"
+        android:src="@drawable/yellow_circle"
+        android:contentDescription="@string/image"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_20sdp"
         android:layout_toEndOf="@+id/iv_profile"
         android:ellipsize="end"
-        android:singleLine="true"
+        android:maxLines="2"
+        android:textStyle="bold"
+        android:text="@string/data_not_available"
         android:textColor="@color/dark_grey_font"
-        android:textSize="@dimen/_14sdp" />
+        android:textSize="@dimen/_13sdp" />
 
 
     <View
