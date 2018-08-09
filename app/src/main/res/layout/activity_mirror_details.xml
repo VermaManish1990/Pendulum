@@ -132,7 +132,7 @@
                     <com.pend.widget.progressbar.CustomProgressBar
                         android:id="@+id/progress_bar_profile"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_25sdp"
+                        android:layout_height="@dimen/_22sdp"
                         android:layout_below="@+id/tv_tap_here_text"
                         android:max="100"
                         android:progress="0"

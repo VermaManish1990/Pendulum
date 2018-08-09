@@ -235,7 +235,7 @@
             android:layout_below="@+id/et_add_a_comment"
             android:layout_marginBottom="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:background="@color/darkGreyBackground" />
+            android:background="@color/fontPrimary10" />
 
         <RelativeLayout
             android:id="@+id/rl_comment"
