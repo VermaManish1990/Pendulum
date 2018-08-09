@@ -63,7 +63,7 @@
                         android:layout_alignEnd="@+id/iv_mirror_profile"
                         android:layout_alignStart="@+id/iv_mirror_profile"
                         android:layout_below="@+id/iv_mirror_profile"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:ellipsize="end"
                         android:gravity="center"
                         android:maxLines="2"
@@ -88,6 +88,8 @@
                             android:layout_toStartOf="@+id/tv_date"
                             android:contentDescription="@string/image"
                             android:paddingEnd="@dimen/_10sdp"
+                            android:paddingTop="@dimen/_2sdp"
+                            android:paddingBottom="@dimen/_2sdp"
                             android:paddingStart="@dimen/_10sdp"
                             android:src="@drawable/back" />
 

@@ -17,6 +17,7 @@
             android:id="@+id/iv_profile"
             android:layout_width="@dimen/_32sdp"
             android:layout_height="@dimen/_32sdp"
+            android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_7sdp"
             android:src="@drawable/profile" />
 
@@ -83,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_post"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_7sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_toStartOf="@+id/tv_time"
             android:textColor="@color/fontPrimary50"
@@ -99,7 +100,7 @@
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:textColor="@color/fontPrimary50"
-            android:textSize="@dimen/_11sdp" />
+            android:textSize="@dimen/_9sdp" />
 
         <ImageView
             android:id="@+id/iv_comment"
@@ -107,7 +108,7 @@
             android:layout_height="@dimen/_18sdp"
             android:layout_below="@+id/tv_description"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:contentDescription="@string/image"
             android:padding="@dimen/_3sdp"
@@ -177,7 +178,7 @@
             android:layout_below="@+id/iv_comment"
             android:layout_marginBottom="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_5sdp"
             android:layout_toStartOf="@+id/iv_send"
             android:background="@drawable/custom_circular_grey_border"
             android:hint="@string/add_a_comment"
@@ -247,8 +248,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_comment_user_profile"
-                android:layout_width="@dimen/_46sdp"
-                android:layout_height="@dimen/_46sdp"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
                 android:src="@drawable/profile" />
 
             <TextView

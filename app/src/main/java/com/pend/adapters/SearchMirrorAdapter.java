@@ -3,6 +3,7 @@ package com.pend.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +52,15 @@ public class SearchMirrorAdapter extends RecyclerView.Adapter<SearchMirrorAdapte
         SearchMirrorResponseModel.SearchMirrorDetails searchMirrorDetails = mSearchDataList.get(position);
 
         holder.tvName.setText(searchMirrorDetails.mirrorName != null ? searchMirrorDetails.mirrorName : "");
-        holder.tvLink.setText(searchMirrorDetails.mirrorWikiLink != null ? searchMirrorDetails.mirrorWikiLink : "");
+
+        String wikiLink;
+        if (searchMirrorDetails.mirrorWikiLink != null) {
+
+            wikiLink = "<a href=" + searchMirrorDetails.mirrorWikiLink + ">Wiki link</a>";
+        } else {
+            wikiLink = "NA";
+        }
+        holder.tvLink.setText(Html.fromHtml(wikiLink));
 
         if (searchMirrorDetails.imageUrl != null && !searchMirrorDetails.imageUrl.equals("")) {
 

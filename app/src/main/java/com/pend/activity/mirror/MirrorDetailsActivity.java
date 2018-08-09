@@ -210,7 +210,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 //        staticLabelsFormatter.setHorizontalLabels(new String[] {"old", "middle", "new"});
 
         GridLabelRenderer gridLabelRenderer = mGraphView.getGridLabelRenderer();
-        gridLabelRenderer.setTextSize(18);
+        gridLabelRenderer.setTextSize(15);
         gridLabelRenderer.setHorizontalLabelsColor(getResources().getColor(R.color.light_black_txt_color));
         gridLabelRenderer.setVerticalLabelsColor(getResources().getColor(R.color.light_black_txt_color));
         gridLabelRenderer.setGridColor(getResources().getColor(R.color.darkGreyBackground));
@@ -228,22 +228,6 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                 }
             }
         });
-
-//        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
-//                new DataPoint(0, 20),
-//                new DataPoint(5, 40),
-//                new DataPoint(10, 70),
-//                new DataPoint(15, 20),
-//                new DataPoint(20, 30),
-//                new DataPoint(25, 90),
-//                new DataPoint(30, 40)
-//        });
-//
-//        series.setColor(getResources().getColor(R.color.sky_blue));
-//        series.setDrawDataPoints(true);
-//        series.setDataPointsRadius(10);
-//        series.setThickness(2);
-//        mGraphView.addSeries(series);
     }
 
     @Override

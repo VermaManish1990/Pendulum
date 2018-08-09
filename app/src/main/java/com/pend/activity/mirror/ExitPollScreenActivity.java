@@ -12,6 +12,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -193,8 +194,16 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                         if (exitPollMirrorResponseModel.Data != null && exitPollMirrorResponseModel.Data.mirrorData != null) {
 
                             GetExitPollMirrorResponseModel.GetExitPollMirrorDetails mirrorDetails = exitPollMirrorResponseModel.Data.mirrorData;
-                            mTvWikiLink.setText(mirrorDetails.mirrorWikiLink != null ? mirrorDetails.mirrorWikiLink : "");
                             mTvCreatedBy.setText(mirrorDetails.userFullName != null ? mirrorDetails.userFullName : "");
+
+                            String wikiLink;
+                            if (mirrorDetails.mirrorWikiLink != null) {
+
+                                wikiLink = "<a href=" + mirrorDetails.mirrorWikiLink + ">Wiki link</a>";
+                            } else {
+                                wikiLink = "NA";
+                            }
+                            mTvWikiLink.setText(Html.fromHtml(wikiLink));
                         }
 
                     } else {

@@ -181,6 +181,10 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
                     if (updateUserProfileResponseModel != null && updateUserProfileResponseModel.status) {
                         LoggerUtil.d(TAG, updateUserProfileResponseModel.statusCode);
 
+                        if (updateUserProfileResponseModel.Data != null && updateUserProfileResponseModel.Data.userData != null) {
+                            finish();
+                        }
+
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
