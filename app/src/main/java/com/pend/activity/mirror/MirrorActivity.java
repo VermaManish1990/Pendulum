@@ -170,7 +170,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
 
             case R.id.iv_search:
 
-
+                onSearchClick();
                 break;
 
             case R.id.iv_profile:

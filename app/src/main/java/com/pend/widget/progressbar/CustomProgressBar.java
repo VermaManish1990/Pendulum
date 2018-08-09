@@ -157,7 +157,7 @@ public class CustomProgressBar extends android.support.v7.widget.AppCompatSeekBa
         textPaint.setColor(Color.WHITE);
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setTypeface(Typeface.create("Arial", Typeface.NORMAL));
-        textPaint.setTextSize(18);
+        textPaint.setTextSize(25);
 
         int yPos = (int) ((canvas.getHeight() / 2) - ((textPaint.descent() + textPaint.ascent()) / 2));
         //((textPaint.descent() + textPaint.ascent()) / 2) is the distance from the baseline to the center.

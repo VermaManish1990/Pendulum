@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -193,13 +194,21 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
 
                         if (exitPollMirrorResponseModel.Data != null && exitPollMirrorResponseModel.Data.mirrorData != null) {
 
-                            GetExitPollMirrorResponseModel.GetExitPollMirrorDetails mirrorDetails = exitPollMirrorResponseModel.Data.mirrorData;
+                            final GetExitPollMirrorResponseModel.GetExitPollMirrorDetails mirrorDetails = exitPollMirrorResponseModel.Data.mirrorData;
                             mTvCreatedBy.setText(mirrorDetails.userFullName != null ? mirrorDetails.userFullName : "");
 
                             String wikiLink;
                             if (mirrorDetails.mirrorWikiLink != null) {
 
                                 wikiLink = "<a href=" + mirrorDetails.mirrorWikiLink + ">Wiki link</a>";
+                                mTvWikiLink.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                                        intent.setData(Uri.parse(mirrorDetails.mirrorWikiLink));
+                                        startActivity(intent);
+                                    }
+                                });
                             } else {
                                 wikiLink = "NA";
                             }

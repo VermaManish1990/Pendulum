@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -189,6 +190,20 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             }
         });
         mRecyclerViewMirror.setAdapter(new SearchInNewsFeedAdapter(this, mMirrorList));
+
+        mEtSearch.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+
+                    onSearchClick();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -510,18 +525,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
             case R.id.iv_search:
 
-                mSearchText = mEtSearch.getText().toString().trim();
-
-                if (mIsSearchData) {
-                    mIsSearchData = false;
-                    mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.cross_white));
-                    searchMirrorData();
-                } else {
-                    mIsSearchData = true;
-                    mEtSearch.setText("");
-                    mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
-                    cancelSearchMirrorData();
-                }
+                onSearchClick();
                 break;
 
             case R.id.iv_profile:
@@ -785,5 +789,23 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void afterTextChanged(Editable s) {
 
+    }
+
+    /**
+     * Method is used to perform action on search click.
+     */
+    public void onSearchClick(){
+        mSearchText = mEtSearch.getText().toString().trim();
+
+        if (mIsSearchData) {
+            mIsSearchData = false;
+            mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.cross_white));
+            searchMirrorData();
+        } else {
+            mIsSearchData = true;
+            mEtSearch.setText("");
+            mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+            cancelSearchMirrorData();
+        }
     }
 }

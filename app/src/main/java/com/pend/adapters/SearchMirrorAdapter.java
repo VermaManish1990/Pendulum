@@ -1,6 +1,8 @@
 package com.pend.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -49,14 +51,22 @@ public class SearchMirrorAdapter extends RecyclerView.Adapter<SearchMirrorAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        SearchMirrorResponseModel.SearchMirrorDetails searchMirrorDetails = mSearchDataList.get(position);
+        final SearchMirrorResponseModel.SearchMirrorDetails searchMirrorDetails = mSearchDataList.get(position);
 
         holder.tvName.setText(searchMirrorDetails.mirrorName != null ? searchMirrorDetails.mirrorName : "");
 
-        String wikiLink;
+        final String wikiLink;
         if (searchMirrorDetails.mirrorWikiLink != null) {
 
             wikiLink = "<a href=" + searchMirrorDetails.mirrorWikiLink + ">Wiki link</a>";
+            holder.tvLink.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(searchMirrorDetails.mirrorWikiLink));
+                    mContext.startActivity(intent);
+                }
+            });
         } else {
             wikiLink = "NA";
         }

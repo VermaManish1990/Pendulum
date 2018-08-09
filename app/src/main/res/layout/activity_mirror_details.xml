@@ -63,7 +63,7 @@
                         android:layout_alignEnd="@+id/iv_mirror_profile"
                         android:layout_alignStart="@+id/iv_mirror_profile"
                         android:layout_below="@+id/iv_mirror_profile"
-                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
                         android:ellipsize="end"
                         android:gravity="center"
                         android:maxLines="2"
@@ -88,8 +88,8 @@
                             android:layout_toStartOf="@+id/tv_date"
                             android:contentDescription="@string/image"
                             android:paddingEnd="@dimen/_10sdp"
-                            android:paddingTop="@dimen/_2sdp"
-                            android:paddingBottom="@dimen/_2sdp"
+                            android:paddingTop="@dimen/_3sdp"
+                            android:paddingBottom="@dimen/_3sdp"
                             android:paddingStart="@dimen/_10sdp"
                             android:src="@drawable/back" />
 
@@ -101,7 +101,7 @@
                             android:layout_marginEnd="@dimen/_10sdp"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:textColor="@color/colorAccent"
-                            android:textSize="@dimen/_11sdp" />
+                            android:textSize="@dimen/_10sdp" />
 
                         <ImageView
                             android:id="@+id/iv_forward"
@@ -113,6 +113,8 @@
                             android:contentDescription="@string/image"
                             android:paddingEnd="@dimen/_10sdp"
                             android:paddingStart="@dimen/_10sdp"
+                            android:paddingTop="@dimen/_3sdp"
+                            android:paddingBottom="@dimen/_3sdp"
                             android:src="@drawable/right"
                             android:visibility="gone" />
 
@@ -175,6 +177,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/_15sdp"
+                        android:textColor="@color/fontPrimary80"
                         android:layout_toEndOf="@+id/iv_create_post"
                         android:text="@string/create_a_new_post"
                         android:textSize="@dimen/_10sdp" />

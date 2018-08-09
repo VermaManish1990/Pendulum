@@ -210,7 +210,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 //        staticLabelsFormatter.setHorizontalLabels(new String[] {"old", "middle", "new"});
 
         GridLabelRenderer gridLabelRenderer = mGraphView.getGridLabelRenderer();
-        gridLabelRenderer.setTextSize(15);
+        gridLabelRenderer.setTextSize(16);
         gridLabelRenderer.setHorizontalLabelsColor(getResources().getColor(R.color.light_black_txt_color));
         gridLabelRenderer.setVerticalLabelsColor(getResources().getColor(R.color.light_black_txt_color));
         gridLabelRenderer.setGridColor(getResources().getColor(R.color.darkGreyBackground));
