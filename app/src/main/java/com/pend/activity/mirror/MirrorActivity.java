@@ -140,6 +140,41 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
         adapter.addFragment(mTrendingMirrorFragment, getString(R.string.trending));
         adapter.addFragment(mFollowingMirrorFragment, getString(R.string.following));
         adapter.addFragment(mIntroducedMirrorFragment, getString(R.string.introduced));
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            public void onPageSelected(int position) {
+                // Check if this is the page you want.
+                switch (position) {
+                    case TRENDING_MIRROR:
+
+                            mIsSearchData = true;
+                            mEtSearch.setText("");
+                            mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+                            mTrendingMirrorFragment.cancelSearchMirrorData();
+                        break;
+
+                    case FOLLOWING_MIRROR:
+
+                            mIsSearchData = true;
+                            mEtSearch.setText("");
+                            mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+                            mFollowingMirrorFragment.cancelSearchMirrorData();
+                        break;
+
+                    case INTRODUCED_MIRROR:
+
+                            mIsSearchData = true;
+                            mEtSearch.setText("");
+                            mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+                            mIntroducedMirrorFragment.cancelSearchMirrorData();
+                        break;
+                }
+            }
+        });
+
         viewPager.setAdapter(adapter);
     }
 
