@@ -11,9 +11,12 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -85,10 +88,40 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
             }
         }
 
+        setUpToolBar();
         initUI();
         setInitialData();
 
         getData(IApiEvent.REQUEST_GET_EXIT_POLL_MIRROR_CODE);
+    }
+
+    /**
+     * Initialize Toolbar and set in the action bar
+     */
+    private void setUpToolBar() {
+        Toolbar mToolbar = findViewById(R.id.tool_bar);
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(R.drawable.back_arrow);
+            actionBar.setTitle(getResources().getString(R.string.exit_polls));
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            //back arrow event
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                LoggerUtil.e(TAG, getString(R.string.wrong_case_selection));
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

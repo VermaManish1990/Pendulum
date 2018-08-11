@@ -267,6 +267,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
                         for (AddUserImageResponseModel.AddUserImageDetails imageDetails : imageDetailsList) {
                             if (imageDetails.imageID == setUserImageResponseModel.Data.imageData.imageID) {
                                 imageDetails.isProfileImage = setUserImageResponseModel.Data.imageData.isProfileImage;
+                                SharedPrefUtils.setProfileImageUrl(this,imageDetails.imageUrl);
                                 break;
                             }
                         }
