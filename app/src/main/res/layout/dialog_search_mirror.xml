@@ -13,9 +13,9 @@
             android:layout_width="@dimen/_45sdp"
             android:layout_height="@dimen/_45sdp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:padding="@dimen/_15sdp"
-            android:src="@drawable/cross" />
+            android:src="@drawable/cross"
+            android:contentDescription="@string/image" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_name"
@@ -50,10 +50,10 @@
             android:layout_marginTop="@dimen/_40sdp"
             android:background="@drawable/custom_rounded_button"
             android:paddingBottom="@dimen/_5sdp"
-            android:paddingEnd="@dimen/_60sdp"
-            android:paddingStart="@dimen/_60sdp"
+            android:paddingEnd="@dimen/_50sdp"
+            android:paddingStart="@dimen/_50sdp"
             android:paddingTop="@dimen/_5sdp"
-            android:text="@string/search"
+            android:text="@string/find"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/_14sdp" />
