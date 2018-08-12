@@ -1,7 +1,7 @@
 package com.pend.arena.view;
 
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,6 +24,7 @@ import com.pend.arena.model.recent_chat.ResponseData;
 import com.pend.arena.presenter.ArenaHomePresenter;
 import com.pend.util.ProgressBarHandler;
 import com.pend.util.RecyclerItemClickListener;
+import com.pend.util.SharedPrefUtils;
 import com.squareup.picasso.Picasso;
 
 
@@ -41,6 +42,13 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
     private boolean loading = true;
     private ProgressBarHandler progressBarHandler;
     private String searchString;
+    private Context mContext;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
     @Nullable
     @Override
@@ -58,16 +66,15 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-      /*  myDataset.add(new ChatItem("https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&h=650&w=940","Walter B.Steele","2"));
-        myDataset.add(new ChatItem("https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&h=650&w=940","Marcus C. Clark","12"));
-        myDataset.add(new ChatItem("https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&h=650&w=940","Margaret J .Freeman","2"));
-        */myAdapter = new MyAdapter(myDataset);
+        myAdapter = new MyAdapter(myDataset);
         recyclerView.setAdapter(myAdapter);
 
-        SharedPreferences pref = getActivity().getSharedPreferences("MyPref", 0); // 0 - for private mode
-        userID= pref.getInt("userId",0);
-
-
+        try{
+            userID= Integer.parseInt(SharedPrefUtils.getUserId(mContext));
+        }catch (Exception e){
+            e.printStackTrace();
+            userID = -1;
+        }
 
         arenaHomePresenter = new ArenaHomePresenter(this,getActivity());
 
