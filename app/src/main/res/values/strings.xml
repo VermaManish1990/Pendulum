@@ -135,5 +135,12 @@
     <string name="home">Home</string>
     <string name="exit_polls">Exit Polls</string>
     <string name="find">Find</string>
+    <string name="distance">Distance</string>
+    <string name="search_arena">Search Arena</string>
+    <string name="type_a_message">Type a message</string>
+    <string name="sender_name">sender name</string>
+    <string name="message">message</string>
+    <string name="time">time</string>
+    <string name="_mirror_">(mirror)</string>
 
 </resources>

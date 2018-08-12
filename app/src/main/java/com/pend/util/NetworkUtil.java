@@ -1,5 +1,6 @@
 package com.pend.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -14,7 +15,6 @@ import java.util.HashMap;
 public class NetworkUtil {
 
     public static final String getSecurityKey(Context context) {
-        String deviceId = "";
         String securityKey = getDeviceId(context) + Constants.SECURITY_CONSTANT;
         return getMd5Encryption(securityKey);
     }
@@ -27,7 +27,7 @@ public class NetworkUtil {
     }
 
     public static String getDeviceId(Context mContext) {
-        String deviceId = Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
+        @SuppressLint("HardwareIds") String deviceId = Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
         return deviceId;
     }
 

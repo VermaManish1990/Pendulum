@@ -34,6 +34,7 @@ import com.pend.activity.mirror.MirrorActivity;
 import com.pend.activity.mirror.MirrorDetailsActivity;
 import com.pend.adapters.HomePostsAdapter;
 import com.pend.adapters.SearchInNewsFeedAdapter;
+import com.pend.arena.view.ArenaActivity;
 import com.pend.fragments.CommentsDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
@@ -548,7 +549,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 break;
 
             case R.id.fl_area:
-                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                hideReveal();
+                Intent intentArena = new Intent(this, ArenaActivity.class);
+                startActivity(intentArena);
                 break;
 
             case R.id.fl_menu_view:

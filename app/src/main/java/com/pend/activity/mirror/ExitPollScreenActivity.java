@@ -30,6 +30,7 @@ import com.pend.activity.home.HomeActivity;
 import com.pend.activity.login.ProfileActivity;
 import com.pend.adapters.ExitPollAdapter;
 import com.pend.adapters.ExitPollViewPagerAdapter;
+import com.pend.arena.view.ArenaActivity;
 import com.pend.fragments.ExitPollUnVotingDialogFragment;
 import com.pend.fragments.ExitPollVotingDialogFragment;
 import com.pend.interfaces.Constants;
@@ -400,7 +401,9 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                 break;
 
             case R.id.fl_area:
-                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                hideReveal();
+                Intent intentArena = new Intent(this, ArenaActivity.class);
+                startActivity(intentArena);
                 break;
 
             case R.id.fl_menu_view:

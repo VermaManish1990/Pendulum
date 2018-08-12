@@ -25,6 +25,7 @@ import com.pend.activity.contest.ContestActivity;
 import com.pend.activity.home.HomeActivity;
 import com.pend.activity.login.ProfileActivity;
 import com.pend.adapters.ReflectionMirrorAdapter;
+import com.pend.arena.view.ArenaActivity;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
@@ -288,7 +289,9 @@ public class ReflectionsActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.fl_area:
-                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                hideReveal();
+                Intent intentArena = new Intent(this, ArenaActivity.class);
+                startActivity(intentArena);
                 break;
 
             case R.id.fl_menu_view:

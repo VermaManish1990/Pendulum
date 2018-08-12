@@ -175,4 +175,25 @@
     <color name="fontPrimary10">#1A0c1e37</color>
 
 
+    <color name="dividerColor">#EEEEEE</color>
+    <color name="boldTextColor">#2b2b2d</color>
+    <color name="roundedButtonBorderColor">#cccccc</color>
+    <color name="dateAndTimeColor">#b5b5b5</color>
+    <color name="topCommentTextColor">#555555</color>
+    <color name="searchMirrorDialogButton">#191919</color>
+    <color name="linkColor">#3856c8</color>
+    <color name="search_bar_background_color">#353535</color>
+    <color name="search_text_color">#a8a8a8</color>
+    <color name="mirror_following_image_border">#b20a18</color>
+    <color name="admire_color">#23c74e</color>
+    <color name="hate_color">#de484d</color>
+    <color name="cant_say_color">#d3c653</color>
+    <color name="placeholder_grey">#AAADC4</color>
+    <color name="placeholder_grey_20">#33AAADC4</color>
+    <color name="light_black">#424242</color>
+    <color name="dark_gray_background">#7a7a7a</color>
+
+    <color name="chat_background">#daebebeb</color>
+
+
 </resources>
