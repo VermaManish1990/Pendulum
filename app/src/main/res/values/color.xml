@@ -30,6 +30,7 @@
     <color name="default_text_color">#4f4f4f</color>
     <color name="light_text_color">#808080</color>
     <color name="transparentBlack">#98000000</color>
+    <color name="transparentColorPrimary">#992a3040</color>
     <color name="cart_red">#b3585b</color>
     <color name="colorRed">#d3232e</color>
     <color name="colorLightBlack62">#62353535</color>
