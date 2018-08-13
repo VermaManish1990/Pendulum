@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/root_view"
-    android:layout_marginTop="@dimen/_10sdp"
+    android:layout_marginTop="@dimen/_5sdp"
     android:layout_marginEnd="@dimen/_10sdp"
     android:layout_marginStart="@dimen/_10sdp"
     android:background="@drawable/custom_rounded_grey_border"
