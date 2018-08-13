@@ -7,20 +7,9 @@
     android:background="@color/white"
     tools:context=".activity.mirror.ExitPollScreenActivity">
 
-    <FrameLayout
-        android:id="@+id/fl_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <include
-            android:id="@+id/tool_bar"
-            layout="@layout/toolbar" />
-    </FrameLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/fl_toolbar"
         android:orientation="vertical"
         android:weightSum="9">
 
