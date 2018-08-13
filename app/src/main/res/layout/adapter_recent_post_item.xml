@@ -4,7 +4,7 @@
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/_10sdp"
+    android:layout_marginTop="@dimen/_5sdp"
     android:background="@color/white"
     android:elevation="@dimen/_5sdp"
     app:cardCornerRadius="@dimen/_10sdp">
@@ -19,17 +19,19 @@
             android:layout_height="@dimen/_32sdp"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_7sdp"
-            android:src="@drawable/profile" />
+            android:src="@drawable/profile"
+            app:civ_border_color="@color/colorPrimary"
+            app:civ_border_width="@dimen/_2sdp" />
 
         <TextView
             android:id="@+id/tv_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_7sdp"
             android:layout_toEndOf="@+id/iv_profile"
             android:layout_toStartOf="@+id/iv_share"
             android:ellipsize="end"
-            android:layout_marginTop="@dimen/_7sdp"
             android:singleLine="true"
             android:textColor="@color/colorAccent"
             android:textSize="@dimen/_11sdp"
@@ -122,8 +124,8 @@
             android:layout_alignTop="@+id/iv_comment"
             android:layout_toEndOf="@+id/iv_comment"
             android:gravity="center"
-            android:textSize="@dimen/_10sdp"
-            android:textColor="@color/fontPrimary60" />
+            android:textColor="@color/fontPrimary60"
+            android:textSize="@dimen/_10sdp" />
 
         <ImageView
             android:id="@+id/iv_like"
@@ -145,8 +147,8 @@
             android:layout_alignTop="@+id/iv_like"
             android:layout_toEndOf="@+id/iv_like"
             android:gravity="center"
-            android:textSize="@dimen/_10sdp"
-            android:textColor="@color/fontPrimary60" />
+            android:textColor="@color/fontPrimary60"
+            android:textSize="@dimen/_10sdp" />
 
         <ImageView
             android:id="@+id/iv_dislike"
@@ -250,7 +252,9 @@
                 android:id="@+id/iv_comment_user_profile"
                 android:layout_width="@dimen/_32sdp"
                 android:layout_height="@dimen/_32sdp"
-                android:src="@drawable/profile" />
+                android:src="@drawable/profile"
+                app:civ_border_color="@color/colorPrimary"
+                app:civ_border_width="@dimen/_2sdp" />
 
             <TextView
                 android:id="@+id/tv_comment_user_name"

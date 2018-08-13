@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/_10sdp"
+    android:layout_marginTop="@dimen/_5sdp"
     android:background="@color/white"
     android:orientation="vertical"
     app:cardCornerRadius="5dp">
@@ -24,7 +24,9 @@
             android:id="@+id/iv_profile"
             android:layout_width="@dimen/_32sdp"
             android:layout_height="@dimen/_32sdp"
-            android:src="@drawable/profile" />
+            android:src="@drawable/profile"
+            app:civ_border_width="@dimen/_2sdp"
+            app:civ_border_color="@color/colorPrimary"/>
 
         <TextView
             android:id="@+id/tv_name"
@@ -74,7 +76,7 @@
             android:layout_below="@+id/iv_profile"
             android:layout_marginTop="@dimen/_15sdp"
             android:textColor="@color/colorAccent"
-            android:textSize="@dimen/_13sdp"
+            android:textSize="@dimen/_12sdp"
             android:textStyle="bold" />
 
     </RelativeLayout>
@@ -83,11 +85,11 @@
         android:id="@+id/iv_post"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_200sdp"
-        android:background="@color/black"
-        android:contentDescription="@string/image"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_10sdp"
         android:adjustViewBounds="true"
+        android:background="@color/black"
+        android:contentDescription="@string/image"
         android:scaleType="centerCrop" />
 
     <RelativeLayout
@@ -96,11 +98,11 @@
         android:layout_marginBottom="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_10sdp"
+        android:background="@drawable/custom_rounded_top_missing_grey_border"
         android:paddingBottom="@dimen/_20sdp"
         android:paddingEnd="@dimen/_10sdp"
         android:paddingStart="@dimen/_10sdp"
-        android:paddingTop="@dimen/_20sdp"
-        android:background="@drawable/custom_rounded_top_missing_grey_border">
+        android:paddingTop="@dimen/_20sdp">
 
         <LinearLayout
             android:id="@+id/rl_bottom_view"
@@ -213,24 +215,24 @@
             android:layout_toStartOf="@+id/iv_send"
             android:background="@drawable/custom_circular_grey_border"
             android:hint="@string/add_a_comment"
-            android:singleLine="true"
             android:paddingBottom="@dimen/_8sdp"
             android:paddingEnd="@dimen/_15sdp"
             android:paddingStart="@dimen/_15sdp"
             android:paddingTop="@dimen/_8sdp"
+            android:singleLine="true"
             android:textSize="@dimen/_10sdp" />
 
         <ImageView
             android:id="@+id/iv_send"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
-            android:textSize="@dimen/_11sdp"
-            android:textAllCaps="false"
+            android:layout_alignBottom="@+id/et_add_a_comment"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/et_add_a_comment"
-            android:layout_alignBottom="@+id/et_add_a_comment"
             android:src="@drawable/send"
-            android:text="@string/send"/>
+            android:text="@string/send"
+            android:textAllCaps="false"
+            android:textSize="@dimen/_11sdp" />
 
     </RelativeLayout>
 

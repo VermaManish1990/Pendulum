@@ -15,11 +15,11 @@
 
         <com.pend.widget.RoundedCornerImageView
             android:id="@+id/iv_profile"
-            android:layout_width="@dimen/_56sdp"
-            android:layout_height="@dimen/_56sdp"
+            android:layout_width="@dimen/_65sdp"
+            android:layout_height="@dimen/_65sdp"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/_8sdp"
-            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:scaleType="fitXY"
             app:fk_left_bottom_corner_radius="@dimen/_5sdp"
             app:fk_left_top_corner_radius="@dimen/_5sdp"
@@ -31,10 +31,9 @@
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
             android:layout_alignStart="@+id/tv_count"
-            android:layout_marginTop="@dimen/_5sdp"
+            android:contentDescription="@string/image"
             android:src="@drawable/yellow_circle"
-            android:visibility="gone"
-            android:contentDescription="@string/image" />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_count"
@@ -58,7 +57,7 @@
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:ellipsize="end"
-            android:singleLine="true"
+            android:maxLines="2"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/_9sdp"
             android:textStyle="bold" />
