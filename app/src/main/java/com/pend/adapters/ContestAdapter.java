@@ -170,9 +170,9 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 viewHolder.tvMirror2View.setWidth(contestDetails.mirror2Per * (width / max));
                 viewHolder.tvMirror3View.setWidth(contestDetails.mirror3Per * (width / max));
 
-                viewHolder.tvMirror1View.setText(String.valueOf(contestDetails.mirror1Per));
-                viewHolder.tvMirror2View.setText(String.valueOf(contestDetails.mirror2Per));
-                viewHolder.tvMirror3View.setText(String.valueOf(contestDetails.mirror3Per));
+                viewHolder.tvMirror1View.setText(String.valueOf(contestDetails.mirror1Per + "%"));
+                viewHolder.tvMirror2View.setText(String.valueOf(contestDetails.mirror2Per + "%"));
+                viewHolder.tvMirror3View.setText(String.valueOf(contestDetails.mirror3Per + "%"));
 
             }
         });

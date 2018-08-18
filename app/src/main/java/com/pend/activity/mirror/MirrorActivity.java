@@ -224,10 +224,10 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
                 break;
 
             case R.id.fl_contest:
-//                hideReveal();
-//                Intent intentContest = new Intent(this, ContestActivity.class);
-//                startActivity(intentContest);
-                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                hideReveal();
+                Intent intentContest = new Intent(this, ContestActivity.class);
+                startActivity(intentContest);
+//                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
 
                 break;
 

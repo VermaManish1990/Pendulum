@@ -30,6 +30,7 @@ import com.pend.R;
 import com.pend.activity.home.HomeActivity;
 import com.pend.activity.login.ProfileActivity;
 import com.pend.activity.mirror.MirrorActivity;
+import com.pend.arena.view.ArenaActivity;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.util.AndroidPermissionUtils;
@@ -281,6 +282,9 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
                 break;
 
             case R.id.fl_area:
+                hideReveal();
+                Intent intentArena = new Intent(this, ArenaActivity.class);
+                startActivity(intentArena);
                 break;
 
             case R.id.fl_menu_view:

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="@dimen/_5sdp"
     android:layout_marginEnd="@dimen/_10sdp"
     android:layout_marginStart="@dimen/_10sdp"
@@ -14,24 +15,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:background="@drawable/custom_rounded_grey_border"
         android:gravity="center"
         android:padding="@dimen/_5sdp"
         android:text="@string/share_on_facebook"
         android:textAllCaps="false"
         android:textColor="@color/fontPrimary40"
-        android:textSize="@dimen/_11sdp" />
+        android:textSize="@dimen/_9sdp" />
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_share_on_facebook"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:text="Who would make a better PM?"
         android:textColor="@color/black"
-        android:textSize="@dimen/_14sdp"
+        android:textSize="@dimen/_12sdp"
         android:textStyle="bold" />
 
     <RelativeLayout
@@ -41,23 +41,32 @@
         android:layout_below="@+id/tv_title"
         android:layout_marginTop="@dimen/_10sdp">
 
-        <ImageView
+        <com.pend.widget.RoundedCornerImageView
             android:id="@+id/iv_left_profile"
-            android:layout_width="@dimen/_96sdp"
-            android:layout_height="@dimen/_96sdp"
+            android:layout_width="@dimen/_86sdp"
+            android:layout_height="@dimen/_86sdp"
             android:contentDescription="@string/image"
-            android:src="@drawable/profile" />
+            android:scaleType="fitXY"
+            android:src="@drawable/ms_dhoni"
+            app:fk_left_bottom_corner_radius="@dimen/_5sdp"
+            app:fk_left_top_corner_radius="@dimen/_5sdp"
+            app:fk_right_bottom_corner_radius="@dimen/_5sdp"
+            app:fk_right_top_corner_radius="@dimen/_5sdp"/>
 
-        <ImageView
+        <com.pend.widget.RoundedCornerImageView
             android:id="@+id/iv_right_profile"
-            android:layout_width="@dimen/_96sdp"
-            android:layout_height="@dimen/_96sdp"
+            android:layout_width="@dimen/_86sdp"
+            android:layout_height="@dimen/_86sdp"
             android:layout_alignBottom="@+id/iv_left_profile"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/iv_left_profile"
             android:contentDescription="@string/image"
-            android:src="@drawable/profile" />
+            android:scaleType="fitXY"
+            android:src="@drawable/virat"
+            app:fk_left_bottom_corner_radius="@dimen/_5sdp"
+            app:fk_left_top_corner_radius="@dimen/_5sdp"
+            app:fk_right_bottom_corner_radius="@dimen/_5sdp"
+            app:fk_right_top_corner_radius="@dimen/_5sdp"/>
 
         <ImageView
             android:layout_width="@dimen/_30sdp"
@@ -73,35 +82,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/iv_left_profile"
-            android:layout_alignLeft="@+id/iv_left_profile"
-            android:layout_alignRight="@+id/iv_left_profile"
             android:layout_alignStart="@+id/iv_left_profile"
             android:layout_below="@+id/iv_left_profile"
             android:gravity="center"
             android:text="Kejriwal"
+            android:layout_marginTop="@dimen/_5sdp"
             android:textColor="@color/black"
-            android:textSize="@dimen/_12sdp" />
+            android:textSize="@dimen/_10sdp" />
 
         <TextView
             android:id="@+id/tv_right_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/iv_right_profile"
-            android:layout_alignLeft="@+id/iv_right_profile"
-            android:layout_alignRight="@+id/iv_right_profile"
             android:layout_alignStart="@+id/iv_right_profile"
             android:layout_below="@+id/iv_right_profile"
             android:gravity="center"
             android:text="Modi"
+            android:layout_marginTop="@dimen/_5sdp"
             android:textColor="@color/black"
-            android:textSize="@dimen/_12sdp" />
+            android:textSize="@dimen/_10sdp" />
 
     </RelativeLayout>
 
     <com.pend.widget.progressbar.CustomProgressBar
         android:id="@+id/progress_bar_profile"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_25sdp"
+        android:layout_height="@dimen/_22sdp"
         android:layout_below="@+id/rl_view"
         android:layout_marginTop="@dimen/_5sdp"
         android:clickable="true"
@@ -125,7 +132,7 @@
         android:text="Created by Jil Delhberg"
         android:textAllCaps="false"
         android:textColor="@color/fontPrimary40"
-        android:textSize="@dimen/_11sdp" />
+        android:textSize="@dimen/_9sdp" />
 
     <ImageView
         android:id="@+id/iv_comment"
@@ -133,7 +140,6 @@
         android:layout_height="@dimen/_15sdp"
         android:layout_alignBottom="@+id/tv_created_by"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/tv_created_by"
         android:contentDescription="@string/image"
         android:src="@drawable/group" />
@@ -145,8 +151,6 @@
         android:layout_alignBottom="@+id/tv_created_by"
         android:layout_alignTop="@+id/tv_created_by"
         android:layout_marginEnd="@dimen/_5sdp"
-        android:layout_marginRight="@dimen/_5sdp"
-        android:layout_toLeftOf="@+id/iv_comment"
         android:layout_toStartOf="@+id/iv_comment"
         android:gravity="center"
         android:text="20"

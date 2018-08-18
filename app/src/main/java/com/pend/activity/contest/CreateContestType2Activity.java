@@ -21,6 +21,7 @@ import com.pend.R;
 import com.pend.activity.home.HomeActivity;
 import com.pend.activity.login.ProfileActivity;
 import com.pend.activity.mirror.MirrorActivity;
+import com.pend.arena.view.ArenaActivity;
 import com.pend.util.LoggerUtil;
 import com.pend.util.SharedPrefUtils;
 import com.squareup.picasso.Picasso;
@@ -122,6 +123,9 @@ public class CreateContestType2Activity extends BaseActivity implements View.OnC
                 break;
 
             case R.id.fl_area:
+                hideReveal();
+                Intent intentArena = new Intent(this, ArenaActivity.class);
+                startActivity(intentArena);
                 break;
 
             case R.id.fl_menu_view:

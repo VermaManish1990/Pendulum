@@ -23,6 +23,7 @@ import com.pend.activity.login.ProfileActivity;
 import com.pend.activity.mirror.MirrorActivity;
 import com.pend.activity.mirror.SearchInNewsFeedActivity;
 import com.pend.adapters.FragmentViewPagerAdapter;
+import com.pend.arena.view.ArenaActivity;
 import com.pend.fragments.FollowingContestFragment;
 import com.pend.fragments.IntroducedContestFragment;
 import com.pend.fragments.TrendingContestFragment;
@@ -149,7 +150,9 @@ public class ContestActivity extends BaseActivity implements View.OnClickListene
                 break;
 
             case R.id.fl_area:
-                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                hideReveal();
+                Intent intentArena = new Intent(this, ArenaActivity.class);
+                startActivity(intentArena);
                 break;
 
             case R.id.fl_menu_view:
