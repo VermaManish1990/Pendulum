@@ -117,6 +117,14 @@
         android:progress="0"
         android:progressDrawable="@android:color/transparent" />
 
+    <View
+        android:id="@+id/view_progress_bar_profile"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_25sdp"
+        android:layout_alignBottom="@+id/progress_bar_profile"
+        android:layout_alignTop="@+id/progress_bar_profile"
+        android:background="@color/transparent" />
+
     <TextView
         android:id="@+id/tv_created_by"
         android:layout_width="wrap_content"

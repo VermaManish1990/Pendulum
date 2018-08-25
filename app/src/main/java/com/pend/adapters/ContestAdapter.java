@@ -3,6 +3,7 @@ package com.pend.adapters;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,10 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.pend.BaseActivity;
 import com.pend.R;
+import com.pend.fragments.ContestType1DialogFragment;
+import com.pend.fragments.ContestType2DialogFragment;
 import com.pend.models.ContestResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.widget.progressbar.CustomProgressBar;
@@ -27,6 +31,7 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final String TAG = ContestAdapter.class.getSimpleName();
     private ArrayList<ContestResponseModel.ContestDetails> mContestDataList;
     public Context mContext;
+    private boolean mIsVoted;
 
     public ContestAdapter(Context context, ArrayList<ContestResponseModel.ContestDetails> contestDataList) {
         mContext = context;
@@ -92,10 +97,12 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private final TextView tvCreatedBy;
         private final TextView tvCommentCount;
         private final CustomProgressBar progressBarProfile;
+        private final View viewProgressBarProfile;
 
         public ViewHolderType1(View itemView) {
             super(itemView);
 
+            viewProgressBarProfile = itemView.findViewById(R.id.view_progress_bar_profile);
             progressBarProfile = itemView.findViewById(R.id.progress_bar_profile);
             tvShareOnFacebook = itemView.findViewById(R.id.tv_share_on_facebook);
             tvTitle = itemView.findViewById(R.id.tv_title);
@@ -122,11 +129,13 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private final TextView tvMirror3View;
         private final TextView tvCreatedBy;
         private final TextView tvCommentCount;
+        private final View rlBottomView;
 
         public ViewHolderType2(View itemView) {
             super(itemView);
 
             llMirrorPercentageView = itemView.findViewById(R.id.ll_right_view);
+            rlBottomView = itemView.findViewById(R.id.rl_bottom_view);
             ivProfile = itemView.findViewById(R.id.iv_profile);
             tvName = itemView.findViewById(R.id.tv_name);
             tvShareOnFacebook = itemView.findViewById(R.id.tv_share_on_facebook);
@@ -155,6 +164,19 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         viewHolder.progressBarProfile.initData(progressItemList);
         viewHolder.progressBarProfile.invalidate();
+
+        viewHolder.viewProgressBarProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mIsVoted) {
+                    DialogFragment votingDialogFragment = ContestType1DialogFragment.newInstance();
+                    votingDialogFragment.show(((BaseActivity)mContext).getSupportFragmentManager(), "ContestType1DialogFragment");
+                } else {
+                    DialogFragment unVotingDialogFragment = ContestType1DialogFragment.newInstance();
+                    unVotingDialogFragment.show(((BaseActivity)mContext).getSupportFragmentManager(), "ContestType1DialogFragment");
+                }
+            }
+        });
     }
 
     private void setDataForContestType2(final ViewHolderType2 viewHolder, int position) {
@@ -176,6 +198,20 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             }
         });
+
+        viewHolder.rlBottomView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mIsVoted) {
+                    DialogFragment votingDialogFragment = ContestType2DialogFragment.newInstance();
+                    votingDialogFragment.show(((BaseActivity)mContext).getSupportFragmentManager(), "ContestType2DialogFragment");
+                } else {
+                    DialogFragment unVotingDialogFragment = ContestType2DialogFragment.newInstance();
+                    unVotingDialogFragment.show(((BaseActivity)mContext).getSupportFragmentManager(), "ContestType2DialogFragment");
+                }
+            }
+        });
+
     }
 
     /**
