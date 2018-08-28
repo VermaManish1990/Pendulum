@@ -76,6 +76,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
     private View mFlQuarterBlackView;
     private View mFlMenuView;
     private ImageView mIvProfile;
+    private int mUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +120,8 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
         quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
         mIvProfile.setOnClickListener(this);
+
+        mTvCreatedBy.setOnClickListener(this);
 
         findViewById(R.id.iv_close).setOnClickListener(this);
         findViewById(R.id.iv_related_contest).setOnClickListener(this);
@@ -199,6 +202,8 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                         if (exitPollMirrorResponseModel.Data != null && exitPollMirrorResponseModel.Data.mirrorData != null) {
 
                             final GetExitPollMirrorResponseModel.GetExitPollMirrorDetails mirrorDetails = exitPollMirrorResponseModel.Data.mirrorData;
+
+                            mUserId = mirrorDetails.userID;
                             mTvCreatedBy.setText(mirrorDetails.userFullName != null ? mirrorDetails.userFullName : "");
 
                             String wikiLink;
@@ -340,6 +345,17 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                 Intent intentReflection = new Intent(ExitPollScreenActivity.this, ReflectionsActivity.class);
                 intentReflection.putExtra(Constants.MIRROR_ID_KEY, mMirrorId);
                 startActivity(intentReflection);
+                break;
+
+            case R.id.tv_created_by:
+
+                if (!mTvCreatedBy.getText().toString().equals("")) {
+
+                    Intent intent = new Intent(this, ProfileActivity.class);
+                    intent.putExtra(Constants.USER_ID_KEY, mUserId);
+                    intent.putExtra(Constants.IS_OTHER_PROFILE, true);
+                    startActivity(intent);
+                }
                 break;
 
             case R.id.tv_share_on_facebook:
