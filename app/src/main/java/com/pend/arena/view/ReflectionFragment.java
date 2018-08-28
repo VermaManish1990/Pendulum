@@ -185,7 +185,7 @@ public class ReflectionFragment extends Fragment implements ReflectionPresenter.
             holder.name.setText(mDataset.get(position).getUserFullName());
             holder.count.setText("("+mDataset.get(position).getMirrorCount()+" common mirrors)");
 
-            if(mDataset.get(position).getImageURL()!=null){
+            if(mDataset.get(position).getImageURL()!=null&& !mDataset.get(position).getImageURL().equals("")){
 
                 Picasso.with(getActivity()).load(mDataset.get(position).getImageURL())
                         .placeholder(R.drawable.profile).into(holder.profileImage);

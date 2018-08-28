@@ -37,62 +37,58 @@ import java.util.Date;
 import java.util.List;
 
 
-public class ChatActivity extends Activity implements ChatPresenter.ChatPresenterListener
-{
+public class ChatActivity extends Activity implements ChatPresenter.ChatPresenterListener {
     private RecyclerView recyclerView;
     private EditText editText;
     private Button sendButton;
-    private List<ResponseData> myDataset= new ArrayList<>();
+    private List<ResponseData> myDataset = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;
     private MyAdapter myAdapter;
     private boolean hasNext;
-    private int PAGE_COUNT=1;
-    int visibleItemCount, totalItemCount,pastVisiblesItems;
+    private int PAGE_COUNT = 1;
+    int visibleItemCount, totalItemCount, pastVisiblesItems;
     private boolean loading = true;
-    private Integer userID,chatRoomID,selectedUserID;
+    private Integer userID, chatRoomID, selectedUserID;
     private ProgressBarHandler progressBarHandler;
     private ChatPresenter chatPresenter;
     private String imageURL;
-    private   Handler handler = new Handler();
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_layout);
 
-        recyclerView=(RecyclerView) findViewById(R.id.recycler_view);
-        editText=(EditText) findViewById(R.id.message);
-        sendButton=(Button) findViewById(R.id.send_button);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        editText = (EditText) findViewById(R.id.message);
+        sendButton = (Button) findViewById(R.id.send_button);
 
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.parent_layout);
 
-        layout.setOnTouchListener(new View.OnTouchListener()
-        {
+        layout.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent ev)
-            {
+            public boolean onTouch(View view, MotionEvent ev) {
                 hideKeyboard(view);
                 return false;
             }
         });
 
         recyclerView.setHasFixedSize(true);
-        progressBarHandler= new ProgressBarHandler(this);
+        progressBarHandler = new ProgressBarHandler(this);
 
-        myDataset= new ArrayList<>();
+        myDataset = new ArrayList<>();
 
         getNewMessageThread();
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-        userID= pref.getInt("userId",2);
+        userID = pref.getInt("userId", 2);
 
 
-        Bundle b= getIntent().getExtras();
-        selectedUserID =b.getInt("selectedUserId");
+        Bundle b = getIntent().getExtras();
+        selectedUserID = b.getInt("selectedUserId");
         try {
             chatRoomID = b.getInt("chatRoomId");
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
         linearLayoutManager = new LinearLayoutManager(this);
@@ -107,49 +103,44 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
         recyclerView.setAdapter(myAdapter);
 
 
-         sendButton.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 sendMessage();
-             }
-         });
-
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
-        {
+        sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
-            {
+            public void onClick(View v) {
+                sendMessage();
+            }
+        });
 
-                if( dy < 0 )// check for scroll up
-               {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
-                       Log.d("Is AT TOP","IS AT tOP");
-                       visibleItemCount = recyclerView.getChildCount();
-                       totalItemCount = linearLayoutManager.getItemCount();
-                       pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
+                if (dy < 0)// check for scroll up
+                {
 
-                       if (loading)
-                       {
+                    Log.d("Is AT TOP", "IS AT tOP");
+                    visibleItemCount = recyclerView.getChildCount();
+                    totalItemCount = linearLayoutManager.getItemCount();
+                    pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
 
-                           Log.d("Loading","Loading");
-                           if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount)
-                           {
-                               loading = false;
-                               Log.d("...", "Last Item Wow !");
-                               //Do pagination.. i.e. fetch new data
-                               if(hasNext)
-                               {
-                                   Log.d("...", "Loading more !");
-                                   chatPresenter.getUserChat(userID,selectedUserID,chatRoomID
-                                           ,++PAGE_COUNT);
+                    if (loading) {
 
-                               }
+                        Log.d("Loading", "Loading");
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                            loading = false;
+                            Log.d("...", "Last Item Wow !");
+                            //Do pagination.. i.e. fetch new data
+                            if (hasNext) {
+                                Log.d("...", "Loading more !");
+                                chatPresenter.getUserChat(userID, selectedUserID, chatRoomID
+                                        , ++PAGE_COUNT);
+
+                            }
 
 
-                           }
-                       }
+                        }
+                    }
 
-               }
+                }
             }
         });
 
@@ -179,22 +170,21 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
 
         progressBarHandler.hide();
 
-        if(userData!=null&&userData.isStatus())
-        {
+        if (userData != null && userData.isStatus()) {
             myDataset.addAll(userData.getData().getResponseData());
             myAdapter.notifyDataSetChanged();
 
-            hasNext=userData.getData().hasNextPage;
-            if(hasNext)
-                loading=true;
+            hasNext = userData.getData().hasNextPage;
+            if (hasNext)
+                loading = true;
         }
     }
 
     @Override
     public void sendMessage(SendMessageResponse userData) {
 
-        if(userData.isStatus())
-        getData();
+        if (userData.isStatus())
+            getData();
 
     }
 
@@ -202,10 +192,8 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
     public void getNewMessage(UserData userData) {
 
 
-        if(userData!=null&&userData.isStatus())
-        {
-            if(userData.getStatusCode().equals("200"))
-            {
+        if (userData != null && userData.isStatus()) {
+            if (userData.getStatusCode().equals("200")) {
                 getData();
             }
         }
@@ -214,11 +202,11 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
     @Override
     public void getChatRoomID(GetChatRoomResponse getChatRoomResponse) {
 
-        Log.d("chat rrom ","chat rro");
+        Log.d("chat rrom ", "chat rro");
 
-        if(getChatRoomResponse!=null&&getChatRoomResponse.isStatus()) {
+        if (getChatRoomResponse != null && getChatRoomResponse.isStatus()) {
 
-            chatRoomID=getChatRoomResponse.getData().getResponseData().getChatRoomID();
+            chatRoomID = getChatRoomResponse.getData().getResponseData().getChatRoomID();
             chatPresenter.getUserChat(userID, selectedUserID, chatRoomID
                     , PAGE_COUNT);
 
@@ -233,25 +221,27 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
 
         class ViewHolder0 extends RecyclerView.ViewHolder {
 
-            public TextView name,message,time;
+            public TextView name, message, time;
             public ImageView profileImage;
+
             public ViewHolder0(View v) {
                 super(v);
                 name = v.findViewById(R.id.sender_name);
-                message=v.findViewById(R.id.sender_message);
-                profileImage=v.findViewById(R.id.sender_image);
-                time=v.findViewById(R.id.time);
+                message = v.findViewById(R.id.sender_message);
+                profileImage = v.findViewById(R.id.sender_image);
+                time = v.findViewById(R.id.time);
             }
         }
 
         class ViewHolder2 extends RecyclerView.ViewHolder {
-            public TextView message,time;
+            public TextView message, time;
             public ImageView profileImage;
+
             public ViewHolder2(View v) {
                 super(v);
-                message=v.findViewById(R.id.receiver_message);
-                profileImage=v.findViewById(R.id.receiver_image);
-                time=v.findViewById(R.id.time);
+                message = v.findViewById(R.id.receiver_message);
+                profileImage = v.findViewById(R.id.receiver_image);
+                time = v.findViewById(R.id.time);
             }
         }
 
@@ -261,18 +251,16 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
             // Just as an example, return 0 or 2 depending on position
             // Note that unlike in ListView adapters, types don't have to be contiguous
 
-            ResponseData chatDataItem= mDataset.get(position);
-            if(chatDataItem.getReceiverID()==userID)
-            {
+            ResponseData chatDataItem = mDataset.get(position);
+            if (chatDataItem.getReceiverID() == userID) {
                 return 0;
-            }
-            else
+            } else
                 return 2;
             //return position % 2 * 2;
         }
 
 
-            // Provide a suitable constructor (depends on the kind of dataset)
+        // Provide a suitable constructor (depends on the kind of dataset)
         public MyAdapter(List<ResponseData> myDataset) {
             mDataset = myDataset;
         }
@@ -289,7 +277,8 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
                     View v1 = LayoutInflater.from(parent.getContext())
                             .inflate(R.layout.receiver_row_item, parent, false);
                     return new ViewHolder2(v1);
-                    default: return null;
+                default:
+                    return null;
 
             }
 
@@ -298,7 +287,7 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
 
         @Override
         public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-            final ResponseData item =mDataset.get(position);
+            final ResponseData item = mDataset.get(position);
 
             switch (holder.getItemViewType()) {
                 case 0:
@@ -308,7 +297,7 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
                     ((ViewHolder0) holder).time.setText(formatDate(
                             mDataset.get(position).getMessageDateTime()));
 
-                    if(mDataset.get(position).getImageURL()!=null){
+                    if (mDataset.get(position).getImageURL() != null && !mDataset.get(position).getImageURL().equals("")) {
 
                         Picasso.with(ChatActivity.this).load(mDataset.get(position).getImageURL())
                                 .placeholder(R.drawable.profile).into(((ViewHolder0) holder).profileImage);
@@ -317,13 +306,13 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
 
                 case 2:
 
-                    imageURL =mDataset.get(position).getImageURL();
+                    imageURL = mDataset.get(position).getImageURL();
 
-                   ((ViewHolder2) holder).time.setText(formatDate(
-                           mDataset.get(position).getMessageDateTime()));
+                    ((ViewHolder2) holder).time.setText(formatDate(
+                            mDataset.get(position).getMessageDateTime()));
                     ((ViewHolder2) holder).message.setText(String.valueOf(mDataset.get(position).getMessageText()));
 
-                    if(mDataset.get(position).getImageURL()!=null){
+                    if (mDataset.get(position).getImageURL() != null && !mDataset.get(position).getImageURL().equals("")) {
 
                         Picasso.with(ChatActivity.this).load(mDataset.get(position).getImageURL())
                                 .placeholder(R.drawable.profile).into(((ViewHolder2) holder).profileImage);
@@ -339,12 +328,11 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
         }
     }
 
-    public void sendMessage()
-    {
+    public void sendMessage() {
 
-        if(editText.getText().length()>0) {
+        if (editText.getText().length() > 0) {
 
-            Message message = new Message(chatRoomID,userID,selectedUserID,editText.getText().toString());
+            Message message = new Message(chatRoomID, userID, selectedUserID, editText.getText().toString());
 
             chatPresenter.sendMessage(message);
 
@@ -356,7 +344,7 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
             data.setImageURL(imageURL);
             data.setMessageDateTime("now");
 
-            myDataset.add(0,data);
+            myDataset.add(0, data);
             myAdapter.notifyItemInserted(0);
             editText.setText("");
 
@@ -381,33 +369,32 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
 
         final int delay = 10000; //milliseconds
 
-        handler.postDelayed(new Runnable(){
-            public void run(){
+        handler.postDelayed(new Runnable() {
+            public void run() {
                 //do something
-                Log.d("background thread","backgrund thread");
+                Log.d("background thread", "backgrund thread");
                 ;
-                chatPresenter.getNewMessage(userID,selectedUserID,chatRoomID);
+                chatPresenter.getNewMessage(userID, selectedUserID, chatRoomID);
                 handler.postDelayed(this, delay);
             }
         }, delay);
 
     }
 
-    public void getData()
-    {
+    public void getData() {
         myDataset.clear();
         myAdapter.notifyDataSetChanged();
-        PAGE_COUNT=1;
-        loading=true;
+        PAGE_COUNT = 1;
+        loading = true;
 
-        chatPresenter= new ChatPresenter(this,this);
+        chatPresenter = new ChatPresenter(this, this);
 /*
         if(chatRoomID!=null)
         chatPresenter.getUserChat(userID,selectedUserID,chatRoomID
                 ,PAGE_COUNT);
 
         else*/
-            chatPresenter.getChatRoomID(userID,selectedUserID);
+        chatPresenter.getChatRoomID(userID, selectedUserID);
 
     }
 
@@ -419,14 +406,13 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
 
 
     public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    String formatDate(String timeString)
-    {
+    String formatDate(String timeString) {
 
-        Date date1 =null;
+        Date date1 = null;
         try {
             date1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a").parse(timeString);
 
@@ -434,17 +420,15 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
 
             // Get the date today using Calendar object.
 
-           // Using DateFormat format method we can create a string
+            // Using DateFormat format method we can create a string
             // representation of a date with the defined format.
             String reportDate = df.format(date1);
-            System.out.println(timeString+"\t"+date1);
-            return reportDate ;
-            }
-            catch (ParseException e)
-            {
+            System.out.println(timeString + "\t" + date1);
+            return reportDate;
+        } catch (ParseException e) {
 
-                return null;
-            }
+            return null;
+        }
 
 
     }

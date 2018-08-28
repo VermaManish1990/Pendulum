@@ -6,14 +6,14 @@ package com.pend.arena.api;
 
 public class URL {
 
-    public static final String META_DATA_URL = "GetMetaData";
+    public static final String META_DATA_URL = "api/GetMetaData";
 
-    public static final String GET_RECENT_CHATS="GetRecentChats";
-    public static final String GET_USER_CHAT="GetUserChat";
-    public static final String GET_NEW_MESSAGE="GetNewMessage";
-    public static final String SEND_MESSAGE="SendMessage";
-    public static final String GET_REFLECTIONS="GetReflections";
-    public static final String USER_LOCATION="UpdateUserLocationStatus";
-    public static final String GET_CHAT_ID="GetChatRoomID";
-    public static final String SEARCH_USER="SearchUser";
+    public static final String GET_RECENT_CHATS="api/GetRecentChats";
+    public static final String GET_USER_CHAT="api/GetUserChat";
+    public static final String GET_NEW_MESSAGE="api/GetNewMessage";
+    public static final String SEND_MESSAGE="api/SendMessage";
+    public static final String GET_REFLECTIONS="api/GetReflections";
+    public static final String USER_LOCATION="api/UpdateUserLocationStatus";
+    public static final String GET_CHAT_ID="api/GetChatRoomID";
+    public static final String SEARCH_USER="api/SearchUser";
 }

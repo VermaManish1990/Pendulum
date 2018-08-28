@@ -26,12 +26,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SearchUserActivity extends Activity implements SearchUserPresenter.SearchUserPresenterListener{
+public class SearchUserActivity extends Activity implements SearchUserPresenter.SearchUserPresenterListener {
 
     private RecyclerView recyclerView;
     private boolean hasNext;
-    private int PAGE_COUNT=1;
-    int visibleItemCount, totalItemCount,pastVisiblesItems;
+    private int PAGE_COUNT = 1;
+    int visibleItemCount, totalItemCount, pastVisiblesItems;
     private boolean loading = true;
     private ProgressBarHandler progressBarHandler;
     private List<User> myDataset;
@@ -39,21 +39,21 @@ public class SearchUserActivity extends Activity implements SearchUserPresenter.
     private MyAdapter myAdapter;
     private Integer userID;
     private SearchUserPresenter searchUserPresenter;
-    private String area,sex;
-    private Integer ageTo,ageFrom,distanceTo,distanceFrom;
-    private Double latitude,longitude;
+    private String area, sex;
+    private Integer ageTo, ageFrom, distanceTo, distanceFrom;
+    private Double latitude, longitude;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_user_layout);
-        recyclerView =(RecyclerView)findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         recyclerView.setHasFixedSize(true);
-        progressBarHandler= new ProgressBarHandler(this);
+        progressBarHandler = new ProgressBarHandler(this);
 
 
-        myDataset= new ArrayList<>();
+        myDataset = new ArrayList<>();
 
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -61,51 +61,45 @@ public class SearchUserActivity extends Activity implements SearchUserPresenter.
       /*  myDataset.add(new ChatItem("https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&h=650&w=940","Walter B.Steele","2"));
         myDataset.add(new ChatItem("https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&h=650&w=940","Marcus C. Clark","12"));
         myDataset.add(new ChatItem("https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&h=650&w=940","Margaret J .Freeman","2"));
-        */myAdapter = new MyAdapter(myDataset);
+        */
+        myAdapter = new MyAdapter(myDataset);
         recyclerView.setAdapter(myAdapter);
 
         SharedPreferences pref = getSharedPreferences("MyPref", 0); // 0 - for private mode
-        userID= pref.getInt("userId",0);
+        userID = pref.getInt("userId", 0);
 
-        Bundle b= getIntent().getExtras();
-        ageTo =b.getInt("ageTo");
-        ageFrom =b.getInt("ageFrom");
+        Bundle b = getIntent().getExtras();
+        ageTo = b.getInt("ageTo");
+        ageFrom = b.getInt("ageFrom");
         //area =b.getString("area");
-        sex =b.getString("sex");
+        sex = b.getString("sex");
 
-        distanceTo =b.getInt("distanceTo");
-        distanceFrom =b.getInt("distanceFrom");
-        latitude =b.getDouble("latitude");
-        longitude =b.getDouble("longitude");
-
-
+        distanceTo = b.getInt("distanceTo");
+        distanceFrom = b.getInt("distanceFrom");
+        latitude = b.getDouble("latitude");
+        longitude = b.getDouble("longitude");
 
 
-        searchUserPresenter = new SearchUserPresenter(this,this);
+        searchUserPresenter = new SearchUserPresenter(this, this);
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
-        {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
-            {
-                if(dy > 0) //check for scroll down
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) //check for scroll down
                 {
                     visibleItemCount = recyclerView.getChildCount();
                     totalItemCount = linearLayoutManager.getItemCount();
                     pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
 
-                    if (loading)
-                    {
-                        if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount)
-                        {
+                    if (loading) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             loading = false;
                             Log.v("...", "Last Item Wow !");
                             //Do pagination.. i.e. fetch new data
-                            if(hasNext)
-                            {
+                            if (hasNext) {
                                 searchUserPresenter.searchUser(userID,
-                                        ++PAGE_COUNT,latitude,longitude,
-                                        distanceFrom,distanceTo,ageTo,ageFrom,sex);
+                                        ++PAGE_COUNT, latitude, longitude,
+                                        distanceFrom, distanceTo, ageTo, ageFrom, sex);
 
                             }
 
@@ -118,16 +112,17 @@ public class SearchUserActivity extends Activity implements SearchUserPresenter.
 
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
+                    @Override
+                    public void onItemClick(View view, int position) {
                         // do whatever
 
                         User data = myDataset.get(position);
 
-                        Intent intent = new Intent(SearchUserActivity.this,ChatActivity.class);
+                        Intent intent = new Intent(SearchUserActivity.this, ChatActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         Bundle b = new Bundle();
-                      //  b.putInt("chatRoomId",data.getChatRoomID());
-                        b.putInt("selectedUserId",data.getUserID());
+                        //  b.putInt("chatRoomId",data.getChatRoomID());
+                        b.putInt("selectedUserId", data.getUserID());
                         intent.putExtras(b);
                         startActivity(intent);
 
@@ -139,12 +134,11 @@ public class SearchUserActivity extends Activity implements SearchUserPresenter.
     }
 
 
-
     @Override
     public void searchUser(SearchUserResponse searchUserResponse) {
         progressBarHandler.hide();
 
-        if(searchUserResponse!=null&&searchUserResponse.isStatus())
+        if (searchUserResponse != null && searchUserResponse.isStatus())
             myDataset.addAll(searchUserResponse.getData().userList);
         myAdapter.notifyDataSetChanged();
 
@@ -156,10 +150,10 @@ public class SearchUserActivity extends Activity implements SearchUserPresenter.
 
         myDataset.clear();
         myAdapter.notifyDataSetChanged();
-        PAGE_COUNT=1;
-        loading=true;
+        PAGE_COUNT = 1;
+        loading = true;
 
-        searchUserPresenter.searchUser(userID,PAGE_COUNT,latitude,longitude,distanceFrom,distanceTo,ageTo,ageFrom,sex);
+        searchUserPresenter.searchUser(userID, PAGE_COUNT, latitude, longitude, distanceFrom, distanceTo, ageTo, ageFrom, sex);
         progressBarHandler.show();
     }
 
@@ -169,17 +163,18 @@ public class SearchUserActivity extends Activity implements SearchUserPresenter.
         // Provide a reference to the views for each data item
         // Complex data items may need more than one view per item, and
         // you provide access to all the views for a data item in a view holder
-        public  class ViewHolder extends RecyclerView.ViewHolder {
+        public class ViewHolder extends RecyclerView.ViewHolder {
             // each data item is just a string in this case
-            public TextView name,age,gender,address;
+            public TextView name, age, gender, address;
             public ImageView profileImage;
+
             public ViewHolder(View v) {
                 super(v);
                 name = v.findViewById(R.id.user_name);
-                profileImage=v.findViewById(R.id.user_image);
-                age=v.findViewById(R.id.age);
-                gender=v.findViewById(R.id.gender);
-                address=v.findViewById(R.id.address);
+                profileImage = v.findViewById(R.id.user_image);
+                age = v.findViewById(R.id.age);
+                gender = v.findViewById(R.id.gender);
+                address = v.findViewById(R.id.address);
             }
         }
 
@@ -193,7 +188,7 @@ public class SearchUserActivity extends Activity implements SearchUserPresenter.
         public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                        int viewType) {
             // create a new view
-            View v =  LayoutInflater.from(parent.getContext())
+            View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.search_user_item, parent, false);
 
             MyAdapter.ViewHolder vh = new MyAdapter.ViewHolder(v);
@@ -205,13 +200,13 @@ public class SearchUserActivity extends Activity implements SearchUserPresenter.
         public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
-            final User item =mDataset.get(position);
+            final User item = mDataset.get(position);
             holder.name.setText(item.getUserFullName());
-            holder.age.setText(item.getUserAge()+" years");
-            holder.gender.setText(item.getUserGender()+"");
-            holder.address.setText(item.getAddress()+"");
+            holder.age.setText(item.getUserAge() + " years");
+            holder.gender.setText(item.getUserGender() + "");
+            holder.address.setText(item.getAddress() + "");
 
-            if(mDataset.get(position).getImageURL()!=null){
+            if (mDataset.get(position).getImageURL() != null && !mDataset.get(position).getImageURL().equals("")) {
 
                 Picasso.with(getApplicationContext()).load(mDataset.get(position).
                         getImageURL()).placeholder(R.drawable.profile).into(holder.profileImage);

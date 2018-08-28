@@ -37,8 +37,8 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
     private ArenaHomePresenter arenaHomePresenter;
     private Integer userID;
     private boolean hasNext;
-    private int PAGE_COUNT=1;
-    int visibleItemCount, totalItemCount,pastVisiblesItems;
+    private int PAGE_COUNT = 1;
+    int visibleItemCount, totalItemCount, pastVisiblesItems;
     private boolean loading = true;
     private ProgressBarHandler progressBarHandler;
     private String searchString;
@@ -53,15 +53,15 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.chat_fragment,container,false);
+        View view = inflater.inflate(R.layout.chat_fragment, container, false);
 
-        recyclerView=(RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
         recyclerView.setHasFixedSize(true);
-        progressBarHandler= new ProgressBarHandler(getActivity());
+        progressBarHandler = new ProgressBarHandler(getActivity());
 
 
-        myDataset= new ArrayList<>();
+        myDataset = new ArrayList<>();
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -69,27 +69,28 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
         myAdapter = new MyAdapter(myDataset);
         recyclerView.setAdapter(myAdapter);
 
-        try{
-            userID= Integer.parseInt(SharedPrefUtils.getUserId(mContext));
-        }catch (Exception e){
+        try {
+            userID = Integer.parseInt(SharedPrefUtils.getUserId(mContext));
+        } catch (Exception e) {
             e.printStackTrace();
             userID = -1;
         }
 
-        arenaHomePresenter = new ArenaHomePresenter(this,getActivity());
+        arenaHomePresenter = new ArenaHomePresenter(this, getActivity());
 
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
+                    @Override
+                    public void onItemClick(View view, int position) {
                         // do whatever
 
                         ResponseData data = myDataset.get(position);
 
-                        Intent intent = new Intent(getActivity(),ChatActivity.class);
+                        Intent intent = new Intent(getActivity(), ChatActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         Bundle b = new Bundle();
-                        b.putInt("chatRoomId",data.getChatRoomID());
-                        b.putInt("selectedUserId",data.getUserID());
+                        b.putInt("chatRoomId", data.getChatRoomID());
+                        b.putInt("selectedUserId", data.getUserID());
                         intent.putExtras(b);
                         startActivity(intent);
 
@@ -99,28 +100,23 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
                 })
         );
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
-        {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
-            {
-                if(dy > 0) //check for scroll down
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) //check for scroll down
                 {
                     visibleItemCount = recyclerView.getChildCount();
                     totalItemCount = linearLayoutManager.getItemCount();
                     pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
 
-                    if (loading)
-                    {
-                        if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount)
-                        {
+                    if (loading) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             loading = false;
                             Log.v("...", "Last Item Wow !");
                             //Do pagination.. i.e. fetch new data
-                            if(hasNext)
-                            {
+                            if (hasNext) {
                                 arenaHomePresenter.getRecentChats(userID,
-                                        ++PAGE_COUNT,searchString);
+                                        ++PAGE_COUNT, searchString);
 
                             }
 
@@ -142,14 +138,14 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
 
         myDataset.clear();
         myAdapter.notifyDataSetChanged();
-        PAGE_COUNT=1;
-        loading=true;
+        PAGE_COUNT = 1;
+        loading = true;
 
-        ArenaActivity act = (ArenaActivity)getActivity();
+        ArenaActivity act = (ArenaActivity) getActivity();
 
         searchString = act.getSearchText();
 
-        arenaHomePresenter.getRecentChats(userID,PAGE_COUNT,searchString);
+        arenaHomePresenter.getRecentChats(userID, PAGE_COUNT, searchString);
         progressBarHandler.show();
     }
 
@@ -158,13 +154,12 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
 
         progressBarHandler.hide();
 
-        if(recentChatsResponse !=null&& recentChatsResponse.isStatus())
-        {
+        if (recentChatsResponse != null && recentChatsResponse.isStatus()) {
             myDataset.addAll(recentChatsResponse.getData().getResponseData());
             myAdapter.notifyDataSetChanged();
 
-            if(recentChatsResponse.getData().hasNextPage)
-                loading=true;
+            if (recentChatsResponse.getData().hasNextPage)
+                loading = true;
 
         }
 
@@ -182,15 +177,16 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
         // Provide a reference to the views for each data item
         // Complex data items may need more than one view per item, and
         // you provide access to all the views for a data item in a view holder
-        public  class ViewHolder extends RecyclerView.ViewHolder {
+        public class ViewHolder extends RecyclerView.ViewHolder {
             // each data item is just a string in this case
-            public TextView name,count;
+            public TextView name, count;
             public ImageView profileImage;
+
             public ViewHolder(View v) {
                 super(v);
                 name = v.findViewById(R.id.user_name);
-                count=v.findViewById(R.id.user_count);
-                profileImage=v.findViewById(R.id.user_image);
+                count = v.findViewById(R.id.user_count);
+                profileImage = v.findViewById(R.id.user_image);
             }
         }
 
@@ -202,9 +198,9 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
         // Create new views (invoked by the layout manager)
         @Override
         public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                                              int viewType) {
+                                                       int viewType) {
             // create a new view
-            View v =  LayoutInflater.from(parent.getContext())
+            View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.chat_row_item, parent, false);
 
             MyAdapter.ViewHolder vh = new MyAdapter.ViewHolder(v);
@@ -216,19 +212,17 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
         public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
-            final ResponseData item =mDataset.get(position);
+            final ResponseData item = mDataset.get(position);
             holder.name.setText(mDataset.get(position).getUserFullName());
 
-            if(mDataset.get(position).getUnRead()==null)
-            {
+            if (mDataset.get(position).getUnRead() == null) {
                 holder.count.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 holder.count.setVisibility(View.VISIBLE);
                 holder.count.setText(mDataset.get(position).getUnRead() + "");
             }
 
-            if(mDataset.get(position).getImageURL()!=null){
+            if (mDataset.get(position).getImageURL() != null && !mDataset.get(position).getImageURL().equals("")) {
 
                 Picasso.with(getActivity()).load(mDataset.get(position).getImageURL())
                         .placeholder(R.drawable.profile).into(holder.profileImage);
