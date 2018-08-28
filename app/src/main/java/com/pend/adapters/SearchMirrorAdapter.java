@@ -56,7 +56,9 @@ public class SearchMirrorAdapter extends RecyclerView.Adapter<SearchMirrorAdapte
         holder.tvName.setText(searchMirrorDetails.mirrorName != null ? searchMirrorDetails.mirrorName : "");
 
         final String wikiLink;
-        if (searchMirrorDetails.mirrorWikiLink != null) {
+        if (searchMirrorDetails.mirrorWikiLink != null &&
+                !searchMirrorDetails.mirrorWikiLink.equals("") && !searchMirrorDetails.mirrorWikiLink.equals("NA")) {
+
 
             wikiLink = "<a href=" + searchMirrorDetails.mirrorWikiLink + ">Wiki link</a>";
             holder.tvLink.setOnClickListener(new View.OnClickListener() {

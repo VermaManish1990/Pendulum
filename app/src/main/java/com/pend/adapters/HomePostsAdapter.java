@@ -179,7 +179,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                 }
             }
         });
-        holder.tvShareOnFacebook.setOnClickListener(new View.OnClickListener() {
+        holder.ivShareOnFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ShareDialog shareDialog = new ShareDialog((Activity) mContext);// initialize facebook shareDialog.
@@ -224,7 +224,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         private final ImageView ivPost;
         private final TextView tvName;
         private final TextView tvTime;
-        private final TextView tvShareOnFacebook;
+        private final ImageView ivShareOnFacebook;
         private final TextView tvTitle;
         private final TextView tvComment;
         private final TextView tvLike;
@@ -246,7 +246,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
             ivPost = itemView.findViewById(R.id.iv_post);
             tvName = itemView.findViewById(R.id.tv_name);
             tvTime = itemView.findViewById(R.id.tv_time);
-            tvShareOnFacebook = itemView.findViewById(R.id.tv_share_on_facebook);
+            ivShareOnFacebook = itemView.findViewById(R.id.iv_share_on_facebook);
             tvTitle = itemView.findViewById(R.id.tv_title);
 
             tvComment = itemView.findViewById(R.id.tv_comment);

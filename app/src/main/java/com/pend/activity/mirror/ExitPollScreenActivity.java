@@ -202,7 +202,8 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                             mTvCreatedBy.setText(mirrorDetails.userFullName != null ? mirrorDetails.userFullName : "");
 
                             String wikiLink;
-                            if (mirrorDetails.mirrorWikiLink != null) {
+                            if (mirrorDetails.mirrorWikiLink != null &&
+                                    !mirrorDetails.mirrorWikiLink.equals("") && !mirrorDetails.mirrorWikiLink.equals("NA")) {
 
                                 wikiLink = "<a href=" + mirrorDetails.mirrorWikiLink + ">Wiki link</a>";
                                 mTvWikiLink.setOnClickListener(new View.OnClickListener() {

@@ -21,6 +21,7 @@
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:tint="@color/white"
+            android:background="@color/colorPrimary"
             android:src="@drawable/menu_white"
             app:fabSize="mini" />
     </FrameLayout>

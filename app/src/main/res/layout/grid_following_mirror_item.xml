@@ -57,7 +57,7 @@
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:maxLines="1"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/_9sdp"
             android:textStyle="bold" />

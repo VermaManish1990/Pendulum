@@ -71,40 +71,10 @@ public class ReflectionsActivity extends BaseActivity implements View.OnClickLis
             }
         }
 
-        setUpToolBar();
         initUI();
         setInitialData();
 
         getData(IApiEvent.REQUEST_GET_REFLECTION_USERS_CODE);
-    }
-
-    /**
-     * Initialize Toolbar and set in the action bar
-     */
-    private void setUpToolBar() {
-        Toolbar mToolbar = findViewById(R.id.tool_bar);
-        setSupportActionBar(mToolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.back_arrow);
-            actionBar.setTitle(getResources().getString(R.string.reflections));
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            //back arrow event
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                LoggerUtil.e(TAG, getString(R.string.wrong_case_selection));
-                break;
-
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

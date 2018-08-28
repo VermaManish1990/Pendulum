@@ -2,7 +2,7 @@ package com.pend.interfaces;
 
 public interface IWebServices {
 
-    String BASE_URL = "http://api.thewoodsfurnitures.com/";
+    String BASE_URL = "http://pendulumapp-dev.ap-south-1.elasticbeanstalk.com/";
 
     String REQUEST_SIGN_UP_URL = BASE_URL + "api/UserSignUp";
     String REQUEST_LOGIN_URL = BASE_URL + "api/UserLogin";
