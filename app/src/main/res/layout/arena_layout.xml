@@ -4,49 +4,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black">
+    android:background="@color/colorPrimary">
 
-    <com.pend.util.RegularFontEditText
-        android:id="@+id/search_text"
+    <!--<com.pend.util.RegularFontEditText-->
+        <!--android:id="@+id/search_text"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="45dp"-->
+        <!--android:layout_marginLeft="30dp"-->
+        <!--android:layout_marginRight="30dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:background="@drawable/rounded_gray_background"-->
+        <!--android:drawablePadding="10dp"-->
+        <!--android:drawableStart="@drawable/search"-->
+        <!--android:hint="@string/search_arena"-->
+        <!--android:imeOptions="actionSearch"-->
+        <!--android:inputType="text"-->
+        <!--android:paddingStart="20dp"-->
+        <!--android:singleLine="true"-->
+        <!--android:textAlignment="viewStart"-->
+        <!--android:textColor="@android:color/white"-->
+        <!--android:textColorHint="@color/search_text_color"-->
+        <!--android:textSize="15sp"-->
+        <!--android:textStyle="bold"-->
+        <!--tools:ignore="RtlSymmetry" />-->
+
+    <FrameLayout
+        android:id="@+id/fl_custom_search_view"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_gray_background"
-        android:drawablePadding="10dp"
-        android:drawableStart="@drawable/search"
-        android:hint="@string/search_arena"
-        android:imeOptions="actionSearch"
-        android:inputType="text"
-        android:paddingStart="20dp"
-        android:singleLine="true"
-        android:textAlignment="viewStart"
-        android:textColor="@android:color/white"
-        android:textColorHint="@color/search_text_color"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        tools:ignore="RtlSymmetry" />
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:paddingBottom="@dimen/_12sdp"
+        android:paddingTop="@dimen/_15sdp">
 
+        <include
+            android:id="@+id/custom_search_view"
+            layout="@layout/custom_search_black_view" />
+
+    </FrameLayout>
+
+
+    <!--<android.support.design.widget.TabLayout-->
+        <!--android:id="@+id/tabs"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerHorizontal="true"-->
+
+        <!--android:background="?attr/colorPrimary"-->
+        <!--android:maxWidth="70dp"-->
+        <!--android:minWidth="50dp"-->
+        <!--android:paddingBottom="10dp"-->
+        <!--app:tabGravity="fill"-->
+        <!--app:tabMode="fixed"-->
+        <!--app:tabPadding="0dp"-->
+        <!--app:tabSelectedTextColor="@color/colorAccent"-->
+        <!--app:tabTextColor="#FFF"-->
+        <!--app:textAllCaps="false" />-->
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/search_text"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-
         android:background="?attr/colorPrimary"
-        android:maxWidth="70dp"
-        android:minWidth="50dp"
-        android:paddingBottom="10dp"
-        app:tabGravity="fill"
-        app:tabMode="fixed"
-        app:tabPadding="0dp"
-        app:tabSelectedTextColor="@color/colorAccent"
-        app:tabTextColor="#FFF"
-        app:textAllCaps="false" />
+        android:padding="@dimen/_5sdp"
+        app:tabIndicatorColor="@android:color/white"
+        app:tabIndicatorHeight="2dp"
+        android:layout_below="@+id/fl_custom_search_view"
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
 
 
     <android.support.v4.view.ViewPager
@@ -63,6 +87,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="20dp"
+        android:background="@color/colorPrimary"
         android:scaleType="centerCrop"
         android:src="@drawable/search"
         app:fabSize="normal" />

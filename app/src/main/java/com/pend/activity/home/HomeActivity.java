@@ -2,6 +2,7 @@ package com.pend.activity.home;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Build;
@@ -19,6 +20,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -192,14 +195,18 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         });
         mRecyclerViewMirror.setAdapter(new SearchInNewsFeedAdapter(this, mMirrorList));
 
-        mEtSearch.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // If the event is a key-down event on the "enter" button
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    // Perform action on key press
+        mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 
+                    InputMethodManager inputManager = (InputMethodManager)
+                            getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                    inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
                     onSearchClick();
+
                     return true;
                 }
                 return false;
@@ -460,7 +467,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                             updateUi(true, actionID, response);
                         }
                     });
-                }else {
+                } else {
                     removeProgressDialog();
                 }
 
@@ -798,7 +805,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     /**
      * Method is used to perform action on search click.
      */
-    public void onSearchClick(){
+    public void onSearchClick() {
         mSearchText = mEtSearch.getText().toString().trim();
 
         if (mIsSearchData) {

@@ -33,6 +33,7 @@
         android:textColor="@color/white"
         android:singleLine="true"
         android:background="@null"
+        android:imeOptions="actionSearch"
         android:textColorHint="@color/white"
         android:textSize="@dimen/_11sdp" />
 

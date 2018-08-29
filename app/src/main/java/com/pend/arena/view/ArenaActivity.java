@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -41,7 +42,7 @@ import java.util.List;
 public class ArenaActivity extends FragmentActivity {
 
 
-    private EditText searchText;
+    private EditText mEtSearch;
     private android.support.design.widget.FloatingActionButton fab;
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     private String TAG = "ArenaActivity";
@@ -70,7 +71,11 @@ public class ArenaActivity extends FragmentActivity {
         reduceMarginsInTabs(tabLayout, 0);
 
 
-        searchText = (EditText) findViewById(R.id.search_text);
+        View view = findViewById(R.id.custom_search_view);
+        mEtSearch = view.findViewById(R.id.et_search);
+        ImageView ivSearch = view.findViewById(R.id.iv_search);
+
+//        searchText = (EditText) findViewById(R.id.search_text);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         fab = (android.support.design.widget.FloatingActionButton) findViewById(R.id.fab_add);
@@ -113,7 +118,7 @@ public class ArenaActivity extends FragmentActivity {
             }
         });*/
 
-        searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -130,7 +135,9 @@ public class ArenaActivity extends FragmentActivity {
                             InputMethodManager.HIDE_NOT_ALWAYS);
 
 
-                    viewPager.getAdapter().notifyDataSetChanged();
+                    if(viewPager.getAdapter()!=null){
+                        viewPager.getAdapter().notifyDataSetChanged();
+                    }
 
                     changeTabsFont(tabLayout);
                     wrapTabIndicatorToTitle(tabLayout, 100, 100);
@@ -138,6 +145,24 @@ public class ArenaActivity extends FragmentActivity {
                     return true;
                 }
                 return false;
+            }
+        });
+
+        ivSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager inputManager = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+
+                if(viewPager.getAdapter()!=null){
+                    viewPager.getAdapter().notifyDataSetChanged();
+                }
+
+                changeTabsFont(tabLayout);
+                wrapTabIndicatorToTitle(tabLayout, 100, 100);
             }
         });
 
@@ -154,7 +179,7 @@ public class ArenaActivity extends FragmentActivity {
 
 
     public String getSearchText() {
-        return searchText.getText().toString();
+        return mEtSearch.getText().toString();
     }
 
     // Adapter for the viewpager using FragmentPagerAdapter
