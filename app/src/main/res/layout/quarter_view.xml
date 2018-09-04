@@ -115,13 +115,14 @@
         </FrameLayout>
 
         <TextView
+            android:id="@+id/tv_arena"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="40dp"
             android:layout_marginStart="190dp"
             android:rotation="62"
-            android:text="@string/area"
+            android:text="@string/arena"
             android:textColor="@color/white"
             android:textSize="@dimen/_15sdp"
             android:textStyle="bold"
@@ -129,7 +130,7 @@
 
 
         <FrameLayout
-            android:id="@+id/fl_area"
+            android:id="@+id/fl_arena"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -139,6 +140,7 @@
             android:padding="@dimen/_15sdp">
 
             <ImageView
+                android:id="@+id/iv_arena"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:contentDescription="@string/image"

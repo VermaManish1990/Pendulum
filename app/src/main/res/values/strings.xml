@@ -131,7 +131,6 @@
     <string name="invalid_credential">Invalid credential</string>
     <string name="logout_message">Are you sure you want to log out?</string>
     <string name="facebook_error_message">Please install facebook to share post</string>
-    <string name="area">Area</string>
     <string name="home">Home</string>
     <string name="exit_polls">Exit Polls</string>
     <string name="find">Find</string>

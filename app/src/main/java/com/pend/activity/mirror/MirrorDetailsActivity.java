@@ -144,7 +144,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
         mIvQuarterProfile = quarterView.findViewById(R.id.iv_profile);
-        quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
+        quarterView.findViewById(R.id.fl_arena).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
         mIvQuarterProfile.setOnClickListener(this);
 
@@ -618,7 +618,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
                 break;
 
-            case R.id.fl_area:
+            case R.id.fl_arena:
                 hideReveal();
                 Intent intentArena = new Intent(this, ArenaActivity.class);
                 startActivity(intentArena);

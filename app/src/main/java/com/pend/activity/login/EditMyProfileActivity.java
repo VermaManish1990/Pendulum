@@ -124,7 +124,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
         quarterView.findViewById(R.id.iv_profile).setOnClickListener(this);
-        quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
+        quarterView.findViewById(R.id.fl_arena).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
 
         findViewById(R.id.bt_save).setOnClickListener(this);
@@ -434,7 +434,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
 
                 break;
 
-            case R.id.fl_area:
+            case R.id.fl_arena:
                 hideReveal();
                 Intent intentArena = new Intent(this, ArenaActivity.class);
                 startActivity(intentArena);

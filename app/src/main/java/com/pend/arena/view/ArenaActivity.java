@@ -1,13 +1,17 @@
 package com.pend.arena.view;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -17,7 +21,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
@@ -30,6 +36,11 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.pend.R;
+import com.pend.activity.contest.ContestActivity;
+import com.pend.activity.home.HomeActivity;
+import com.pend.activity.login.ProfileActivity;
+import com.pend.activity.mirror.MirrorActivity;
+import com.pend.util.LoggerUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +50,7 @@ import java.util.List;
  * Created by chaudhary on 3/11/2018.
  */
 
-public class ArenaActivity extends FragmentActivity {
+public class ArenaActivity extends FragmentActivity implements View.OnClickListener {
 
 
     private EditText mEtSearch;
@@ -47,12 +58,19 @@ public class ArenaActivity extends FragmentActivity {
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     private String TAG = "ArenaActivity";
     private TabLayout tabLayout;
+    private View mRootView;
+    private View mRlQuarterView;
+    private View mFlQuarterBlackView;
+    private View mFlMenuView;
+    private ImageView mIvProfile;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.arena_layout);
+
+        setInitialData();
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -168,6 +186,22 @@ public class ArenaActivity extends FragmentActivity {
 
     }
 
+    private void setInitialData() {
+        View quarterView = findViewById(R.id.quarter_view);
+        mRlQuarterView = quarterView.findViewById(R.id.rl_quarter_view);
+        mFlQuarterBlackView = quarterView.findViewById(R.id.fl_quarter_black_view);
+        mFlMenuView = quarterView.findViewById(R.id.fl_menu_view);
+
+        ((ImageView) quarterView.findViewById(R.id.iv_arena)).setImageDrawable(getResources().getDrawable(R.drawable.home));
+        ((TextView) quarterView.findViewById(R.id.tv_arena)).setText(String.valueOf(getResources().getString(R.string.home)));
+        quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
+        quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
+        mIvProfile = quarterView.findViewById(R.id.iv_profile);
+        quarterView.findViewById(R.id.fl_arena).setOnClickListener(this);
+        mFlMenuView.setOnClickListener(this);
+        mIvProfile.setOnClickListener(this);
+    }
+
 
     @Override
     protected void onResume() {
@@ -180,6 +214,49 @@ public class ArenaActivity extends FragmentActivity {
 
     public String getSearchText() {
         return mEtSearch.getText().toString();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()){
+
+            case R.id.iv_profile:
+                hideReveal();
+                Intent intentProfile = new Intent(this, ProfileActivity.class);
+                startActivity(intentProfile);
+                break;
+
+            case R.id.fl_mirror:
+                hideReveal();
+                Intent intentMirror = new Intent(this, MirrorActivity.class);
+                startActivity(intentMirror);
+                break;
+
+            case R.id.fl_contest:
+                hideReveal();
+                Intent intentContest = new Intent(this, ContestActivity.class);
+                startActivity(intentContest);
+                finish();
+                break;
+
+            case R.id.fl_arena:
+                hideReveal();
+                Intent intentHome = new Intent(this, HomeActivity.class);
+                intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intentHome);
+                break;
+
+            case R.id.fl_menu_view:
+                mFlMenuView.setVisibility(View.GONE);
+                showReveal();
+                break;
+
+            default:
+                LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
+                break;
+        }
     }
 
     // Adapter for the viewpager using FragmentPagerAdapter
@@ -351,6 +428,69 @@ public class ArenaActivity extends FragmentActivity {
             layoutParams.leftMargin = start;
             layoutParams.rightMargin = end;
         }
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    void showReveal() {
+        int cx = 0;
+        int cy = mRlQuarterView.getHeight();
+        float finalRadius = (float) Math.hypot(cx, cy);
+
+        Animator anim = ViewAnimationUtils.createCircularReveal(mRlQuarterView, cx, cy, 0, finalRadius);
+        anim.addListener(new AnimatorListenerAdapter() {
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mRlQuarterView.setVisibility(View.VISIBLE);
+            }
+        });
+        anim.start();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    void hideReveal() {
+
+        int cx = 0;
+        int cy = mRlQuarterView.getHeight();
+        float initialRadius = (float) Math.hypot(cx, cy);
+
+        Animator anim = ViewAnimationUtils.createCircularReveal(mRlQuarterView, cx, cy, initialRadius, 0);
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mRlQuarterView.setVisibility(View.GONE);
+                mFlMenuView.setVisibility(View.VISIBLE);
+            }
+        });
+        anim.start();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onBackPressed() {
+        if (mRlQuarterView.getVisibility() == View.VISIBLE) {
+            hideReveal();
+        } else {
+            Intent intentHome = new Intent(this, HomeActivity.class);
+            intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intentHome);
+            finish();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        Rect outRect = new Rect();
+        mFlQuarterBlackView.getGlobalVisibleRect(outRect);
+
+        if (mRlQuarterView.getVisibility() == View.VISIBLE && !outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+            hideReveal();
+        }
+        return super.dispatchTouchEvent(event);
     }
 }
 

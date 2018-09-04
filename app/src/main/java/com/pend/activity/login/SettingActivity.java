@@ -115,7 +115,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
-        quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
+        quarterView.findViewById(R.id.fl_arena).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
         mIvProfile.setOnClickListener(this);
 
@@ -399,7 +399,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
                 break;
 
-            case R.id.fl_area:
+            case R.id.fl_arena:
                 hideReveal();
                 Intent intentArena = new Intent(this, ArenaActivity.class);
                 startActivity(intentArena);

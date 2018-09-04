@@ -73,7 +73,7 @@ public class QuarterViewFragmentDialog extends DialogFragment implements View.On
         view.findViewById(R.id.fl_mirror).setOnClickListener(this);
         view.findViewById(R.id.fl_contest).setOnClickListener(this);
         view.findViewById(R.id.iv_profile).setOnClickListener(this);
-        view.findViewById(R.id.fl_area).setOnClickListener(this);
+        view.findViewById(R.id.fl_arena).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
 
         return view;
@@ -114,7 +114,7 @@ public class QuarterViewFragmentDialog extends DialogFragment implements View.On
                 startActivity(intentContest);
                 break;
 
-            case R.id.fl_area:
+            case R.id.fl_arena:
                 break;
 
             case R.id.fl_menu_view:

@@ -18,7 +18,7 @@
         <com.pend.util.RegularFontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/area"
+            android:text="@string/arena"
             android:textColor="@color/colorAccent" />
 
         <com.pend.util.RegularFontEditText

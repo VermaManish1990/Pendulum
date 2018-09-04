@@ -114,7 +114,7 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
         mIvProfile = quarterView.findViewById(R.id.iv_profile);
-        quarterView.findViewById(R.id.fl_area).setOnClickListener(this);
+        quarterView.findViewById(R.id.fl_arena).setOnClickListener(this);
         mFlMenuView.setOnClickListener(this);
         mIvProfile.setOnClickListener(this);
 
@@ -318,7 +318,7 @@ public class CreatePostActivity extends BaseActivity implements View.OnClickList
 
                 break;
 
-            case R.id.fl_area:
+            case R.id.fl_arena:
                 hideReveal();
                 Intent intentArena = new Intent(this, ArenaActivity.class);
                 startActivity(intentArena);
