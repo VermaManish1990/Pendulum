@@ -52,7 +52,7 @@
         android:id="@+id/quarter_view"
         layout="@layout/quarter_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_220sdp"
+        android:layout_height="@dimen/_200sdp"
         android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

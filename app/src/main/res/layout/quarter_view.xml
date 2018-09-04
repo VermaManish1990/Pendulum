@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_view"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_220sdp"
+    android:layout_height="@dimen/_200sdp"
     android:background="@color/transparent"
     tools:context=".fragments.QuarterViewFragmentDialog">
 
@@ -29,23 +29,23 @@
     <RelativeLayout
         android:id="@+id/rl_quarter_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_220sdp"
+        android:layout_height="@dimen/_200sdp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:visibility="gone">
 
         <FrameLayout
             android:id="@+id/fl_quarter_black_view"
-            android:layout_width="@dimen/_220sdp"
-            android:layout_height="@dimen/_190sdp"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_175sdp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:background="@drawable/custom_quarter_circle_bg" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_profile"
-            android:layout_width="@dimen/_80sdp"
-            android:layout_height="@dimen/_80sdp"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_120sdp"
             android:src="@drawable/profile"
@@ -56,9 +56,9 @@
             android:id="@+id/tv_mirror"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_28sdp"
-            android:layout_marginTop="72dp"
-            android:rotation="11"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_55sdp"
+            android:rotation="9"
             android:text="@string/mirror"
             android:textColor="@color/white"
             android:textSize="@dimen/_15sdp"
@@ -69,15 +69,15 @@
             android:id="@+id/fl_mirror"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_25sdp"
             android:background="@drawable/custom_black_circle_bg"
             android:padding="@dimen/_15sdp">
 
 
             <ImageView
                 android:id="@+id/iv_mirror"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
                 android:contentDescription="@string/image"
                 android:tint="@color/white"
                 android:src="@drawable/mirror" />
@@ -88,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="115dp"
+            android:layout_marginStart="110dp"
             android:rotation="40"
             android:text="@string/contest"
             android:textColor="@color/white"
@@ -101,14 +101,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/_50sdp"
+            android:layout_marginTop="@dimen/_45sdp"
             android:background="@drawable/custom_black_circle_bg"
             android:padding="@dimen/_15sdp">
 
             <ImageView
                 android:id="@+id/iv_contest"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
                 android:contentDescription="@string/image"
                 android:src="@drawable/contest"
                 android:tint="@color/white" />
@@ -120,8 +120,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="40dp"
-            android:layout_marginStart="190dp"
-            android:rotation="62"
+            android:layout_marginStart="165dp"
+            android:rotation="65"
             android:text="@string/arena"
             android:textColor="@color/white"
             android:textSize="@dimen/_15sdp"
@@ -134,15 +134,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/_30sdp"
-            android:layout_marginStart="@dimen/_185sdp"
+            android:layout_marginBottom="@dimen/_25sdp"
+            android:layout_marginStart="@dimen/_168sdp"
             android:background="@drawable/custom_black_circle_bg"
             android:padding="@dimen/_15sdp">
 
             <ImageView
                 android:id="@+id/iv_arena"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
                 android:contentDescription="@string/image"
                 android:src="@drawable/arena"
                 android:tint="@color/white" />
