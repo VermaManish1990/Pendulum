@@ -133,8 +133,8 @@
 
             <ImageView
                 android:id="@+id/iv_user"
-                android:layout_width="@dimen/_22sdp"
-                android:layout_height="@dimen/_22sdp"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:layout_alignTop="@+id/et_add_a_comment"
                 android:layout_alignStart="@+id/et_add_a_comment"
                 android:layout_alignBottom="@+id/et_add_a_comment"
