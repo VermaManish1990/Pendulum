@@ -35,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/tv_post_count"
             android:layout_alignStart="@+id/tv_post_count"
-            android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="@dimen/_11sdp"
             android:textStyle="bold" />
