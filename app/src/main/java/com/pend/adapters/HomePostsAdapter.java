@@ -198,17 +198,22 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
 
                     if (postsDetails.imageURL != null) {
 
-                        SharePhoto photo = new SharePhoto.Builder()
-                                .setBitmap(((BitmapDrawable) holder.ivPost.getDrawable()).getBitmap())
-                                .setImageUrl(Uri.parse(postsDetails.imageURL))
-                                .setCaption(postsDetails.postInfo)
-                                .build();
+                        try {
 
-                        ShareContent content = new SharePhotoContent.Builder()
-                                .addPhoto(photo)
-                                .build();
+                            SharePhoto photo = new SharePhoto.Builder()
+                                    .setBitmap(((BitmapDrawable) holder.ivPost.getDrawable()).getBitmap())
+                                    .setImageUrl(Uri.parse(postsDetails.imageURL))
+                                    .setCaption(postsDetails.postInfo)
+                                    .build();
 
-                        shareDialog.show(content);  // Show facebook ShareDialog
+                            ShareContent content = new SharePhotoContent.Builder()
+                                    .addPhoto(photo)
+                                    .build();
+
+                            shareDialog.show(content);  // Show facebook ShareDialog
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
 
                 } else {
