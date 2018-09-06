@@ -23,9 +23,11 @@ import com.pend.R;
 import com.pend.models.GetPostsResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.OtherUtil;
+import com.pend.util.SharedPrefUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.ViewHolder> {
 
@@ -117,6 +119,12 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
             holder.ivDislike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.dislike));
         }
 
+        if(SharedPrefUtils.getProfileImageUrl(mContext)!=null && !Objects.equals(SharedPrefUtils.getProfileImageUrl(mContext), "")){
+            Picasso.with(mContext)
+                    .load(SharedPrefUtils.getProfileImageUrl(mContext))
+                    .into(holder.ivUser);
+        }
+
         holder.etAddAComment.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // If the event is a key-down event on the "enter" button
@@ -127,6 +135,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                     String text = holder.etAddAComment.getText().toString().trim();
                     if (text.length() > 0) {
 
+                        holder.etAddAComment.setText("");
                         mIHomePostsAdapterCallBack.onSendClick(position, text);
                     }
                     return true;
@@ -141,6 +150,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                 String text = holder.etAddAComment.getText().toString().trim();
                 if (text.length() > 0) {
 
+                    holder.etAddAComment.setText("");
                     mIHomePostsAdapterCallBack.onSendClick(position, text);
                 }
             }
@@ -221,6 +231,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView ivProfile;
+        private final ImageView ivUser;
         private final ImageView ivPost;
         private final TextView tvName;
         private final TextView tvTime;
@@ -243,6 +254,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
             super(itemView);
 
             ivProfile = itemView.findViewById(R.id.iv_profile);
+            ivUser = itemView.findViewById(R.id.iv_user);
             ivPost = itemView.findViewById(R.id.iv_post);
             tvName = itemView.findViewById(R.id.tv_name);
             tvTime = itemView.findViewById(R.id.tv_time);

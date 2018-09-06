@@ -46,6 +46,7 @@ import com.pendulum.volley.ext.RequestManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CommentsDialogFragment extends DialogFragment implements IScreen, View.OnClickListener, CommentsAdapter.ICommentsAdapterCallBack {
 
@@ -78,6 +79,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
     private EditText mEtAddAComment;
     private String mCommentText;
     private boolean mIsUpdateComment;
+    private ImageView mIvUser;
 
     public static CommentsDialogFragment newInstance(GetPostsResponseModel.GetPostsDetails postsDetails) {
         CommentsDialogFragment fragment = new CommentsDialogFragment();
@@ -121,6 +123,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
 
     private void initUI(View view) {
         mIvPost = view.findViewById(R.id.iv_post);
+        mIvUser = view.findViewById(R.id.iv_user);
         mTvDescription = view.findViewById(R.id.tv_description);
         mTvTime = view.findViewById(R.id.tv_time);
 
@@ -149,6 +152,12 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
         mIsUnLike = false;
         mIsUpdateComment = false;
         mCommentList = new ArrayList<>();
+
+        if(SharedPrefUtils.getProfileImageUrl(mContext)!=null && !Objects.equals(SharedPrefUtils.getProfileImageUrl(mContext), "")){
+            Picasso.with(mContext)
+                    .load(SharedPrefUtils.getProfileImageUrl(mContext))
+                    .into(mIvUser);
+        }
 
         mEtAddAComment.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {

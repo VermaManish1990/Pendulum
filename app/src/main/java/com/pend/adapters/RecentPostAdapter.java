@@ -18,9 +18,11 @@ import com.pend.R;
 import com.pend.models.GetPostsResponseModel;
 import com.pend.util.DateUtil;
 import com.pend.util.LoggerUtil;
+import com.pend.util.SharedPrefUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.ViewHolder> {
 
@@ -82,6 +84,12 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
                     .into(holder.ivProfile);
         }
 
+        if(SharedPrefUtils.getProfileImageUrl(mContext)!=null && !Objects.equals(SharedPrefUtils.getProfileImageUrl(mContext), "")){
+            Picasso.with(mContext)
+                    .load(SharedPrefUtils.getProfileImageUrl(mContext))
+                    .into(holder.ivUser);
+        }
+
         holder.tvUserName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +116,7 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
                     String text = holder.etAddAComment.getText().toString().trim();
                     if (text.length() > 0) {
 
+                        holder.etAddAComment.setText("");
                         mIRecentPostAdapterCallBack.onSendClick(position, text);
                     }
                     return true;
@@ -122,6 +131,7 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
                 String text = holder.etAddAComment.getText().toString().trim();
                 if (text.length() > 0) {
 
+                    holder.etAddAComment.setText("");
                     mIRecentPostAdapterCallBack.onSendClick(position, text);
                 }
             }
@@ -246,12 +256,14 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         private final ImageView ivSend;
         private final ImageView ivMenu;
         private final ImageView ivProfile;
+        private final ImageView ivUser;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             view = itemView.findViewById(R.id.view);
             ivProfile = itemView.findViewById(R.id.iv_profile);
+            ivUser = itemView.findViewById(R.id.iv_user);
             tvUserName = itemView.findViewById(R.id.tv_user_name);
             tvCreatedTime = itemView.findViewById(R.id.tv_created_time);
             rlComment = itemView.findViewById(R.id.rl_comment);
