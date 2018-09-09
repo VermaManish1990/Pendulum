@@ -109,7 +109,8 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
         mRecyclerViewIntroduced.setAdapter(new TrendingAndIntroducedMirrorAdapter(mContext, this, mMirrorList));
     }
 
-    public void searchMirrorData(String searchText) {
+    public void searchMirrorData(BaseActivity context,String searchText) {
+        mContext = context;
         mSearchText = searchText;
         mPageNumber = 1;
         mIsLoading = false;
@@ -123,7 +124,8 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
         getData(IApiEvent.REQUEST_GET_INTRODUCED_CODE);
     }
 
-    public void cancelSearchMirrorData() {
+    public void cancelSearchMirrorData(BaseActivity context) {
+        mContext = context;
         mSearchText = "";
         mPageNumber = 1;
         mIsLoading = false;

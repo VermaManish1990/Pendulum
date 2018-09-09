@@ -123,7 +123,8 @@ public class FollowingMirrorFragment extends BaseFragment implements View.OnClic
 
     }
 
-    public void searchMirrorData(String searchText) {
+    public void searchMirrorData(BaseActivity context,String searchText) {
+        mContext = context;
         mSearchText = searchText;
         mPageNumber = 1;
         mIsLoading = false;
@@ -137,7 +138,8 @@ public class FollowingMirrorFragment extends BaseFragment implements View.OnClic
         getData(IApiEvent.REQUEST_GET_FOLLOWING_CODE);
     }
 
-    public void cancelSearchMirrorData() {
+    public void cancelSearchMirrorData(BaseActivity context) {
+        mContext = context;
         mSearchText = "";
         mPageNumber = 1;
         mIsLoading = false;

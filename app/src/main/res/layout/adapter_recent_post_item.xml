@@ -4,7 +4,8 @@
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginTop="@dimen/_3sdp"
+    android:layout_marginBottom="@dimen/_3sdp"
     android:background="@color/white"
     android:elevation="@dimen/_5sdp"
     app:cardCornerRadius="@dimen/_10sdp">
@@ -77,6 +78,7 @@
             android:layout_below="@+id/iv_profile"
             android:layout_marginTop="@dimen/_10sdp"
             android:adjustViewBounds="true"
+            android:background="@color/black"
             android:contentDescription="@string/image"
             android:scaleType="centerCrop" />
 

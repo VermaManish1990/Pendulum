@@ -61,7 +61,7 @@
             android:rotation="9"
             android:text="@string/mirror"
             android:textColor="@color/white"
-            android:textSize="@dimen/_15sdp"
+            android:textSize="@dimen/_13sdp"
             android:textStyle="bold"
             android:visibility="visible" />
 
@@ -92,7 +92,7 @@
             android:rotation="40"
             android:text="@string/contest"
             android:textColor="@color/white"
-            android:textSize="@dimen/_15sdp"
+            android:textSize="@dimen/_13sdp"
             android:textStyle="bold"
             android:visibility="visible" />
 
@@ -124,7 +124,7 @@
             android:rotation="70"
             android:text="@string/arena"
             android:textColor="@color/white"
-            android:textSize="@dimen/_15sdp"
+            android:textSize="@dimen/_13sdp"
             android:textStyle="bold"
             android:visibility="visible" />
 

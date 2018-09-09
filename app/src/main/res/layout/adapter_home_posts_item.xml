@@ -25,7 +25,7 @@
             android:layout_width="@dimen/_32sdp"
             android:layout_height="@dimen/_32sdp"
             android:src="@drawable/profile"
-            app:civ_border_width="@dimen/_2sdp"
+            app:civ_border_width="@dimen/_1sdp"
             app:civ_border_color="@color/colorPrimary"/>
 
         <TextView
@@ -102,17 +102,16 @@
         android:layout_marginBottom="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_10sdp"
+        android:paddingTop="@dimen/_10sdp"
         android:background="@drawable/custom_rounded_top_missing_grey_border"
         android:paddingBottom="@dimen/_20sdp"
         android:paddingEnd="@dimen/_10sdp"
-        android:paddingStart="@dimen/_10sdp"
-        android:paddingTop="@dimen/_20sdp">
+        android:paddingStart="@dimen/_10sdp" >
 
         <LinearLayout
             android:id="@+id/rl_bottom_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/iv_menu"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -207,7 +206,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/rl_bottom_view"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:layout_toStartOf="@+id/iv_send"
             android:background="@drawable/custom_circular_grey_border"
             android:hint="@string/add_a_comment"
