@@ -25,6 +25,7 @@ import com.pend.activity.login.ProfileActivity;
 import com.pend.arena.model.reflections.ReflectionsResponse;
 import com.pend.arena.model.reflections.ResponseData;
 import com.pend.arena.presenter.ReflectionPresenter;
+import com.pend.interfaces.Constants;
 import com.pend.util.ProgressBarHandler;
 import com.pend.util.SharedPrefUtils;
 import com.squareup.picasso.Picasso;
@@ -209,6 +210,8 @@ public class ReflectionFragment extends Fragment implements ReflectionPresenter.
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                    intent.putExtra(Constants.USER_ID_KEY, item.getUserID());
+                    intent.putExtra(Constants.IS_OTHER_PROFILE, true);
                     startActivity(intent);
                 }
             });
@@ -217,9 +220,9 @@ public class ReflectionFragment extends Fragment implements ReflectionPresenter.
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), ChatActivity.class);
-                    Bundle b = new Bundle();
-                    b.putInt("selectedUserId", item.getUserID());
-                    intent.putExtras(b);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(Constants.SELECTED_USER_ID, item.getUserID());
+                    intent.putExtras(bundle);
                     startActivity(intent);
 
                 }

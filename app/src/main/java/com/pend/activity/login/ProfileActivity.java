@@ -28,6 +28,7 @@ import com.pend.activity.mirror.MirrorDetailsActivity;
 import com.pend.adapters.ProfileViewPagerAdapter;
 import com.pend.adapters.TimeSheetAdapter;
 import com.pend.arena.view.ArenaActivity;
+import com.pend.arena.view.ChatActivity;
 import com.pend.fragments.CommentsDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
@@ -196,7 +197,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
                             mViewpagerProfile.setVisibility(View.VISIBLE);
                             mViewpagerProfile.setAdapter(new ProfileViewPagerAdapter(this, mUserProfileResponseModel.Data.imageData));
-                        }else {
+                        } else {
                             mViewpagerProfile.setVisibility(View.GONE);
                         }
 
@@ -412,7 +413,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 break;
 
             case R.id.iv_message:
-                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt(Constants.SELECTED_USER_ID, mUserId);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
 
             case R.id.iv_close:

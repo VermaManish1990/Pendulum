@@ -14,6 +14,8 @@ public interface Constants {
     String SEARCH_TEXT_KEY = "SEARCH_TEXT_KEY";
     String MIRROR_FRAGMENT_POSITION = "MIRROR_FRAGMENT_POSITION";
     String IS_OTHER_PROFILE = "IS_OTHER_PROFILE";
+    String CHAT_ROOM_ID = "chatRoomId";
+    String SELECTED_USER_ID = "selectedUserId";
 
     //Header Keys
     String PARAM_SECURITY_KEY = "SecurityKey";

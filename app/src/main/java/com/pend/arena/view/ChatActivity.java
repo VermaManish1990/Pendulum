@@ -26,7 +26,9 @@ import com.pend.arena.model.user_chat.ResponseData;
 import com.pend.arena.model.user_chat.SendMessageResponse;
 import com.pend.arena.model.user_chat.UserData;
 import com.pend.arena.presenter.ChatPresenter;
+import com.pend.interfaces.Constants;
 import com.pend.util.ProgressBarHandler;
+import com.pend.util.SharedPrefUtils;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -80,17 +82,18 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
 
         getNewMessageThread();
 
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-        userID = pref.getInt("userId", 2);
+        userID = Integer.valueOf(SharedPrefUtils.getUserId(ChatActivity.this));
 
-
-        Bundle b = getIntent().getExtras();
-        selectedUserID = b.getInt("selectedUserId");
-        try {
-            chatRoomID = b.getInt("chatRoomId");
-        } catch (Exception e) {
-
+        Bundle bundle = getIntent().getExtras();
+        if (bundle!=null){
+            if(bundle.containsKey(Constants.SELECTED_USER_ID)){
+                selectedUserID = bundle.getInt(Constants.SELECTED_USER_ID,-1);
+            }
+            if(bundle.containsKey(Constants.CHAT_ROOM_ID)){
+                chatRoomID = bundle.getInt(Constants.CHAT_ROOM_ID,-1);
+            }
         }
+
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         recyclerView.setLayoutManager(linearLayoutManager);

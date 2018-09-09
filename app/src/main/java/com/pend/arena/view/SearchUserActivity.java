@@ -18,6 +18,7 @@ import com.pend.R;
 import com.pend.arena.model.search_user.SearchUserResponse;
 import com.pend.arena.model.search_user.User;
 import com.pend.arena.presenter.SearchUserPresenter;
+import com.pend.interfaces.Constants;
 import com.pend.util.ProgressBarHandler;
 import com.pend.util.RecyclerItemClickListener;
 import com.squareup.picasso.Picasso;
@@ -120,10 +121,10 @@ public class SearchUserActivity extends Activity implements SearchUserPresenter.
 
                         Intent intent = new Intent(SearchUserActivity.this, ChatActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        Bundle b = new Bundle();
+                        Bundle bundle = new Bundle();
                         //  b.putInt("chatRoomId",data.getChatRoomID());
-                        b.putInt("selectedUserId", data.getUserID());
-                        intent.putExtras(b);
+                        bundle.putInt(Constants.SELECTED_USER_ID, data.getUserID());
+                        intent.putExtras(bundle);
                         startActivity(intent);
 
                     }

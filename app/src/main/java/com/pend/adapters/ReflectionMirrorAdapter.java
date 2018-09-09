@@ -1,6 +1,8 @@
 package com.pend.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pend.R;
+import com.pend.arena.view.ChatActivity;
+import com.pend.interfaces.Constants;
 import com.pend.models.GetReflectionUsersResponseModel;
 import com.squareup.picasso.Picasso;
 
@@ -64,7 +68,7 @@ public class ReflectionMirrorAdapter extends BaseAdapter {
      * @param position position
      */
     private void bindData(View view, int position) {
-        GetReflectionUsersResponseModel.GetReflectionUsersDetails reflectionUsersDetails = mUserDataList.get(position);
+        final GetReflectionUsersResponseModel.GetReflectionUsersDetails reflectionUsersDetails = mUserDataList.get(position);
 
         View rootView = view.findViewById(R.id.root_view);
         TextView tvName = view.findViewById(R.id.tv_name);
@@ -80,6 +84,17 @@ public class ReflectionMirrorAdapter extends BaseAdapter {
         } else {
             ivMessage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.message));
         }
+
+        ivMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ChatActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt(Constants.SELECTED_USER_ID, reflectionUsersDetails.userID);
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
+            }
+        });
 
         tvName.setText(reflectionUsersDetails.userFullName != null ? reflectionUsersDetails.userFullName : "");
         Picasso.with(mContext)

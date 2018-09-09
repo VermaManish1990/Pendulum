@@ -22,6 +22,7 @@ import com.pend.R;
 import com.pend.arena.model.recent_chat.RecentChatsResponse;
 import com.pend.arena.model.recent_chat.ResponseData;
 import com.pend.arena.presenter.ArenaHomePresenter;
+import com.pend.interfaces.Constants;
 import com.pend.util.ProgressBarHandler;
 import com.pend.util.RecyclerItemClickListener;
 import com.pend.util.SharedPrefUtils;
@@ -88,10 +89,10 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
 
                         Intent intent = new Intent(getActivity(), ChatActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        Bundle b = new Bundle();
-                        b.putInt("chatRoomId", data.getChatRoomID());
-                        b.putInt("selectedUserId", data.getUserID());
-                        intent.putExtras(b);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt(Constants.CHAT_ROOM_ID, data.getChatRoomID());
+                        bundle.putInt(Constants.SELECTED_USER_ID, data.getUserID());
+                        intent.putExtras(bundle);
                         startActivity(intent);
 
                     }
