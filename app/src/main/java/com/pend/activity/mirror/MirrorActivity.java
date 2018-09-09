@@ -4,7 +4,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -237,8 +240,22 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
         switch (view.getId()) {
 
             case R.id.iv_search:
-                if(mIvSearch.getDrawable().getConstantState().equals(getDrawable(R.drawable.cross_white).getConstantState())){
+
+                Drawable drawableImage = mIvSearch.getDrawable();
+                Bitmap bitmapImage = null;
+                if(drawableImage!=null){
+                    bitmapImage = ((BitmapDrawable) drawableImage).getBitmap();
+                }
+
+                Drawable drawableCross = getDrawable(R.drawable.cross_white);
+                Bitmap bitmapCross = null;
+                if (drawableCross != null) {
+                    bitmapCross = ((BitmapDrawable) drawableCross).getBitmap();
+                }
+
+                if (Objects.equals(bitmapImage, bitmapCross)) {
                     mCleanSearch = true;
+                    mIsSearchData = false;
                 }
                 onSearchClick();
                 break;
@@ -379,7 +396,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
         mIsSearchData = true;
         mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
 
-        if(count==0){
+        if (count == 0) {
             switch (mViewPagerMirror.getCurrentItem()) {
                 case TRENDING_MIRROR:
                     if (!s.toString().equalsIgnoreCase(mSearchTextTrending)) {
