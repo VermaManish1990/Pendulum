@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.pend.BaseActivity;
 import com.pend.BaseFragment;
@@ -112,8 +111,7 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
         mRecyclerViewTrending.setAdapter(new TrendingAndIntroducedMirrorAdapter(mContext, this, mMirrorList));
     }
 
-    public void searchMirrorData(BaseActivity context,String searchText) {
-        mContext = context;
+    public void searchMirrorData(String searchText) {
         mSearchText = searchText;
         mPageNumber = 1;
         mIsLoading = false;
@@ -127,8 +125,7 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
         getData(IApiEvent.REQUEST_GET_TRENDING_CODE);
     }
 
-    public void cancelSearchMirrorData(BaseActivity context) {
-        mContext = context;
+    public void cancelSearchMirrorData() {
         mSearchText = "";
         mPageNumber = 1;
         mIsLoading = false;

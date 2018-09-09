@@ -161,7 +161,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
                             mIsSearchData = true;
                             mEtSearch.setText("");
                             mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
-                            mTrendingMirrorFragment.cancelSearchMirrorData(MirrorActivity.this);
+                            mTrendingMirrorFragment.cancelSearchMirrorData();
                         break;
 
                     case FOLLOWING_MIRROR:
@@ -169,7 +169,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
                             mIsSearchData = true;
                             mEtSearch.setText("");
                             mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
-                            mFollowingMirrorFragment.cancelSearchMirrorData(MirrorActivity.this);
+                            mFollowingMirrorFragment.cancelSearchMirrorData();
                         break;
 
                     case INTRODUCED_MIRROR:
@@ -177,7 +177,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
                             mIsSearchData = true;
                             mEtSearch.setText("");
                             mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
-                            mIntroducedMirrorFragment.cancelSearchMirrorData(MirrorActivity.this);
+                            mIntroducedMirrorFragment.cancelSearchMirrorData();
                         break;
                 }
             }
@@ -369,12 +369,12 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
                 if (mIsSearchData) {
                     mIsSearchData = false;
                     mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.cross_white));
-                    mTrendingMirrorFragment.searchMirrorData(MirrorActivity.this,searchText);
+                    mTrendingMirrorFragment.searchMirrorData(searchText);
                 } else {
                     mIsSearchData = true;
                     mEtSearch.setText("");
                     mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
-                    mTrendingMirrorFragment.cancelSearchMirrorData(MirrorActivity.this);
+                    mTrendingMirrorFragment.cancelSearchMirrorData();
                 }
                 break;
 
@@ -382,12 +382,12 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
                 if (mIsSearchData) {
                     mIsSearchData = false;
                     mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.cross_white));
-                    mFollowingMirrorFragment.searchMirrorData(MirrorActivity.this,searchText);
+                    mFollowingMirrorFragment.searchMirrorData(searchText);
                 } else {
                     mIsSearchData = true;
                     mEtSearch.setText("");
                     mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
-                    mFollowingMirrorFragment.cancelSearchMirrorData(MirrorActivity.this);
+                    mFollowingMirrorFragment.cancelSearchMirrorData();
                 }
                 break;
 
@@ -395,12 +395,12 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
                 if (mIsSearchData) {
                     mIsSearchData = false;
                     mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.cross_white));
-                    mIntroducedMirrorFragment.searchMirrorData(MirrorActivity.this,searchText);
+                    mIntroducedMirrorFragment.searchMirrorData(searchText);
                 } else {
                     mIsSearchData = true;
                     mEtSearch.setText("");
                     mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
-                    mIntroducedMirrorFragment.cancelSearchMirrorData(MirrorActivity.this);
+                    mIntroducedMirrorFragment.cancelSearchMirrorData();
                 }
                 break;
         }
