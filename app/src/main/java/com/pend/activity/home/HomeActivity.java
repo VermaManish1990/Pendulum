@@ -325,8 +325,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                                 }
                             }
                             HomePostsAdapter homePostsAdapter = (HomePostsAdapter) mRecyclerViewPost.getAdapter();
-                            homePostsAdapter.setPostsDetailsList(mPostsDetailsList);
-                            homePostsAdapter.notifyItemChanged(position);
+//                            homePostsAdapter.setPostsDetailsList(mPostsDetailsList);
+                            homePostsAdapter.notifyItemChanged(position, mPostsDetailsList.get(position));
                         }
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));

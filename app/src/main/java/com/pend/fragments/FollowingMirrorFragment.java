@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.pend.BaseActivity;
 import com.pend.BaseFragment;
 import com.pend.R;
+import com.pend.activity.mirror.MirrorActivity;
 import com.pend.activity.mirror.MirrorDetailsActivity;
 import com.pend.adapters.FollowingMirrorAdapter;
 import com.pend.interfaces.Constants;
@@ -64,8 +65,15 @@ public class FollowingMirrorFragment extends BaseFragment implements View.OnClic
         initUI(view);
         setInitialData();
 
-        getData(IApiEvent.REQUEST_GET_FOLLOWING_CODE);
+
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!((MirrorActivity) mContext).mIsUpdateRequired)
+            getData(IApiEvent.REQUEST_GET_FOLLOWING_CODE);
     }
 
     @Override
@@ -169,6 +177,9 @@ public class FollowingMirrorFragment extends BaseFragment implements View.OnClic
                             mIsHasNextPage = !followingMirrorResponseModel.Data.hasNextPage;
 
                             FollowingMirrorAdapter followingMirrorAdapter = (FollowingMirrorAdapter) mGridViewFollowingMirror.getAdapter();
+                            if (!((MirrorActivity) mContext).mIsUpdateRequired) {
+                                mMirrorList.clear();
+                            }
                             mMirrorList.addAll(followingMirrorResponseModel.Data.mirrorList);
                             followingMirrorAdapter.setMirrorList(mMirrorList);
                             followingMirrorAdapter.notifyDataSetChanged();

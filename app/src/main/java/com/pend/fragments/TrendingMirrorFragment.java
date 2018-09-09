@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.pend.BaseActivity;
 import com.pend.BaseFragment;
 import com.pend.R;
+import com.pend.activity.mirror.MirrorActivity;
 import com.pend.activity.mirror.MirrorDetailsActivity;
 import com.pend.adapters.TrendingAndIntroducedMirrorAdapter;
 import com.pend.interfaces.Constants;
@@ -63,8 +64,15 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
         initUI(view);
         setInitialData();
 
-        getData(IApiEvent.REQUEST_GET_TRENDING_CODE);
+
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!((MirrorActivity) mContext).mIsUpdateRequired)
+            getData(IApiEvent.REQUEST_GET_TRENDING_CODE);
     }
 
     @Override
@@ -158,7 +166,9 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
 
                             TrendingAndIntroducedMirrorAdapter trendingAndIntroducedMirrorAdapter =
                                     (TrendingAndIntroducedMirrorAdapter) mRecyclerViewTrending.getAdapter();
-
+                            if (!((MirrorActivity) mContext).mIsUpdateRequired) {
+                                mMirrorList.clear();
+                            }
                             mMirrorList.addAll(trendingAndIntroducedMirrorResponseModel.Data.mirrorList);
                             trendingAndIntroducedMirrorAdapter.setMirrorList(mMirrorList);
                             trendingAndIntroducedMirrorAdapter.notifyDataSetChanged();
