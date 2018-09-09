@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.pend.R;
@@ -99,8 +100,8 @@ public class SearchMirrorAdapter extends RecyclerView.Adapter<SearchMirrorAdapte
         private final TextView tvName;
         private final TextView tvLink;
         private final ImageView ivProfile;
-        private final ImageView ivRadioButton;
         private final View rootView;
+        private final RadioButton radioButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -109,7 +110,7 @@ public class SearchMirrorAdapter extends RecyclerView.Adapter<SearchMirrorAdapte
             tvName = itemView.findViewById(R.id.tv_name);
             tvLink = itemView.findViewById(R.id.tv_link);
             ivProfile = itemView.findViewById(R.id.iv_profile);
-            ivRadioButton = itemView.findViewById(R.id.iv_radio_button);
+            radioButton = itemView.findViewById(R.id.radio_button);
         }
     }
 

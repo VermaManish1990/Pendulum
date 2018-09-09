@@ -55,13 +55,11 @@
         android:layout_alignTop="@+id/iv_profile"
         android:layout_marginEnd="@dimen/_5sdp">
 
-        <ImageView
-            android:id="@+id/iv_radio_button"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_gravity="center"
-            android:contentDescription="@string/image"
-            android:src="@drawable/setting" />
+        <RadioButton
+            android:id="@+id/radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
 
     </FrameLayout>
 
