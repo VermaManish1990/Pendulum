@@ -795,6 +795,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         mIsSearchData = true;
         mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+
+        if(count==0){
+            onSearchClick();
+        }
     }
 
     @Override

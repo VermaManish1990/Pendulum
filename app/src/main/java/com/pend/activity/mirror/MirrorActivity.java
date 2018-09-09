@@ -237,7 +237,9 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
         switch (view.getId()) {
 
             case R.id.iv_search:
-                mCleanSearch = true;
+                if(mIvSearch.getDrawable().getConstantState().equals(getDrawable(R.drawable.cross_white).getConstantState())){
+                    mCleanSearch = true;
+                }
                 onSearchClick();
                 break;
 
@@ -377,24 +379,25 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
         mIsSearchData = true;
         mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
 
+        if(count==0){
+            switch (mViewPagerMirror.getCurrentItem()) {
+                case TRENDING_MIRROR:
+                    if (!s.toString().equalsIgnoreCase(mSearchTextTrending)) {
+                        onSearchClick();
+                    }
+                    break;
 
-        switch (mViewPagerMirror.getCurrentItem()) {
-            case TRENDING_MIRROR:
-                if (!s.toString().equalsIgnoreCase(mSearchTextTrending)) {
-                    onSearchClick();
-                }
-                break;
-
-            case FOLLOWING_MIRROR:
-                if (!s.toString().equalsIgnoreCase(mSearchTextFollowing)) {
-                    onSearchClick();
-                }
-                break;
-            case INTRODUCED_MIRROR:
-                if (!s.toString().equalsIgnoreCase(mSearchTextIntroduced)) {
-                    onSearchClick();
-                }
-                break;
+                case FOLLOWING_MIRROR:
+                    if (!s.toString().equalsIgnoreCase(mSearchTextFollowing)) {
+                        onSearchClick();
+                    }
+                    break;
+                case INTRODUCED_MIRROR:
+                    if (!s.toString().equalsIgnoreCase(mSearchTextIntroduced)) {
+                        onSearchClick();
+                    }
+                    break;
+            }
         }
     }
 
@@ -425,6 +428,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
                         mCleanSearch = false;
                         mIsSearchData = true;
                         mEtSearch.setText("");
+                        mSearchTextTrending = "";
                         mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
                         trendingMirrorFragment.cancelSearchMirrorData();
                     } else {
@@ -449,6 +453,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
                         mCleanSearch = false;
                         mIsSearchData = true;
                         mEtSearch.setText("");
+                        mSearchTextFollowing = "";
                         mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
                         followingMirrorFragment.cancelSearchMirrorData();
                     } else {
@@ -474,6 +479,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
                         mCleanSearch = false;
                         mIsSearchData = true;
                         mEtSearch.setText("");
+                        mSearchTextFollowing = "";
                         mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
                         introducedMirrorFragment.cancelSearchMirrorData();
                     } else {
