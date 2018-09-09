@@ -41,6 +41,8 @@ import com.pend.util.LoggerUtil;
 import com.pend.util.SharedPrefUtils;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 public class MirrorActivity extends BaseActivity implements View.OnClickListener, IMirrorFragmentCallBack, TextWatcher {
 
     private static final String TAG = MirrorActivity.class.getSimpleName();
@@ -55,11 +57,9 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
     private boolean mIsUpdateRequired;
     private EditText mEtSearch;
     private ImageView mIvSearch;
-    private TrendingMirrorFragment mTrendingMirrorFragment;
-    private FollowingMirrorFragment mFollowingMirrorFragment;
-    private IntroducedMirrorFragment mIntroducedMirrorFragment;
     private boolean mIsSearchData;
     private ImageView mIvProfile;
+    private FragmentViewPagerAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,8 +124,10 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
                     InputMethodManager inputManager = (InputMethodManager)
                             getSystemService(Context.INPUT_METHOD_SERVICE);
 
-                    inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                            InputMethodManager.HIDE_NOT_ALWAYS);
+                    if (inputManager != null) {
+                        inputManager.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(),
+                                InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
                     onSearchClick();
 
                     return true;
@@ -140,50 +142,55 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
      */
     private void setupViewPager(ViewPager viewPager) {
 
-        mTrendingMirrorFragment = new TrendingMirrorFragment();
-        mFollowingMirrorFragment = new FollowingMirrorFragment();
-        mIntroducedMirrorFragment = new IntroducedMirrorFragment();
-
-        FragmentViewPagerAdapter adapter = new FragmentViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(mTrendingMirrorFragment, getString(R.string.trending));
-        adapter.addFragment(mFollowingMirrorFragment, getString(R.string.following));
-        adapter.addFragment(mIntroducedMirrorFragment, getString(R.string.introduced));
+        mAdapter = new FragmentViewPagerAdapter(getSupportFragmentManager());
+        mAdapter.addFragment(new TrendingMirrorFragment(), getString(R.string.trending));
+        mAdapter.addFragment(new FollowingMirrorFragment(), getString(R.string.following));
+        mAdapter.addFragment(new IntroducedMirrorFragment(), getString(R.string.introduced));
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            public void onPageScrollStateChanged(int state) {}
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrollStateChanged(int state) {
+            }
+
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             public void onPageSelected(int position) {
                 // Check if this is the page you want.
                 switch (position) {
                     case TRENDING_MIRROR:
 
-                            mIsSearchData = true;
-                            mEtSearch.setText("");
-                            mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
-                            mTrendingMirrorFragment.cancelSearchMirrorData();
+                        mIsSearchData = true;
+                        mEtSearch.setText("");
+                        mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+                        TrendingMirrorFragment trendingMirrorFragment = (TrendingMirrorFragment) mAdapter.getItem(position);
+                        if (trendingMirrorFragment != null)
+                            trendingMirrorFragment.cancelSearchMirrorData();
                         break;
 
                     case FOLLOWING_MIRROR:
 
-                            mIsSearchData = true;
-                            mEtSearch.setText("");
-                            mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
-                            mFollowingMirrorFragment.cancelSearchMirrorData();
+                        mIsSearchData = true;
+                        mEtSearch.setText("");
+                        mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+                        FollowingMirrorFragment followingMirrorFragment = (FollowingMirrorFragment) mAdapter.getItem(position);
+                        if (followingMirrorFragment != null)
+                            followingMirrorFragment.cancelSearchMirrorData();
                         break;
 
                     case INTRODUCED_MIRROR:
 
-                            mIsSearchData = true;
-                            mEtSearch.setText("");
-                            mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
-                            mIntroducedMirrorFragment.cancelSearchMirrorData();
+                        mIsSearchData = true;
+                        mEtSearch.setText("");
+                        mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+                        IntroducedMirrorFragment introducedMirrorFragment = (IntroducedMirrorFragment) mAdapter.getItem(position);
+                        if (introducedMirrorFragment != null)
+                            introducedMirrorFragment.cancelSearchMirrorData();
                         break;
                 }
             }
         });
 
-        viewPager.setAdapter(adapter);
+        viewPager.setAdapter(mAdapter);
     }
 
     @Override
@@ -366,42 +373,58 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
 
         switch (item) {
             case TRENDING_MIRROR:
-                if (mIsSearchData) {
-                    mIsSearchData = false;
-                    mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.cross_white));
-                    mTrendingMirrorFragment.searchMirrorData(searchText);
-                } else {
-                    mIsSearchData = true;
-                    mEtSearch.setText("");
-                    mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
-                    mTrendingMirrorFragment.cancelSearchMirrorData();
+
+                TrendingMirrorFragment trendingMirrorFragment = (TrendingMirrorFragment) mAdapter.getItem(item);
+                if (trendingMirrorFragment != null) {
+
+                    if (mIsSearchData) {
+                        mIsSearchData = false;
+                        mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.cross_white));
+                        trendingMirrorFragment.searchMirrorData(searchText);
+                    } else {
+                        mIsSearchData = true;
+                        mEtSearch.setText("");
+                        mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+                        trendingMirrorFragment.cancelSearchMirrorData();
+                    }
                 }
                 break;
 
             case FOLLOWING_MIRROR:
-                if (mIsSearchData) {
-                    mIsSearchData = false;
-                    mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.cross_white));
-                    mFollowingMirrorFragment.searchMirrorData(searchText);
-                } else {
-                    mIsSearchData = true;
-                    mEtSearch.setText("");
-                    mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
-                    mFollowingMirrorFragment.cancelSearchMirrorData();
+
+                FollowingMirrorFragment followingMirrorFragment = (FollowingMirrorFragment) mAdapter.getItem(item);
+                if (followingMirrorFragment != null) {
+
+                    if (mIsSearchData) {
+                        mIsSearchData = false;
+                        mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.cross_white));
+                        followingMirrorFragment.searchMirrorData(searchText);
+                    } else {
+                        mIsSearchData = true;
+                        mEtSearch.setText("");
+                        mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+                        followingMirrorFragment.cancelSearchMirrorData();
+                    }
                 }
                 break;
 
             case INTRODUCED_MIRROR:
-                if (mIsSearchData) {
-                    mIsSearchData = false;
-                    mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.cross_white));
-                    mIntroducedMirrorFragment.searchMirrorData(searchText);
-                } else {
-                    mIsSearchData = true;
-                    mEtSearch.setText("");
-                    mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
-                    mIntroducedMirrorFragment.cancelSearchMirrorData();
+
+                IntroducedMirrorFragment introducedMirrorFragment = (IntroducedMirrorFragment) mAdapter.getItem(item);
+                if (introducedMirrorFragment != null) {
+
+                    if (mIsSearchData) {
+                        mIsSearchData = false;
+                        mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.cross_white));
+                        introducedMirrorFragment.searchMirrorData(searchText);
+                    } else {
+                        mIsSearchData = true;
+                        mEtSearch.setText("");
+                        mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+                        introducedMirrorFragment.cancelSearchMirrorData();
+                    }
                 }
+
                 break;
         }
     }

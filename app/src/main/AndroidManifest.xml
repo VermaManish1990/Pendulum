@@ -37,23 +37,23 @@
         <activity
             android:name=".activity.home.HomeActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activity.login.SignUpActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activity.login.EditMyProfileActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden" />
         <activity
             android:name=".activity.login.SettingActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activity.mirror.SearchInNewsFeedActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activity.login.ProfileActivity"
             android:screenOrientation="portrait"
@@ -61,15 +61,15 @@
         <activity
             android:name=".activity.login.LoginActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activity.mirror.MirrorActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activity.mirror.SearchMirrorListingActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activity.mirror.MirrorDetailsActivity"
             android:screenOrientation="portrait"
@@ -85,19 +85,19 @@
         <activity
             android:name=".activity.contest.ContestActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activity.contest.CreateContestType1Activity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden" />
         <activity
             android:name=".activity.contest.CreateContestType2Activity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden" />
         <activity
             android:name=".activity.home.CreatePostActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".arena.view.ArenaActivity"
             android:screenOrientation="portrait" />
