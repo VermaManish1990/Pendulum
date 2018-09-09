@@ -1,5 +1,6 @@
 package com.pend.arena.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,10 +26,11 @@ import com.pend.arena.model.reflections.ReflectionsResponse;
 import com.pend.arena.model.reflections.ResponseData;
 import com.pend.arena.presenter.ReflectionPresenter;
 import com.pend.util.ProgressBarHandler;
+import com.pend.util.SharedPrefUtils;
 import com.squareup.picasso.Picasso;
 
 
-public class ReflectionFragment extends Fragment implements ReflectionPresenter.ReflectionPresenterListener{
+public class ReflectionFragment extends Fragment implements ReflectionPresenter.ReflectionPresenterListener {
 
 
     private RecyclerView recyclerView;
@@ -38,57 +40,57 @@ public class ReflectionFragment extends Fragment implements ReflectionPresenter.
     private Integer userID;
     private ReflectionPresenter reflectionPresenter;
     private boolean hasNext;
-    private int PAGE_COUNT=1;
-    int visibleItemCount, totalItemCount,pastVisiblesItems;
+    private int PAGE_COUNT = 1;
+    int visibleItemCount, totalItemCount, pastVisiblesItems;
     private boolean loading = true;
     private ProgressBarHandler progressBarHandler;
     private String searchString;
+    private Context mContext;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.chat_fragment,container,false);
+        View view = inflater.inflate(R.layout.chat_fragment, container, false);
 
-        recyclerView=(RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
         recyclerView.setHasFixedSize(true);
-        progressBarHandler= new ProgressBarHandler(getActivity());
+        progressBarHandler = new ProgressBarHandler(getActivity());
+
+        userID = Integer.valueOf(SharedPrefUtils.getUserId(mContext));
+
+        reflectionPresenter = new ReflectionPresenter(this, getContext());
 
 
-        SharedPreferences pref = getActivity().getSharedPreferences("MyPref", 0); // 0 - for private mode
-        userID= pref.getInt("userId",0);
-
-        reflectionPresenter = new ReflectionPresenter(this,getContext());
-
-
-        myDataset= new ArrayList<>();
+        myDataset = new ArrayList<>();
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         myAdapter = new MyAdapter(myDataset);
         recyclerView.setAdapter(myAdapter);
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
-        {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
-            {
-                if(dy > 0) //check for scroll down
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) //check for scroll down
                 {
                     visibleItemCount = recyclerView.getChildCount();
                     totalItemCount = linearLayoutManager.getItemCount();
                     pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
 
-                    if (loading)
-                    {
-                        if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount)
-                        {
+                    if (loading) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             loading = false;
                             Log.v("...", "Last Item Wow !");
                             //Do pagination.. i.e. fetch new data
-                            if(hasNext)
-                            {
-                                reflectionPresenter.getReflections(userID,++PAGE_COUNT,searchString);
+                            if (hasNext) {
+                                reflectionPresenter.getReflections(userID, ++PAGE_COUNT, searchString);
 
                             }
 
@@ -107,14 +109,12 @@ public class ReflectionFragment extends Fragment implements ReflectionPresenter.
 
         progressBarHandler.hide();
 
-        if(reflectionsResponse !=null&& reflectionsResponse.isStatus())
-        {
+        if (reflectionsResponse != null && reflectionsResponse.isStatus()) {
             myDataset.addAll(reflectionsResponse.getData().getResponseData());
             myAdapter.notifyDataSetChanged();
 
-            if(reflectionsResponse.getData().hasNextPage)
-                loading=true;
-
+            if (reflectionsResponse.getData().hasNextPage)
+                loading = true;
 
 
         }
@@ -127,14 +127,14 @@ public class ReflectionFragment extends Fragment implements ReflectionPresenter.
 
         myDataset.clear();
         myAdapter.notifyDataSetChanged();
-        PAGE_COUNT=1;
-        loading=true;
+        PAGE_COUNT = 1;
+        loading = true;
 
-        ArenaActivity act = (ArenaActivity)getActivity();
+        ArenaActivity act = (ArenaActivity) getActivity();
 
         searchString = act.getSearchText();
 
-        reflectionPresenter.getReflections(userID,PAGE_COUNT,searchString);
+        reflectionPresenter.getReflections(userID, PAGE_COUNT, searchString);
         progressBarHandler.show();
     }
 
@@ -144,18 +144,19 @@ public class ReflectionFragment extends Fragment implements ReflectionPresenter.
         // Provide a reference to the views for each data item
         // Complex data items may need more than one view per item, and
         // you provide access to all the views for a data item in a view holder
-        public  class ViewHolder extends RecyclerView.ViewHolder {
+        public class ViewHolder extends RecyclerView.ViewHolder {
             // each data item is just a string in this case
-            public TextView name,count;
-            public ImageView profileImage,chat;
+            public TextView name, count;
+            public ImageView profileImage, chat;
             public RelativeLayout relLayout;
+
             public ViewHolder(View v) {
                 super(v);
                 name = v.findViewById(R.id.user_name);
-                count=v.findViewById(R.id.user_count);
-                profileImage=v.findViewById(R.id.user_image);
-                chat=v.findViewById(R.id.chat);
-                relLayout=v.findViewById(R.id.row_layout);
+                count = v.findViewById(R.id.user_count);
+                profileImage = v.findViewById(R.id.user_image);
+                chat = v.findViewById(R.id.chat);
+                relLayout = v.findViewById(R.id.row_layout);
             }
         }
 
@@ -167,9 +168,9 @@ public class ReflectionFragment extends Fragment implements ReflectionPresenter.
         // Create new views (invoked by the layout manager)
         @Override
         public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                                    int viewType) {
+                                                       int viewType) {
             // create a new view
-            View v =  LayoutInflater.from(parent.getContext())
+            View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.reflection_row_item, parent, false);
 
             MyAdapter.ViewHolder vh = new MyAdapter.ViewHolder(v);
@@ -181,11 +182,11 @@ public class ReflectionFragment extends Fragment implements ReflectionPresenter.
         public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
-            final ResponseData item =mDataset.get(position);
+            final ResponseData item = mDataset.get(position);
             holder.name.setText(mDataset.get(position).getUserFullName());
-            holder.count.setText("("+mDataset.get(position).getMirrorCount()+" common mirrors)");
+            holder.count.setText("(" + mDataset.get(position).getMirrorCount() + " common mirrors)");
 
-            if(mDataset.get(position).getImageURL()!=null&& !mDataset.get(position).getImageURL().equals("")){
+            if (mDataset.get(position).getImageURL() != null && !mDataset.get(position).getImageURL().equals("")) {
 
                 Picasso.with(getActivity()).load(mDataset.get(position).getImageURL())
                         .placeholder(R.drawable.profile).into(holder.profileImage);
@@ -215,9 +216,9 @@ public class ReflectionFragment extends Fragment implements ReflectionPresenter.
             holder.relLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(),ChatActivity.class);
+                    Intent intent = new Intent(getActivity(), ChatActivity.class);
                     Bundle b = new Bundle();
-                    b.putInt("selectedUserId",item.getUserID());
+                    b.putInt("selectedUserId", item.getUserID());
                     intent.putExtras(b);
                     startActivity(intent);
 
