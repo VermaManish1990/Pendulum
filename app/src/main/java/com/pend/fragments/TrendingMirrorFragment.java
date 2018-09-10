@@ -71,6 +71,7 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
     @Override
     public void onResume() {
         super.onResume();
+        mSearchText = "";
         if (!((MirrorActivity) mContext).mIsUpdateRequired)
             getData(IApiEvent.REQUEST_GET_TRENDING_CODE);
     }

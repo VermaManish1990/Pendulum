@@ -72,6 +72,7 @@ public class FollowingMirrorFragment extends BaseFragment implements View.OnClic
     @Override
     public void onResume() {
         super.onResume();
+        mSearchText = "";
         if (!((MirrorActivity) mContext).mIsUpdateRequired)
             getData(IApiEvent.REQUEST_GET_FOLLOWING_CODE);
     }

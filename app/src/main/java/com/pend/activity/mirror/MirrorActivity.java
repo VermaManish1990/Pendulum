@@ -372,6 +372,12 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
         super.onPause();
 
         mIsUpdateRequired = true;
+        mIsSearchData = true;
+        mSearchTextTrending = "";
+        mSearchTextFollowing = "";
+        mSearchTextIntroduced = "";
+        mEtSearch.setText("");
+        mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
     }
 
     @Override
@@ -380,9 +386,6 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
 
         if (mIsUpdateRequired) {
             mIsUpdateRequired = false;
-          /*
-            setupViewPager(mViewPagerMirror);*/
-//            mViewPagerMirror.getAdapter().getCurrentItem()
         }
     }
 
