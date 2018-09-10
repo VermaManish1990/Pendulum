@@ -73,6 +73,9 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
     public void onResume() {
         super.onResume();
         mSearchText = "";
+        mPageNumber = 1;
+        mIsLoading = false;
+        mIsHasNextPage = false;
         if (!((MirrorActivity) mContext).mIsUpdateRequired)
             getData(IApiEvent.REQUEST_GET_INTRODUCED_CODE);
     }
@@ -165,7 +168,7 @@ public class IntroducedMirrorFragment extends BaseFragment implements TrendingAn
 
                             TrendingAndIntroducedMirrorAdapter trendingAndIntroducedMirrorAdapter =
                                     (TrendingAndIntroducedMirrorAdapter) mRecyclerViewIntroduced.getAdapter();
-                            if (!((MirrorActivity) mContext).mIsUpdateRequired) {
+                            if (mPageNumber == 1) {
                                 mMirrorList.clear();
                             }
                             mMirrorList.addAll(trendingAndIntroducedMirrorResponseModel.Data.mirrorList);

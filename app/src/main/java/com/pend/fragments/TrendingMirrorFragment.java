@@ -72,6 +72,9 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
     public void onResume() {
         super.onResume();
         mSearchText = "";
+        mPageNumber = 1;
+        mIsLoading = false;
+        mIsHasNextPage = false;
         if (!((MirrorActivity) mContext).mIsUpdateRequired)
             getData(IApiEvent.REQUEST_GET_TRENDING_CODE);
     }
@@ -167,7 +170,7 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
 
                             TrendingAndIntroducedMirrorAdapter trendingAndIntroducedMirrorAdapter =
                                     (TrendingAndIntroducedMirrorAdapter) mRecyclerViewTrending.getAdapter();
-                            if (!((MirrorActivity) mContext).mIsUpdateRequired) {
+                            if (mPageNumber == 1) {
                                 mMirrorList.clear();
                             }
                             mMirrorList.addAll(trendingAndIntroducedMirrorResponseModel.Data.mirrorList);
@@ -216,7 +219,7 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
                 return;
             }
             mContext.showProgressDialog();
-        }else {
+        } else {
             return;
         }
 
@@ -273,7 +276,7 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.bt_create_mirror:
                 mIMirrorFragmentCallBack.onCreateMirrorClick();
                 break;

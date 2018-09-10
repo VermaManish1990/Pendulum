@@ -2,6 +2,7 @@ package com.pend.activity.mirror;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Build;
@@ -86,7 +87,7 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
         mFlQuarterBlackView = quarterView.findViewById(R.id.fl_quarter_black_view);
         mFlMenuView = quarterView.findViewById(R.id.fl_menu_view);
 
-        ((ImageView)quarterView.findViewById(R.id.iv_mirror)).setImageDrawable(getResources().getDrawable(R.drawable.home));
+        ((ImageView) quarterView.findViewById(R.id.iv_mirror)).setImageDrawable(getResources().getDrawable(R.drawable.home));
         ((TextView) quarterView.findViewById(R.id.tv_mirror)).setText(String.valueOf(getResources().getString(R.string.home)));
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
@@ -134,7 +135,7 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -147,7 +148,7 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
 
                         if (createMirrorResponseModel.Data != null && createMirrorResponseModel.Data.mirrorData != null) {
                             Snackbar.make(mRootView, R.string.mirror_created_successfully, Snackbar.LENGTH_LONG).show();
-                            Intent intent = new Intent(SearchMirrorListingActivity.this,MirrorDetailsActivity.class);
+                            Intent intent = new Intent(SearchMirrorListingActivity.this, MirrorDetailsActivity.class);
                             intent.putExtra(Constants.MIRROR_ID_KEY, createMirrorResponseModel.Data.mirrorData.mirrorID);
                             startActivity(intent);
                             finish();
@@ -156,7 +157,7 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
                 } else {
-                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
                 break;
@@ -348,11 +349,23 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
     }
 
     @Override
-    public void onMirrorClick(int position) {
-        mMirrorDetails = mSearchDataList.get(position);
+    public void onMirrorClick(final int position) {
 
-        if (mMirrorDetails != null) {
-            getData(IApiEvent.REQUEST_CREATE_MIRROR_CODE);
-        }
+        OtherUtil.showAlertDialog(getString(R.string.create_mirror_message), this, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mMirrorDetails = mSearchDataList.get(position);
+                if (mMirrorDetails != null) {
+                    getData(IApiEvent.REQUEST_CREATE_MIRROR_CODE);
+                }
+                dialog.dismiss();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
     }
 }

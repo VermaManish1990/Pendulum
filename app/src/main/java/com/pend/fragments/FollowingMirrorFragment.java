@@ -73,6 +73,9 @@ public class FollowingMirrorFragment extends BaseFragment implements View.OnClic
     public void onResume() {
         super.onResume();
         mSearchText = "";
+        mPageNumber = 1;
+        mIsLoading = false;
+        mIsHasNextPage = false;
         if (!((MirrorActivity) mContext).mIsUpdateRequired)
             getData(IApiEvent.REQUEST_GET_FOLLOWING_CODE);
     }
@@ -178,7 +181,7 @@ public class FollowingMirrorFragment extends BaseFragment implements View.OnClic
                             mIsHasNextPage = !followingMirrorResponseModel.Data.hasNextPage;
 
                             FollowingMirrorAdapter followingMirrorAdapter = (FollowingMirrorAdapter) mGridViewFollowingMirror.getAdapter();
-                            if (!((MirrorActivity) mContext).mIsUpdateRequired) {
+                            if (mPageNumber == 1) {
                                 mMirrorList.clear();
                             }
                             mMirrorList.addAll(followingMirrorResponseModel.Data.mirrorList);
