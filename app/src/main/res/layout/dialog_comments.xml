@@ -152,7 +152,7 @@
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:layout_alignTop="@+id/et_add_a_comment"
                 android:layout_alignBottom="@+id/et_add_a_comment"
-                android:src="@drawable/send"
+                android:src="@drawable/comment"
                 android:text="@string/send"/>
 
         </RelativeLayout>

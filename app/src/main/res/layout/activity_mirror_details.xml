@@ -38,6 +38,7 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:scaleType="fitXY"
                         android:src="@drawable/profile"
+                        android:background="@drawable/placeholder"
                         app:fk_left_bottom_corner_radius="@dimen/_5sdp"
                         app:fk_left_top_corner_radius="@dimen/_5sdp"
                         app:fk_right_bottom_corner_radius="@dimen/_5sdp"

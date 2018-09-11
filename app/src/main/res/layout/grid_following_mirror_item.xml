@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/_3sdp"
     android:background="@drawable/custom_rounded_grey_border"
     android:elevation="@dimen/_2sdp"
     app:cardCornerRadius="@dimen/_5sdp">
@@ -19,8 +18,9 @@
             android:layout_height="@dimen/_65sdp"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:scaleType="fitXY"
+            android:background="@drawable/placeholder"
             app:fk_left_bottom_corner_radius="@dimen/_5sdp"
             app:fk_left_top_corner_radius="@dimen/_5sdp"
             app:fk_right_bottom_corner_radius="@dimen/_5sdp"
@@ -28,17 +28,17 @@
 
         <ImageView
             android:id="@+id/iv_vote"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
             android:layout_alignStart="@+id/tv_count"
             android:contentDescription="@string/image"
             android:src="@drawable/yellow_circle"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/tv_count"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
             android:layout_above="@+id/tv_name"
             android:layout_toEndOf="@+id/iv_profile"
             android:background="@drawable/custom_blue_ring_view"
@@ -53,9 +53,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_profile"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/colorPrimary"

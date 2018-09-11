@@ -92,7 +92,7 @@
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_10sdp"
         android:adjustViewBounds="true"
-        android:background="@color/black"
+        android:background="@drawable/placeholder"
         android:contentDescription="@string/image"
         android:scaleType="centerCrop" />
 
@@ -234,7 +234,7 @@
             android:layout_alignBottom="@+id/et_add_a_comment"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/et_add_a_comment"
-            android:src="@drawable/send"
+            android:src="@drawable/comment"
             android:text="@string/send"
             android:textAllCaps="false"
             android:textSize="@dimen/_11sdp" />

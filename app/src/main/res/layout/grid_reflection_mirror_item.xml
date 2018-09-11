@@ -19,6 +19,7 @@
             android:layout_height="@dimen/_130sdp"
             android:layout_centerHorizontal="true"
             android:contentDescription="@string/image"
+            android:background="@drawable/placeholder"
             android:scaleType="fitXY" />
 
         <TextView
