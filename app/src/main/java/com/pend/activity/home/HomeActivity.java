@@ -294,7 +294,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 } else {
 
                     // When record not found in Pendulum database then it search from Wikipedia.
-                    if (mSearchText != null && !mSearchText.equals("")) {
+                    if (mSearchText != null && !mSearchText.equals("") && mPageNumber == 1) {
                         Intent intent = new Intent(HomeActivity.this, SearchMirrorListingActivity.class);
                         intent.putExtra(Constants.SEARCH_TEXT_KEY, mSearchText);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -764,6 +764,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         super.onResume();
 
         if (mIsUpdateRequired) {
+            mIsSearchData = true;
+            mEtSearch.setText("");
+            mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
             cancelSearchMirrorData();
         }
     }
@@ -773,9 +776,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         super.onPause();
 
         mIsUpdateRequired = true;
-        mIsSearchData = true;
-        mEtSearch.setText("");
-        mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
     }
 
     @Override
