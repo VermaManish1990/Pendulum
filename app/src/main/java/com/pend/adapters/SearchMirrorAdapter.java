@@ -10,6 +10,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -83,7 +84,7 @@ public class SearchMirrorAdapter extends RecyclerView.Adapter<SearchMirrorAdapte
                     .into(holder.ivProfile);
         }
 
-        holder.rootView.setOnClickListener(new View.OnClickListener() {
+        holder.btCreateMirror.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mISearchMirrorAdapterCallBack.onMirrorClick(position);
@@ -101,7 +102,7 @@ public class SearchMirrorAdapter extends RecyclerView.Adapter<SearchMirrorAdapte
         private final TextView tvLink;
         private final ImageView ivProfile;
         private final View rootView;
-        private final RadioButton radioButton;
+        private final Button btCreateMirror;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -110,7 +111,7 @@ public class SearchMirrorAdapter extends RecyclerView.Adapter<SearchMirrorAdapte
             tvName = itemView.findViewById(R.id.tv_name);
             tvLink = itemView.findViewById(R.id.tv_link);
             ivProfile = itemView.findViewById(R.id.iv_profile);
-            radioButton = itemView.findViewById(R.id.radio_button);
+            btCreateMirror = itemView.findViewById(R.id.bt_create_mirror);
         }
     }
 

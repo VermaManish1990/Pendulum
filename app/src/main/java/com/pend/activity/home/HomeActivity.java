@@ -35,6 +35,7 @@ import com.pend.activity.contest.ContestActivity;
 import com.pend.activity.login.ProfileActivity;
 import com.pend.activity.mirror.MirrorActivity;
 import com.pend.activity.mirror.MirrorDetailsActivity;
+import com.pend.activity.mirror.SearchMirrorListingActivity;
 import com.pend.adapters.HomePostsAdapter;
 import com.pend.adapters.SearchInNewsFeedAdapter;
 import com.pend.arena.view.ArenaActivity;
@@ -291,13 +292,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         mRecyclerViewMirror.setVisibility(View.GONE);
                     }
                 } else {
-                    mMirrorList.clear();
-                    SearchInNewsFeedAdapter searchInNewsFeedAdapter = (SearchInNewsFeedAdapter) mRecyclerViewMirror.getAdapter();
-                    searchInNewsFeedAdapter.setSearchDataList(mMirrorList);
-                    searchInNewsFeedAdapter.notifyDataSetChanged();
-                    OtherUtil.showErrorMessage(this, serviceResponse);
 
-                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                    // When record not found in Pendulum database then it search from Wikipedia.
+                    if (mSearchText != null && !mSearchText.equals("")) {
+                        Intent intent = new Intent(HomeActivity.this, SearchMirrorListingActivity.class);
+                        intent.putExtra(Constants.SEARCH_TEXT_KEY, mSearchText);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
                 }
 
                 mIsLoading = false;
@@ -762,10 +764,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         super.onResume();
 
         if (mIsUpdateRequired) {
-            mIsUpdateRequired = false;
-            mPostsDetailsList.clear();
-            mRecyclerViewPost.setVisibility(View.VISIBLE);
-            getData(IApiEvent.REQUEST_GET_POSTS_CODE);
+            cancelSearchMirrorData();
         }
     }
 
@@ -774,6 +773,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         super.onPause();
 
         mIsUpdateRequired = true;
+        mIsSearchData = true;
+        mEtSearch.setText("");
+        mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
     }
 
     @Override
@@ -796,7 +798,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         mIsSearchData = true;
         mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
 
-        if(count==0){
+        if (count == 0) {
             onSearchClick();
         }
     }
