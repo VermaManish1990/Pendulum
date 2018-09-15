@@ -171,7 +171,7 @@
                         android:layout_width="@dimen/_15sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:contentDescription="@string/image"
-                        android:src="@drawable/add" />
+                        android:src="@drawable/post" />
 
                     <TextView
                         android:layout_width="wrap_content"
