@@ -419,7 +419,8 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
         try {
             date1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a").parse(timeString);
 
-            DateFormat df = new SimpleDateFormat(" hh:mm a, dd/MMM/yy ");
+            //DateFormat df = new SimpleDateFormat(" hh:mm a, dd/MMM/yy ");
+            DateFormat df = new SimpleDateFormat(" hh:mm a");
 
             // Get the date today using Calendar object.
 

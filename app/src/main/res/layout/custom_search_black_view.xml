@@ -29,7 +29,7 @@
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_toStartOf="@+id/iv_search"
-        android:hint="@string/search_for_mirror"
+        android:hint="@string/search"
         android:textColor="@color/white"
         android:singleLine="true"
         android:background="@null"

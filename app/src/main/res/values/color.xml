@@ -162,6 +162,7 @@
 
     <color name="rounderBorder">#757F8E</color>
     <color name="light_gray_background">#aeb8c9</color>
+    <color name="light_gray_backgroundforchat">#dadada</color>
     <color name="backgroundGrayDark">#B6BDC5</color>
     <color name="fontPrimary100">#FF0c1e37</color>
     <color name="fontPrimary90">#E60c1e37</color>
