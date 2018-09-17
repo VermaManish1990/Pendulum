@@ -32,8 +32,7 @@
             android:layout_height="@dimen/_15sdp"
             android:layout_alignStart="@+id/tv_count"
             android:contentDescription="@string/image"
-            android:src="@drawable/yellow_circle"
-            android:visibility="visible" />
+            android:src="@drawable/bluetick" />
 
         <TextView
             android:id="@+id/tv_count"

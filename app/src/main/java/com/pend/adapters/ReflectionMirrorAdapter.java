@@ -74,16 +74,17 @@ public class ReflectionMirrorAdapter extends BaseAdapter {
         TextView tvName = view.findViewById(R.id.tv_name);
         ImageView ivMessage = view.findViewById(R.id.iv_message);
         ImageView ivProfile = view.findViewById(R.id.iv_profile);
+        ImageView ivVote = view.findViewById(R.id.iv_vote);
 
-//        if (reflectionUsersDetails.mirrorAdmire) {
-//            ivMessage.setColorFilter(R.color.txt_color_green);
-//        } else if (reflectionUsersDetails.mirrorHate) {
-//            ivMessage.setColorFilter(R.color.light_red_bg);
-//        } else if (reflectionUsersDetails.mirrorCantSay) {
-//            ivMessage.setColorFilter(R.color.bootstrap_brand_warning);
-//        } else {
-//            ivMessage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.message));
-//        }
+        if (reflectionUsersDetails.mirrorAdmire) {
+            ivVote.setImageDrawable(mContext.getResources().getDrawable(R.drawable.greentick));
+        } else if (reflectionUsersDetails.mirrorHate) {
+            ivVote.setImageDrawable(mContext.getResources().getDrawable(R.drawable.redtick));
+        } else if (reflectionUsersDetails.mirrorCantSay) {
+            ivVote.setImageDrawable(mContext.getResources().getDrawable(R.drawable.bluetick));
+        } else {
+            ivVote.setImageDrawable(mContext.getResources().getDrawable(R.drawable.bluetick));
+        }
 
         ivMessage.setOnClickListener(new View.OnClickListener() {
             @Override

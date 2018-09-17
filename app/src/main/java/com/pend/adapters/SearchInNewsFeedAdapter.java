@@ -54,10 +54,14 @@ public class SearchInNewsFeedAdapter extends RecyclerView.Adapter<SearchInNewsFe
                     .into(holder.ivProfile);
         }
 
-        if (mirrorDetails.mirrorAdmire || mirrorDetails.mirrorHate || mirrorDetails.mirrorCantSay) {
-            holder.ivVote.setVisibility(View.VISIBLE);
+        if (mirrorDetails.mirrorAdmire) {
+            holder.ivVote.setImageDrawable(mContext.getResources().getDrawable(R.drawable.greentick));
+        } else if (mirrorDetails.mirrorHate) {
+            holder.ivVote.setImageDrawable(mContext.getResources().getDrawable(R.drawable.redtick));
+        } else if (mirrorDetails.mirrorCantSay) {
+            holder.ivVote.setImageDrawable(mContext.getResources().getDrawable(R.drawable.bluetick));
         } else {
-            holder.ivVote.setVisibility(View.GONE);
+            holder.ivVote.setImageDrawable(mContext.getResources().getDrawable(R.drawable.bluetick));
         }
 
         holder.rootView.setOnClickListener(new View.OnClickListener() {

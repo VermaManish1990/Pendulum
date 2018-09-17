@@ -98,6 +98,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     private View mViewCreateANewPost;
     private View mViewMirrorDetails;
     private ImageView mIvQuarterProfile;
+    private ImageView ivVote;
 
 
     @Override
@@ -126,6 +127,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         mGraphView = findViewById(R.id.graph_view);
         mTvName = findViewById(R.id.tv_name);
         mTvDate = findViewById(R.id.tv_date);
+        ivVote = findViewById(R.id.iv_vote);
         mIvForward = findViewById(R.id.iv_forward);
         mViewMirrorDetails = findViewById(R.id.view_mirror_details);
         mViewCreateANewPost = findViewById(R.id.view_create_a_new_post);
@@ -659,6 +661,16 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
             Picasso.with(this)
                     .load(mirrorData.imageURL != null ? mirrorData.imageURL : "")
                     .into(mIvProfile);
+        }
+
+        if (mirrorData.mirrorAdmire) {
+            ivVote.setImageDrawable(getResources().getDrawable(R.drawable.greentick));
+        } else if (mirrorData.mirrorHate) {
+            ivVote.setImageDrawable(getResources().getDrawable(R.drawable.redtick));
+        } else if (mirrorData.mirrorCantSay) {
+            ivVote.setImageDrawable(getResources().getDrawable(R.drawable.bluetick));
+        } else {
+            ivVote.setImageDrawable(getResources().getDrawable(R.drawable.bluetick));
         }
 
         mIsVoted = mirrorData.mirrorAdmire || mirrorData.mirrorHate || mirrorData.mirrorCantSay;

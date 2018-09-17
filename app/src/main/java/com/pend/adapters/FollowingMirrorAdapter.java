@@ -75,17 +75,17 @@ public class FollowingMirrorAdapter extends BaseAdapter {
         tvName.setText(mirrorDetails.mirrorName != null ? mirrorDetails.mirrorName : "");
         tvCount.setText(String.valueOf(mirrorDetails.activeUsers));
 
-        if (mirrorDetails.mirrorAdmire || mirrorDetails.mirrorHate || mirrorDetails.mirrorCantSay) {
-            ivVote.setVisibility(View.VISIBLE);
+        if (mirrorDetails.mirrorAdmire) {
+            ivVote.setImageDrawable(mContext.getResources().getDrawable(R.drawable.greentick));
+        } else if (mirrorDetails.mirrorHate) {
+            ivVote.setImageDrawable(mContext.getResources().getDrawable(R.drawable.redtick));
+        } else if (mirrorDetails.mirrorCantSay) {
+            ivVote.setImageDrawable(mContext.getResources().getDrawable(R.drawable.bluetick));
         } else {
-            ivVote.setVisibility(View.GONE);
+            ivVote.setImageDrawable(mContext.getResources().getDrawable(R.drawable.bluetick));
         }
 
         if (mirrorDetails.imageURL != null && !mirrorDetails.imageURL.equals("")) {
-
-//            if (mirrorDetails.mirrorAdmire || mirrorDetails.mirrorHate || mirrorDetails.mirrorCantSay) {
-//                flProfile.setImageResource(R.color.green);
-//            }
 
             Picasso.with(mContext)
                     .load(mirrorDetails.imageURL)

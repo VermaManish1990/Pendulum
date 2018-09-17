@@ -2,6 +2,7 @@ package com.pend.activity.login;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Notification;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
 import com.pend.BaseResponseModel;
+import com.pend.BuildConfig;
 import com.pend.R;
 import com.pend.activity.contest.ContestActivity;
 import com.pend.activity.home.HomeActivity;
@@ -49,8 +51,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private View mRlArenaView;
     private View mRlMirrorView;
 
-    private TextView mTvAbout;
-
     private ImageView mIvAboutDropdown;
     private ImageView mIvArenaDropdown;
     private ImageView mIvAccountDropdown;
@@ -74,6 +74,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private View mFlQuarterBlackView;
     private View mFlMenuView;
     private ImageView mIvProfile;
+    private View mRlAboutView;
+    private TextView mTvVersion;
 
 
     @Override
@@ -105,7 +107,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         mCbOpenSearch = findViewById(R.id.cb_open_search);
         mCbInvisibilityInReflection = findViewById(R.id.cb_invisibility_in_reflection);
 
-        mTvAbout = findViewById(R.id.tv_about);
+        mRlAboutView = findViewById(R.id.rl_about_view);
+        mTvVersion = findViewById(R.id.tv_version);
 
         View quarterView = findViewById(R.id.quarter_view);
         mRlQuarterView = quarterView.findViewById(R.id.rl_quarter_view);
@@ -143,6 +146,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         mIsArenaOpen = false;
         mIsMirrorOpen = false;
 
+        mTvVersion.setText(String.valueOf("Version - " + BuildConfig.VERSION_NAME));
         mIvProfile.setImageDrawable(getResources().getDrawable(R.drawable.home_large));
 
         Bundle localBundle = getIntent().getExtras();
@@ -310,12 +314,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 if (mIsAboutOpen) {
                     mIsAboutOpen = false;
 //                    mIvAboutDropdown.setImageDrawable(getResources().getDrawable(R.drawable.right));
-                    mTvAbout.setVisibility(View.GONE);
+                    mRlAboutView.setVisibility(View.GONE);
                     mIvAboutDropdown.setRotation(0f);
                 } else {
                     mIsAboutOpen = true;
 //                    mIvAboutDropdown.setImageDrawable(getResources().getDrawable(R.drawable.down));
-                    mTvAbout.setVisibility(View.VISIBLE);
+                    mRlAboutView.setVisibility(View.VISIBLE);
                     mIvAboutDropdown.setRotation(90f);
                 }
                 break;
@@ -380,7 +384,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.iv_profile:
                 hideReveal();
                 Intent intentHome = new Intent(this, HomeActivity.class);
-                intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intentHome);
                 finish();
                 break;

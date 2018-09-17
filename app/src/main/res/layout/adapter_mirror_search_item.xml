@@ -24,12 +24,11 @@
 
     <ImageView
         android:id="@+id/iv_vote"
-        android:layout_width="@dimen/_22sdp"
-        android:layout_height="@dimen/_22sdp"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
         android:layout_marginStart="@dimen/_48sdp"
-        android:src="@drawable/yellow_circle"
-        android:contentDescription="@string/image"
-        android:visibility="gone"/>
+        android:src="@drawable/bluetick"
+        android:contentDescription="@string/image" />
 
     <TextView
         android:id="@+id/tv_name"
@@ -41,7 +40,6 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:textStyle="bold"
-        android:text="@string/data_not_available"
         android:textColor="@color/dark_grey_font"
         android:textSize="@dimen/_13sdp" />
 

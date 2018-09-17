@@ -35,6 +35,7 @@ import com.pend.models.SearchMirrorResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
 import com.pend.util.OtherUtil;
+import com.pend.util.PaginationScrollListener;
 import com.pend.util.RequestPostDataUtil;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
@@ -57,6 +58,9 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
     private View mFlQuarterBlackView;
     private View mFlMenuView;
     private ImageView mIvProfile;
+    private int mPageNumber;
+    private boolean mIsLoading;
+    private boolean mIsHasNextPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +105,12 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
 
     @Override
     protected void setInitialData() {
+
+        mPageNumber = 1;
+        mIsLoading = false;
+        mIsHasNextPage = false;
+
+        mSearchDataList = new ArrayList<>();
         String imageUrl = SharedPrefUtils.getProfileImageUrl(this);
 
         if (imageUrl != null && !imageUrl.equals("")) {
@@ -109,10 +119,29 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
                     .into(mIvProfile);
         }
 
-        mSearchDataList = new ArrayList<>();
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+//        mRecyclerViewSearch.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
+//            @Override
+//            protected void loadMoreItems() {
+//                mIsLoading = true;
+//                mPageNumber += 1; //Increment page index to load the next one
+//                getData(IApiEvent.REQUEST_GET_TRENDING_CODE);
+//            }
+//
+//            @Override
+//            public boolean isLastPage() {
+//                return mIsHasNextPage;
+//            }
+//
+//            @Override
+//            public boolean isLoading() {
+//                return mIsLoading;
+//            }
+//        });
 
         mRecyclerViewSearch.setNestedScrollingEnabled(false);
-        mRecyclerViewSearch.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerViewSearch.setLayoutManager(linearLayoutManager);
         mRecyclerViewSearch.setAdapter(new SearchMirrorAdapter(this, mSearchDataList));
     }
 
@@ -126,6 +155,9 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
                         LoggerUtil.d(TAG, searchMirrorResponseModel.statusCode);
 
                         if (searchMirrorResponseModel.Data != null && searchMirrorResponseModel.Data.searchData != null) {
+
+//                            mIsHasNextPage = !searchMirrorResponseModel.Data.hasNextPage;
+
                             SearchMirrorAdapter searchMirrorAdapter = (SearchMirrorAdapter) mRecyclerViewSearch.getAdapter();
                             mSearchDataList.addAll(searchMirrorResponseModel.Data.searchData);
                             searchMirrorAdapter.setSearchDataList(mSearchDataList);
@@ -138,6 +170,7 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
                     OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
+//                mIsLoading = false;
                 break;
 
             case IApiEvent.REQUEST_CREATE_MIRROR_CODE:
@@ -199,6 +232,8 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
                     mSearchText = mSearchText.replaceAll(" ", "%20");
 
                     String searchMirrorUrl = IWebServices.REQUEST_SEARCH_MIRROR_URL + Constants.PARAM_SEARCH_TEXT + "=" + mSearchText;
+//                    + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
+
                     RequestManager.addRequest(new GsonObjectRequest<SearchMirrorResponseModel>(searchMirrorUrl, NetworkUtil.getHeaders(this),
                             null, SearchMirrorResponseModel.class, new VolleyErrorListener(this, actionID)) {
 

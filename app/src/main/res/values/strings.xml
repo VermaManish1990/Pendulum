@@ -142,5 +142,17 @@
     <string name="message">message</string>
     <string name="time">time</string>
     <string name="_mirror_">(mirror)</string>
+    <string name="about_team"><b> Team Pendulum </b>\n
+1. Manish Verma\n
+2. Shubham Chauhan\n
+3. Rajesh Patil\n
+4. Sunil Dhadwal\n
+5. Abhinav Bansal\n
+6. Kanchan Chaudhary\n\n
+7. Abhishek Sharma\n
+8. Pardeep Chaudhary\n
+9. Sourav Pathania\n
+10. Nivedan Bhardwaj</string>
+    <string name="find_another_mirror">Find another mirror</string>
 
 </resources>
