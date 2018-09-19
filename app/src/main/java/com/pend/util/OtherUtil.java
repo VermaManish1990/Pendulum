@@ -17,6 +17,7 @@ import android.text.style.RelativeSizeSpan;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.pend.R;
@@ -257,6 +258,16 @@ public class OtherUtil {
                 dialog.dismiss();
             }
         });
+    }
+
+    /**
+     * Method is used to open keyboard.
+     */
+    public static void openKeyboard(Context context) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        }
     }
 
 }

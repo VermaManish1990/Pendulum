@@ -283,6 +283,7 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
             case R.id.tv_create_mirror:
                 DialogFragment createMirrorDialogFragment = new CreateMirrorDialogFragment();
                 createMirrorDialogFragment.show(getSupportFragmentManager(), "CreateMirrorDialogFragment");
+                OtherUtil.openKeyboard(SearchMirrorListingActivity.this);
                 break;
 
             case R.id.iv_profile:

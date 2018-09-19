@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,6 +72,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
 
         holder.tvName.setText(postsDetails.userFullName != null ? postsDetails.userFullName : "");
         holder.tvTime.setText(postsDetails.createdDatetime != null ? postsDetails.createdDatetime : "");
+        holder.tvCreatedBy.setText(Html.fromHtml("<b>" + postsDetails.userFullName + "</b>"));
 
         if (postsDetails.imageURL != null && !postsDetails.imageURL.equals("")) {
             holder.ivPost.setVisibility(View.VISIBLE);
@@ -119,7 +121,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
             holder.ivDislike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.dislike));
         }
 
-        if(SharedPrefUtils.getProfileImageUrl(mContext)!=null && !Objects.equals(SharedPrefUtils.getProfileImageUrl(mContext), "")){
+        if (SharedPrefUtils.getProfileImageUrl(mContext) != null && !Objects.equals(SharedPrefUtils.getProfileImageUrl(mContext), "")) {
             Picasso.with(mContext)
                     .load(SharedPrefUtils.getProfileImageUrl(mContext))
                     .into(holder.ivUser);
@@ -155,12 +157,19 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                 }
             }
         });
-        holder.ivMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mIHomePostsAdapterCallBack.onMenuClick(position, holder.ivMenu);
-            }
-        });
+
+        int userId = Integer.parseInt(SharedPrefUtils.getUserId(mContext));
+        if (userId != postsDetails.userID) {
+            holder.ivMenu.setVisibility(View.VISIBLE);
+            holder.ivMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mIHomePostsAdapterCallBack.onMenuClick(position, holder.ivMenu);
+                }
+            });
+        } else {
+            holder.ivMenu.setVisibility(View.GONE);
+        }
 
         holder.llComment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,7 +220,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                                     .build();
 
                             shareDialog.show(content);  // Show facebook ShareDialog
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -254,6 +263,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         private final ImageView ivMenu;
         private final ImageView ivSend;
         private final EditText etAddAComment;
+        private final TextView tvCreatedBy;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -281,6 +291,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
             ivMenu = itemView.findViewById(R.id.iv_menu);
             ivSend = itemView.findViewById(R.id.iv_send);
             etAddAComment = itemView.findViewById(R.id.et_add_a_comment);
+            tvCreatedBy = itemView.findViewById(R.id.tv_created_by);
         }
     }
 

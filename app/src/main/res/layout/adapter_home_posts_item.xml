@@ -108,7 +108,7 @@
         android:paddingEnd="@dimen/_10sdp"
         android:paddingStart="@dimen/_10sdp" >
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/rl_bottom_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -148,6 +148,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/ll_comment"
                 android:background="@drawable/custom_rounded_grey_border"
                 android:orientation="horizontal"
                 android:paddingBottom="@dimen/_5sdp"
@@ -177,6 +178,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_rounded_grey_border"
                 android:orientation="horizontal"
+                android:layout_toEndOf="@+id/ll_like"
                 android:paddingBottom="@dimen/_5sdp"
                 android:paddingEnd="@dimen/_12sdp"
                 android:paddingStart="@dimen/_12sdp"
@@ -198,7 +200,23 @@
                     android:textSize="@dimen/_10sdp" />
             </LinearLayout>
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/tv_created_by"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_rounded_grey_border"
+                android:gravity="center_vertical"
+                android:text="Created by Jil Delhberg"
+                android:textAllCaps="false"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center_vertical|end"
+                android:textColor="@color/fontPrimary40"
+                android:textSize="@dimen/_9sdp" />
+        </RelativeLayout>
 
         <EditText
             android:id="@+id/et_add_a_comment"

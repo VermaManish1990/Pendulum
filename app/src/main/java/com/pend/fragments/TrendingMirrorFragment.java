@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.pend.BaseActivity;
 import com.pend.BaseFragment;
@@ -286,4 +287,5 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
                 break;
         }
     }
+
 }

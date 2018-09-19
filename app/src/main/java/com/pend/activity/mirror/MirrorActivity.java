@@ -41,6 +41,7 @@ import com.pend.fragments.TrendingMirrorFragment;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IMirrorFragmentCallBack;
 import com.pend.util.LoggerUtil;
+import com.pend.util.OtherUtil;
 import com.pend.util.SharedPrefUtils;
 import com.pendulum.utils.StringUtils;
 import com.squareup.picasso.Picasso;
@@ -243,7 +244,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
 
                 Drawable drawableImage = mIvSearch.getDrawable();
                 Bitmap bitmapImage = null;
-                if(drawableImage!=null){
+                if (drawableImage != null) {
                     bitmapImage = ((BitmapDrawable) drawableImage).getBitmap();
                 }
 
@@ -365,6 +366,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
     public void onCreateMirrorClick() {
         DialogFragment createMirrorDialogFragment = new CreateMirrorDialogFragment();
         createMirrorDialogFragment.show(getSupportFragmentManager(), "CreateMirrorDialogFragment");
+        OtherUtil.openKeyboard(this);
     }
 
     @Override

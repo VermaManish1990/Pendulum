@@ -51,14 +51,25 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.View
             String sourceString = null;
             switch (timeSheetDetails.type) {
                 case "Post":
-                    holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.setting));
-                    sourceString = "Added a new <b>post</b> on <b>" + timeSheetDetails.mirrorName + "'s"+ "</b> mirror.";
+                    holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.post));
+                    sourceString = "Added a new <b>post</b> on <b>" + timeSheetDetails.mirrorName + "'s" + "</b> mirror.";
                     holder.tvMessage.setText(Html.fromHtml(sourceString));
 
                     break;
 
                 case "MirrorVote":
-                    holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.checkbox));
+
+                    if (timeSheetDetails.vote != null) {
+                        if (timeSheetDetails.vote.equals("admire")) {
+                            holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.greentick));
+                        } else if (timeSheetDetails.vote.equals("hate")) {
+                            holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.redtick));
+                        } else if (timeSheetDetails.vote.equals("cantsay")) {
+                            holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.bluetick));
+                        } else {
+                            holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.bluetick));
+                        }
+                    }
                     sourceString = "Voted <b>" + timeSheetDetails.vote + "</b> for <b>" + timeSheetDetails.mirrorName + "</b>.";
                     holder.tvMessage.setText(Html.fromHtml(sourceString));
 
@@ -80,7 +91,7 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.View
 
                 case "Comment":
                     holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.message));
-                    sourceString ="Commented on a <b>post</b> on <b>" + timeSheetDetails.mirrorName + "'s</b> mirror.";
+                    sourceString = "Commented on a <b>post</b> on <b>" + timeSheetDetails.mirrorName + "'s</b> mirror.";
                     holder.tvMessage.setText(Html.fromHtml(sourceString));
 
                     break;
@@ -117,7 +128,7 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.View
         }
     }
 
-    public interface ITimeSheetAdapterCallBack{
+    public interface ITimeSheetAdapterCallBack {
         void onLogDetailsClick(int position);
     }
 
