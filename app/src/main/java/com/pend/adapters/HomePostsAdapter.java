@@ -159,7 +159,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         });
 
         int userId = Integer.parseInt(SharedPrefUtils.getUserId(mContext));
-        if (userId != postsDetails.userID) {
+        if (userId == postsDetails.userID) {
             holder.ivMenu.setVisibility(View.VISIBLE);
             holder.ivMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -168,7 +168,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                 }
             });
         } else {
-            holder.ivMenu.setVisibility(View.GONE);
+            holder.ivMenu.setVisibility(View.INVISIBLE);
         }
 
         holder.llComment.setOnClickListener(new View.OnClickListener() {
