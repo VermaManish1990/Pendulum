@@ -2,6 +2,9 @@ package com.pend.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
+
+import com.google.android.gms.maps.model.LatLng;
 
 public class SharedPrefUtils {
 
@@ -10,6 +13,8 @@ public class SharedPrefUtils {
     private static final String USER_ID = "USER_ID";
     private static final String IMAGE_URL = "IMAGE_URL";
     private static final String IS_DATA_BASE_COPIED = "IS_DATA_BASE_COPIED";
+    private static final String LAT = "LAT";
+    private static final String LNG = "LNG";
 
     /**
      * Method to get is user logged in or not
@@ -113,6 +118,45 @@ public class SharedPrefUtils {
             editor.apply();
         } catch (NullPointerException e) {
             LoggerUtil.e(SharedPrefUtils.class.getSimpleName(), "error");
+        }
+    }
+
+
+    /**
+     * Method is used to store user location in Local Mobile Storage
+     *
+     * @param context application context
+     * @param loc  location
+     *
+     */
+    public static void setLocation(Context context, LatLng loc) {
+        LoggerUtil.v(SharedPrefUtils.class.getSimpleName(), "setLocation");
+        try {
+            SharedPreferences sharedPref = context.getSharedPreferences(PENDULUM_SHARED_PREF, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(LAT, String.valueOf(loc.latitude));
+            editor.putString(LNG, String.valueOf(loc.longitude));
+            editor.apply();
+        } catch (NullPointerException e) {
+            LoggerUtil.e(SharedPrefUtils.class.getSimpleName(), "error");
+        }
+    }
+
+    /**
+     * Method is used to get location from Local Mobile Storage
+     *
+     * @param context application context
+     * @return Location loc
+     */
+    public static LatLng getLocation(Context context) {
+        LoggerUtil.v(SharedPrefUtils.class.getSimpleName(), "getLocation");
+        try {
+            SharedPreferences sharedPref = context.getSharedPreferences(PENDULUM_SHARED_PREF, Context.MODE_PRIVATE);
+            return new LatLng(Double.parseDouble(sharedPref.getString(LAT, "0.0")),
+                    Double.parseDouble(sharedPref.getString(LNG, "0.0")));
+        } catch (NullPointerException e) {
+            LoggerUtil.e(SharedPrefUtils.class.getSimpleName(), "error");
+            return null;
         }
     }
 }

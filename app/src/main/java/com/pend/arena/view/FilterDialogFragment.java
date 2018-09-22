@@ -2,6 +2,8 @@ package com.pend.arena.view;
 
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.DialogFragment;
@@ -25,7 +27,13 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.jaygoo.widget.OnRangeChangedListener;
 import com.jaygoo.widget.RangeSeekBar;
 import com.pend.R;
+import com.pend.activity.home.HomeActivity;
+import com.pend.util.SharedPrefUtils;
 
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -196,6 +204,14 @@ public class FilterDialogFragment extends DialogFragment {
                 }
             }
         });
+
+        if(SharedPrefUtils.getLocation(getActivity()).latitude!=0.0){
+
+            txtLocation.setText(getAddress(SharedPrefUtils.getLocation(getActivity()).latitude,
+                    SharedPrefUtils.getLocation(getActivity()).longitude));
+            latitude= SharedPrefUtils.getLocation(getActivity()).latitude;
+            longitude= SharedPrefUtils.getLocation(getActivity()).longitude;
+        }
         return v;
     }
 
@@ -224,6 +240,32 @@ public class FilterDialogFragment extends DialogFragment {
             } else if (resultCode == RESULT_CANCELED) {
                 // The user canceled the operation.
             }
+        }
+    }
+
+
+    public String getAddress(double lat, double lng) {
+        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+        try {
+            Log.v("IGA", "lat" + lat+" ,"+lng);
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            Address obj = addresses.get(0);
+            String add = obj.getAddressLine(0);
+            /*add = add + "\n" + obj.getCountryName();
+            add = add + "\n" + obj.getCountryCode();
+            add = add + "\n" + obj.getAdminArea();
+            add = add + "\n" + obj.getPostalCode();
+            add = add + "\n" + obj.getSubAdminArea();
+            add = add + "\n" + obj.getLocality();
+            add = add + "\n" + obj.getSubThoroughfare();
+*/
+            Log.v("IGA", "Address" + add);
+            return add;
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            return null;
         }
     }
 }

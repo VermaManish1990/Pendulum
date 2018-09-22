@@ -13,12 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.pend.R;
+import com.pend.activity.login.ProfileActivity;
 import com.pend.arena.model.recent_chat.RecentChatsResponse;
 import com.pend.arena.model.recent_chat.ResponseData;
 import com.pend.arena.presenter.ArenaHomePresenter;
@@ -79,7 +81,7 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
 
         arenaHomePresenter = new ArenaHomePresenter(this, getActivity());
 
-        recyclerView.addOnItemTouchListener(
+       /* recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
@@ -99,7 +101,7 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
 
 
                 })
-        );
+        );*/
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -182,12 +184,14 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
             // each data item is just a string in this case
             public TextView name, count;
             public ImageView profileImage;
+            public RelativeLayout relLayout;
 
             public ViewHolder(View v) {
                 super(v);
                 name = v.findViewById(R.id.user_name);
                 count = v.findViewById(R.id.user_count);
                 profileImage = v.findViewById(R.id.user_image);
+                relLayout = v.findViewById(R.id.row_layout);
             }
         }
 
@@ -228,8 +232,34 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
                 Picasso.with(getActivity()).load(mDataset.get(position).getImageURL())
                         .placeholder(R.drawable.profile).into(holder.profileImage);
             }
+            holder.profileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                    intent.putExtra(Constants.USER_ID_KEY, item.getUserID());
+                    intent.putExtra(Constants.IS_OTHER_PROFILE, true);
+                    startActivity(intent);
+                }
+            });
+
+            holder.relLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(getActivity(), ChatActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(Constants.CHAT_ROOM_ID, item.getChatRoomID());
+                    bundle.putInt(Constants.SELECTED_USER_ID, item.getUserID());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+
+                }
+            });
 
         }
+
+
 
         // Return the size of your dataset (invoked by the layout manager)
         @Override

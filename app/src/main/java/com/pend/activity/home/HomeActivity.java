@@ -1,19 +1,33 @@
 package com.pend.activity.home;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Rect;
+import android.location.Location;
+import com.google.android.gms.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -25,8 +39,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
 import com.pend.BaseResponseModel;
@@ -38,6 +59,10 @@ import com.pend.activity.mirror.MirrorDetailsActivity;
 import com.pend.activity.mirror.SearchMirrorListingActivity;
 import com.pend.adapters.HomePostsAdapter;
 import com.pend.adapters.SearchInNewsFeedAdapter;
+import com.pend.arena.LocationResponse;
+import com.pend.arena.LocationVM;
+import com.pend.arena.api.ApiClient;
+import com.pend.arena.api.URL;
 import com.pend.arena.view.ArenaActivity;
 import com.pend.fragments.CommentsDialogFragment;
 import com.pend.interfaces.Constants;
@@ -63,8 +88,17 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
+
+
 public class HomeActivity extends BaseActivity implements View.OnClickListener, HomePostsAdapter.IHomePostsAdapterCallBack,
-        CommentsDialogFragment.ICommentsDialogCallBack, SearchInNewsFeedAdapter.IMirrorSearchAdapterCallBack, TextWatcher {
+        CommentsDialogFragment.ICommentsDialogCallBack, SearchInNewsFeedAdapter.IMirrorSearchAdapterCallBack, TextWatcher,
+        LocationListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
     private RecyclerView mRecyclerViewPost;
@@ -90,6 +124,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     private boolean mIsSearchData;
     private ImageView mIvSearch;
     private String mSearchText;
+    private long UPDATE_INTERVAL = 1000 *60 * 15; /*  min */
+    static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+
+    GoogleApiClient gac;
+    LocationRequest locationRequest;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +143,19 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         setInitialData();
 
         getData(IApiEvent.REQUEST_GET_POSTS_CODE);
+        isGooglePlayServicesAvailable();
+
+        if(!isLocationEnabled())
+            showAlert();
+
+        locationRequest =  LocationRequest.create();
+        locationRequest.setInterval(UPDATE_INTERVAL);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        gac = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
     }
 
     @Override
@@ -769,6 +822,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
             cancelSearchMirrorData();
         }
+
     }
 
     @Override
@@ -825,4 +879,186 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             cancelSearchMirrorData();
         }
     }
+
+
+
+/** get user location & update on server **/
+
+
+    void updateUserLocation(LocationVM vm)
+    {
+
+        GetDataService service = ApiClient.getClient().create(GetDataService.class);
+        Call<LocationResponse> call = service.userLocation(vm);
+        call.enqueue(new Callback<LocationResponse>() {
+            @Override
+            public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<LocationResponse> call, Throwable t) {
+
+                //Toast.makeText(HomeActivity.this, "Unable to find location", Toast.LENGTH_SHORT).show();
+               }
+        });
+    }
+
+
+
+@Override
+protected void onStart() {
+    gac.connect();
+    super.onStart();
+}
+
+    @Override
+    protected void onStop() {
+        gac.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        if (location != null) {
+            updateUI(location);
+        }
+    }
+
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(HomeActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+
+            return;
+        }
+        Log.d(TAG, "onConnected");
+
+        Location ll = LocationServices.FusedLocationApi.getLastLocation(gac);
+        Log.d(TAG, "LastLocation: " + (ll == null ? "NO LastLocation" : ll.toString()));
+
+        LocationServices.FusedLocationApi.requestLocationUpdates(gac, locationRequest, this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(HomeActivity.this, "Permission was granted!", Toast.LENGTH_LONG).show();
+
+                    try{
+                        LocationServices.FusedLocationApi.requestLocationUpdates(
+                                gac, locationRequest, this);
+                    } catch (SecurityException e) {
+                        Toast.makeText(HomeActivity.this, "SecurityException:\n" + e.toString(),
+                                Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                   // Toast.makeText(HomeActivity.this, "Permission denied!", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {}
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(HomeActivity.this, "onConnectionFailed: \n" + connectionResult.toString(),
+                Toast.LENGTH_LONG).show();
+        Log.d("DDD", connectionResult.toString());
+    }
+
+    private void updateUI(Location loc) {
+        Log.d(TAG, "updateUI");
+       // Toast.makeText(getApplicationContext(),"lat:"+loc.getLatitude()+
+        //  "lng:"+loc.getLongitude(),Toast.LENGTH_LONG).show();
+
+        double longitude = loc.getLongitude();
+        double latitude = loc.getLatitude();
+
+        Integer userID = Integer.parseInt(SharedPrefUtils.getUserId(this));
+
+        if (userID != null && longitude != 0.0) {
+            LocationVM locationVM = new LocationVM();
+            locationVM.setLatitude(Double.toString(latitude));
+            locationVM.setLongitude(Double.toString(longitude));
+            locationVM.setUserID(userID);
+            updateUserLocation(locationVM);
+
+            SharedPrefUtils.setLocation(HomeActivity.this, new LatLng(latitude, longitude));
+
+        }
+
+
+    }
+
+    private boolean isLocationEnabled() {
+        LocationManager locationManager =
+                (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    private boolean isGooglePlayServicesAvailable() {
+        final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.d(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        Log.d(TAG, "This device is supported.");
+        return true;
+    }
+
+    private void showAlert() {
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Enable Location")
+                .setMessage("Your Locations Settings is set to 'Off'.\nPlease Enable Location to " +
+                        "use this app")
+                .setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+
+                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(myIntent);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+
+                    }
+                });
+        dialog.show();
+    }
+
+
+    public interface GetDataService {
+
+        @POST(URL.USER_LOCATION)
+        Call<LocationResponse> userLocation(@Body LocationVM locationVM);
+    }
+
+
+
 }
