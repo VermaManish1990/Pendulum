@@ -156,19 +156,19 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         findViewById(R.id.view_progress_bar_profile).setOnClickListener(this);
         mIvProfile.setOnClickListener(this);
 
-        ((NestedScrollView) findViewById(R.id.scrollView)).setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-
-                if (scrollY < oldScrollY && !mControl) {
-                    onScrollDown();
-                    mControl = true;
-                } else if (scrollY > oldScrollY && mControl) {
-                    onScrollUp();
-                    mControl = false;
-                }
-            }
-        });
+//        ((NestedScrollView) findViewById(R.id.scrollView)).setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+//            @Override
+//            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//
+//                if (scrollY < oldScrollY && !mControl) {
+//                    onScrollDown();
+//                    mControl = true;
+//                } else if (scrollY > oldScrollY && mControl) {
+//                    onScrollUp();
+//                    mControl = false;
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -188,11 +188,6 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         mMonth = DateUtil.getCurrentMonth();
         mYear = DateUtil.getCurrentYear();
         mTvDate.setText(String.valueOf(DateUtil.getMonthAndYearName(mMonth, mYear)));
-
-        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
-            // only for gingerbread and newer versions
-            mRecyclerViewPost.setNestedScrollingEnabled(false);
-        }
 
         //for progressbar
         mProgressBarProfile.getThumb().mutate().setAlpha(0);
