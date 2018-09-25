@@ -136,12 +136,20 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
                 }
             }
         });
-        holder.ivMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mIRecentPostAdapterCallBack.onMenuClick(position, holder.ivMenu);
-            }
-        });
+
+        int userId = Integer.parseInt(SharedPrefUtils.getUserId(mContext));
+        if (userId == postsDetails.userID) {
+            holder.ivMenu.setVisibility(View.VISIBLE);
+            holder.ivMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mIRecentPostAdapterCallBack.onMenuClick(position, holder.ivMenu);
+                }
+            });
+        } else {
+            holder.ivMenu.setVisibility(View.INVISIBLE);
+        }
+
         holder.ivComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
