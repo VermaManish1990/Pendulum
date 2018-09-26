@@ -2,6 +2,7 @@ package com.pend.activity.mirror;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Build;
@@ -141,7 +142,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         mFlQuarterBlackView = quarterView.findViewById(R.id.fl_quarter_black_view);
         mFlMenuView = quarterView.findViewById(R.id.fl_menu_view);
 
-        ((ImageView)quarterView.findViewById(R.id.iv_mirror)).setImageDrawable(getResources().getDrawable(R.drawable.home));
+        ((ImageView) quarterView.findViewById(R.id.iv_mirror)).setImageDrawable(getResources().getDrawable(R.drawable.home));
         ((TextView) quarterView.findViewById(R.id.tv_mirror)).setText(String.valueOf(getResources().getString(R.string.home)));
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
@@ -539,15 +540,25 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
             case R.id.view_create_a_new_post:
 
-                Intent intentCreatePost = new Intent(MirrorDetailsActivity.this, CreatePostActivity.class);
-                intentCreatePost.putExtra(Constants.MIRROR_ID_KEY, mMirrorId);
-                startActivity(intentCreatePost);
+                if (mIsVoted) {
+                    Intent intentCreatePost = new Intent(MirrorDetailsActivity.this, CreatePostActivity.class);
+                    intentCreatePost.putExtra(Constants.MIRROR_ID_KEY, mMirrorId);
+                    startActivity(intentCreatePost);
+                } else {
+                    OtherUtil.showAlertDialog(getString(R.string.please_vote_on_mirror_to_create_a_post), this, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
                 break;
 
             case R.id.iv_mirror_profile:
 
                 Intent intent = new Intent(MirrorDetailsActivity.this, ExitPollScreenActivity.class);
                 intent.putExtra(Constants.MIRROR_ID_KEY, mMirrorId);
+                intent.putExtra(Constants.IS_VOTED_USER, mIsVoted);
                 startActivity(intent);
                 break;
 

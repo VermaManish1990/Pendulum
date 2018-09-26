@@ -2,6 +2,7 @@ package com.pend.activity.mirror;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -77,6 +78,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
     private View mFlMenuView;
     private ImageView mIvProfile;
     private int mUserId;
+    private boolean mIsVotedUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +89,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
         if (localBundle != null) {
             if (localBundle.containsKey(Constants.MIRROR_ID_KEY)) {
                 mMirrorId = localBundle.getInt(Constants.MIRROR_ID_KEY, 0);
+                mIsVotedUser = localBundle.getBoolean(Constants.IS_VOTED_USER, false);
             }
         }
 
@@ -342,9 +345,19 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
             case R.id.iv_reflection:
             case R.id.tv_reflections:
 
-                Intent intentReflection = new Intent(ExitPollScreenActivity.this, ReflectionsActivity.class);
-                intentReflection.putExtra(Constants.MIRROR_ID_KEY, mMirrorId);
-                startActivity(intentReflection);
+                if (mIsVotedUser) {
+
+                    Intent intentReflection = new Intent(ExitPollScreenActivity.this, ReflectionsActivity.class);
+                    intentReflection.putExtra(Constants.MIRROR_ID_KEY, mMirrorId);
+                    startActivity(intentReflection);
+                } else {
+                    OtherUtil.showAlertDialog(getString(R.string.please_vote_on_mirror_to_create_a_post), this, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
                 break;
 
             case R.id.tv_created_by:
@@ -408,14 +421,25 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
     public void onViewClick(int position) {
         GetExitPollListResponseModel.GetExitPollListDetails exitPollListDetails = mExitPollList.get(position);
 
-        mIsVoted = exitPollListDetails.pollAdmire || exitPollListDetails.pollHate || exitPollListDetails.pollCantSay;
 
-        if (!mIsVoted) {
-            DialogFragment votingDialogFragment = ExitPollVotingDialogFragment.newInstance(exitPollListDetails.mirrorID, exitPollListDetails.exitPollID);
-            votingDialogFragment.show(getSupportFragmentManager(), "ExitPollVotingDialogFragment");
+        if (mIsVotedUser) {
+            mIsVoted = exitPollListDetails.pollAdmire || exitPollListDetails.pollHate || exitPollListDetails.pollCantSay;
+
+            if (!mIsVoted) {
+                DialogFragment votingDialogFragment = ExitPollVotingDialogFragment.newInstance(exitPollListDetails.mirrorID, exitPollListDetails.exitPollID);
+                votingDialogFragment.show(getSupportFragmentManager(), "ExitPollVotingDialogFragment");
+            } else {
+                DialogFragment unVotingDialogFragment = ExitPollUnVotingDialogFragment.newInstance(exitPollListDetails.mirrorID, exitPollListDetails.exitPollID);
+                unVotingDialogFragment.show(getSupportFragmentManager(), "ExitPollUnVotingDialogFragment");
+            }
         } else {
-            DialogFragment unVotingDialogFragment = ExitPollUnVotingDialogFragment.newInstance(exitPollListDetails.mirrorID, exitPollListDetails.exitPollID);
-            unVotingDialogFragment.show(getSupportFragmentManager(), "ExitPollUnVotingDialogFragment");
+
+            OtherUtil.showAlertDialog(getString(R.string.please_vote_on_mirror_to_create_a_post), this, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
         }
     }
 

@@ -16,6 +16,7 @@ public interface Constants {
     String IS_OTHER_PROFILE = "IS_OTHER_PROFILE";
     String CHAT_ROOM_ID = "chatRoomId";
     String SELECTED_USER_ID = "selectedUserId";
+    String IS_VOTED_USER = "IS_VOTED_USER";
 
     //Header Keys
     String PARAM_SECURITY_KEY = "SecurityKey";

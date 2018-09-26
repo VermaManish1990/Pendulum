@@ -143,6 +143,7 @@
     <string name="time">time</string>
     <string name="_mirror_">(mirror)</string>
     <string name="current_location">Current Location</string>
+    <string name="please_vote_on_mirror_to_create_a_post">Please vote on mirror to create a post</string>
     <string name="about_team"><b> Team Pendulum </b>\n
 1. Manish Verma\n
 2. Shubham Chauhan\n
