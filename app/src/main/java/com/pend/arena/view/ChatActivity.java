@@ -224,7 +224,7 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
 
         class ViewHolder0 extends RecyclerView.ViewHolder {
 
-            public TextView name, message, time;
+            public TextView name, message, time,date;
             public ImageView profileImage;
 
             public ViewHolder0(View v) {
@@ -233,11 +233,12 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
                 message = v.findViewById(R.id.sender_message);
                 profileImage = v.findViewById(R.id.sender_image);
                 time = v.findViewById(R.id.time);
+                date=v.findViewById(R.id.date);
             }
         }
 
         class ViewHolder2 extends RecyclerView.ViewHolder {
-            public TextView message, time;
+            public TextView message, time,date;
             public ImageView profileImage;
 
             public ViewHolder2(View v) {
@@ -245,9 +246,9 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
                 message = v.findViewById(R.id.receiver_message);
                 profileImage = v.findViewById(R.id.receiver_image);
                 time = v.findViewById(R.id.time);
+                date=v.findViewById(R.id.date);
             }
         }
-
 
         @Override
         public int getItemViewType(int position) {
@@ -297,7 +298,7 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
 
                     ((ViewHolder0) holder).name.setText(mDataset.get(position).getUserFullName());
                     ((ViewHolder0) holder).message.setText(String.valueOf(mDataset.get(position).getMessageText()));
-                    ((ViewHolder0) holder).time.setText(formatDate(
+                    ((ViewHolder0) holder).time.setText(formatTime(
                             mDataset.get(position).getMessageDateTime()));
 
                     if (mDataset.get(position).getImageURL() != null && !mDataset.get(position).getImageURL().equals("")) {
@@ -305,13 +306,23 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
                         Picasso.with(ChatActivity.this).load(mDataset.get(position).getImageURL())
                                 .placeholder(R.drawable.profile).into(((ViewHolder0) holder).profileImage);
                     }
+
+                    ((ViewHolder0) holder).date.setText(formatDate(mDataset.get(position).getMessageDateTime()));
+
+                    if(isFirstDate(position,mDataset.get(position).getMessageDateTime()))
+                        ((ViewHolder0) holder).date.setVisibility(View.VISIBLE);
+                    else
+
+                        ((ViewHolder0) holder).date.setVisibility(View.GONE);
+
+
                     break;
 
                 case 2:
 
                     imageURL = mDataset.get(position).getImageURL();
 
-                    ((ViewHolder2) holder).time.setText(formatDate(
+                    ((ViewHolder2) holder).time.setText(formatTime(
                             mDataset.get(position).getMessageDateTime()));
                     ((ViewHolder2) holder).message.setText(String.valueOf(mDataset.get(position).getMessageText()));
 
@@ -320,6 +331,14 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
                         Picasso.with(ChatActivity.this).load(mDataset.get(position).getImageURL())
                                 .placeholder(R.drawable.profile).into(((ViewHolder2) holder).profileImage);
                     }
+                    ((ViewHolder2) holder).date.setText(formatDate(mDataset.get(position).getMessageDateTime()));
+
+                    if(isFirstDate(position,mDataset.get(position).getMessageDateTime()))
+                        ((ViewHolder2) holder).date.setVisibility(View.VISIBLE);
+                    else
+
+                        ((ViewHolder2) holder).date.setVisibility(View.GONE);
+
                     break;
             }
         }
@@ -413,7 +432,7 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    String formatDate(String timeString) {
+    String formatTime(String timeString) {
 
         Date date1 = null;
         try {
@@ -436,6 +455,61 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
 
 
     }
+
+
+    String formatDate(String timeString) {
+
+        Date date1 = null;
+        try {
+            date1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a").parse(timeString);
+
+            //DateFormat df = new SimpleDateFormat(" hh:mm a, dd/MMM/yy ");
+            DateFormat df = new SimpleDateFormat(" dd MMM,yyyy");
+
+            // Get the date today using Calendar object.
+
+            // Using DateFormat format method we can create a string
+            // representation of a date with the defined format.
+            String reportDate = df.format(date1);
+            System.out.println(timeString + "\t" + date1);
+            return reportDate;
+        } catch (ParseException e) {
+
+            return null;
+        }
+
+
+    }
+
+
+    boolean isFirstDate( int objectIndex,String date)
+    {
+
+        List<String> time = getTimeList();
+        int lastIndex = time.lastIndexOf(date);
+        Log.d("last index",lastIndex+"");
+        for(ResponseData rs:myDataset) {
+            if (rs.getMessageDateTime().equals(date)&&lastIndex==objectIndex) {
+                return true;
+            } else {
+                return false;
+            }
+
+        }
+
+        return false;
+
+
+    }
+
+    List<String> getTimeList()
+    {
+        List<String> list = new ArrayList<>();
+        for(ResponseData r:myDataset)
+           list.add(r.getMessageDateTime());
+       return list;
+     }
+
 }
 
 

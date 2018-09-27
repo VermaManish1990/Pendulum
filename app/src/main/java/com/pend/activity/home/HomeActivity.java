@@ -127,8 +127,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     private long UPDATE_INTERVAL = 1000 *60 * 15; /*  min */
     static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
-    GoogleApiClient gac;
-    LocationRequest locationRequest;
+    private GoogleApiClient gac;
+    private LocationRequest locationRequest;
+    private static boolean isFirstLaunch = true;
 
 
     @Override
@@ -145,7 +146,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         getData(IApiEvent.REQUEST_GET_POSTS_CODE);
         isGooglePlayServicesAvailable();
 
-        if(!isLocationEnabled())
+        if(!isLocationEnabled()&&isFirstLaunch)
             showAlert();
 
         locationRequest =  LocationRequest.create();
@@ -1046,6 +1047,7 @@ protected void onStart() {
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                     isFirstLaunch=false;
 
                     }
                 });

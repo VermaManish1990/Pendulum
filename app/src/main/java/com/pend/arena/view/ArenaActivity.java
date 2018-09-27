@@ -380,7 +380,7 @@ public class ArenaActivity extends FragmentActivity implements View.OnClickListe
                     Typeface type = Typeface.createFromAsset(getAssets(), "font/montserrat.ttf");
                     ((TextView) tabViewChild).setTypeface(type, Typeface.NORMAL);
                     ((TextView) tabViewChild).setAllCaps(false);
-                    ((TextView) tabViewChild).setTextSize(16);
+                    ((TextView) tabViewChild).setTextSize(14);
 
                 }
             }

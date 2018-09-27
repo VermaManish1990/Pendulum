@@ -27,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="2"
+            android:drawableEnd="@drawable/edit_location"
             android:background="@android:color/transparent" />
 
         <View

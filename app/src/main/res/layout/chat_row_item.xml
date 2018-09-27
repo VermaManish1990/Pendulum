@@ -36,7 +36,7 @@
         android:layout_toEndOf="@id/card_view"
         android:text="@string/name"
         android:textColor="@color/light_black"
-        android:textSize="16sp"
+        android:textSize="14sp"
         tools:ignore="RelativeOverlap" />
 
     <com.pend.util.RegularFontTextView

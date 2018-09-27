@@ -41,7 +41,7 @@
             android:text="@string/name"
             android:textAlignment="textStart"
             android:textColor="@color/light_black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <com.pend.util.RegularFontTextView
             android:id="@+id/user_count"
@@ -52,7 +52,7 @@
             android:text="@string/_mirror_"
             android:textAlignment="textStart"
             android:textColor="@color/light_gray_background"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 
