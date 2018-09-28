@@ -398,16 +398,16 @@ public class RequestPostDataUtil {
     /**
      * Method is used to get Request Parameters for Exit Poll Vote Api.
      *
-     * @param userID userID
-     * @param mirrorID mirrorID
-     * @param exitPollID exitPollID
-     * @param pollAdmire pollAdmire
-     * @param pollHate pollHate
+     * @param userID      userID
+     * @param mirrorID    mirrorID
+     * @param exitPollID  exitPollID
+     * @param pollAdmire  pollAdmire
+     * @param pollHate    pollHate
      * @param pollCantSay pollCantSay
      * @return JsonObject
      */
-    public static JsonObject exitPollVoteApiRegParam(int userID, int mirrorID, int exitPollID,boolean pollAdmire,
-                                                     boolean pollHate,boolean pollCantSay) {
+    public static JsonObject exitPollVoteApiRegParam(int userID, int mirrorID, int exitPollID, boolean pollAdmire,
+                                                     boolean pollHate, boolean pollCantSay) {
         LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "exitPollVoteApiRegParam");
 
         JsonObject requestParameters = new JsonObject();
@@ -417,6 +417,71 @@ public class RequestPostDataUtil {
         requestParameters.addProperty("pollAdmire", pollAdmire);
         requestParameters.addProperty("pollHate", pollHate);
         requestParameters.addProperty("pollCantSay", pollCantSay);
+
+        LoggerUtil.d(RequestPostDataUtil.class.getSimpleName(), requestParameters.toString());
+        return requestParameters;
+    }
+
+    /**
+     * Method is used to get Request Parameters for Create Contest Api.
+     *
+     * @param userID          userID
+     * @param contestTypeID   contestTypeID
+     * @param relatedMirrorID relatedMirrorID
+     * @param questionText    questionText
+     * @param option1MirrorID option1MirrorID
+     * @param option2MirrorID option2MirrorID
+     * @param option3MirrorID option3MirrorID
+     * @param option1Text     option1Text
+     * @param option2Text     option2Text
+     * @param option3Text     option3Text
+     * @param image           image
+     * @return JsonObject
+     */
+    public static JsonObject createContestReqParam(int userID, int contestTypeID, int relatedMirrorID, String questionText,
+                                                   int option1MirrorID, int option2MirrorID, int option3MirrorID, String option1Text,
+                                                   String option2Text, String option3Text, String image) {
+        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "createContestReqParam");
+
+        JsonObject requestParameters = new JsonObject();
+        requestParameters.addProperty("userID", userID);
+        requestParameters.addProperty("contestTypeID", contestTypeID);
+        requestParameters.addProperty("relatedMirrorID", relatedMirrorID);
+        requestParameters.addProperty("questionText", questionText);
+        requestParameters.addProperty("option1MirrorID", option1MirrorID);
+        requestParameters.addProperty("option2MirrorID", option2MirrorID);
+        requestParameters.addProperty("option3MirrorID", option3MirrorID);
+        requestParameters.addProperty("option1Text", option1Text);
+        requestParameters.addProperty("option2Text", option2Text);
+        requestParameters.addProperty("option3Text", option3Text);
+        requestParameters.addProperty("image", image);
+
+        LoggerUtil.d(RequestPostDataUtil.class.getSimpleName(), requestParameters.toString());
+        return requestParameters;
+    }
+
+    /**
+     * Method is used to get Request Parameters for Contest Vote Api.
+     *
+     * @param userID        userID
+     * @param contestID     contestID
+     * @param contestTypeID contestTypeID
+     * @param option1       option1
+     * @param option2       option2
+     * @param option3       option3
+     * @return JsonObject
+     */
+    public static JsonObject contestVoteApiRegParam(int userID, int contestID, int contestTypeID, boolean option1,
+                                                    boolean option2, boolean option3) {
+        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "contestVoteApiRegParam");
+
+        JsonObject requestParameters = new JsonObject();
+        requestParameters.addProperty("userID", userID);
+        requestParameters.addProperty("contestID", contestID);
+        requestParameters.addProperty("contestTypeID", contestTypeID);
+        requestParameters.addProperty("option1", option1);
+        requestParameters.addProperty("option2", option2);
+        requestParameters.addProperty("option3", option3);
 
         LoggerUtil.d(RequestPostDataUtil.class.getSimpleName(), requestParameters.toString());
         return requestParameters;
