@@ -2,13 +2,39 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
     android:clickable="true"
     android:focusableInTouchMode="true"
     android:focusable="true">
 
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@android:color/black"
+        android:padding="@dimen/_10sdp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="40dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/profile"
+            android:layout_height="50dp"
+            android:id="@+id/header_image"/>
+
+        <com.pend.util.RegularFontTextView
+            android:id="@+id/header_name"
+            android:layout_toRightOf="@+id/header_image"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/white"
+            android:text="Name"/>
+
+    </RelativeLayout>
+
     <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/header"
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

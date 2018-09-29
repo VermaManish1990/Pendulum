@@ -192,6 +192,8 @@ public class ReflectionFragment extends Fragment implements ReflectionPresenter.
                 Picasso.with(getActivity()).load(mDataset.get(position).getImageURL())
                         .placeholder(R.drawable.profile).into(holder.profileImage);
             }
+            else
+                holder.profileImage.setImageDrawable(getResources().getDrawable(R.drawable.profile));
 
             /*holder.chat.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -222,6 +224,8 @@ public class ReflectionFragment extends Fragment implements ReflectionPresenter.
                     Intent intent = new Intent(getActivity(), ChatActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putInt(Constants.SELECTED_USER_ID, item.getUserID());
+                    bundle.putString(Constants.USER_FULL_NAME, item.getUserFullName());
+                    bundle.putString(Constants.USER_IMAGE, item.getImageURL());
                     intent.putExtras(bundle);
                     startActivity(intent);
 

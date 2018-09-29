@@ -43,6 +43,7 @@ public class SearchUserActivity extends Activity implements SearchUserPresenter.
     private String area, sex;
     private Integer ageTo, ageFrom, distanceTo, distanceFrom;
     private Double latitude, longitude;
+    private TextView noUserFoundTextView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,12 +53,11 @@ public class SearchUserActivity extends Activity implements SearchUserPresenter.
 
         recyclerView.setHasFixedSize(true);
         progressBarHandler = new ProgressBarHandler(this);
-
-
         myDataset = new ArrayList<>();
 
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        noUserFoundTextView=(TextView)findViewById(R.id.no_user);
 
       /*  myDataset.add(new ChatItem("https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&h=650&w=940","Walter B.Steele","2"));
         myDataset.add(new ChatItem("https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&h=650&w=940","Marcus C. Clark","12"));
@@ -124,6 +124,8 @@ public class SearchUserActivity extends Activity implements SearchUserPresenter.
                         Bundle bundle = new Bundle();
                         //  b.putInt("chatRoomId",data.getChatRoomID());
                         bundle.putInt(Constants.SELECTED_USER_ID, data.getUserID());
+                        bundle.putString(Constants.USER_FULL_NAME, data.getUserFullName());
+                        bundle.putString(Constants.USER_IMAGE, data.getImageURL());
                         intent.putExtras(bundle);
                         startActivity(intent);
 
@@ -139,9 +141,21 @@ public class SearchUserActivity extends Activity implements SearchUserPresenter.
     public void searchUser(SearchUserResponse searchUserResponse) {
         progressBarHandler.hide();
 
-        if (searchUserResponse != null && searchUserResponse.isStatus())
+        if (searchUserResponse != null && searchUserResponse.isStatus()) {
             myDataset.addAll(searchUserResponse.getData().userList);
-        myAdapter.notifyDataSetChanged();
+            myAdapter.notifyDataSetChanged();
+        }
+
+        if(myDataset.size()>0)
+        {
+         noUserFoundTextView.setVisibility(View.GONE);
+        }
+        else
+        {
+            noUserFoundTextView.setVisibility(View.VISIBLE);
+        }
+
+
 
     }
 
@@ -212,6 +226,8 @@ public class SearchUserActivity extends Activity implements SearchUserPresenter.
                 Picasso.with(getApplicationContext()).load(mDataset.get(position).
                         getImageURL()).placeholder(R.drawable.profile).into(holder.profileImage);
             }
+            else
+                holder.profileImage.setImageDrawable(getResources().getDrawable(R.drawable.profile));
 
         }
 

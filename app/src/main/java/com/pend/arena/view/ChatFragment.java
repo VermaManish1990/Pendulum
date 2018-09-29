@@ -232,12 +232,14 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
                 Picasso.with(getActivity()).load(mDataset.get(position).getImageURL())
                         .placeholder(R.drawable.profile).into(holder.profileImage);
             }
+            else
+                holder.profileImage.setImageDrawable(getResources().getDrawable(R.drawable.profile));
+
             holder.profileImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), ProfileActivity.class);
                     intent.putExtra(Constants.USER_ID_KEY, item.getUserID());
-                    intent.putExtra(Constants.IS_OTHER_PROFILE, true);
                     startActivity(intent);
                 }
             });
@@ -251,6 +253,8 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
                     Bundle bundle = new Bundle();
                     bundle.putInt(Constants.CHAT_ROOM_ID, item.getChatRoomID());
                     bundle.putInt(Constants.SELECTED_USER_ID, item.getUserID());
+                    bundle.putString(Constants.USER_FULL_NAME, item.getUserFullName());
+                    bundle.putString(Constants.USER_IMAGE, item.getImageURL());
                     intent.putExtras(bundle);
                     startActivity(intent);
 

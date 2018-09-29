@@ -55,4 +55,6 @@ public interface Constants {
     String UPDATE_COMMENT = "Update Comment";
     String REMOVE_COMMENT = "Remove Comment";
 
+    String USER_FULL_NAME="UserFullName";
+    String USER_IMAGE="UserImage";
 }

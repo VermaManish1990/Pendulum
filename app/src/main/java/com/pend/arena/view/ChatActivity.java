@@ -38,6 +38,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class ChatActivity extends Activity implements ChatPresenter.ChatPresenterListener {
     private RecyclerView recyclerView;
@@ -55,6 +57,9 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
     private ChatPresenter chatPresenter;
     private String imageURL;
     private Handler handler = new Handler();
+    private TextView headerName;
+    private String userFullName,userImage;
+    private CircleImageView headerImage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +69,8 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         editText = (EditText) findViewById(R.id.message);
         sendButton = (Button) findViewById(R.id.send_button);
+        headerName=(TextView) findViewById(R.id.header_name);
+        headerImage=(CircleImageView)findViewById(R.id.header_image);
 
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.parent_layout);
 
@@ -92,7 +99,16 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
             if(bundle.containsKey(Constants.CHAT_ROOM_ID)){
                 chatRoomID = bundle.getInt(Constants.CHAT_ROOM_ID,-1);
             }
+
+            if(bundle.containsKey(Constants.USER_FULL_NAME)){
+                userFullName = bundle.getString(Constants.USER_FULL_NAME,"");
+            }
+
+            if(bundle.containsKey(Constants.USER_IMAGE)){
+                userImage = bundle.getString(Constants.USER_IMAGE,"");
+            }
         }
+
 
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
@@ -106,6 +122,12 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
         recyclerView.setAdapter(myAdapter);
 
 
+        headerName.setText(userFullName);
+        if(userImage!=null&&!userImage.equals("")) {
+            Log.e("userImage",userImage);
+            Picasso.with(this).load(userImage)
+                    .placeholder(R.drawable.profile).into(headerImage);
+        }
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,6 +179,8 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
             }
         });
 
+
+
     }
 
 
@@ -186,8 +210,9 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
     @Override
     public void sendMessage(SendMessageResponse userData) {
 
-        if (userData.isStatus())
-            getData();
+        //if (userData.isStatus())
+           // getData();
+
 
     }
 
@@ -309,11 +334,11 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
 
                     ((ViewHolder0) holder).date.setText(formatDate(mDataset.get(position).getMessageDateTime()));
 
-                    if(isFirstDate(position,mDataset.get(position).getMessageDateTime()))
+                 /*   if(isFirstDate(position,mDataset.get(position).getMessageDateTime()))
                         ((ViewHolder0) holder).date.setVisibility(View.VISIBLE);
                     else
 
-                        ((ViewHolder0) holder).date.setVisibility(View.GONE);
+                        ((ViewHolder0) holder).date.setVisibility(View.GONE);*/
 
 
                     break;
@@ -333,11 +358,11 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
                     }
                     ((ViewHolder2) holder).date.setText(formatDate(mDataset.get(position).getMessageDateTime()));
 
-                    if(isFirstDate(position,mDataset.get(position).getMessageDateTime()))
+                    /*if(isFirstDate(position,mDataset.get(position).getMessageDateTime()))
                         ((ViewHolder2) holder).date.setVisibility(View.VISIBLE);
                     else
 
-                        ((ViewHolder2) holder).date.setVisibility(View.GONE);
+                        ((ViewHolder2) holder).date.setVisibility(View.GONE);*/
 
                     break;
             }
@@ -352,7 +377,7 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
 
     public void sendMessage() {
 
-        if (editText.getText().length() > 0) {
+        if (editText.getText().toString().trim().length() > 0) {
 
             Message message = new Message(chatRoomID, userID, selectedUserID, editText.getText().toString());
 
@@ -364,7 +389,7 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
             data.setSenderID(userID);
             data.setReceiverID(selectedUserID);
             data.setImageURL(imageURL);
-            data.setMessageDateTime("now");
+            data.setMessageDateTime(getTime());
 
             myDataset.add(0, data);
             myAdapter.notifyItemInserted(0);
@@ -403,7 +428,7 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
 
     }
 
-    public void getData() {
+     void getData() {
         myDataset.clear();
         myAdapter.notifyDataSetChanged();
         PAGE_COUNT = 1;
@@ -417,6 +442,11 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
 
         else*/
         chatPresenter.getChatRoomID(userID, selectedUserID);
+
+    }
+
+    void getSingleMessage()
+    {
 
     }
 
@@ -454,6 +484,19 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
         }
 
 
+    }
+
+    String getTime()
+    {
+        SimpleDateFormat sdf = null;
+            sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+
+            // Get the date today using Calendar object.
+
+            // Using DateFormat format method we can create a string
+            // representation of a date with the defined format.
+            String now = sdf.format(new Date());
+            return now;
     }
 
 

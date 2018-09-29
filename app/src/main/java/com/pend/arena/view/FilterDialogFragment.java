@@ -46,7 +46,7 @@ public class FilterDialogFragment extends DialogFragment {
     private Button searchButton;
     private RadioGroup radioGroup;
     private RangeSeekBar ageSeekBar,distanceSeekBar;
-    private TextView ageTextView,distanceTextView;
+    private TextView ageTextView,distanceTextView,currentLocationTextView;
     private RadioButton radioButton;
     private  int leftAgeValue,rightAgeValue,leftDistanceValue,rightDistanceValue;
     private Double latitude,longitude;
@@ -81,6 +81,7 @@ public class FilterDialogFragment extends DialogFragment {
         ageTextView=(TextView)v.findViewById(R.id.age_text);
         distanceTextView=(TextView)v.findViewById(R.id.distance_textview);
         distanceSeekBar=(RangeSeekBar)v.findViewById(R.id.distance_seekbar);
+        currentLocationTextView=(TextView)v.findViewById(R.id.current_loc);
 
         ageSeekBar.setRangeRules(18, 60, 10,1);//set min 、max、minimum interva
         ageSeekBar.setRangeInterval(1);
@@ -99,6 +100,12 @@ public class FilterDialogFragment extends DialogFragment {
 
         ageTextView.setText("20 to 50 years");
         distanceTextView.setText("10 to 50 km");
+        currentLocationTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openLocationActivity();
+            }
+        });
 
         ageSeekBar.setOnRangeChangedListener(new OnRangeChangedListener() {
             @Override
@@ -145,25 +152,7 @@ public class FilterDialogFragment extends DialogFragment {
         txtLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // mis-clicking prevention, using threshold of 1000 ms
-                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
-                    return;
-                }
-                mLastClickTime = SystemClock.elapsedRealtime();
-
-
-                try {
-                    Intent intent =
-                            new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
-                                    .build(getActivity());
-                    startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-
-                } catch (GooglePlayServicesRepairableException e) {
-                    // TODO: Handle the error.
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    // TODO: Handle the error.
-                }
+                openLocationActivity();
             }
         });
 
@@ -194,6 +183,7 @@ public class FilterDialogFragment extends DialogFragment {
                     bundle.putInt("ageTo", rightAgeValue);
                     bundle.putInt("ageFrom", leftAgeValue);
                     bundle.putString("area", txtLocation.getText().toString());
+                    if(!radioButton.getText().toString().equalsIgnoreCase("Both"))
                     bundle.putString("sex", radioButton.getText().toString());
                     bundle.putInt("distanceTo", rightDistanceValue);
                     bundle.putInt("distanceFrom", leftDistanceValue);
@@ -266,6 +256,28 @@ public class FilterDialogFragment extends DialogFragment {
             e.printStackTrace();
             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
             return null;
+        }
+    }
+
+    void openLocationActivity()
+    {
+        // mis-clicking prevention, using threshold of 1000 ms
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+            return;
+        }
+        mLastClickTime = SystemClock.elapsedRealtime();
+
+
+        try {
+            Intent intent =
+                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                            .build(getActivity());
+            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+
+        } catch (GooglePlayServicesRepairableException e) {
+            // TODO: Handle the error.
+        } catch (GooglePlayServicesNotAvailableException e) {
+            // TODO: Handle the error.
         }
     }
 }

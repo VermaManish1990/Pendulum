@@ -16,10 +16,12 @@
         android:padding="10dp">
 
         <com.pend.util.RegularFontTextView
+            android:id="@+id/current_loc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/current_location"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/colorAccent"
+            android:drawableEnd="@drawable/edit_location"/>
 
         <com.pend.util.RegularFontEditText
             android:id="@+id/txtLocation"
@@ -27,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="2"
-            android:drawableEnd="@drawable/edit_location"
+
             android:background="@android:color/transparent" />
 
         <View
@@ -172,6 +174,15 @@
                 android:layout_marginLeft="20dp"
                 android:buttonTint="@android:color/black"
                 android:text="Female"
+                android:textColor="@color/fontPrimary80" />
+
+            <com.pend.util.RegularFontRadioButton
+                android:id="@+id/rb_both"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:buttonTint="@android:color/black"
+                android:text="Both"
                 android:textColor="@color/fontPrimary80" />
 
         </RadioGroup>
