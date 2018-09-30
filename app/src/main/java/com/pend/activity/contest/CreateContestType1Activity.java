@@ -4,6 +4,7 @@ import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,30 +20,46 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
+import com.pend.BaseResponseModel;
 import com.pend.R;
 import com.pend.activity.home.HomeActivity;
 import com.pend.activity.login.ProfileActivity;
 import com.pend.activity.mirror.MirrorActivity;
+import com.pend.adapters.SearchInNewsFeedAdapter;
 import com.pend.arena.view.ArenaActivity;
+import com.pend.fragments.ContestSearchDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
+import com.pend.interfaces.IWebServices;
+import com.pend.models.AddAndUpdatePostResponseModel;
+import com.pend.models.SearchInNewsFeedResponseModel;
 import com.pend.util.AndroidPermissionUtils;
 import com.pend.util.ImageFilePathUtil;
 import com.pend.util.LoggerUtil;
+import com.pend.util.NetworkUtil;
 import com.pend.util.OtherUtil;
+import com.pend.util.RequestPostDataUtil;
 import com.pend.util.SharedPrefUtils;
+import com.pend.util.VolleyErrorListener;
+import com.pendulum.volley.ext.GsonObjectRequest;
+import com.pendulum.volley.ext.RequestManager;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.Objects;
 
-public class CreateContestType1Activity extends BaseActivity implements View.OnClickListener {
+public class CreateContestType1Activity extends BaseActivity implements View.OnClickListener, SearchInNewsFeedAdapter.IMirrorSearchAdapterCallBack {
 
     private static final String TAG = CreateContestType1Activity.class.getSimpleName();
     private File mPhotoPath;
@@ -52,6 +69,14 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
     private View mFlQuarterBlackView;
     private View mFlMenuView;
     private ImageView mIvProfile;
+    private TextView mEtRelatedMirror;
+    private ImageView mIvUploadPhoto;
+    private View mRootView;
+    private int mMirrorId;
+    private TextView mEtQuestion;
+    private TextView mEtFirst;
+    private TextView mEtSecond;
+    private TextView mEtThird;
 
 
     @Override
@@ -66,14 +91,21 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
     @Override
     protected void initUI() {
 
+        mRootView = findViewById(R.id.root_view);
         mRecyclerViewProfile = findViewById(R.id.recycler_view_profile);
+        mEtRelatedMirror = findViewById(R.id.et_related_mirror);
+        mIvUploadPhoto = findViewById(R.id.iv_upload_photo);
+        mEtQuestion = findViewById(R.id.et_question);
+        mEtFirst = findViewById(R.id.et_first);
+        mEtSecond = findViewById(R.id.et_second);
+        mEtThird = findViewById(R.id.et_third);
 
         View quarterView = findViewById(R.id.quarter_view);
         mRlQuarterView = quarterView.findViewById(R.id.rl_quarter_view);
         mFlQuarterBlackView = quarterView.findViewById(R.id.fl_quarter_black_view);
         mFlMenuView = quarterView.findViewById(R.id.fl_menu_view);
 
-        ((ImageView)quarterView.findViewById(R.id.iv_contest)).setImageDrawable(getResources().getDrawable(R.drawable.home));
+        ((ImageView) quarterView.findViewById(R.id.iv_contest)).setImageDrawable(getResources().getDrawable(R.drawable.home));
         ((TextView) quarterView.findViewById(R.id.tv_contest)).setText(String.valueOf(getResources().getString(R.string.home)));
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
@@ -82,7 +114,8 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
         mFlMenuView.setOnClickListener(this);
         mIvProfile.setOnClickListener(this);
 
-        findViewById(R.id.iv_upload_photo).setOnClickListener(this);
+        mIvUploadPhoto.setOnClickListener(this);
+        findViewById(R.id.iv_search).setOnClickListener(this);
         findViewById(R.id.bt_create_contest).setOnClickListener(this);
     }
 
@@ -96,11 +129,63 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
                     .load(imageUrl)
                     .into(mIvProfile);
         }
+
+        mEtRelatedMirror.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+                    InputMethodManager inputManager = (InputMethodManager)
+                            getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                    if (inputManager != null) {
+                        inputManager.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(),
+                                InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+
+                    if (mEtRelatedMirror.getText().toString().trim().length() > 0)
+                        onSearchClick();
+
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    /**
+     * Method is used to open dialog for search result list.
+     */
+    private void onSearchClick() {
+        ContestSearchDialogFragment contestSearchDialogFragment = ContestSearchDialogFragment.newInstance(mEtRelatedMirror.getText().toString());
+        contestSearchDialogFragment.show(getSupportFragmentManager(), "ContestSearchDialogFragment");
     }
 
     @Override
     public void updateUi(boolean status, int actionID, Object serviceResponse) {
+        switch (actionID) {
+            case IApiEvent.REQUEST_CREATE_CONTEST_CODE:
+                if (status) {
+                    BaseResponseModel responseModel = (BaseResponseModel) serviceResponse;
+                    if (responseModel != null && responseModel.status) {
+                        LoggerUtil.d(TAG, responseModel.statusCode);
 
+                        //TODO UPDATE DATA
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                    }
+                } else {
+                    OtherUtil.showErrorMessage(this, serviceResponse);
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
+                break;
+
+            default:
+                LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
+                break;
+        }
+
+        removeProgressDialog();
     }
 
     @Override
@@ -110,6 +195,44 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
 
     @Override
     public void getData(int actionID) {
+
+        if (!NetworkUtil.isInternetConnected(this)) {
+            Snackbar.make(mRootView, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show();
+            return;
+        }
+        showProgressDialog();
+
+        int userId = -1;
+        try {
+            userId = Integer.parseInt(SharedPrefUtils.getUserId(CreateContestType1Activity.this));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JsonObject jsonObject;
+        String request;
+
+        switch (actionID) {
+            case IApiEvent.REQUEST_CREATE_CONTEST_CODE:
+
+                jsonObject = RequestPostDataUtil.createContestReqParam(userId, 1, mMirrorId,mEtQuestion.getText().toString(),
+                        0,0,0,mEtFirst.getText().toString(),mEtSecond.getText().toString(),mEtThird.getText().toString(),
+                        mEncodedImage != null ? mEncodedImage : "");
+                request = jsonObject.toString();
+                RequestManager.addRequest(new GsonObjectRequest<BaseResponseModel>(IWebServices.REQUEST_CREATE_CONTEST_URL, NetworkUtil.getHeaders(this),
+                        request, BaseResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(BaseResponseModel response) {
+                        updateUi(true, actionID, response);
+                    }
+                });
+                break;
+
+            default:
+                LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
+                break;
+        }
 
     }
 
@@ -200,7 +323,7 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
 
                 case Constants.REQUEST_TAKE_PHOTO:
 
-                    if(mPhotoPath!=null){
+                    if (mPhotoPath != null) {
                         imagePath = mPhotoPath.getPath();
                     }
                     selectedImage = Uri.parse(imagePath);
@@ -209,9 +332,7 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
 
             if (selectedImage != null) {
                 mEncodedImage = OtherUtil.getBase64Format(selectedImage.getPath());
-                if (mEncodedImage != null) {
-                    //TODO hit APi.
-                }
+                mIvUploadPhoto.setImageURI(selectedImage);
             }
         }
     }
@@ -249,7 +370,7 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.iv_upload_photo:
 
                 File imagesFolder = new File(Environment.getExternalStorageDirectory(), getString(R.string.my_images));
@@ -259,6 +380,12 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
                 break;
 
             case R.id.bt_create_contest:
+                getData(IApiEvent.REQUEST_CREATE_CONTEST_CODE);
+                break;
+
+            case R.id.iv_search:
+                if (mEtRelatedMirror.getText().toString().trim().length() > 0)
+                    onSearchClick();
                 break;
 
             case R.id.iv_profile:
@@ -355,5 +482,12 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
             hideReveal();
         }
         return super.dispatchTouchEvent(event);
+    }
+
+    @Override
+    public void onMirrorClick(SearchInNewsFeedResponseModel.MirrorDetails mirrorDetails) {
+
+        mMirrorId = mirrorDetails.mirrorID;
+        mEtRelatedMirror.setText(mirrorDetails.mirrorName != null ? mirrorDetails.mirrorName : "");
     }
 }

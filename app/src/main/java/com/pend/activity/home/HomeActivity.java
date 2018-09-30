@@ -834,9 +834,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
-    public void onMirrorClick(int position) {
-
-        SearchInNewsFeedResponseModel.MirrorDetails mirrorDetails = mMirrorList.get(position);
+    public void onMirrorClick(SearchInNewsFeedResponseModel.MirrorDetails mirrorDetails) {
 
         Intent intent = new Intent(this, MirrorDetailsActivity.class);
         intent.putExtra(Constants.MIRROR_ID_KEY, mirrorDetails.mirrorID);

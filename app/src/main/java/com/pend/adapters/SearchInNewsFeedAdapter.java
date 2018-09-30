@@ -67,7 +67,7 @@ public class SearchInNewsFeedAdapter extends RecyclerView.Adapter<SearchInNewsFe
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mIMirrorSearchAdapterCallBack.onMirrorClick(position);
+                mIMirrorSearchAdapterCallBack.onMirrorClick(mirrorDetails);
             }
         });
     }
@@ -94,6 +94,6 @@ public class SearchInNewsFeedAdapter extends RecyclerView.Adapter<SearchInNewsFe
     }
 
     public interface IMirrorSearchAdapterCallBack {
-        void onMirrorClick(int position);
+        void onMirrorClick(SearchInNewsFeedResponseModel.MirrorDetails mirrorDetails);
     }
 }

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/root_view"
     tools:context=".activity.contest.CreateContestType1Activity">
 
     <ScrollView
@@ -36,17 +37,6 @@
                     android:contentDescription="@string/image"
                     android:src="@drawable/upload_photo" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_view_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/iv_upload_photo"
-                    android:layout_alignTop="@+id/iv_upload_photo"
-                    android:layout_toEndOf="@+id/iv_upload_photo"
-                    android:layout_toRightOf="@+id/iv_upload_photo"
-                    android:orientation="horizontal"
-                    android:scrollbars="horizontal" />
-
             </RelativeLayout>
 
             <View
@@ -76,25 +66,42 @@
                     tools:ignore="LabelFor" />
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_related_mirror"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:hint="@string/related_mirror">
+                android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/et_related_mirror"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_related_mirror"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:inputType="text"
-                    android:maxLength="55"
-                    android:singleLine="true"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_15sdp"
-                    tools:ignore="LabelFor" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/iv_search"
+                    android:hint="@string/related_mirror">
+
+                    <EditText
+                        android:id="@+id/et_related_mirror"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:inputType="text"
+                        android:maxLength="55"
+                        android:singleLine="true"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_15sdp"
+                        tools:ignore="LabelFor" />
+                </android.support.design.widget.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/iv_search"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_alignParentEnd="true"
+                    android:padding="@dimen/_3sdp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/search"/>
+            </RelativeLayout>
+
 
             <TextView
                 android:layout_width="wrap_content"
