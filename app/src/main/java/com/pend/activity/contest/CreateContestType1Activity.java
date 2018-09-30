@@ -77,6 +77,7 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
     private TextView mEtFirst;
     private TextView mEtSecond;
     private TextView mEtThird;
+    private ContestSearchDialogFragment mContestSearchDialogFragment;
 
 
     @Override
@@ -157,8 +158,8 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
      * Method is used to open dialog for search result list.
      */
     private void onSearchClick() {
-        ContestSearchDialogFragment contestSearchDialogFragment = ContestSearchDialogFragment.newInstance(mEtRelatedMirror.getText().toString());
-        contestSearchDialogFragment.show(getSupportFragmentManager(), "ContestSearchDialogFragment");
+        mContestSearchDialogFragment = ContestSearchDialogFragment.newInstance(mEtRelatedMirror.getText().toString());
+        mContestSearchDialogFragment.show(getSupportFragmentManager(), "ContestSearchDialogFragment");
     }
 
     @Override
@@ -489,5 +490,6 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
 
         mMirrorId = mirrorDetails.mirrorID;
         mEtRelatedMirror.setText(mirrorDetails.mirrorName != null ? mirrorDetails.mirrorName : "");
+        mContestSearchDialogFragment.dismiss();
     }
 }

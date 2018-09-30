@@ -80,7 +80,7 @@ public class ContestSearchDialogFragment extends DialogFragment implements IScre
     }
 
     private void initUi(View view) {
-        mDataNotAvailableView = view.findViewById(R.id.fl_data_not_available);
+        mDataNotAvailableView = view.findViewById(R.id.tv_data_not_available);
         mRecyclerViewContest = view.findViewById(R.id.recycler_view_contest);
 
         view.findViewById(R.id.bt_create_mirror).setOnClickListener(this);
@@ -88,7 +88,6 @@ public class ContestSearchDialogFragment extends DialogFragment implements IScre
 
     protected void setInitialData() {
 
-        mSearchText = null;
         mPageNumber = 1;
         mIsLoading = false;
         mIsHasNextPage = false;
