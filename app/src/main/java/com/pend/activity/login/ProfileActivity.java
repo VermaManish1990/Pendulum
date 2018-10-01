@@ -81,6 +81,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private View mRlSettingAndEditView;
     private int mMirrorId;
     private int mPostId;
+    private String userFullName;
     private GetPostDetailsResponseModel mPostDetailsResponseModel;
 
     @Override
@@ -203,6 +204,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
                         if (mUserProfileResponseModel.Data != null && mUserProfileResponseModel.Data.userData != null) {
 
+                            userFullName=mUserProfileResponseModel.Data.userData.userFullName;
                             mTvName.setText(mUserProfileResponseModel.Data.userData.userFullName != null ? mUserProfileResponseModel.Data.userData.userFullName : "");
                             mTvAge.setText(String.valueOf(mUserProfileResponseModel.Data.userData.userAge + " year " + mUserProfileResponseModel.Data.userData.userGender));
                             mTvCity.setText(mUserProfileResponseModel.Data.userData.cityName != null ? mUserProfileResponseModel.Data.userData.cityName : "");
@@ -416,6 +418,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt(Constants.SELECTED_USER_ID, mUserId);
+                bundle.putString(Constants.USER_FULL_NAME, userFullName);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
