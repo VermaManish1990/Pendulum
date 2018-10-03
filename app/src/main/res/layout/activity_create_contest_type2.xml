@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.contest.CreateContestType2Activity">
@@ -15,8 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_15sdp"
-            android:paddingBottom="@dimen/_30sdp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/_30sdp">
 
             <View
                 android:id="@+id/view1"
@@ -70,15 +71,24 @@
                     android:id="@+id/et_first"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_20sdp"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_toEndOf="@+id/tv_first_text"
-                    android:layout_toRightOf="@+id/tv_first_text"
+                    android:layout_toStartOf="@+id/iv_search1"
+                    android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:singleLine="true"
                     android:textSize="@dimen/_15sdp" />
+
+                <ImageView
+                    android:id="@+id/iv_search1"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/image"
+                    android:padding="@dimen/_3sdp"
+                    android:src="@drawable/search" />
 
             </RelativeLayout>
 
@@ -101,15 +111,25 @@
                     android:id="@+id/et_second"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_20sdp"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_toEndOf="@+id/tv_second_text"
-                    android:layout_toRightOf="@+id/tv_second_text"
+                    android:layout_toStartOf="@+id/iv_search2"
+                    android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:singleLine="true"
                     android:textSize="@dimen/_15sdp" />
+
+                <ImageView
+                    android:id="@+id/iv_search2"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/image"
+                    android:padding="@dimen/_3sdp"
+                    android:src="@drawable/search" />
+
 
             </RelativeLayout>
 
@@ -132,15 +152,25 @@
                     android:id="@+id/et_third"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_20sdp"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_toEndOf="@+id/tv_third_text"
-                    android:layout_toRightOf="@+id/tv_third_text"
+                    android:layout_toStartOf="@+id/iv_search3"
+                    android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:singleLine="true"
                     android:textSize="@dimen/_15sdp" />
+
+                <ImageView
+                    android:id="@+id/iv_search3"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/image"
+                    android:padding="@dimen/_3sdp"
+                    android:src="@drawable/search" />
+
 
             </RelativeLayout>
         </LinearLayout>
@@ -149,20 +179,20 @@
 
     <include
         android:id="@+id/quarter_view"
+        layout="@layout/quarter_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_200sdp"
-        android:layout_alignParentBottom="true"
-        layout="@layout/quarter_view"/>
+        android:layout_alignParentBottom="true" />
 
     <Button
         android:id="@+id/bt_create_contest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:paddingStart="@dimen/_20sdp"
-        android:paddingEnd="@dimen/_20sdp"
+        android:layout_centerHorizontal="true"
         android:background="@drawable/custom_blue_button"
+        android:paddingEnd="@dimen/_20sdp"
+        android:paddingStart="@dimen/_20sdp"
         android:text="@string/create"
         android:textColor="@color/white"
         android:textSize="@dimen/_15sdp" />

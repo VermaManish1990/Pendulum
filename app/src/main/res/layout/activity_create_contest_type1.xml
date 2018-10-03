@@ -87,6 +87,7 @@
                         android:inputType="text"
                         android:maxLength="55"
                         android:singleLine="true"
+                        android:imeOptions="actionSearch"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_15sdp"
                         tools:ignore="LabelFor" />

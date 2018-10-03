@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,6 +44,7 @@ import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.AddAndUpdatePostResponseModel;
+import com.pend.models.CreateContestResponseModel;
 import com.pend.models.SearchInNewsFeedResponseModel;
 import com.pend.util.AndroidPermissionUtils;
 import com.pend.util.ImageFilePathUtil;
@@ -52,6 +54,7 @@ import com.pend.util.OtherUtil;
 import com.pend.util.RequestPostDataUtil;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
+import com.pendulum.utils.ToastUtils;
 import com.pendulum.volley.ext.GsonObjectRequest;
 import com.pendulum.volley.ext.RequestManager;
 import com.squareup.picasso.Picasso;
@@ -64,7 +67,6 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
     private static final String TAG = CreateContestType1Activity.class.getSimpleName();
     private File mPhotoPath;
     private String mEncodedImage;
-    private RecyclerView mRecyclerViewProfile;
     private View mRlQuarterView;
     private View mFlQuarterBlackView;
     private View mFlMenuView;
@@ -73,10 +75,10 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
     private ImageView mIvUploadPhoto;
     private View mRootView;
     private int mMirrorId;
-    private TextView mEtQuestion;
-    private TextView mEtFirst;
-    private TextView mEtSecond;
-    private TextView mEtThird;
+    private EditText mEtQuestion;
+    private EditText mEtFirst;
+    private EditText mEtSecond;
+    private EditText mEtThird;
     private ContestSearchDialogFragment mContestSearchDialogFragment;
 
 
@@ -93,7 +95,6 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
     protected void initUI() {
 
         mRootView = findViewById(R.id.root_view);
-        mRecyclerViewProfile = findViewById(R.id.recycler_view_profile);
         mEtRelatedMirror = findViewById(R.id.et_related_mirror);
         mIvUploadPhoto = findViewById(R.id.iv_upload_photo);
         mEtQuestion = findViewById(R.id.et_question);
@@ -167,11 +168,13 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
         switch (actionID) {
             case IApiEvent.REQUEST_CREATE_CONTEST_CODE:
                 if (status) {
-                    BaseResponseModel responseModel = (BaseResponseModel) serviceResponse;
+                    CreateContestResponseModel responseModel = (CreateContestResponseModel) serviceResponse;
                     if (responseModel != null && responseModel.status) {
                         LoggerUtil.d(TAG, responseModel.statusCode);
 
                         //TODO UPDATE DATA
+                        ToastUtils.showToast(CreateContestType1Activity.this,"Update Successfully");
+                        finish();
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
                     }
@@ -220,11 +223,11 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
                         0,0,0,mEtFirst.getText().toString(),mEtSecond.getText().toString(),mEtThird.getText().toString(),
                         mEncodedImage != null ? mEncodedImage : "");
                 request = jsonObject.toString();
-                RequestManager.addRequest(new GsonObjectRequest<BaseResponseModel>(IWebServices.REQUEST_CREATE_CONTEST_URL, NetworkUtil.getHeaders(this),
-                        request, BaseResponseModel.class, new VolleyErrorListener(this, actionID)) {
+                RequestManager.addRequest(new GsonObjectRequest<CreateContestResponseModel>(IWebServices.REQUEST_CREATE_CONTEST_URL, NetworkUtil.getHeaders(this),
+                        request, CreateContestResponseModel.class, new VolleyErrorListener(this, actionID)) {
 
                     @Override
-                    protected void deliverResponse(BaseResponseModel response) {
+                    protected void deliverResponse(CreateContestResponseModel response) {
                         updateUi(true, actionID, response);
                     }
                 });
