@@ -8,7 +8,7 @@ public class CreateContestResponseModel extends BaseResponseModel {
 
     public CreateContestData Data;
 
-    public class CreateContestData implements Serializable{
+    public static class CreateContestData implements Serializable{
         public CreateContestDetails responseData;
     }
 
