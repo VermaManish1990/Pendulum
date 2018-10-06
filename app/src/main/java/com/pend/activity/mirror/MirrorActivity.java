@@ -501,7 +501,7 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
                         mCleanSearch = false;
                         mIsSearchData = true;
                         mEtSearch.setText("");
-                        mSearchTextFollowing = "";
+                        mSearchTextIntroduced = "";
                         mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
                         introducedMirrorFragment.cancelSearchMirrorData();
                     } else {

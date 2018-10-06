@@ -16,7 +16,7 @@ import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.fragments.ContestType1DialogFragment;
 import com.pend.fragments.ContestType2DialogFragment;
-import com.pend.models.ContestResponseModel;
+import com.pend.models.GetContestsResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.widget.progressbar.CustomProgressBar;
 import com.pend.widget.progressbar.ProgressItem;
@@ -29,11 +29,11 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int TYPE_2_CONTEST = 2;
 
     private static final String TAG = ContestAdapter.class.getSimpleName();
-    private ArrayList<ContestResponseModel.ContestDetails> mContestDataList;
+    private ArrayList<GetContestsResponseModel.GetContestDetails> mContestDataList;
     public Context mContext;
     private boolean mIsVoted;
 
-    public ContestAdapter(Context context, ArrayList<ContestResponseModel.ContestDetails> contestDataList) {
+    public ContestAdapter(Context context,ArrayList<GetContestsResponseModel.GetContestDetails> contestDataList) {
         mContext = context;
         mContestDataList = contestDataList;
     }
@@ -70,9 +70,9 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        ContestResponseModel.ContestDetails contestDetails = mContestDataList.get(position);
+        GetContestsResponseModel.GetContestDetails contestDetails = mContestDataList.get(position);
 
-        if (contestDetails.type == TYPE_1_CONTEST) {
+        if (contestDetails.contestTypeID == TYPE_1_CONTEST) {
             return TYPE_1_CONTEST;
         } else {
             return TYPE_2_CONTEST;
@@ -150,7 +150,7 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private void setDataForContestType1(ViewHolderType1 viewHolder, int position) {
-        ContestResponseModel.ContestDetails contestDetails = mContestDataList.get(position);
+        GetContestsResponseModel.GetContestDetails contestDetails = mContestDataList.get(position);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -159,11 +159,11 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         ArrayList<ProgressItem> progressItemList = new ArrayList<>();
 
-        progressItemList.add(new ProgressItem(mContext.getResources().getColor(R.color.light_red_bg), contestDetails.mirror1Per));
-        progressItemList.add(new ProgressItem(mContext.getResources().getColor(R.color.bootstrap_brand_warning), contestDetails.mirror2Per));
+//        progressItemList.add(new ProgressItem(mContext.getResources().getColor(R.color.light_red_bg), contestDetails.mirror1Per));
+//        progressItemList.add(new ProgressItem(mContext.getResources().getColor(R.color.bootstrap_brand_warning), contestDetails.mirror2Per));
 
-        viewHolder.progressBarProfile.initData(progressItemList);
-        viewHolder.progressBarProfile.invalidate();
+//        viewHolder.progressBarProfile.initData(progressItemList);
+//        viewHolder.progressBarProfile.invalidate();
 
         viewHolder.viewProgressBarProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,21 +180,21 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private void setDataForContestType2(final ViewHolderType2 viewHolder, int position) {
-        final ContestResponseModel.ContestDetails contestDetails = mContestDataList.get(position);
+        final GetContestsResponseModel.GetContestDetails contestDetails= mContestDataList.get(position);
 
-        final int max = getMax(contestDetails.mirror1Per, contestDetails.mirror2Per, contestDetails.mirror3Per);
+//        final int max = getMax(contestDetails.mirror1Per, contestDetails.mirror2Per, contestDetails.mirror3Per);
 
         viewHolder.llMirrorPercentageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                int width = viewHolder.llMirrorPercentageView.getWidth();
-                viewHolder.tvMirror1View.setWidth(contestDetails.mirror1Per * (width / max));
-                viewHolder.tvMirror2View.setWidth(contestDetails.mirror2Per * (width / max));
-                viewHolder.tvMirror3View.setWidth(contestDetails.mirror3Per * (width / max));
-
-                viewHolder.tvMirror1View.setText(String.valueOf(contestDetails.mirror1Per + "%"));
-                viewHolder.tvMirror2View.setText(String.valueOf(contestDetails.mirror2Per + "%"));
-                viewHolder.tvMirror3View.setText(String.valueOf(contestDetails.mirror3Per + "%"));
+//                int width = viewHolder.llMirrorPercentageView.getWidth();
+//                viewHolder.tvMirror1View.setWidth(contestDetails.mirror1Per * (width / max));
+//                viewHolder.tvMirror2View.setWidth(contestDetails.mirror2Per * (width / max));
+//                viewHolder.tvMirror3View.setWidth(contestDetails.mirror3Per * (width / max));
+//
+//                viewHolder.tvMirror1View.setText(String.valueOf(contestDetails.mirror1Per + "%"));
+//                viewHolder.tvMirror2View.setText(String.valueOf(contestDetails.mirror2Per + "%"));
+//                viewHolder.tvMirror3View.setText(String.valueOf(contestDetails.mirror3Per + "%"));
 
             }
         });

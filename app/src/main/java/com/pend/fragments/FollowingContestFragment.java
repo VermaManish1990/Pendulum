@@ -17,11 +17,11 @@ import com.pend.adapters.ContestAdapter;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
-import com.pend.models.ContestResponseModel;
 import com.pend.models.GetContestsResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
 import com.pend.util.OtherUtil;
+import com.pend.util.PaginationScrollListener;
 import com.pend.util.SharedPrefUtils;
 import com.pend.util.VolleyErrorListener;
 import com.pendulum.utils.ConnectivityUtils;
@@ -41,6 +41,7 @@ public class FollowingContestFragment extends BaseFragment {
     private String mSearchText;
     private boolean mIsHasNextPage;
     private boolean mIsLoading;
+    private ArrayList<GetContestsResponseModel.GetContestDetails> mContestDetailsList;
 
     @Override
     public void onAttach(Context context) {
@@ -61,6 +62,16 @@ public class FollowingContestFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mSearchText = "";
+        mPageNumber = 1;
+        mIsLoading = false;
+        mIsHasNextPage = false;
+        getData(IApiEvent.REQUEST_GET_FOLLOWING_CONTESTS_CODE);
+    }
+
+    @Override
     protected void initUI(View view) {
         mRootView = view.findViewById(R.id.root_view);
         mTvDataNotAvailable = view.findViewById(R.id.tv_data_not_available);
@@ -77,24 +88,64 @@ public class FollowingContestFragment extends BaseFragment {
 
         mRecyclerViewFollowing.setVisibility(View.VISIBLE);
         mTvDataNotAvailable.setVisibility(View.GONE);
-        ArrayList<ContestResponseModel.ContestDetails> contestDetailsList = new ArrayList<>();
-        contestDetailsList.add(new ContestResponseModel.ContestDetails(1, 40, 60, 0));
-        contestDetailsList.add(new ContestResponseModel.ContestDetails(2, 40, 25, 35));
-        contestDetailsList.add(new ContestResponseModel.ContestDetails(1, 70, 30, 0));
-        contestDetailsList.add(new ContestResponseModel.ContestDetails(2, 60, 10, 30));
 
-        contestDetailsList.addAll(contestDetailsList);
-        contestDetailsList.addAll(contestDetailsList);
-        contestDetailsList.addAll(contestDetailsList);
+        mContestDetailsList = new ArrayList<>();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+        mRecyclerViewFollowing.setLayoutManager(linearLayoutManager);
 
-        mRecyclerViewFollowing.setLayoutManager(new LinearLayoutManager(mContext));
-        mRecyclerViewFollowing.setAdapter(new ContestAdapter(mContext, contestDetailsList));
+        mRecyclerViewFollowing.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
+            @Override
+            protected void loadMoreItems() {
+                mIsLoading = true;
+                mPageNumber += 1; //Increment page index to load the next one
+                getData(IApiEvent.REQUEST_GET_INTRODUCED_CONTESTS_CODE);
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return mIsHasNextPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return mIsLoading;
+            }
+        });
+        mRecyclerViewFollowing.setAdapter(new ContestAdapter(mContext, mContestDetailsList));
+    }
+
+    public void searchMirrorData(String searchText) {
+        mSearchText = searchText;
+        mPageNumber = 1;
+        mIsLoading = false;
+        mIsHasNextPage = false;
+
+        if (mContestDetailsList != null) {
+            mContestDetailsList.clear();
+        } else {
+            mContestDetailsList = new ArrayList<>();
+        }
+        getData(IApiEvent.REQUEST_GET_FOLLOWING_CONTESTS_CODE);
+    }
+
+    public void cancelSearchMirrorData() {
+        mSearchText = "";
+        mPageNumber = 1;
+        mIsLoading = false;
+        mIsHasNextPage = false;
+
+        if (mContestDetailsList != null) {
+            mContestDetailsList.clear();
+        } else {
+            mContestDetailsList = new ArrayList<>();
+        }
+        getData(IApiEvent.REQUEST_GET_FOLLOWING_CONTESTS_CODE);
     }
 
     @Override
     public void updateUi(boolean status, int actionID, Object serviceResponse) {
         switch (actionID) {
-            case IApiEvent.REQUEST_GET_FOLLOWING_CONTESTS_URL:
+            case IApiEvent.REQUEST_GET_FOLLOWING_CONTESTS_CODE:
                 if (status) {
                     GetContestsResponseModel contestsResponseModel =
                             (GetContestsResponseModel) serviceResponse;
@@ -107,6 +158,15 @@ public class FollowingContestFragment extends BaseFragment {
                             mRecyclerViewFollowing.setVisibility(View.VISIBLE);
 
                             mIsHasNextPage = !contestsResponseModel.Data.hasNextPage;
+
+                            if (mPageNumber == 1) {
+                                mContestDetailsList.clear();
+                            }
+
+                            ContestAdapter contestAdapter = (ContestAdapter) mRecyclerViewFollowing.getAdapter();
+
+                            mContestDetailsList.addAll(contestsResponseModel.Data.contestList);
+                            contestAdapter.notifyDataSetChanged();
 
                         } else {
                             mTvDataNotAvailable.setVisibility(View.VISIBLE);
@@ -156,7 +216,7 @@ public class FollowingContestFragment extends BaseFragment {
         }
 
         switch (actionID) {
-            case IApiEvent.REQUEST_GET_FOLLOWING_CONTESTS_URL:
+            case IApiEvent.REQUEST_GET_FOLLOWING_CONTESTS_CODE:
 
                 String trendingMirrorUrl;
                 if (mSearchText != null) {
