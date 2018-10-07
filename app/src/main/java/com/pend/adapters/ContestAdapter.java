@@ -224,9 +224,17 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         viewHolder.tvName.setText(contestDetails.relatedMirrorName != null ? contestDetails.relatedMirrorName : "");
         viewHolder.tvTitle.setText(contestDetails.questionText != null ? contestDetails.questionText : "");
 
-        viewHolder.tvMirror1Name.setText(contestDetails.option1MirrorName != null ? contestDetails.option1MirrorName : "");
-        viewHolder.tvMirror2Name.setText(contestDetails.option2MirrorName != null ? contestDetails.option2MirrorName : "");
-        viewHolder.tvMirror3Name.setText(contestDetails.option3MirrorName != null ? contestDetails.option3MirrorName : "I don't know");
+        if (contestDetails.contestTypeID == 1) {
+
+            viewHolder.tvMirror1Name.setText(contestDetails.option1Text != null ? contestDetails.option1Text : "");
+            viewHolder.tvMirror2Name.setText(contestDetails.option2Text != null ? contestDetails.option2Text : "");
+            viewHolder.tvMirror3Name.setText(contestDetails.option3Text != null ? contestDetails.option3Text : "I don't know");
+        } else {
+            viewHolder.tvMirror1Name.setText(contestDetails.option1MirrorName != null ? contestDetails.option1MirrorName : "");
+            viewHolder.tvMirror2Name.setText(contestDetails.option2MirrorName != null ? contestDetails.option2MirrorName : "");
+            viewHolder.tvMirror3Name.setText(contestDetails.option3MirrorName != null ? contestDetails.option3MirrorName : "");
+        }
+
 
         mIsVoted = contestDetails.option1Vote || contestDetails.option2Vote || contestDetails.option3Vote;
 
@@ -235,13 +243,18 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         viewHolder.llMirrorPercentageView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
 
             int width = viewHolder.llMirrorPercentageView.getWidth();
-            viewHolder.tvMirror1View.setWidth(contestDetails.option1Per * (width / max));
-            viewHolder.tvMirror2View.setWidth(contestDetails.option2Per * (width / max));
-            viewHolder.tvMirror3View.setWidth(contestDetails.option3Per * (width / max));
 
-            viewHolder.tvMirror1View.setText(String.valueOf(contestDetails.option1Per + "%"));
-            viewHolder.tvMirror2View.setText(String.valueOf(contestDetails.option2Per + "%"));
-            viewHolder.tvMirror3View.setText(String.valueOf(contestDetails.option3Per + "%"));
+            if (max > 0) {
+
+                viewHolder.tvMirror1View.setWidth(contestDetails.option1Per * (width / max));
+                viewHolder.tvMirror2View.setWidth(contestDetails.option2Per * (width / max));
+                viewHolder.tvMirror3View.setWidth(contestDetails.option3Per * (width / max));
+
+                viewHolder.tvMirror1View.setText(String.valueOf(contestDetails.option1Per + "%"));
+                viewHolder.tvMirror2View.setText(String.valueOf(contestDetails.option2Per + "%"));
+                viewHolder.tvMirror3View.setText(String.valueOf(contestDetails.option3Per + "%"));
+            }
+
 
         });
 
