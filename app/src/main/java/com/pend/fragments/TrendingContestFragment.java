@@ -67,7 +67,7 @@ public class TrendingContestFragment extends BaseFragment {
         mPageNumber = 1;
         mIsLoading = false;
         mIsHasNextPage = false;
-        getData(IApiEvent.REQUEST_GET_INTRODUCED_CONTESTS_CODE);
+        getData(IApiEvent.REQUEST_GET_TRENDING_CONTESTS_CODE);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class TrendingContestFragment extends BaseFragment {
             protected void loadMoreItems() {
                 mIsLoading = true;
                 mPageNumber += 1; //Increment page index to load the next one
-                getData(IApiEvent.REQUEST_GET_INTRODUCED_CONTESTS_CODE);
+                getData(IApiEvent.REQUEST_GET_TRENDING_CONTESTS_CODE);
             }
 
             @Override
@@ -125,7 +125,7 @@ public class TrendingContestFragment extends BaseFragment {
         } else {
             mContestDetailsList = new ArrayList<>();
         }
-        getData(IApiEvent.REQUEST_GET_INTRODUCED_CONTESTS_CODE);
+        getData(IApiEvent.REQUEST_GET_TRENDING_CONTESTS_CODE);
     }
 
     public void cancelSearchMirrorData() {
@@ -139,13 +139,13 @@ public class TrendingContestFragment extends BaseFragment {
         } else {
             mContestDetailsList = new ArrayList<>();
         }
-        getData(IApiEvent.REQUEST_GET_INTRODUCED_CONTESTS_CODE);
+        getData(IApiEvent.REQUEST_GET_TRENDING_CONTESTS_CODE);
     }
 
     @Override
     public void updateUi(boolean status, int actionID, Object serviceResponse) {
         switch (actionID) {
-            case IApiEvent.REQUEST_GET_INTRODUCED_CONTESTS_CODE:
+            case IApiEvent.REQUEST_GET_TRENDING_CONTESTS_CODE:
                 if (status) {
                     GetContestsResponseModel contestsResponseModel =
                             (GetContestsResponseModel) serviceResponse;
@@ -226,7 +226,7 @@ public class TrendingContestFragment extends BaseFragment {
         }
 
         switch (actionID) {
-            case IApiEvent.REQUEST_GET_INTRODUCED_CONTESTS_CODE:
+            case IApiEvent.REQUEST_GET_TRENDING_CONTESTS_CODE:
 
                 String trendingMirrorUrl;
                 if (mSearchText != null) {
@@ -234,11 +234,11 @@ public class TrendingContestFragment extends BaseFragment {
                     mSearchText = OtherUtil.replaceWithPattern(mSearchText, " ");
                     mSearchText = mSearchText.replaceAll(" ", "%20");
 
-                    trendingMirrorUrl = IWebServices.REQUEST_GET_INTRODUCED_CONTESTS_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
+                    trendingMirrorUrl = IWebServices.REQUEST_GET_TRENDING_CONTESTS_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
                             + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber)
                             + "&" + Constants.PARAM_SEARCH_TEXT + "=" + mSearchText;
                 } else {
-                    trendingMirrorUrl = IWebServices.REQUEST_GET_INTRODUCED_CONTESTS_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
+                    trendingMirrorUrl = IWebServices.REQUEST_GET_TRENDING_CONTESTS_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(mContext)
                             + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
                 }
 

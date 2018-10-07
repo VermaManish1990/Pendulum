@@ -52,9 +52,7 @@ public interface IWebServices {
 
     String REQUEST_CREATE_CONTEST_URL = BASE_URL + "api/CreateContest";
     String REQUEST_GET_INTRODUCED_CONTESTS_URL = BASE_URL + "api/GetIntroducedContests?";
-    String REQUEST_CONTESTS_VOTE_URL = BASE_URL + "api/ContestVote";
+    String REQUEST_GET_TRENDING_CONTESTS_URL = BASE_URL + "api/GetTrendingContests?";
     String REQUEST_GET_FOLLOWING_CONTESTS_URL = BASE_URL + "api/GetFollowingContests?";
-
-
-
+    String REQUEST_CONTESTS_VOTE_URL = BASE_URL + "api/ContestVote";
 }
