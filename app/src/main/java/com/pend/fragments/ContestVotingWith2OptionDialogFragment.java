@@ -71,7 +71,7 @@ public class ContestVotingWith2OptionDialogFragment extends DialogFragment imple
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = (BaseActivity) context;
-//        mIContestVotingCallBack = (IContestVotingCallBack) context;
+        mIContestVotingCallBack = (IContestVotingCallBack) context;
     }
 
     @Override
@@ -125,7 +125,7 @@ public class ContestVotingWith2OptionDialogFragment extends DialogFragment imple
                         LoggerUtil.d(TAG, contestVoteResponseModel.statusCode);
 
                         if (contestVoteResponseModel.Data != null && contestVoteResponseModel.Data.voteData != null) {
-//                            mIContestVotingCallBack.onVotingOrUnVotingClick();
+                            mIContestVotingCallBack.onVotingOrUnVotingClick();
                         }
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));

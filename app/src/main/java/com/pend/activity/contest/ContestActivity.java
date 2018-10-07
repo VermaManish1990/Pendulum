@@ -37,6 +37,7 @@ import com.pend.arena.view.ArenaActivity;
 import com.pend.fragments.FollowingContestFragment;
 import com.pend.fragments.IntroducedContestFragment;
 import com.pend.fragments.TrendingContestFragment;
+import com.pend.interfaces.IContestVotingCallBack;
 import com.pend.util.LoggerUtil;
 import com.pend.util.SharedPrefUtils;
 import com.pendulum.utils.StringUtils;
@@ -44,7 +45,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
-public class ContestActivity extends BaseActivity implements View.OnClickListener, TextWatcher {
+public class ContestActivity extends BaseActivity implements View.OnClickListener, TextWatcher , IContestVotingCallBack {
 
     private static final String TAG = ContestActivity.class.getSimpleName();
     private static final int TRENDING_CONTEST = 0;
@@ -484,5 +485,10 @@ public class ContestActivity extends BaseActivity implements View.OnClickListene
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onVotingOrUnVotingClick() {
+        mAdapter.notifyDataSetChanged();
     }
 }
