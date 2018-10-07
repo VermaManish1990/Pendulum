@@ -42,5 +42,21 @@ public class GetContestsResponseModel extends BaseResponseModel {
         public String option1Text;
         public String option2Text;
         public String option3Text;
+
+        public boolean option1Vote;
+        public boolean option2Vote;
+        public boolean option3Vote;
+
+        public int option1Per;
+        public int option2Per;
+        public int option3Per;
+
+        public int option1MirrorIDCount;
+        public int option2MirrorIDCount;
+        public int option3MirrorIDCount;
+
+        public int option1TextCount;
+        public int option2TextCount;
+        public int option3TextCount;
     }
 }

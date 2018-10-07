@@ -189,11 +189,13 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         ArrayList<ProgressItem> progressItemList = new ArrayList<>();
 
-//        progressItemList.add(new ProgressItem(mContext.getResources().getColor(R.color.light_red_bg), contestDetails.option1Per));
-//        progressItemList.add(new ProgressItem(mContext.getResources().getColor(R.color.bootstrap_brand_warning), contestDetails.option2Per));
+        progressItemList.add(new ProgressItem(mContext.getResources().getColor(R.color.light_red_bg), contestDetails.option1Per));
+        progressItemList.add(new ProgressItem(mContext.getResources().getColor(R.color.bootstrap_brand_warning), contestDetails.option2Per));
 
-//        viewHolder.progressBarProfile.initData(progressItemList);
-//        viewHolder.progressBarProfile.invalidate();
+        viewHolder.progressBarProfile.initData(progressItemList);
+        viewHolder.progressBarProfile.invalidate();
+
+        mIsVoted = contestDetails.option1Vote || contestDetails.option2Vote || contestDetails.option3Vote;
 
         viewHolder.viewProgressBarProfile.setOnClickListener(v -> {
 
@@ -225,21 +227,22 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         viewHolder.tvMirror1Name.setText(contestDetails.option1MirrorName != null ? contestDetails.option1MirrorName : "");
         viewHolder.tvMirror2Name.setText(contestDetails.option2MirrorName != null ? contestDetails.option2MirrorName : "");
         viewHolder.tvMirror3Name.setText(contestDetails.option3MirrorName != null ? contestDetails.option3MirrorName : "I don't know");
-//        final int max = getMax(contestDetails.mirror1Per, contestDetails.mirror2Per, contestDetails.mirror3Per);
 
-        viewHolder.llMirrorPercentageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-//                int width = viewHolder.llMirrorPercentageView.getWidth();
-//                viewHolder.tvMirror1View.setWidth(contestDetails.mirror1Per * (width / max));
-//                viewHolder.tvMirror2View.setWidth(contestDetails.mirror2Per * (width / max));
-//                viewHolder.tvMirror3View.setWidth(contestDetails.mirror3Per * (width / max));
-//
-//                viewHolder.tvMirror1View.setText(String.valueOf(contestDetails.mirror1Per + "%"));
-//                viewHolder.tvMirror2View.setText(String.valueOf(contestDetails.mirror2Per + "%"));
-//                viewHolder.tvMirror3View.setText(String.valueOf(contestDetails.mirror3Per + "%"));
+        mIsVoted = contestDetails.option1Vote || contestDetails.option2Vote || contestDetails.option3Vote;
 
-            }
+        final int max = getMax(contestDetails.option1Per, contestDetails.option2Per, contestDetails.option3Per);
+
+        viewHolder.llMirrorPercentageView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+
+            int width = viewHolder.llMirrorPercentageView.getWidth();
+            viewHolder.tvMirror1View.setWidth(contestDetails.option1Per * (width / max));
+            viewHolder.tvMirror2View.setWidth(contestDetails.option2Per * (width / max));
+            viewHolder.tvMirror3View.setWidth(contestDetails.option3Per * (width / max));
+
+            viewHolder.tvMirror1View.setText(String.valueOf(contestDetails.option1Per + "%"));
+            viewHolder.tvMirror2View.setText(String.valueOf(contestDetails.option2Per + "%"));
+            viewHolder.tvMirror3View.setText(String.valueOf(contestDetails.option3Per + "%"));
+
         });
 
         viewHolder.rlBottomView.setOnClickListener(v -> {
