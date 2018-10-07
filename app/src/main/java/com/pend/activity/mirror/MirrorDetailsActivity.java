@@ -665,7 +665,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         if (mirrorData.imageURL != null && !mirrorData.imageURL.equals("")) {
 
             Picasso.with(this)
-                    .load(mirrorData.imageURL != null ? mirrorData.imageURL : "")
+                    .load(mirrorData.imageURL)
                     .into(mIvProfile);
         }
 

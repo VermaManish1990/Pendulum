@@ -172,8 +172,18 @@ public class IntroducedContestFragment extends BaseFragment implements View.OnCl
                                 mContestDetailsList.clear();
                             }
 
-                            ContestAdapter contestAdapter = (ContestAdapter) mRecyclerViewIntroduced.getAdapter();
+                            for (GetContestsResponseModel.GetContestDetails contestDetails : contestsResponseModel.Data.contestList) {
+                                if (contestDetails.contestTypeID == 1) {
+                                    contestDetails.contestType = 2;
+                                } else if (contestDetails.contestTypeID == 2 && contestDetails.option1MirrorName != null
+                                        && contestDetails.option2MirrorName != null && contestDetails.option3MirrorName != null) {
+                                    contestDetails.contestType = 2;
+                                } else {
+                                    contestDetails.contestType = 1;
+                                }
+                            }
 
+                            ContestAdapter contestAdapter = (ContestAdapter) mRecyclerViewIntroduced.getAdapter();
                             mContestDetailsList.addAll(contestsResponseModel.Data.contestList);
                             contestAdapter.notifyDataSetChanged();
 

@@ -100,7 +100,6 @@ public class MirrorVotingDialogFragment extends DialogFragment implements IScree
 
                         if (mirrorVoteResponseModel.Data != null && mirrorVoteResponseModel.Data.voteData != null) {
                             mIMirrorVotingDialogCallBack.onVotingOrUnVotingClick();
-                            this.dismiss();
                         }
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -108,7 +107,7 @@ public class MirrorVotingDialogFragment extends DialogFragment implements IScree
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
-
+                this.dismiss();
                 break;
 
             default:
@@ -118,7 +117,8 @@ public class MirrorVotingDialogFragment extends DialogFragment implements IScree
         if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
 
             mContext.removeProgressDialog();
-        }    }
+        }
+    }
 
     @Override
     public void onEvent(int eventId, Object eventData) {
@@ -135,7 +135,7 @@ public class MirrorVotingDialogFragment extends DialogFragment implements IScree
                 return;
             }
             mContext.showProgressDialog();
-        }else {
+        } else {
             return;
         }
 

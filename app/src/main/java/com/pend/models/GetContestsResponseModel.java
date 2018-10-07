@@ -15,6 +15,7 @@ public class GetContestsResponseModel extends BaseResponseModel {
     }
 
     public static class GetContestDetails implements Serializable{
+        public int contestType;
         public int contestID;
         public int contestTypeID;
 

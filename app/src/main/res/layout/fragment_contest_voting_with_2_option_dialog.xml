@@ -41,60 +41,57 @@
             android:layout_marginStart="@dimen/_20sdp">
 
             <RadioButton
-                android:id="@+id/rb_admire"
+                android:id="@+id/rb_option1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="@dimen/_10sdp"
                 android:paddingStart="@dimen/_10sdp"
-                android:text="Virat Kohli"
+                android:text="Kejriwal"
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/_13sdp" />
 
             <RadioButton
-                android:id="@+id/rb_hate"
+                android:id="@+id/rb_option2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="@dimen/_10sdp"
                 android:paddingStart="@dimen/_10sdp"
-                android:text="MS Dhoni"
+                android:text="Modi"
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/_13sdp" />
 
-            <RadioButton
-                android:id="@+id/rb_can_t_say"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingEnd="@dimen/_10sdp"
-                android:paddingStart="@dimen/_10sdp"
-                android:text="Rohit Sharma"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/_13sdp" />
         </RadioGroup>
 
+        <LinearLayout
+            android:id="@+id/un_vote_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rg_vote"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-        <!--<View-->
-            <!--android:id="@+id/view2"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="@dimen/_1sdp"-->
-            <!--android:layout_below="@+id/rg_vote"-->
-            <!--android:layout_marginTop="@dimen/_20sdp"-->
-            <!--android:background="@color/darkGreyBackground" />-->
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/darkGreyBackground" />
 
-        <!--<TextView-->
-            <!--android:id="@+id/tv_un_vote"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/view2"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_marginTop="@dimen/_10sdp"-->
-            <!--android:text="@string/unvote"-->
-            <!--android:textColor="@color/colorAccent"-->
-            <!--android:textSize="@dimen/_15sdp" />-->
+            <TextView
+                android:id="@+id/tv_un_vote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/unvote"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_15sdp" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rg_vote"
+            android:layout_below="@+id/un_vote_view"
             android:layout_marginTop="@dimen/_10sdp"
             android:weightSum="2">
 

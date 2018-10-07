@@ -14,26 +14,28 @@ import android.widget.TextView;
 
 import com.pend.BaseActivity;
 import com.pend.R;
-import com.pend.fragments.ContestType1DialogFragment;
-import com.pend.fragments.ContestType2DialogFragment;
+import com.pend.fragments.ContestVotingWith2OptionDialogFragment;
+import com.pend.fragments.ContestVotingWith3OptionDialogFragment;
+import com.pend.interfaces.Constants;
 import com.pend.models.GetContestsResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.widget.progressbar.CustomProgressBar;
 import com.pend.widget.progressbar.ProgressItem;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final int TYPE_1_CONTEST = 1;
-    private final int TYPE_2_CONTEST = 2;
+    private final int TYPE_1_CONTEST = 1;  //for 2 option
+    private final int TYPE_2_CONTEST = 2;  //for 3 option
 
     private static final String TAG = ContestAdapter.class.getSimpleName();
     private ArrayList<GetContestsResponseModel.GetContestDetails> mContestDataList;
     public Context mContext;
     private boolean mIsVoted;
 
-    public ContestAdapter(Context context,ArrayList<GetContestsResponseModel.GetContestDetails> contestDataList) {
+    public ContestAdapter(Context context, ArrayList<GetContestsResponseModel.GetContestDetails> contestDataList) {
         mContext = context;
         mContestDataList = contestDataList;
     }
@@ -72,7 +74,7 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public int getItemViewType(int position) {
         GetContestsResponseModel.GetContestDetails contestDetails = mContestDataList.get(position);
 
-        if (contestDetails.contestTypeID == TYPE_1_CONTEST) {
+        if (contestDetails.contestType == TYPE_1_CONTEST) {
             return TYPE_1_CONTEST;
         } else {
             return TYPE_2_CONTEST;
@@ -127,6 +129,9 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private final TextView tvMirror1View;
         private final TextView tvMirror2View;
         private final TextView tvMirror3View;
+        private final TextView tvMirror1Name;
+        private final TextView tvMirror2Name;
+        private final TextView tvMirror3Name;
         private final TextView tvCreatedBy;
         private final TextView tvCommentCount;
         private final View rlBottomView;
@@ -143,45 +148,83 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             tvMirror1View = itemView.findViewById(R.id.tv_mirror1_view);
             tvMirror2View = itemView.findViewById(R.id.tv_mirror2_view);
             tvMirror3View = itemView.findViewById(R.id.tv_mirror3_view);
+            tvMirror1Name = itemView.findViewById(R.id.tv_mirror1_name);
+            tvMirror2Name = itemView.findViewById(R.id.tv_mirror2_name);
+            tvMirror3Name = itemView.findViewById(R.id.tv_mirror3_name);
             tvCreatedBy = itemView.findViewById(R.id.tv_created_by);
             ivComment = itemView.findViewById(R.id.iv_comment);
             tvCommentCount = itemView.findViewById(R.id.tv_comment_count);
         }
     }
 
+    /**
+     * Method is used to set data for type 1(With option 2)
+     *
+     * @param viewHolder viewHolder
+     * @param position   position
+     */
     private void setDataForContestType1(ViewHolderType1 viewHolder, int position) {
         GetContestsResponseModel.GetContestDetails contestDetails = mContestDataList.get(position);
 
+        if (contestDetails.option1MirrorImageURL != null && !contestDetails.option1MirrorImageURL.equals("")) {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            viewHolder.progressBarProfile.getThumb().mutate().setAlpha(0);
+            Picasso.with(mContext)
+                    .load(contestDetails.option1MirrorImageURL)
+                    .into(viewHolder.ivLeftProfile);
         }
+
+        if (contestDetails.option2MirrorImageURL != null && !contestDetails.option2MirrorImageURL.equals("")) {
+
+            Picasso.with(mContext)
+                    .load(contestDetails.option2MirrorImageURL)
+                    .into(viewHolder.ivRightProfile);
+        }
+
+        viewHolder.tvTitle.setText(contestDetails.questionText != null ? contestDetails.questionText : "");
+//        viewHolder.tvCreatedBy.setText(contestDetails.questionText!=null?contestDetails.questionText:"");
+        viewHolder.tvLeftName.setText(contestDetails.option1MirrorName != null ? contestDetails.option1MirrorName : "");
+        viewHolder.tvRightName.setText(contestDetails.option2MirrorName != null ? contestDetails.option2MirrorName : "");
+
+        viewHolder.progressBarProfile.getThumb().mutate().setAlpha(0);
 
         ArrayList<ProgressItem> progressItemList = new ArrayList<>();
 
-//        progressItemList.add(new ProgressItem(mContext.getResources().getColor(R.color.light_red_bg), contestDetails.mirror1Per));
-//        progressItemList.add(new ProgressItem(mContext.getResources().getColor(R.color.bootstrap_brand_warning), contestDetails.mirror2Per));
+//        progressItemList.add(new ProgressItem(mContext.getResources().getColor(R.color.light_red_bg), contestDetails.option1Per));
+//        progressItemList.add(new ProgressItem(mContext.getResources().getColor(R.color.bootstrap_brand_warning), contestDetails.option2Per));
 
 //        viewHolder.progressBarProfile.initData(progressItemList);
 //        viewHolder.progressBarProfile.invalidate();
 
-        viewHolder.viewProgressBarProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!mIsVoted) {
-                    DialogFragment votingDialogFragment = ContestType1DialogFragment.newInstance();
-                    votingDialogFragment.show(((BaseActivity)mContext).getSupportFragmentManager(), "ContestType1DialogFragment");
-                } else {
-                    DialogFragment unVotingDialogFragment = ContestType1DialogFragment.newInstance();
-                    unVotingDialogFragment.show(((BaseActivity)mContext).getSupportFragmentManager(), "ContestType1DialogFragment");
-                }
-            }
+        viewHolder.viewProgressBarProfile.setOnClickListener(v -> {
+
+            DialogFragment votingDialogFragment = ContestVotingWith2OptionDialogFragment.newInstance(mIsVoted, contestDetails);
+            votingDialogFragment.show(((BaseActivity) mContext).getSupportFragmentManager(), "ContestVotingWith3OptionDialogFragment");
+
         });
     }
 
+    /**
+     * Method is used to set data for type 1(With option 3)
+     *
+     * @param viewHolder viewHolder
+     * @param position   position
+     */
     private void setDataForContestType2(final ViewHolderType2 viewHolder, int position) {
-        final GetContestsResponseModel.GetContestDetails contestDetails= mContestDataList.get(position);
+        final GetContestsResponseModel.GetContestDetails contestDetails = mContestDataList.get(position);
 
+        if (contestDetails.relatedMirrorImageURL != null && !contestDetails.relatedMirrorImageURL.equals("")) {
+
+            Picasso.with(mContext)
+                    .load(contestDetails.relatedMirrorImageURL)
+                    .into(viewHolder.ivProfile);
+        }
+
+        viewHolder.tvName.setText(contestDetails.relatedMirrorName != null ? contestDetails.relatedMirrorName : "");
+        viewHolder.tvTitle.setText(contestDetails.questionText != null ? contestDetails.questionText : "");
+
+        viewHolder.tvMirror1Name.setText(contestDetails.option1MirrorName != null ? contestDetails.option1MirrorName : "");
+        viewHolder.tvMirror2Name.setText(contestDetails.option2MirrorName != null ? contestDetails.option2MirrorName : "");
+        viewHolder.tvMirror3Name.setText(contestDetails.option3MirrorName != null ? contestDetails.option3MirrorName : "I don't know");
 //        final int max = getMax(contestDetails.mirror1Per, contestDetails.mirror2Per, contestDetails.mirror3Per);
 
         viewHolder.llMirrorPercentageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -199,17 +242,9 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         });
 
-        viewHolder.rlBottomView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!mIsVoted) {
-                    DialogFragment votingDialogFragment = ContestType2DialogFragment.newInstance();
-                    votingDialogFragment.show(((BaseActivity)mContext).getSupportFragmentManager(), "ContestType2DialogFragment");
-                } else {
-                    DialogFragment unVotingDialogFragment = ContestType2DialogFragment.newInstance();
-                    unVotingDialogFragment.show(((BaseActivity)mContext).getSupportFragmentManager(), "ContestType2DialogFragment");
-                }
-            }
+        viewHolder.rlBottomView.setOnClickListener(v -> {
+            DialogFragment votingDialogFragment = ContestVotingWith3OptionDialogFragment.newInstance(mIsVoted, contestDetails);
+            votingDialogFragment.show(((BaseActivity) mContext).getSupportFragmentManager(), "ContestVotingWith3OptionDialogFragment");
         });
 
     }
