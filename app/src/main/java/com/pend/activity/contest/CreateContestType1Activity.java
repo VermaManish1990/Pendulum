@@ -173,7 +173,7 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
                         LoggerUtil.d(TAG, responseModel.statusCode);
 
                         //TODO UPDATE DATA
-                        ToastUtils.showToast(CreateContestType1Activity.this,"Update Successfully");
+                        ToastUtils.showToast(CreateContestType1Activity.this, "Update Successfully");
                         finish();
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -219,8 +219,8 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
         switch (actionID) {
             case IApiEvent.REQUEST_CREATE_CONTEST_CODE:
 
-                jsonObject = RequestPostDataUtil.createContestReqParam(userId, 1, mMirrorId,mEtQuestion.getText().toString(),
-                        0,0,0,mEtFirst.getText().toString(),mEtSecond.getText().toString(),mEtThird.getText().toString(),
+                jsonObject = RequestPostDataUtil.createContestReqParam(userId, 1, mMirrorId, mEtQuestion.getText().toString(),
+                        0, 0, 0, mEtFirst.getText().toString(), mEtSecond.getText().toString(), mEtThird.getText().toString(),
                         mEncodedImage != null ? mEncodedImage : "");
                 request = jsonObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<CreateContestResponseModel>(IWebServices.REQUEST_CREATE_CONTEST_URL, NetworkUtil.getHeaders(this),
@@ -384,7 +384,14 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
                 break;
 
             case R.id.bt_create_contest:
-                getData(IApiEvent.REQUEST_CREATE_CONTEST_CODE);
+
+                if (mEtFirst.getText().toString().trim().length() > 0 && mEtSecond.getText().toString().trim().length() > 0
+                        && mEtThird.getText().toString().trim().length() > 0){
+
+                    getData(IApiEvent.REQUEST_CREATE_CONTEST_CODE);
+                }else {
+                    Snackbar.make(mRootView, getString(R.string.please_fill_all_option), Snackbar.LENGTH_LONG).show();
+                }
                 break;
 
             case R.id.iv_search:

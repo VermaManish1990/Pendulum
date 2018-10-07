@@ -49,7 +49,7 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.Objects;
 
-public class CreateContestType2Activity extends BaseActivity implements View.OnClickListener , SearchInNewsFeedAdapter.IMirrorSearchAdapterCallBack{
+public class CreateContestType2Activity extends BaseActivity implements View.OnClickListener, SearchInNewsFeedAdapter.IMirrorSearchAdapterCallBack {
 
     private static final String TAG = CreateContestType2Activity.class.getSimpleName();
     private View mRlQuarterView;
@@ -90,7 +90,7 @@ public class CreateContestType2Activity extends BaseActivity implements View.OnC
         mFlQuarterBlackView = quarterView.findViewById(R.id.fl_quarter_black_view);
         mFlMenuView = quarterView.findViewById(R.id.fl_menu_view);
 
-        ((ImageView)quarterView.findViewById(R.id.iv_contest)).setImageDrawable(getResources().getDrawable(R.drawable.home));
+        ((ImageView) quarterView.findViewById(R.id.iv_contest)).setImageDrawable(getResources().getDrawable(R.drawable.home));
         ((TextView) quarterView.findViewById(R.id.tv_contest)).setText(String.valueOf(getResources().getString(R.string.home)));
         quarterView.findViewById(R.id.fl_mirror).setOnClickListener(this);
         quarterView.findViewById(R.id.fl_contest).setOnClickListener(this);
@@ -131,7 +131,7 @@ public class CreateContestType2Activity extends BaseActivity implements View.OnC
                 }
 
                 if (mEtFirst.getText().toString().trim().length() > 0)
-                    onSearchClick(1,mEtFirst.getText().toString());
+                    onSearchClick(1, mEtFirst.getText().toString());
 
                 return true;
             }
@@ -150,7 +150,7 @@ public class CreateContestType2Activity extends BaseActivity implements View.OnC
                 }
 
                 if (mEtSecond.getText().toString().trim().length() > 0)
-                    onSearchClick(2,mEtSecond.getText().toString());
+                    onSearchClick(2, mEtSecond.getText().toString());
 
                 return true;
             }
@@ -169,7 +169,7 @@ public class CreateContestType2Activity extends BaseActivity implements View.OnC
                 }
 
                 if (mEtThird.getText().toString().trim().length() > 0)
-                    onSearchClick(3,mEtThird.getText().toString());
+                    onSearchClick(3, mEtThird.getText().toString());
 
                 return true;
             }
@@ -187,7 +187,7 @@ public class CreateContestType2Activity extends BaseActivity implements View.OnC
                         LoggerUtil.d(TAG, responseModel.statusCode);
 
                         //TODO UPDATE DATA
-                        ToastUtils.showToast(CreateContestType2Activity.this,"Update Successfully");
+                        ToastUtils.showToast(CreateContestType2Activity.this, "Update Successfully");
                         finish();
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -232,8 +232,8 @@ public class CreateContestType2Activity extends BaseActivity implements View.OnC
         switch (actionID) {
             case IApiEvent.REQUEST_CREATE_CONTEST_CODE:
 
-                jsonObject = RequestPostDataUtil.createContestReqParam(userId, 2, 0,mEtQuestion.getText().toString(),
-                        mMirrorId1,mMirrorId2,mMirrorId3,mEtFirst.getText().toString(),mEtSecond.getText().toString(),mEtThird.getText().toString(),
+                jsonObject = RequestPostDataUtil.createContestReqParam(userId, 2, 0, mEtQuestion.getText().toString(),
+                        mMirrorId1, mMirrorId2, mMirrorId3, mEtFirst.getText().toString(), mEtSecond.getText().toString(), mEtThird.getText().toString(),
                         "");
                 request = jsonObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<CreateContestResponseModel>(IWebServices.REQUEST_CREATE_CONTEST_URL, NetworkUtil.getHeaders(this),
@@ -260,7 +260,7 @@ public class CreateContestType2Activity extends BaseActivity implements View.OnC
     /**
      * Method is used to open dialog for search result list.
      */
-    private void onSearchClick(int mirrorNumber,String searchText) {
+    private void onSearchClick(int mirrorNumber, String searchText) {
         mMirrorNumber = mirrorNumber;
         mContestSearchDialogFragment = ContestSearchDialogFragment.newInstance(searchText);
         mContestSearchDialogFragment.show(getSupportFragmentManager(), "ContestSearchDialogFragment");
@@ -269,25 +269,32 @@ public class CreateContestType2Activity extends BaseActivity implements View.OnC
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
 
             case R.id.bt_create_contest:
-                getData(IApiEvent.REQUEST_CREATE_CONTEST_CODE);
+
+                if (mEtFirst.getText().toString().trim().length() > 0 && mEtSecond.getText().toString().trim().length() > 0
+                        && mEtThird.getText().toString().trim().length() > 0) {
+
+                    getData(IApiEvent.REQUEST_CREATE_CONTEST_CODE);
+                } else {
+                    Snackbar.make(mRootView, getString(R.string.please_fill_all_option), Snackbar.LENGTH_LONG).show();
+                }
                 break;
 
             case R.id.iv_search1:
                 if (mEtFirst.getText().toString().trim().length() > 0)
-                    onSearchClick(1,mEtFirst.getText().toString());
+                    onSearchClick(1, mEtFirst.getText().toString());
                 break;
 
             case R.id.iv_search2:
                 if (mEtSecond.getText().toString().trim().length() > 0)
-                    onSearchClick(2,mEtSecond.getText().toString());
+                    onSearchClick(2, mEtSecond.getText().toString());
                 break;
 
             case R.id.iv_search3:
                 if (mEtThird.getText().toString().trim().length() > 0)
-                    onSearchClick(3,mEtThird.getText().toString());
+                    onSearchClick(3, mEtThird.getText().toString());
                 break;
 
             case R.id.iv_profile:
@@ -389,7 +396,7 @@ public class CreateContestType2Activity extends BaseActivity implements View.OnC
     @Override
     public void onMirrorClick(SearchInNewsFeedResponseModel.MirrorDetails mirrorDetails) {
 
-        switch (mMirrorNumber){
+        switch (mMirrorNumber) {
             case 1:
                 mMirrorId1 = mirrorDetails.mirrorID;
                 mEtFirst.setText(mirrorDetails.mirrorName != null ? mirrorDetails.mirrorName : "");

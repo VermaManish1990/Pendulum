@@ -144,6 +144,7 @@
     <string name="_mirror_">(mirror)</string>
     <string name="current_location">Current Location</string>
     <string name="please_vote_on_mirror_to_create_a_post">Please vote on mirror to create a post</string>
+    <string name="please_vote_on_mirror_to_see_reflection">Please vote on mirror to see Reflection</string>
     <string name="about_team"><b> Team Pendulum </b>\n
 1. Manish Verma\n
 2. Shubham Chauhan\n
@@ -156,5 +157,7 @@
 9. Sourav Pathania\n
 10. Nivedan Bhardwaj</string>
     <string name="find_another_mirror">Find another mirror</string>
+    <string name="please_fill_all_option">Please fill all option.</string>
+    <string name="please_vote_on_mirror_to_cast_vote_in_this_exit_poll">Please vote on mirror to cast vote in this exit poll.</string>
 
 </resources>

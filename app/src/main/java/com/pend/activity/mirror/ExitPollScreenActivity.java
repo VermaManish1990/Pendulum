@@ -351,12 +351,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                     intentReflection.putExtra(Constants.MIRROR_ID_KEY, mMirrorId);
                     startActivity(intentReflection);
                 } else {
-                    OtherUtil.showAlertDialog(getString(R.string.please_vote_on_mirror_to_create_a_post), this, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+                    OtherUtil.showAlertDialog(getString(R.string.please_vote_on_mirror_to_see_reflection), this, (dialog, which) -> dialog.dismiss());
                 }
                 break;
 
@@ -434,12 +429,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
             }
         } else {
 
-            OtherUtil.showAlertDialog(getString(R.string.please_vote_on_mirror_to_create_a_post), this, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            OtherUtil.showAlertDialog(getString(R.string.please_vote_on_mirror_to_cast_vote_in_this_exit_poll), this, (dialog, which) -> dialog.dismiss());
         }
     }
 
