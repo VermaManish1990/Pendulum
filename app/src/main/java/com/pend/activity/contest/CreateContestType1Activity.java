@@ -19,8 +19,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -32,7 +32,6 @@ import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
-import com.pend.BaseResponseModel;
 import com.pend.R;
 import com.pend.activity.home.HomeActivity;
 import com.pend.activity.login.ProfileActivity;
@@ -43,7 +42,6 @@ import com.pend.fragments.ContestSearchDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
-import com.pend.models.AddAndUpdatePostResponseModel;
 import com.pend.models.CreateContestResponseModel;
 import com.pend.models.SearchInNewsFeedResponseModel;
 import com.pend.util.AndroidPermissionUtils;
@@ -62,7 +60,7 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.Objects;
 
-public class CreateContestType1Activity extends BaseActivity implements View.OnClickListener, SearchInNewsFeedAdapter.IMirrorSearchAdapterCallBack {
+public class CreateContestType1Activity extends BaseActivity implements View.OnClickListener, SearchInNewsFeedAdapter.IMirrorSearchAdapterCallBack, TextWatcher {
 
     private static final String TAG = CreateContestType1Activity.class.getSimpleName();
     private File mPhotoPath;
@@ -119,11 +117,14 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
         mIvUploadPhoto.setOnClickListener(this);
         findViewById(R.id.iv_search).setOnClickListener(this);
         findViewById(R.id.bt_create_contest).setOnClickListener(this);
+
+        mEtRelatedMirror.addTextChangedListener(this);
     }
 
     @Override
     protected void setInitialData() {
 
+        mMirrorId = -1;
         String imageUrl = SharedPrefUtils.getProfileImageUrl(this);
 
         if (imageUrl != null && !imageUrl.equals("")) {
@@ -132,26 +133,23 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
                     .into(mIvProfile);
         }
 
-        mEtRelatedMirror.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+        mEtRelatedMirror.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 
-                    InputMethodManager inputManager = (InputMethodManager)
-                            getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager inputManager = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
 
-                    if (inputManager != null) {
-                        inputManager.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(),
-                                InputMethodManager.HIDE_NOT_ALWAYS);
-                    }
-
-                    if (mEtRelatedMirror.getText().toString().trim().length() > 0)
-                        onSearchClick();
-
-                    return true;
+                if (inputManager != null) {
+                    inputManager.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
                 }
-                return false;
+
+                if (mEtRelatedMirror.getText().toString().trim().length() > 0)
+                    onSearchClick();
+
+                return true;
             }
+            return false;
         });
     }
 
@@ -219,18 +217,25 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
         switch (actionID) {
             case IApiEvent.REQUEST_CREATE_CONTEST_CODE:
 
-                jsonObject = RequestPostDataUtil.createContestReqParam(userId, 1, mMirrorId, mEtQuestion.getText().toString(),
-                        0, 0, 0, mEtFirst.getText().toString(), mEtSecond.getText().toString(), mEtThird.getText().toString(),
-                        mEncodedImage != null ? mEncodedImage : "");
-                request = jsonObject.toString();
-                RequestManager.addRequest(new GsonObjectRequest<CreateContestResponseModel>(IWebServices.REQUEST_CREATE_CONTEST_URL, NetworkUtil.getHeaders(this),
-                        request, CreateContestResponseModel.class, new VolleyErrorListener(this, actionID)) {
+                if (mMirrorId != -1) {
 
-                    @Override
-                    protected void deliverResponse(CreateContestResponseModel response) {
-                        updateUi(true, actionID, response);
-                    }
-                });
+                    jsonObject = RequestPostDataUtil.createContestReqParam(userId, 1, mMirrorId, mEtQuestion.getText().toString(),
+                            0, 0, 0, mEtFirst.getText().toString(), mEtSecond.getText().toString(), mEtThird.getText().toString(),
+                            mEncodedImage != null ? mEncodedImage : "");
+                    request = jsonObject.toString();
+                    RequestManager.addRequest(new GsonObjectRequest<CreateContestResponseModel>(IWebServices.REQUEST_CREATE_CONTEST_URL, NetworkUtil.getHeaders(this),
+                            request, CreateContestResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                        @Override
+                        protected void deliverResponse(CreateContestResponseModel response) {
+                            updateUi(true, actionID, response);
+                        }
+                    });
+                } else {
+                    removeProgressDialog();
+                    Snackbar.make(mRootView, getString(R.string.please_enter_valid_mirror_name), Snackbar.LENGTH_LONG).show();
+                }
+
                 break;
 
             default:
@@ -385,12 +390,15 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
 
             case R.id.bt_create_contest:
 
-                if (mEtFirst.getText().toString().trim().length() > 0 && mEtSecond.getText().toString().trim().length() > 0
-                        && mEtThird.getText().toString().trim().length() > 0){
+                if (mEtFirst.getText().toString().trim().length() > 0 && mEtSecond.getText().toString().trim().length() > 0) {
 
-                    getData(IApiEvent.REQUEST_CREATE_CONTEST_CODE);
-                }else {
-                    Snackbar.make(mRootView, getString(R.string.please_fill_all_option), Snackbar.LENGTH_LONG).show();
+                    if (mEtRelatedMirror.getText().toString().trim().length() > 0) {
+                        getData(IApiEvent.REQUEST_CREATE_CONTEST_CODE);
+                    } else {
+                        Snackbar.make(mRootView, getString(R.string.please_enter_related_mirror_field), Snackbar.LENGTH_LONG).show();
+                    }
+                } else {
+                    Snackbar.make(mRootView, getString(R.string.please_fill_at_least_2_option_field), Snackbar.LENGTH_LONG).show();
                 }
                 break;
 
@@ -501,5 +509,23 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
         mMirrorId = mirrorDetails.mirrorID;
         mEtRelatedMirror.setText(mirrorDetails.mirrorName != null ? mirrorDetails.mirrorName : "");
         mContestSearchDialogFragment.dismiss();
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        if (mEtRelatedMirror.hasFocus()) {
+            mMirrorId = -1;
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }

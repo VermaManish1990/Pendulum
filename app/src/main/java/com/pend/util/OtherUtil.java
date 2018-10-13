@@ -270,4 +270,17 @@ public class OtherUtil {
         }
     }
 
+    /**
+     * Method is used to take a screen of a given view.
+     *
+     * @param view view
+     * @return bitmap of a view.
+     */
+    public static Bitmap loadBitmapFromView(View view) {
+        Bitmap bitmap;
+        view.setDrawingCacheEnabled(true);
+        bitmap = Bitmap.createBitmap(view.getDrawingCache());
+        view.setDrawingCacheEnabled(false);
+        return bitmap;
+    }
 }

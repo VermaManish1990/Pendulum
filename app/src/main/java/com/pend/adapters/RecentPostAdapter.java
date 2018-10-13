@@ -1,8 +1,12 @@
 package com.pend.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -14,10 +18,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.share.model.ShareContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
 import com.pend.R;
 import com.pend.models.GetPostsResponseModel;
 import com.pend.util.DateUtil;
 import com.pend.util.LoggerUtil;
+import com.pend.util.OtherUtil;
 import com.pend.util.SharedPrefUtils;
 import com.squareup.picasso.Picasso;
 
@@ -177,10 +186,42 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
                 }
             }
         });
+
         holder.ivShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareMessageWithSocialMedia(postsDetails.postInfo != null ? postsDetails.postInfo : "");
+                ShareDialog shareDialog = new ShareDialog((Activity) mContext);// initialize facebook shareDialog.
+
+                if (ShareDialog.canShow(SharePhotoContent.class)) {
+
+                    if (postsDetails.imageURL != null) {
+
+                        try {
+
+                            SharePhoto photo = new SharePhoto.Builder()
+                                    .setBitmap(((BitmapDrawable) holder.ivPost.getDrawable()).getBitmap())
+                                    .setImageUrl(Uri.parse(postsDetails.imageURL))
+                                    .setCaption(postsDetails.postInfo)
+                                    .build();
+
+                            ShareContent content = new SharePhotoContent.Builder()
+                                    .addPhoto(photo)
+                                    .build();
+
+                            shareDialog.show(content);  // Show facebook ShareDialog
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                } else {
+                    OtherUtil.showAlertDialog(mContext.getString(R.string.facebook_error_message), mContext, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
             }
         });
 

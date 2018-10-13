@@ -2,6 +2,10 @@ package com.pend.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +14,10 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
+import com.facebook.share.model.ShareContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
 import com.pend.R;
 import com.pend.models.GetExitPollListResponseModel;
 import com.pend.util.LoggerUtil;
@@ -59,16 +67,48 @@ public class ExitPollAdapter extends RecyclerView.Adapter<ExitPollAdapter.ViewHo
                 holder.tvHateView.setWidth(exitPollListDetails.pollHatePer * (width / max));
                 holder.tvCanTSayView.setWidth(exitPollListDetails.pollCantSayPer * (width / max));
 
-                holder.tvAdmireView.setText(String.valueOf(exitPollListDetails.pollAdmirePer+"%"));
-                holder.tvHateView.setText(String.valueOf(exitPollListDetails.pollHatePer+"%"));
-                holder.tvCanTSayView.setText(String.valueOf(exitPollListDetails.pollCantSayPer+"%"));
+                holder.tvAdmireView.setText(String.valueOf(exitPollListDetails.pollAdmirePer + "%"));
+                holder.tvHateView.setText(String.valueOf(exitPollListDetails.pollHatePer + "%"));
+                holder.tvCanTSayView.setText(String.valueOf(exitPollListDetails.pollCantSayPer + "%"));
             }
         });
 
         holder.tvShareOnFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ShareDialog shareDialog = new ShareDialog((Activity) mContext);// initialize facebook shareDialog.
 
+                if (ShareDialog.canShow(SharePhotoContent.class)) {
+
+                    Bitmap bitmap = OtherUtil.loadBitmapFromView(holder.rlPollPerView);
+                    if (bitmap != null) {
+
+                        try {
+
+                            SharePhoto photo = new SharePhoto.Builder()
+                                    .setBitmap(bitmap)
+//                                    .setImageUrl(Uri.parse(postsDetails.imageURL))
+                                    .setCaption(exitPollListDetails.exitPollText)
+                                    .build();
+
+                            ShareContent content = new SharePhotoContent.Builder()
+                                    .addPhoto(photo)
+                                    .build();
+
+                            shareDialog.show(content);  // Show facebook ShareDialog
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                } else {
+                    OtherUtil.showAlertDialog(mContext.getString(R.string.facebook_error_message), mContext, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
             }
         });
         holder.rootView.setOnClickListener(new View.OnClickListener() {

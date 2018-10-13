@@ -5,14 +5,12 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
-import android.media.Image;
 import android.os.Build;
-import android.os.Environment;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -46,10 +44,9 @@ import com.pendulum.volley.ext.GsonObjectRequest;
 import com.pendulum.volley.ext.RequestManager;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
 import java.util.Objects;
 
-public class CreateContestType2Activity extends BaseActivity implements View.OnClickListener, SearchInNewsFeedAdapter.IMirrorSearchAdapterCallBack {
+public class CreateContestType2Activity extends BaseActivity implements View.OnClickListener, SearchInNewsFeedAdapter.IMirrorSearchAdapterCallBack, TextWatcher {
 
     private static final String TAG = CreateContestType2Activity.class.getSimpleName();
     private View mRlQuarterView;
@@ -103,6 +100,10 @@ public class CreateContestType2Activity extends BaseActivity implements View.OnC
         findViewById(R.id.iv_search2).setOnClickListener(this);
         findViewById(R.id.iv_search3).setOnClickListener(this);
         findViewById(R.id.bt_create_contest).setOnClickListener(this);
+
+        mEtFirst.addTextChangedListener(this);
+        mEtSecond.addTextChangedListener(this);
+        mEtThird.addTextChangedListener(this);
     }
 
     @Override
@@ -232,18 +233,41 @@ public class CreateContestType2Activity extends BaseActivity implements View.OnC
         switch (actionID) {
             case IApiEvent.REQUEST_CREATE_CONTEST_CODE:
 
-                jsonObject = RequestPostDataUtil.createContestReqParam(userId, 2, 0, mEtQuestion.getText().toString(),
-                        mMirrorId1, mMirrorId2, mMirrorId3, mEtFirst.getText().toString(), mEtSecond.getText().toString(), mEtThird.getText().toString(),
-                        "");
-                request = jsonObject.toString();
-                RequestManager.addRequest(new GsonObjectRequest<CreateContestResponseModel>(IWebServices.REQUEST_CREATE_CONTEST_URL, NetworkUtil.getHeaders(this),
-                        request, CreateContestResponseModel.class, new VolleyErrorListener(this, actionID)) {
+                if (mMirrorId1 != -1 && mMirrorId2 != -1) {
 
-                    @Override
-                    protected void deliverResponse(CreateContestResponseModel response) {
-                        updateUi(true, actionID, response);
+                    jsonObject = RequestPostDataUtil.createContestReqParam(userId, 2, 0, mEtQuestion.getText().toString(),
+                            mMirrorId1, mMirrorId2, mMirrorId3, mEtFirst.getText().toString(), mEtSecond.getText().toString(), mEtThird.getText().toString(),
+                            "");
+                    request = jsonObject.toString();
+
+                    if (mEtThird.getText().toString().trim().length() == 0) {
+
+                        RequestManager.addRequest(new GsonObjectRequest<CreateContestResponseModel>(IWebServices.REQUEST_CREATE_CONTEST_URL, NetworkUtil.getHeaders(this),
+                                request, CreateContestResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                            @Override
+                            protected void deliverResponse(CreateContestResponseModel response) {
+                                updateUi(true, actionID, response);
+                            }
+                        });
+                    } else if (mMirrorId3 != -1) {
+                        RequestManager.addRequest(new GsonObjectRequest<CreateContestResponseModel>(IWebServices.REQUEST_CREATE_CONTEST_URL, NetworkUtil.getHeaders(this),
+                                request, CreateContestResponseModel.class, new VolleyErrorListener(this, actionID)) {
+
+                            @Override
+                            protected void deliverResponse(CreateContestResponseModel response) {
+                                updateUi(true, actionID, response);
+                            }
+                        });
+                    } else {
+                        removeProgressDialog();
+                        Snackbar.make(mRootView, getString(R.string.please_enter_valid_mirror_name), Snackbar.LENGTH_LONG).show();
                     }
-                });
+
+                } else {
+                    removeProgressDialog();
+                    Snackbar.make(mRootView, getString(R.string.please_enter_valid_mirror_name), Snackbar.LENGTH_LONG).show();
+                }
                 break;
 
             default:
@@ -273,12 +297,11 @@ public class CreateContestType2Activity extends BaseActivity implements View.OnC
 
             case R.id.bt_create_contest:
 
-                if (mEtFirst.getText().toString().trim().length() > 0 && mEtSecond.getText().toString().trim().length() > 0
-                        && mEtThird.getText().toString().trim().length() > 0) {
+                if (mEtFirst.getText().toString().trim().length() > 0 && mEtSecond.getText().toString().trim().length() > 0) {
 
                     getData(IApiEvent.REQUEST_CREATE_CONTEST_CODE);
                 } else {
-                    Snackbar.make(mRootView, getString(R.string.please_fill_all_option), Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mRootView, getString(R.string.please_fill_at_least_2_option_field), Snackbar.LENGTH_LONG).show();
                 }
                 break;
 
@@ -413,5 +436,27 @@ public class CreateContestType2Activity extends BaseActivity implements View.OnC
                 break;
         }
         mContestSearchDialogFragment.dismiss();
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        if (mEtFirst.hasFocus()) {
+            mMirrorId1 = -1;
+        } else if (mEtSecond.hasFocus()) {
+            mMirrorId2 = -1;
+        } else if (mEtThird.hasFocus()) {
+            mMirrorId3 = -1;
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }
