@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="@dimen/_5sdp"
     android:layout_marginEnd="@dimen/_10sdp"
     android:layout_marginStart="@dimen/_10sdp"
@@ -20,8 +21,8 @@
             android:layout_width="@dimen/_36sdp"
             android:layout_height="@dimen/_36sdp"
             android:src="@drawable/profile"
-            app:civ_border_width="@dimen/_1sdp"
-            app:civ_border_color="@color/colorPrimary" />
+            app:civ_border_color="@color/colorPrimary"
+            app:civ_border_width="@dimen/_1sdp" />
 
         <TextView
             android:id="@+id/tv_name"
@@ -71,9 +72,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_title"
         android:layout_marginTop="@dimen/_5sdp"
+        android:text="@string/tap_here_to_vote"
         android:textColor="@color/fontPrimary50"
-        android:textSize="@dimen/_9sdp"
-        android:text="@string/tap_here_to_vote" />
+        android:textSize="@dimen/_9sdp" />
 
     <RelativeLayout
         android:id="@+id/rl_bottom_view"
@@ -94,18 +95,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:textSize="@dimen/_9sdp"
+                android:text="Rohit Sharma"
                 android:textColor="@color/fontPrimary50"
-                android:text="Rohit Sharma" />
+                android:textSize="@dimen/_9sdp" />
 
             <TextView
                 android:id="@+id/tv_mirror2_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:textSize="@dimen/_9sdp"
+                android:text="Virat Kohli"
                 android:textColor="@color/fontPrimary50"
-                android:text="Virat Kohli" />
+                android:textSize="@dimen/_9sdp" />
 
             <TextView
                 android:id="@+id/tv_mirror3_name"
@@ -113,9 +114,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:textSize="@dimen/_9sdp"
+                android:text="MS Dhoni"
                 android:textColor="@color/fontPrimary50"
-                android:text="MS Dhoni" />
+                android:textSize="@dimen/_9sdp" />
 
         </LinearLayout>
 
@@ -132,20 +133,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_18sdp"
                 android:layout_marginTop="@dimen/_3sdp"
-                android:textSize="@dimen/_10sdp"
                 android:background="@drawable/custom_rounded_sky_blue_view"
                 android:gravity="center"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/_10sdp" />
 
             <TextView
                 android:id="@+id/tv_mirror2_view"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_18sdp"
                 android:layout_marginTop="@dimen/_9sdp"
-                android:textSize="@dimen/_10sdp"
                 android:background="@drawable/custom_rounded_pink_view"
                 android:gravity="center"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/_10sdp" />
 
             <TextView
                 android:id="@+id/tv_mirror3_view"
@@ -155,8 +156,8 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/custom_rounded_royal_blue_view"
                 android:gravity="center"
-                android:textSize="@dimen/_10sdp"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/_10sdp" />
 
         </LinearLayout>
 
@@ -170,13 +171,13 @@
         android:layout_marginTop="@dimen/_15sdp"
         android:background="@drawable/custom_rounded_grey_border"
         android:gravity="center_vertical"
+        android:paddingBottom="@dimen/_5sdp"
         android:paddingEnd="@dimen/_10sdp"
         android:paddingStart="@dimen/_10sdp"
         android:paddingTop="@dimen/_5sdp"
-        android:paddingBottom="@dimen/_5sdp"
         android:text="Created by Jil Delhberg"
-        android:textSize="@dimen/_9sdp"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        android:textSize="@dimen/_9sdp" />
 
     <ImageView
         android:id="@+id/iv_comment"
@@ -185,8 +186,8 @@
         android:layout_alignBottom="@+id/tv_created_by"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/tv_created_by"
-        android:src="@drawable/group"
-        android:contentDescription="@string/image" />
+        android:contentDescription="@string/image"
+        android:src="@drawable/group" />
 
     <TextView
         android:id="@+id/tv_comment_count"
@@ -194,12 +195,12 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/tv_created_by"
         android:layout_alignTop="@+id/tv_created_by"
-        android:layout_toStartOf="@+id/iv_comment"
-        android:textColor="@color/fontPrimary70"
         android:layout_marginEnd="@dimen/_5sdp"
-        android:textSize="@dimen/_11sdp"
-        android:textStyle="bold"
+        android:layout_toStartOf="@+id/iv_comment"
         android:gravity="center"
-        android:text="20" />
+        android:text="20"
+        android:textColor="@color/fontPrimary70"
+        android:textSize="@dimen/_11sdp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

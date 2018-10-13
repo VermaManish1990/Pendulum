@@ -1,6 +1,9 @@
 package com.pend.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -12,6 +15,10 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.share.model.ShareContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
 import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.fragments.ContestVotingWith2OptionDialogFragment;
@@ -19,6 +26,7 @@ import com.pend.fragments.ContestVotingWith3OptionDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.models.GetContestsResponseModel;
 import com.pend.util.LoggerUtil;
+import com.pend.util.OtherUtil;
 import com.pend.widget.progressbar.CustomProgressBar;
 import com.pend.widget.progressbar.ProgressItem;
 import com.squareup.picasso.Picasso;
@@ -88,6 +96,7 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public class ViewHolderType1 extends RecyclerView.ViewHolder {
 
+        private final View rootView;
         private final ImageView ivLeftProfile;
         private final ImageView ivRightProfile;
         private final ImageView ivComment;
@@ -104,6 +113,7 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public ViewHolderType1(View itemView) {
             super(itemView);
 
+            rootView = itemView.findViewById(R.id.root_view);
             viewProgressBarProfile = itemView.findViewById(R.id.view_progress_bar_profile);
             progressBarProfile = itemView.findViewById(R.id.progress_bar_profile);
             tvShareOnFacebook = itemView.findViewById(R.id.tv_share_on_facebook);
@@ -119,6 +129,7 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public class ViewHolderType2 extends RecyclerView.ViewHolder {
+        private final View rootView;
         private final View llMirrorPercentageView;
         private final ImageView ivProfile;
         private final ImageView ivComment;
@@ -139,6 +150,7 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public ViewHolderType2(View itemView) {
             super(itemView);
 
+            rootView = itemView.findViewById(R.id.root_view);
             llMirrorPercentageView = itemView.findViewById(R.id.ll_right_view);
             rlBottomView = itemView.findViewById(R.id.rl_bottom_view);
             ivProfile = itemView.findViewById(R.id.iv_profile);
@@ -203,6 +215,45 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             votingDialogFragment.show(((BaseActivity) mContext).getSupportFragmentManager(), "ContestVotingWith3OptionDialogFragment");
 
         });
+
+        viewHolder.tvShareOnFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareDialog shareDialog = new ShareDialog((Activity) mContext);// initialize facebook shareDialog.
+
+                if (ShareDialog.canShow(SharePhotoContent.class)) {
+
+                    Bitmap bitmap = OtherUtil.loadBitmapFromView(viewHolder.rootView);
+                    if (bitmap != null) {
+
+                        try {
+
+                            SharePhoto photo = new SharePhoto.Builder()
+                                    .setBitmap(bitmap)
+//                                    .setImageUrl(Uri.parse(postsDetails.imageURL))
+                                    .setCaption(contestDetails.questionText)
+                                    .build();
+
+                            ShareContent content = new SharePhotoContent.Builder()
+                                    .addPhoto(photo)
+                                    .build();
+
+                            shareDialog.show(content);  // Show facebook ShareDialog
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                } else {
+                    OtherUtil.showAlertDialog(mContext.getString(R.string.facebook_error_message), mContext, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     /**
@@ -261,6 +312,45 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         viewHolder.rlBottomView.setOnClickListener(v -> {
             DialogFragment votingDialogFragment = ContestVotingWith3OptionDialogFragment.newInstance(mIsVoted, contestDetails);
             votingDialogFragment.show(((BaseActivity) mContext).getSupportFragmentManager(), "ContestVotingWith3OptionDialogFragment");
+        });
+
+        viewHolder.tvShareOnFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareDialog shareDialog = new ShareDialog((Activity) mContext);// initialize facebook shareDialog.
+
+                if (ShareDialog.canShow(SharePhotoContent.class)) {
+
+                    Bitmap bitmap = OtherUtil.loadBitmapFromView(viewHolder.rootView);
+                    if (bitmap != null) {
+
+                        try {
+
+                            SharePhoto photo = new SharePhoto.Builder()
+                                    .setBitmap(bitmap)
+//                                    .setImageUrl(Uri.parse(postsDetails.imageURL))
+                                    .setCaption(contestDetails.questionText)
+                                    .build();
+
+                            ShareContent content = new SharePhotoContent.Builder()
+                                    .addPhoto(photo)
+                                    .build();
+
+                            shareDialog.show(content);  // Show facebook ShareDialog
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                } else {
+                    OtherUtil.showAlertDialog(mContext.getString(R.string.facebook_error_message), mContext, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            }
         });
 
     }
