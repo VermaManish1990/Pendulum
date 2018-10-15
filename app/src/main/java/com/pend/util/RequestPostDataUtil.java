@@ -31,13 +31,13 @@ public class RequestPostDataUtil {
      * @param userPassword userPassword
      * @return JsonObject
      */
-    public static JsonObject signUpApiRegParam(String userFullName, String userEmail, String userPhone, String userPassword) {
+    public static JsonObject signUpApiRegParam(String userFullName, String userEmail, String userPassword) {
         LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "signUpApiRegParam");
 
         JsonObject requestParameters = new JsonObject();
         requestParameters.addProperty("userFullName", userFullName);
         requestParameters.addProperty("userEmail", userEmail);
-        requestParameters.addProperty("userPhone", userPhone);
+//        requestParameters.addProperty("userPhone", userPhone);
         requestParameters.addProperty("userPassword", userPassword);
 
         LoggerUtil.d(RequestPostDataUtil.class.getSimpleName(), requestParameters.toString());

@@ -36,13 +36,13 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private TextInputLayout mInputLayoutPassword;
     private TextInputLayout mInputLayoutConfirmPassword;
     private EditText mEtName;
-    private EditText mEtMobileNumber;
+//    private EditText mEtMobileNumber;
     private EditText mEtEmail;
     private EditText mEtPassword;
     private EditText mEtConfirmPassword;
     private boolean mIsChecked = true;
     private String mPassword;
-    private String mPhoneNumber;
+//    private String mPhoneNumber;
     private String mUserEmail;
     private String mFullName;
     private View mRootView;
@@ -62,7 +62,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
         mRootView = findViewById(R.id.root_view);
         mEtName = findViewById(R.id.et_name);
-        mEtMobileNumber = findViewById(R.id.et_mobile_number);
+//        mEtMobileNumber = findViewById(R.id.et_mobile_number);
         mEtEmail = findViewById(R.id.et_email);
         mEtPassword = findViewById(R.id.et_password);
         mEtConfirmPassword = findViewById(R.id.et_confirm_password);
@@ -74,7 +74,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         mInputLayoutConfirmPassword = findViewById(R.id.input_layout_confirm_password);
 
         mEtName.addTextChangedListener(SignUpActivity.this);
-        mEtMobileNumber.addTextChangedListener(SignUpActivity.this);
+//        mEtMobileNumber.addTextChangedListener(SignUpActivity.this);
         mEtEmail.addTextChangedListener(SignUpActivity.this);
         mEtPassword.addTextChangedListener(SignUpActivity.this);
         mEtConfirmPassword.addTextChangedListener(SignUpActivity.this);
@@ -140,7 +140,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         switch (actionID) {
             case IApiEvent.REQUEST_SIGN_UP_CODE:
 
-                JsonObject requestObject = RequestPostDataUtil.signUpApiRegParam(mFullName, mUserEmail, mPhoneNumber, mPassword);
+                JsonObject requestObject = RequestPostDataUtil.signUpApiRegParam(mFullName, mUserEmail, mPassword);
                 String request = requestObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<BaseResponseModel>(IWebServices.REQUEST_SIGN_UP_URL, NetworkUtil.getHeaders(this),
                         request, BaseResponseModel.class, new
@@ -198,9 +198,9 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
         if (mEtName.hasFocus()) {
             checkValidationForName();
-        } else if (mEtMobileNumber.hasFocus()) {
+        } /*else if (mEtMobileNumber.hasFocus()) {
             checkValidationForMobileNumber();
-        } else if (mEtEmail.hasFocus()) {
+        } */else if (mEtEmail.hasFocus()) {
             checkValidationForEmail();
         } else if (mEtPassword.hasFocus()) {
             checkValidationForPassword();
@@ -223,7 +223,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private boolean isAllFieldsValid() {
         mIsChecked = true;
         checkValidationForName();
-        checkValidationForMobileNumber();
+//        checkValidationForMobileNumber();
         checkValidationForEmail();
         checkValidationForPassword();
         checkValidationForConfirmPassword();
@@ -247,20 +247,20 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     /**
      * This method will check validation for Mobile Number.
      */
-    private void checkValidationForMobileNumber() {
-        if (mEtMobileNumber.getText().toString().trim().length() == 0) {
-            mInputLayoutMobileNumber.setError(getString(R.string.please_enter_phone_number));
-            mInputLayoutMobileNumber.setErrorEnabled(true);
-            mIsChecked = false;
-        } else if (mEtMobileNumber.getText().toString().trim().length() < 10) {
-            mInputLayoutMobileNumber.setError(getString(R.string.please_enter_valid_phone_number));
-            mInputLayoutMobileNumber.setErrorEnabled(true);
-            mIsChecked = false;
-        } else {
-            mPhoneNumber = mEtMobileNumber.getText().toString().trim();
-            mInputLayoutMobileNumber.setErrorEnabled(false);
-        }
-    }
+//    private void checkValidationForMobileNumber() {
+//        if (mEtMobileNumber.getText().toString().trim().length() == 0) {
+//            mInputLayoutMobileNumber.setError(getString(R.string.please_enter_phone_number));
+//            mInputLayoutMobileNumber.setErrorEnabled(true);
+//            mIsChecked = false;
+//        } else if (mEtMobileNumber.getText().toString().trim().length() < 10) {
+//            mInputLayoutMobileNumber.setError(getString(R.string.please_enter_valid_phone_number));
+//            mInputLayoutMobileNumber.setErrorEnabled(true);
+//            mIsChecked = false;
+//        } else {
+//            mPhoneNumber = mEtMobileNumber.getText().toString().trim();
+//            mInputLayoutMobileNumber.setErrorEnabled(false);
+//        }
+//    }
 
     /**
      * This method will check validation for Email Id.
