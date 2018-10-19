@@ -223,6 +223,13 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                    }else {
+                        OtherUtil.showAlertDialog("You can not share post on facebook without image.", mContext, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
                     }
 
                 } else {
