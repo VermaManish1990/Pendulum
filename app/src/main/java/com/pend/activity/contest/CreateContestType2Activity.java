@@ -63,6 +63,7 @@ public class CreateContestType2Activity extends BaseActivity implements View.OnC
     private int mMirrorId3;
     private ContestSearchDialogFragment mContestSearchDialogFragment;
     private int mMirrorNumber;
+    private String mMirrorName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +113,7 @@ public class CreateContestType2Activity extends BaseActivity implements View.OnC
         mMirrorId1 = -1;
         mMirrorId2 = -1;
         mMirrorId3 = -1;
+        mMirrorName = "";
         String imageUrl = SharedPrefUtils.getProfileImageUrl(this);
 
         if (imageUrl != null && !imageUrl.equals("")) {
@@ -419,6 +421,8 @@ public class CreateContestType2Activity extends BaseActivity implements View.OnC
     @Override
     public void onMirrorClick(SearchInNewsFeedResponseModel.MirrorDetails mirrorDetails) {
 
+        mMirrorName = mirrorDetails.mirrorName;
+
         switch (mMirrorNumber) {
             case 1:
                 mMirrorId1 = mirrorDetails.mirrorID;
@@ -446,13 +450,17 @@ public class CreateContestType2Activity extends BaseActivity implements View.OnC
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        if (mEtFirst.hasFocus()) {
-            mMirrorId1 = -1;
-        } else if (mEtSecond.hasFocus()) {
-            mMirrorId2 = -1;
-        } else if (mEtThird.hasFocus()) {
-            mMirrorId3 = -1;
+        if(!mMirrorName.equals(s.toString())){
+
+            if (mEtFirst.hasFocus()) {
+                mMirrorId1 = -1;
+            } else if (mEtSecond.hasFocus()) {
+                mMirrorId2 = -1;
+            } else if (mEtThird.hasFocus()) {
+                mMirrorId3 = -1;
+            }
         }
+        mMirrorName = "";
     }
 
     @Override

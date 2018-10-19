@@ -80,7 +80,7 @@ public class ExitPollAdapter extends RecyclerView.Adapter<ExitPollAdapter.ViewHo
 
                 if (ShareDialog.canShow(SharePhotoContent.class)) {
 
-                    Bitmap bitmap = OtherUtil.loadBitmapFromView(holder.rlPollPerView);
+                    Bitmap bitmap = OtherUtil.loadBitmapFromView(holder.rootView);
                     if (bitmap != null) {
 
                         try {

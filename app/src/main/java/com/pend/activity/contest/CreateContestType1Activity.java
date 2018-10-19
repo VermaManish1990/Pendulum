@@ -78,6 +78,7 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
     private EditText mEtSecond;
     private EditText mEtThird;
     private ContestSearchDialogFragment mContestSearchDialogFragment;
+    private String mMirrorName;
 
 
     @Override
@@ -125,6 +126,7 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
     protected void setInitialData() {
 
         mMirrorId = -1;
+        mMirrorName = "";
         String imageUrl = SharedPrefUtils.getProfileImageUrl(this);
 
         if (imageUrl != null && !imageUrl.equals("")) {
@@ -506,6 +508,8 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
     @Override
     public void onMirrorClick(SearchInNewsFeedResponseModel.MirrorDetails mirrorDetails) {
 
+        mMirrorName = mirrorDetails.mirrorName;
+
         mMirrorId = mirrorDetails.mirrorID;
         mEtRelatedMirror.setText(mirrorDetails.mirrorName != null ? mirrorDetails.mirrorName : "");
         mContestSearchDialogFragment.dismiss();
@@ -519,9 +523,13 @@ public class CreateContestType1Activity extends BaseActivity implements View.OnC
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        if (mEtRelatedMirror.hasFocus()) {
-            mMirrorId = -1;
+        if(!mMirrorName.equals(s.toString())){
+
+            if (mEtRelatedMirror.hasFocus()) {
+                mMirrorId = -1;
+            }
         }
+        mMirrorName = "";
     }
 
     @Override
