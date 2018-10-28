@@ -19,6 +19,9 @@ public class GetContestsResponseModel extends BaseResponseModel {
         public int contestID;
         public int contestTypeID;
 
+        public int createdUserID;
+        public String createdUserName;
+
         public String questionText;
         public String imageName;
         public String imageURL;

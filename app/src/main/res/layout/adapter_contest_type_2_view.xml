@@ -175,7 +175,7 @@
         android:paddingEnd="@dimen/_10sdp"
         android:paddingStart="@dimen/_10sdp"
         android:paddingTop="@dimen/_5sdp"
-        android:text="Created by Jil Delhberg"
+        android:text="@string/created_by_"
         android:textAllCaps="false"
         android:textSize="@dimen/_9sdp" />
 

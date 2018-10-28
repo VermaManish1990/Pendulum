@@ -129,6 +129,7 @@
             android:authorities="com.facebook.app.FacebookContentProvider249781929087963"
             android:exported="true" />
 
+        <activity android:name=".activity.contest.RelatedContestActivity"></activity>
     </application>
 
 </manifest>

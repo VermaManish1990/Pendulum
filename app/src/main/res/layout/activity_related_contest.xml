@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/root_view"
+    tools:context=".activity.contest.RelatedContestActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_trending"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/_5sdp"
+        android:paddingBottom="@dimen/_5sdp"
+        android:scrollbars="vertical"
+        android:visibility="gone">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/tv_data_not_available"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/data_not_available"
+        android:textSize="@dimen/_15sdp"
+        android:visibility="visible"/>
+
+    <include
+        android:id="@+id/quarter_view"
+        layout="@layout/quarter_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_200sdp"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

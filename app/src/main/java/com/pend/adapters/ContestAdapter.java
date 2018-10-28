@@ -3,11 +3,13 @@ package com.pend.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +23,14 @@ import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
 import com.pend.BaseActivity;
 import com.pend.R;
+import com.pend.activity.login.ProfileActivity;
 import com.pend.fragments.ContestVotingWith2OptionDialogFragment;
 import com.pend.fragments.ContestVotingWith3OptionDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.models.GetContestsResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.OtherUtil;
+import com.pend.util.SharedPrefUtils;
 import com.pend.widget.progressbar.CustomProgressBar;
 import com.pend.widget.progressbar.ProgressItem;
 import com.squareup.picasso.Picasso;
@@ -192,8 +196,9 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     .into(viewHolder.ivRightProfile);
         }
 
+        String createdBy = String.valueOf("Created by: <b>" + (contestDetails.createdUserName != null ? contestDetails.createdUserName : "") + "</b>");
+        viewHolder.tvCreatedBy.setText(Html.fromHtml(createdBy));
         viewHolder.tvTitle.setText(contestDetails.questionText != null ? contestDetails.questionText : "");
-//        viewHolder.tvCreatedBy.setText(contestDetails.questionText!=null?contestDetails.questionText:"");
         viewHolder.tvLeftName.setText(contestDetails.option1MirrorName != null ? contestDetails.option1MirrorName : "");
         viewHolder.tvRightName.setText(contestDetails.option2MirrorName != null ? contestDetails.option2MirrorName : "");
 
@@ -215,6 +220,8 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             votingDialogFragment.show(((BaseActivity) mContext).getSupportFragmentManager(), "ContestVotingWith3OptionDialogFragment");
 
         });
+
+        viewHolder.tvCreatedBy.setOnClickListener(v -> onCreatedByUserClick(contestDetails.createdUserID));
 
         viewHolder.tvShareOnFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,6 +279,8 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     .into(viewHolder.ivProfile);
         }
 
+        String createdBy = String.valueOf("Created by: <b>" + (contestDetails.createdUserName != null ? contestDetails.createdUserName : "") + "</b>");
+        viewHolder.tvCreatedBy.setText(Html.fromHtml(createdBy));
         viewHolder.tvName.setText(contestDetails.relatedMirrorName != null ? contestDetails.relatedMirrorName : "");
         viewHolder.tvTitle.setText(contestDetails.questionText != null ? contestDetails.questionText : "");
 
@@ -305,9 +314,9 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 viewHolder.tvMirror2View.setText(String.valueOf(contestDetails.option2Per + "%"));
                 viewHolder.tvMirror3View.setText(String.valueOf(contestDetails.option3Per + "%"));
             }
-
-
         });
+
+        viewHolder.tvCreatedBy.setOnClickListener(v -> onCreatedByUserClick(contestDetails.createdUserID));
 
         viewHolder.rlBottomView.setOnClickListener(v -> {
             DialogFragment votingDialogFragment = ContestVotingWith3OptionDialogFragment.newInstance(mIsVoted, contestDetails);
@@ -377,6 +386,25 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 return mirror3Per;
             }
+        }
+    }
+
+    /**
+     * Method is used to go to user profile.
+     *
+     * @param createdUserID createdUserID
+     */
+    private void onCreatedByUserClick(int createdUserID) {
+        try {
+            Intent intent = new Intent(mContext, ProfileActivity.class);
+            if (!(createdUserID == Integer.parseInt(SharedPrefUtils.getUserId(mContext)))) {
+
+                intent.putExtra(Constants.USER_ID_KEY, createdUserID);
+                intent.putExtra(Constants.IS_OTHER_PROFILE, true);
+            }
+            mContext.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

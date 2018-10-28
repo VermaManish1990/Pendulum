@@ -61,7 +61,7 @@ public class SharedPrefUtils {
         LoggerUtil.v(SharedPrefUtils.class.getSimpleName(), "getUserId");
         try {
             SharedPreferences sharedPref = context.getSharedPreferences(PENDULUM_SHARED_PREF, Context.MODE_PRIVATE);
-            return sharedPref.getString(USER_ID, null);
+            return sharedPref.getString(USER_ID, "-1");
         } catch (NullPointerException e) {
             LoggerUtil.e(SharedPrefUtils.class.getSimpleName(), "error");
             return null;
