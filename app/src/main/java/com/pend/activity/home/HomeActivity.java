@@ -3,14 +3,12 @@ package com.pend.activity.home;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.location.Location;
-import com.google.android.gms.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,7 +18,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -45,6 +42,7 @@ import com.facebook.FacebookSdk;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
@@ -69,11 +67,9 @@ import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.AddAndUpdateCommentResponseModel;
-import com.pend.models.AddAndUpdatePostResponseModel;
 import com.pend.models.GetPostsResponseModel;
 import com.pend.models.PostLikeResponseModel;
 import com.pend.models.SearchInNewsFeedResponseModel;
-import com.pend.models.SearchMirrorResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
 import com.pend.util.OtherUtil;
@@ -304,10 +300,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                     }
                 } else {
                     mPostsDetailsList.clear();
-                    HomePostsAdapter homePostsAdapter = (HomePostsAdapter) mRecyclerViewPost.getAdapter();
-                    homePostsAdapter.setPostsDetailsList(mPostsDetailsList);
-                    homePostsAdapter.notifyDataSetChanged();
-                    OtherUtil.showErrorMessage(this, serviceResponse);
+//                    HomePostsAdapter homePostsAdapter = (HomePostsAdapter) mRecyclerViewPost.getAdapter();
+//                    homePostsAdapter.setPostsDetailsList(mPostsDetailsList);
+//                    homePostsAdapter.notifyDataSetChanged();
+//                    OtherUtil.showErrorMessage(this, serviceResponse);
 
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
@@ -491,7 +487,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             case IApiEvent.REQUEST_GET_POSTS_CODE:
 
                 //TODO Change mirrorId.
-                mMirrorId = 6;
+                mMirrorId = 147;
                 String getPostsUrl = IWebServices.REQUEST_GET_POSTS_URL + Constants.PARAM_USER_ID + "=" + userId
                         + "&" + Constants.PARAM_MIRROR_ID + "=" + mMirrorId
                         + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);

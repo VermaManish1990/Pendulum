@@ -263,7 +263,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case IApiEvent.REQUEST_UPDATE_USER_SEETING_CODE:
 
                 requestObject = RequestPostDataUtil.updateUserSettingApiRegParam(userId, mUserEmail, mPhoneNumber, mPassword,
-                        true, true);
+                        mCbOpenSearch.isChecked(), mCbInvisibilityInReflection.isChecked());
                 request = requestObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<UpdateUserSettingResponseModel>(IWebServices.REQUEST_UPDATE_USER_SEETING_URL, NetworkUtil.getHeaders(this),
                         request, UpdateUserSettingResponseModel.class, new

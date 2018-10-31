@@ -48,6 +48,7 @@ public interface Constants {
     int REQUEST_SELECT_IMAGE_FROM_ALBUM = 1;
     int REQUEST_TAKE_PHOTO = 2;
     int ALL_PERMISSION_REQUEST_CODE = 3;
+    int LOCATION_REQUEST_CODE = 4;
     String EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
     String UPDATE_POST = "Update Post";

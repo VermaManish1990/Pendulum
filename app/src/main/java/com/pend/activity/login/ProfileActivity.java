@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pend.BaseActivity;
@@ -83,6 +84,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private int mPostId;
     private String userFullName;
     private GetPostDetailsResponseModel mPostDetailsResponseModel;
+    private View mBottomContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +114,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         mRootView = findViewById(R.id.root_view);
         mRlLargeView = findViewById(R.id.rl_large_view);
+        mBottomContent = findViewById(R.id.bottom_content);
         mIvLargeProfile = findViewById(R.id.iv_large_profile);
         mViewpagerProfile = findViewById(R.id.viewpager_profile);
         mTabLayout = findViewById(R.id.tab_layout);
@@ -200,6 +203,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                             mViewpagerProfile.setAdapter(new ProfileViewPagerAdapter(this, mUserProfileResponseModel.Data.imageData));
                         } else {
                             mViewpagerProfile.setVisibility(View.GONE);
+                            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.MATCH_PARENT
+                            );
+                            mBottomContent.setLayoutParams(param);
                         }
 
                         if (mUserProfileResponseModel.Data != null && mUserProfileResponseModel.Data.userData != null) {
