@@ -306,14 +306,47 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             if (max > 0) {
 
-                viewHolder.tvMirror1View.setWidth(contestDetails.option1Per * (width / max));
-                viewHolder.tvMirror2View.setWidth(contestDetails.option2Per * (width / max));
-                viewHolder.tvMirror3View.setWidth(contestDetails.option3Per * (width / max));
+                if (contestDetails.option1Per != 0) {
 
-                viewHolder.tvMirror1View.setText(String.valueOf(contestDetails.option1Per + "%"));
-                viewHolder.tvMirror2View.setText(String.valueOf(contestDetails.option2Per + "%"));
-                viewHolder.tvMirror3View.setText(String.valueOf(contestDetails.option3Per + "%"));
+                    viewHolder.tvMirror1View.setWidth(contestDetails.option1Per * (width / max));
+                    viewHolder.tvMirror1View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_sky_blue_view));
+                } else {
+                    viewHolder.tvMirror1View.setWidth(width / 4);
+                    viewHolder.tvMirror1View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+                }
+
+                if (contestDetails.option2Per != 0) {
+
+                    viewHolder.tvMirror2View.setWidth(contestDetails.option2Per * (width / max));
+                    viewHolder.tvMirror2View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_pink_view));
+                } else {
+                    viewHolder.tvMirror2View.setWidth(width / 4);
+                    viewHolder.tvMirror2View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+                }
+
+                if (contestDetails.option3Per != 0) {
+
+                    viewHolder.tvMirror3View.setWidth(contestDetails.option3Per * (width / max));
+                    viewHolder.tvMirror3View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_royal_blue_view));
+                } else {
+                    viewHolder.tvMirror3View.setWidth(width / 4);
+                    viewHolder.tvMirror3View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+                }
+            } else {
+                viewHolder.tvMirror1View.setWidth(width / 4);
+                viewHolder.tvMirror1View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+
+                viewHolder.tvMirror2View.setWidth(width / 4);
+                viewHolder.tvMirror2View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+
+                viewHolder.tvMirror3View.setWidth(width / 4);
+                viewHolder.tvMirror3View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+
             }
+
+            viewHolder.tvMirror1View.setText(String.valueOf(contestDetails.option1Per + "%"));
+            viewHolder.tvMirror2View.setText(String.valueOf(contestDetails.option2Per + "%"));
+            viewHolder.tvMirror3View.setText(String.valueOf(contestDetails.option3Per + "%"));
         });
 
         viewHolder.tvCreatedBy.setOnClickListener(v -> onCreatedByUserClick(contestDetails.createdUserID));

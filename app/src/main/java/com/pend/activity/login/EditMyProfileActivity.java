@@ -588,15 +588,15 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        if (mEtName.hasFocus()) {
-            checkValidationForName();
-        } else if (mEtAge.hasFocus()) {
-            checkValidationForAge();
-        } else if (mEtGender.hasFocus()) {
-            checkValidationGender();
-        } else if (mEtLocation.hasFocus()) {
-            checkValidationForLocation();
-        }
+//        if (mEtName.hasFocus()) {
+//            checkValidationForName();
+//        } else if (mEtAge.hasFocus()) {
+//            checkValidationForAge();
+//        } else if (mEtGender.hasFocus()) {
+//            checkValidationGender();
+//        } else if (mEtLocation.hasFocus()) {
+//            checkValidationForLocation();
+//        }
     }
 
     @Override
@@ -622,56 +622,56 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
      * This method will check validation for Name.
      */
     private void checkValidationForName() {
-        if (mEtName.getText().toString().trim().length() == 0) {
-            mInputLayoutName.setError(getString(R.string.please_enter_name));
-            mInputLayoutName.setErrorEnabled(true);
-            mIsChecked = false;
-        } else {
+//        if (mEtName.getText().toString().trim().length() == 0) {
+//            mInputLayoutName.setError(getString(R.string.please_enter_name));
+//            mInputLayoutName.setErrorEnabled(true);
+//            mIsChecked = false;
+//        } else {
             mFullName = mEtName.getText().toString().trim();
             mInputLayoutName.setErrorEnabled(false);
-        }
+//        }
     }
 
     /**
      * This method will check validation for Age.
      */
     private void checkValidationForAge() {
-        if (mEtAge.getText().toString().trim().length() == 0) {
-            mInputLayoutAge.setError(getString(R.string.please_enter_age));
-            mInputLayoutAge.setErrorEnabled(true);
-            mIsChecked = false;
-        } else {
+//        if (mEtAge.getText().toString().trim().length() == 0) {
+//            mInputLayoutAge.setError(getString(R.string.please_enter_age));
+//            mInputLayoutAge.setErrorEnabled(true);
+//            mIsChecked = false;
+//        } else {
             mAge = Integer.parseInt(mEtAge.getText().toString().trim());
             mInputLayoutAge.setErrorEnabled(false);
-        }
+//        }
     }
 
     /**
      * This method will check validation for Gender.
      */
     private void checkValidationGender() {
-        if (mEtGender.getText().toString().trim().length() == 0) {
-            mInputLayoutGender.setError(getString(R.string.please_enter_gender));
-            mInputLayoutGender.setErrorEnabled(true);
-            mIsChecked = false;
-        } else {
+//        if (mEtGender.getText().toString().trim().length() == 0) {
+//            mInputLayoutGender.setError(getString(R.string.please_enter_gender));
+//            mInputLayoutGender.setErrorEnabled(true);
+//            mIsChecked = false;
+//        } else {
             mGender = mEtGender.getText().toString().trim();
             mInputLayoutGender.setErrorEnabled(false);
-        }
+//        }
     }
 
     /**
      * This method will check validation for Location.
      */
     private void checkValidationForLocation() {
-        if (mEtLocation.getText().toString().trim().length() == 0) {
-            mInputLayoutLocation.setError(getString(R.string.please_enter_location));
-            mInputLayoutLocation.setErrorEnabled(true);
-            mIsChecked = false;
-        } else {
+//        if (mEtLocation.getText().toString().trim().length() == 0) {
+//            mInputLayoutLocation.setError(getString(R.string.please_enter_location));
+//            mInputLayoutLocation.setErrorEnabled(true);
+//            mIsChecked = false;
+//        } else {
             mLocation = mEtLocation.getText().toString().trim();
             mInputLayoutLocation.setErrorEnabled(false);
-        }
+//        }
     }
 
 

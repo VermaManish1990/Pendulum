@@ -63,9 +63,45 @@ public class ExitPollAdapter extends RecyclerView.Adapter<ExitPollAdapter.ViewHo
             @Override
             public void onGlobalLayout() {
                 int width = (int) (holder.rlPollPerView.getWidth() * (0.7));
-                holder.tvAdmireView.setWidth(exitPollListDetails.pollAdmirePer * (width / max));
-                holder.tvHateView.setWidth(exitPollListDetails.pollHatePer * (width / max));
-                holder.tvCanTSayView.setWidth(exitPollListDetails.pollCantSayPer * (width / max));
+
+                if (max > 0) {
+
+                    if (exitPollListDetails.pollAdmirePer != 0) {
+
+                        holder.tvAdmireView.setWidth(exitPollListDetails.pollAdmirePer * (width / max));
+                        holder.tvAdmireView.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_green_view));
+                    } else {
+                        holder.tvAdmireView.setWidth(width / 4);
+                        holder.tvAdmireView.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+                    }
+
+                    if (exitPollListDetails.pollHatePer != 0) {
+
+                        holder.tvHateView.setWidth(exitPollListDetails.pollHatePer * (width / max));
+                        holder.tvHateView.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_red_view));
+                    } else {
+                        holder.tvHateView.setWidth(width / 4);
+                        holder.tvHateView.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+                    }
+
+                    if (exitPollListDetails.pollCantSayPer != 0) {
+
+                        holder.tvCanTSayView.setWidth(exitPollListDetails.pollCantSayPer * (width / max));
+                        holder.tvCanTSayView.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_yellow_view));
+                    } else {
+                        holder.tvCanTSayView.setWidth(width / 4);
+                        holder.tvCanTSayView.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+                    }
+                } else {
+                    holder.tvAdmireView.setWidth(width / 4);
+                    holder.tvAdmireView.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+
+                    holder.tvHateView.setWidth(width / 4);
+                    holder.tvHateView.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+
+                    holder.tvCanTSayView.setWidth(width / 4);
+                    holder.tvCanTSayView.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+                }
 
                 holder.tvAdmireView.setText(String.valueOf(exitPollListDetails.pollAdmirePer + "%"));
                 holder.tvHateView.setText(String.valueOf(exitPollListDetails.pollHatePer + "%"));

@@ -94,6 +94,31 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.View
                     sourceString = "Commented on a <b>post</b> on <b>" + timeSheetDetails.mirrorName + "'s</b> mirror.";
                     holder.tvMessage.setText(Html.fromHtml(sourceString));
 
+                case "CreateContest":
+                    holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.post));
+                    sourceString = "Created a new <b>Contest</b> related to <b>" + timeSheetDetails.mirrorName + "</b>.";
+                    holder.tvMessage.setText(Html.fromHtml(sourceString));
+
+                case "CreateMirror":
+                    holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.bluetick));
+                    sourceString = "Created a new mirror - <b>" + timeSheetDetails.mirrorName + "</b> .";
+                    holder.tvMessage.setText(Html.fromHtml(sourceString));
+
+                case "DeleteComment":
+                    holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.message));
+                    sourceString = "Deleted a comment on a <b>post</b> on <b>" + timeSheetDetails.mirrorName + "'s</b> mirror.";
+                    holder.tvMessage.setText(Html.fromHtml(sourceString));
+
+                case "UpdateComment":
+                    holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.message));
+                    sourceString = "Updated a comment on a <b>post</b> on <b>" + timeSheetDetails.mirrorName + "'s</b> mirror.";
+                    holder.tvMessage.setText(Html.fromHtml(sourceString));
+
+                case "AddComment":
+                    holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.message));
+                    sourceString = "Commented on a <b>post</b> on <b>" + timeSheetDetails.mirrorName + "'s</b> mirror.";
+                    holder.tvMessage.setText(Html.fromHtml(sourceString));
+
                     break;
 
                 default:

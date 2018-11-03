@@ -212,9 +212,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
                         if (mUserProfileResponseModel.Data != null && mUserProfileResponseModel.Data.userData != null) {
 
-                            userFullName=mUserProfileResponseModel.Data.userData.userFullName;
+                            userFullName = mUserProfileResponseModel.Data.userData.userFullName;
                             mTvName.setText(mUserProfileResponseModel.Data.userData.userFullName != null ? mUserProfileResponseModel.Data.userData.userFullName : "");
-                            mTvAge.setText(String.valueOf(mUserProfileResponseModel.Data.userData.userAge + " year " + mUserProfileResponseModel.Data.userData.userGender));
+                            mTvAge.setText(String.valueOf((mUserProfileResponseModel.Data.userData.userAge != 0 ? mUserProfileResponseModel.Data.userData.userAge : "")
+                                    + " year " +
+                                    (mUserProfileResponseModel.Data.userData.userGender != null ? mUserProfileResponseModel.Data.userData.userGender : "")));
                             mTvCity.setText(mUserProfileResponseModel.Data.userData.cityName != null ? mUserProfileResponseModel.Data.userData.cityName : "");
                         }
 
@@ -258,7 +260,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     }
                 } else {
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
-                    OtherUtil.showErrorMessage(this, serviceResponse);
+//                    OtherUtil.showErrorMessage(this, serviceResponse);
                 }
 
                 mIsLoading = false;
