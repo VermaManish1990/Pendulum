@@ -277,7 +277,18 @@ public class IntroducedContestFragment extends BaseFragment implements View.OnCl
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_create_contest:
-                selectContestDialog();
+
+                int userId = -1;
+                try {
+                    userId = Integer.parseInt(SharedPrefUtils.getUserId(mContext));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (userId == -1) {
+                    OtherUtil.showAlertDialog(getString(R.string.guest_user_message), mContext, (dialog, which) -> dialog.dismiss());
+                } else
+                    selectContestDialog();
                 break;
 
             default:

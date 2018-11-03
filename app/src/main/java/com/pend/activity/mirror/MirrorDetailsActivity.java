@@ -100,6 +100,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     private View mViewMirrorDetails;
     private ImageView mIvQuarterProfile;
     private ImageView ivVote;
+    private int mUserId;
 
 
     @Override
@@ -112,6 +113,13 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
             if (localBundle.containsKey(Constants.MIRROR_ID_KEY)) {
                 mMirrorId = localBundle.getInt(Constants.MIRROR_ID_KEY, 0);
             }
+        }
+
+        mUserId = -1;
+        try {
+            mUserId = Integer.parseInt(SharedPrefUtils.getUserId(MirrorDetailsActivity.this));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         initUI();
@@ -425,17 +433,10 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
         JsonObject jsonObject;
         String request;
 
-        int userId = -1;
-        try {
-            userId = Integer.parseInt(SharedPrefUtils.getUserId(MirrorDetailsActivity.this));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         switch (actionID) {
             case IApiEvent.REQUEST_GET_MIRROR_DETAILS_CODE:
 
-                String mirrorDetailsUrl = IWebServices.REQUEST_GET_MIRROR_DETAILS_URL + Constants.PARAM_USER_ID + "=" + userId
+                String mirrorDetailsUrl = IWebServices.REQUEST_GET_MIRROR_DETAILS_URL + Constants.PARAM_USER_ID + "=" + mUserId
                         + "&" + Constants.PARAM_MIRROR_ID + "=" + String.valueOf(mMirrorId);
                 RequestManager.addRequest(new GsonObjectRequest<GetMirrorDetailsResponseModel>(mirrorDetailsUrl, NetworkUtil.getHeaders(this),
                         null, GetMirrorDetailsResponseModel.class, new VolleyErrorListener(this, actionID)) {
@@ -449,7 +450,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
             case IApiEvent.REQUEST_GET_MIRROR_GRAPH_DATA_CODE:
 
-                String mirrorGraphDataUrl = IWebServices.REQUEST_GET_MIRROR_GRAPH_DATA_URL + Constants.PARAM_USER_ID + "=" + userId
+                String mirrorGraphDataUrl = IWebServices.REQUEST_GET_MIRROR_GRAPH_DATA_URL + Constants.PARAM_USER_ID + "=" + mUserId
                         + "&" + Constants.PARAM_MIRROR_ID + "=" + String.valueOf(mMirrorId)
                         + "&" + Constants.PARAM_MONTH + "=" + mMonth
                         + "&" + Constants.PARAM_YEAR + "=" + mYear;
@@ -466,7 +467,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
             case IApiEvent.REQUEST_GET_POSTS_CODE:
 
                 // page number should be 1 for recent post only.
-                String getPostsUrl = IWebServices.REQUEST_GET_POSTS_URL + Constants.PARAM_USER_ID + "=" + userId
+                String getPostsUrl = IWebServices.REQUEST_GET_POSTS_URL + Constants.PARAM_USER_ID + "=" + mUserId
                         + "&" + Constants.PARAM_MIRROR_ID + "=" + String.valueOf(mMirrorId)
                         + "&" + Constants.PARAM_PAGE_NUMBER + "=" + 1;
                 RequestManager.addRequest(new GsonObjectRequest<GetPostsResponseModel>(getPostsUrl, NetworkUtil.getHeaders(this),
@@ -482,7 +483,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
             case IApiEvent.REQUEST_POST_LIKE_CODE:
 
-                jsonObject = RequestPostDataUtil.postLikeApiRegParam(userId, mPostId, mIsLike, mIsUnLike);
+                jsonObject = RequestPostDataUtil.postLikeApiRegParam(mUserId, mPostId, mIsLike, mIsUnLike);
                 request = jsonObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<PostLikeResponseModel>(IWebServices.REQUEST_POST_LIKE_URL, NetworkUtil.getHeaders(this),
                         request, PostLikeResponseModel.class, new VolleyErrorListener(this, actionID)) {
@@ -496,7 +497,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
             case IApiEvent.REQUEST_REMOVE_POST_CODE:
 
-                jsonObject = RequestPostDataUtil.removePostApiRegParam(userId, mPostId, mMirrorId);
+                jsonObject = RequestPostDataUtil.removePostApiRegParam(mUserId, mPostId, mMirrorId);
                 request = jsonObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<BaseResponseModel>(IWebServices.REQUEST_REMOVE_POST_URL, NetworkUtil.getHeaders(this),
                         request, BaseResponseModel.class, new VolleyErrorListener(this, actionID)) {
@@ -510,7 +511,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
             case IApiEvent.REQUEST_ADD_COMMENT_CODE:
 
-                jsonObject = RequestPostDataUtil.addCommentApiRegParam(userId, mPostId, mCommentText);
+                jsonObject = RequestPostDataUtil.addCommentApiRegParam(mUserId, mPostId, mCommentText);
                 request = jsonObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<AddAndUpdateCommentResponseModel>(IWebServices.REQUEST_ADD_COMMENT_URL, NetworkUtil.getHeaders(this),
                         request, AddAndUpdateCommentResponseModel.class, new VolleyErrorListener(this, actionID)) {
@@ -540,7 +541,14 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
 
             case R.id.view_create_a_new_post:
 
-                if (mIsVoted) {
+                if (mUserId == -1) {
+                    OtherUtil.showAlertDialog(getString(R.string.guest_user_message), this, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                } else if (mIsVoted) {
                     Intent intentCreatePost = new Intent(MirrorDetailsActivity.this, CreatePostActivity.class);
                     intentCreatePost.putExtra(Constants.MIRROR_ID_KEY, mMirrorId);
                     startActivity(intentCreatePost);
@@ -563,7 +571,14 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                 break;
 
             case R.id.view_progress_bar_profile:
-                if (!mIsVoted) {
+                if (mUserId == -1) {
+                    OtherUtil.showAlertDialog(getString(R.string.guest_user_message), this, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                } else if (!mIsVoted) {
                     DialogFragment votingDialogFragment = MirrorVotingDialogFragment.newInstance(mMirrorId);
                     votingDialogFragment.show(getSupportFragmentManager(), "MirrorVotingDialogFragment");
                 } else {
@@ -605,9 +620,15 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
                 break;
 
             case R.id.iv_profile:
+
                 hideReveal();
-                Intent intentProfile = new Intent(this, ProfileActivity.class);
-                startActivity(intentProfile);
+
+                if (mUserId == -1) {
+                    OtherUtil.showAlertDialog(getString(R.string.guest_user_message), this, (dialog, which) -> dialog.dismiss());
+                } else {
+                    Intent intentProfile = new Intent(this, ProfileActivity.class);
+                    startActivity(intentProfile);
+                }
                 break;
 
             case R.id.fl_mirror:
@@ -784,7 +805,7 @@ public class MirrorDetailsActivity extends BaseActivity implements View.OnClickL
     public void onUserProfileClick(int position, int userId) {
         try {
             Intent intent = new Intent(MirrorDetailsActivity.this, ProfileActivity.class);
-            if (!(userId == Integer.parseInt(SharedPrefUtils.getUserId(this)))) {
+            if (!(userId == mUserId)) {
 
                 intent.putExtra(Constants.USER_ID_KEY, userId);
                 intent.putExtra(Constants.IS_OTHER_PROFILE, true);

@@ -52,7 +52,28 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.View
             switch (timeSheetDetails.type) {
                 case "Post":
                     holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.post));
-                    sourceString = "Added a new <b>post</b> on <b>" + timeSheetDetails.mirrorName + "'s" + "</b> mirror.";
+                    sourceString = "Added a new <b>post</b> on <b>" + (timeSheetDetails.mirrorName != null ? timeSheetDetails.mirrorName : "") + "'s" + "</b> mirror.";
+                    holder.tvMessage.setText(Html.fromHtml(sourceString));
+
+                    break;
+
+                case "DeletePost":
+                    holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.post));
+                    sourceString = "Deleted a <b>post</b> on <b>" + (timeSheetDetails.mirrorName != null ? timeSheetDetails.mirrorName : "") + "'s" + "</b> mirror.";
+                    holder.tvMessage.setText(Html.fromHtml(sourceString));
+
+                    break;
+
+                case "UpdatePost":
+                    holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.post));
+                    sourceString = "Updated a <b>post</b> on <b>" + (timeSheetDetails.mirrorName != null ? timeSheetDetails.mirrorName : "") + "'s" + "</b> mirror.";
+                    holder.tvMessage.setText(Html.fromHtml(sourceString));
+
+                    break;
+
+                case "AddPost":
+                    holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.post));
+                    sourceString = "Added a new <b>post</b> on <b>" + (timeSheetDetails.mirrorName != null ? timeSheetDetails.mirrorName : "") + "'s" + "</b> mirror.";
                     holder.tvMessage.setText(Html.fromHtml(sourceString));
 
                     break;
@@ -70,55 +91,59 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.View
                             holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.bluetick));
                         }
                     }
-                    sourceString = "Voted <b>" + timeSheetDetails.vote + "</b> for <b>" + timeSheetDetails.mirrorName + "</b>.";
+                    sourceString = "Voted <b>" + timeSheetDetails.vote + "</b> for <b>" + (timeSheetDetails.mirrorName != null ? timeSheetDetails.mirrorName : "") + "</b>.";
                     holder.tvMessage.setText(Html.fromHtml(sourceString));
 
                     break;
 
                 case "UnLike":
                     holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.dislike_red));
-                    sourceString = "Disliked a <b>post</b> on <b>" + timeSheetDetails.mirrorName + "'s</b> mirror.";
+                    sourceString = "Disliked a <b>post</b> on <b>" + (timeSheetDetails.mirrorName != null ? timeSheetDetails.mirrorName : "") + "'s</b> mirror.";
                     holder.tvMessage.setText(Html.fromHtml(sourceString));
 
                     break;
 
                 case "Like":
                     holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.like_green));
-                    sourceString = "Liked a <b>post</b> on <b>" + timeSheetDetails.mirrorName + "'s</b> mirror.";
+                    sourceString = "Liked a <b>post</b> on <b>" + (timeSheetDetails.mirrorName != null ? timeSheetDetails.mirrorName : "") + "'s</b> mirror.";
                     holder.tvMessage.setText(Html.fromHtml(sourceString));
 
                     break;
 
                 case "Comment":
                     holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.message));
-                    sourceString = "Commented on a <b>post</b> on <b>" + timeSheetDetails.mirrorName + "'s</b> mirror.";
+                    sourceString = "Commented on a <b>post</b> on <b>" + (timeSheetDetails.mirrorName != null ? timeSheetDetails.mirrorName : "") + "'s</b> mirror.";
                     holder.tvMessage.setText(Html.fromHtml(sourceString));
+                    break;
 
                 case "CreateContest":
                     holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.post));
-                    sourceString = "Created a new <b>Contest</b> related to <b>" + timeSheetDetails.mirrorName + "</b>.";
+                    sourceString = "Created a new <b>Contest</b> related to <b>" + (timeSheetDetails.mirrorName != null ? timeSheetDetails.mirrorName : "") + "</b>.";
                     holder.tvMessage.setText(Html.fromHtml(sourceString));
+                    break;
 
                 case "CreateMirror":
                     holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.bluetick));
-                    sourceString = "Created a new mirror - <b>" + timeSheetDetails.mirrorName + "</b> .";
+                    sourceString = "Created a new mirror - <b>" + (timeSheetDetails.mirrorName != null ? timeSheetDetails.mirrorName : "") + "</b> .";
                     holder.tvMessage.setText(Html.fromHtml(sourceString));
+                    break;
 
                 case "DeleteComment":
                     holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.message));
-                    sourceString = "Deleted a comment on a <b>post</b> on <b>" + timeSheetDetails.mirrorName + "'s</b> mirror.";
+                    sourceString = "Deleted a comment on a <b>post</b> on <b>" + (timeSheetDetails.mirrorName != null ? timeSheetDetails.mirrorName : "") + "'s</b> mirror.";
                     holder.tvMessage.setText(Html.fromHtml(sourceString));
+                    break;
 
                 case "UpdateComment":
                     holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.message));
-                    sourceString = "Updated a comment on a <b>post</b> on <b>" + timeSheetDetails.mirrorName + "'s</b> mirror.";
+                    sourceString = "Updated a comment on a <b>post</b> on <b>" + (timeSheetDetails.mirrorName != null ? timeSheetDetails.mirrorName : "") + "'s</b> mirror.";
                     holder.tvMessage.setText(Html.fromHtml(sourceString));
+                    break;
 
                 case "AddComment":
                     holder.ivIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.message));
-                    sourceString = "Commented on a <b>post</b> on <b>" + timeSheetDetails.mirrorName + "'s</b> mirror.";
+                    sourceString = "Commented on a <b>post</b> on <b>" + (timeSheetDetails.mirrorName != null ? timeSheetDetails.mirrorName : "") + "'s</b> mirror.";
                     holder.tvMessage.setText(Html.fromHtml(sourceString));
-
                     break;
 
                 default:

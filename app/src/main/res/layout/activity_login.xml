@@ -105,9 +105,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bt_sign_in"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/_20sdp"
         android:text="@string/need_account"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/textSize15" />
+
+    <TextView
+        android:id="@+id/bt_guest_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bt_sign_in"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:text="@string/guest_user"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/textSize15" />
 

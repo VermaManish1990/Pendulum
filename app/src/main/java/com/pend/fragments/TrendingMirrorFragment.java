@@ -279,6 +279,7 @@ public class TrendingMirrorFragment extends BaseFragment implements TrendingAndI
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_create_mirror:
+
                 mIMirrorFragmentCallBack.onCreateMirrorClick();
                 break;
 

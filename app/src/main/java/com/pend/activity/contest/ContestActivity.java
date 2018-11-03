@@ -39,6 +39,7 @@ import com.pend.fragments.IntroducedContestFragment;
 import com.pend.fragments.TrendingContestFragment;
 import com.pend.interfaces.IContestVotingCallBack;
 import com.pend.util.LoggerUtil;
+import com.pend.util.OtherUtil;
 import com.pend.util.SharedPrefUtils;
 import com.pendulum.utils.StringUtils;
 import com.squareup.picasso.Picasso;
@@ -66,12 +67,19 @@ public class ContestActivity extends BaseActivity implements View.OnClickListene
     private String mSearchTextTrending;
     private FragmentViewPagerAdapter mAdapter;
     private ViewPager mViewPagerContest;
+    private int mUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contest);
 
+        mUserId = -1;
+        try {
+            mUserId = Integer.parseInt(SharedPrefUtils.getUserId(this));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         initUI();
         setInitialData();
     }
@@ -247,8 +255,13 @@ public class ContestActivity extends BaseActivity implements View.OnClickListene
 
             case R.id.iv_profile:
                 hideReveal();
-                Intent intentProfile = new Intent(this, ProfileActivity.class);
-                startActivity(intentProfile);
+
+                if (mUserId == -1) {
+                    OtherUtil.showAlertDialog(getString(R.string.guest_user_message), this, (dialog, which) -> dialog.dismiss());
+                } else {
+                    Intent intentProfile = new Intent(this, ProfileActivity.class);
+                    startActivity(intentProfile);
+                }
                 break;
 
             case R.id.fl_mirror:

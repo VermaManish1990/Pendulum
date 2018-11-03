@@ -69,11 +69,19 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
     private String mSearchTextFollowing = "";
     private String mSearchTextIntroduced = "";
     private boolean mCleanSearch;
+    private int mUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mirror);
+
+        mUserId = -1;
+        try {
+            mUserId = Integer.parseInt(SharedPrefUtils.getUserId(this));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         initUI();
         setInitialData();
@@ -263,8 +271,13 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
 
             case R.id.iv_profile:
                 hideReveal();
-                Intent intentProfile = new Intent(this, ProfileActivity.class);
-                startActivity(intentProfile);
+
+                if (mUserId == -1) {
+                    OtherUtil.showAlertDialog(getString(R.string.guest_user_message), this, (dialog, which) -> dialog.dismiss());
+                } else {
+                    Intent intentProfile = new Intent(this, ProfileActivity.class);
+                    startActivity(intentProfile);
+                }
                 break;
 
             case R.id.fl_mirror:
@@ -364,9 +377,15 @@ public class MirrorActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onCreateMirrorClick() {
-        DialogFragment createMirrorDialogFragment = new CreateMirrorDialogFragment();
-        createMirrorDialogFragment.show(getSupportFragmentManager(), "CreateMirrorDialogFragment");
-        OtherUtil.openKeyboard(this);
+
+        if (mUserId == -1) {
+            OtherUtil.showAlertDialog(getString(R.string.guest_user_message), this, (dialog, which) -> dialog.dismiss());
+        } else{
+
+            DialogFragment createMirrorDialogFragment = new CreateMirrorDialogFragment();
+            createMirrorDialogFragment.show(getSupportFragmentManager(), "CreateMirrorDialogFragment");
+            OtherUtil.openKeyboard(this);
+        }
     }
 
     @Override

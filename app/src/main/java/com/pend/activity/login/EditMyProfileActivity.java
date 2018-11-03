@@ -268,7 +268,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
                         for (AddUserImageResponseModel.AddUserImageDetails imageDetails : imageDetailsList) {
                             if (imageDetails.imageID == setUserImageResponseModel.Data.imageData.imageID) {
                                 imageDetails.isProfileImage = setUserImageResponseModel.Data.imageData.isProfileImage;
-                                SharedPrefUtils.setProfileImageUrl(this,imageDetails.imageUrl);
+                                SharedPrefUtils.setProfileImageUrl(this, imageDetails.imageUrl);
                                 break;
                             }
                         }
@@ -627,8 +627,8 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
 //            mInputLayoutName.setErrorEnabled(true);
 //            mIsChecked = false;
 //        } else {
-            mFullName = mEtName.getText().toString().trim();
-            mInputLayoutName.setErrorEnabled(false);
+        mFullName = mEtName.getText().toString().trim();
+        mInputLayoutName.setErrorEnabled(false);
 //        }
     }
 
@@ -641,8 +641,13 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
 //            mInputLayoutAge.setErrorEnabled(true);
 //            mIsChecked = false;
 //        } else {
+
+        try {
             mAge = Integer.parseInt(mEtAge.getText().toString().trim());
-            mInputLayoutAge.setErrorEnabled(false);
+        } catch (Exception e) {
+            mAge = 0;
+        }
+        mInputLayoutAge.setErrorEnabled(false);
 //        }
     }
 
@@ -655,8 +660,8 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
 //            mInputLayoutGender.setErrorEnabled(true);
 //            mIsChecked = false;
 //        } else {
-            mGender = mEtGender.getText().toString().trim();
-            mInputLayoutGender.setErrorEnabled(false);
+        mGender = mEtGender.getText().toString().trim();
+        mInputLayoutGender.setErrorEnabled(false);
 //        }
     }
 
@@ -669,8 +674,8 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
 //            mInputLayoutLocation.setErrorEnabled(true);
 //            mIsChecked = false;
 //        } else {
-            mLocation = mEtLocation.getText().toString().trim();
-            mInputLayoutLocation.setErrorEnabled(false);
+        mLocation = mEtLocation.getText().toString().trim();
+        mInputLayoutLocation.setErrorEnabled(false);
 //        }
     }
 

@@ -165,5 +165,6 @@
     <string name="please_vote_on_mirror_to_cast_vote_in_this_exit_poll">Please vote on mirror to cast vote in this exit poll.</string>
     <string name="please_fill_at_least_2_option_field">Please fill at least 2 option field.</string>
     <string name="please_enter_related_mirror_field">Please enter related mirror field.</string>
+    <string name="guest_user">Guest user</string>
 
 </resources>

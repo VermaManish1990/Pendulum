@@ -12,12 +12,9 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -77,8 +74,9 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
     private View mFlQuarterBlackView;
     private View mFlMenuView;
     private ImageView mIvProfile;
-    private int mUserId;
+    private int mExitPollUserId;
     private boolean mIsVotedUser;
+    private int mUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +89,13 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                 mMirrorId = localBundle.getInt(Constants.MIRROR_ID_KEY, 0);
                 mIsVotedUser = localBundle.getBoolean(Constants.IS_VOTED_USER, false);
             }
+        }
+
+        mUserId = -1;
+        try {
+            mUserId = Integer.parseInt(SharedPrefUtils.getUserId(ExitPollScreenActivity.this));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         initUI();
@@ -206,7 +211,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
 
                             final GetExitPollMirrorResponseModel.GetExitPollMirrorDetails mirrorDetails = exitPollMirrorResponseModel.Data.mirrorData;
 
-                            mUserId = mirrorDetails.userID;
+                            mExitPollUserId = mirrorDetails.userID;
                             mTvCreatedBy.setText(mirrorDetails.userFullName != null ? mirrorDetails.userFullName : "");
 
                             String wikiLink;
@@ -290,7 +295,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
         switch (actionID) {
             case IApiEvent.REQUEST_GET_EXIT_POLL_MIRROR_CODE:
 
-                String exitPollMirrorUrl = IWebServices.REQUEST_GET_EXIT_POLL_MIRROR_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this) + "&" +
+                String exitPollMirrorUrl = IWebServices.REQUEST_GET_EXIT_POLL_MIRROR_URL + Constants.PARAM_USER_ID + "=" + mUserId + "&" +
                         Constants.PARAM_MIRROR_ID + "=" + mMirrorId;
                 RequestManager.addRequest(new GsonObjectRequest<GetExitPollMirrorResponseModel>(exitPollMirrorUrl, NetworkUtil.getHeaders(this), null,
                         GetExitPollMirrorResponseModel.class, new VolleyErrorListener(this, actionID)) {
@@ -304,7 +309,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
 
             case IApiEvent.REQUEST_GET_EXIT_POLL_LIST_CODE:
 
-                String exitPollListUrl = IWebServices.REQUEST_GET_EXIT_POLL_LIST_URL + Constants.PARAM_USER_ID + "=" + SharedPrefUtils.getUserId(this) + "&" +
+                String exitPollListUrl = IWebServices.REQUEST_GET_EXIT_POLL_LIST_URL + Constants.PARAM_USER_ID + "=" + mUserId + "&" +
                         Constants.PARAM_MIRROR_ID + "=" + mMirrorId + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
                 RequestManager.addRequest(new GsonObjectRequest<GetExitPollListResponseModel>(exitPollListUrl, NetworkUtil.getHeaders(this), null,
                         GetExitPollListResponseModel.class, new VolleyErrorListener(this, actionID)) {
@@ -345,7 +350,9 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
             case R.id.iv_reflection:
             case R.id.tv_reflections:
 
-                if (mIsVotedUser) {
+                if(mUserId == -1){
+                    OtherUtil.showAlertDialog(getString(R.string.guest_user_message), this, (dialog, which) -> dialog.dismiss());
+                }else if (mIsVotedUser) {
 
                     Intent intentReflection = new Intent(ExitPollScreenActivity.this, ReflectionsActivity.class);
                     intentReflection.putExtra(Constants.MIRROR_ID_KEY, mMirrorId);
@@ -360,7 +367,7 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
                 if (!mTvCreatedBy.getText().toString().equals("")) {
 
                     Intent intent = new Intent(this, ProfileActivity.class);
-                    intent.putExtra(Constants.USER_ID_KEY, mUserId);
+                    intent.putExtra(Constants.USER_ID_KEY, mExitPollUserId);
                     intent.putExtra(Constants.IS_OTHER_PROFILE, true);
                     startActivity(intent);
                 }
@@ -375,8 +382,13 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
 
             case R.id.iv_profile:
                 hideReveal();
-                Intent intentProfile = new Intent(this, ProfileActivity.class);
-                startActivity(intentProfile);
+
+                if (mUserId == -1) {
+                    OtherUtil.showAlertDialog(getString(R.string.guest_user_message), this, (dialog, which) -> dialog.dismiss());
+                } else {
+                    Intent intentProfile = new Intent(this, ProfileActivity.class);
+                    startActivity(intentProfile);
+                }
                 break;
 
             case R.id.fl_mirror:
@@ -417,7 +429,9 @@ public class ExitPollScreenActivity extends BaseActivity implements View.OnClick
         GetExitPollListResponseModel.GetExitPollListDetails exitPollListDetails = mExitPollList.get(position);
 
 
-        if (mIsVotedUser) {
+        if(mUserId == -1){
+            OtherUtil.showAlertDialog(getString(R.string.guest_user_message), this, (dialog, which) -> dialog.dismiss());
+        }else if (mIsVotedUser) {
             mIsVoted = exitPollListDetails.pollAdmire || exitPollListDetails.pollHate || exitPollListDetails.pollCantSay;
 
             if (!mIsVoted) {

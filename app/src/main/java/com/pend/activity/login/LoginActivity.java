@@ -55,6 +55,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         findViewById(R.id.bt_sign_in).setOnClickListener(this);
         findViewById(R.id.tv_forgot_password).setOnClickListener(this);
         findViewById(R.id.bt_sign_up).setOnClickListener(this);
+        findViewById(R.id.bt_guest_user).setOnClickListener(this);
 
         mInputLayoutEmail = findViewById(R.id.input_layout_email);
         mInputLayoutPassword = findViewById(R.id.input_layout_password);
@@ -197,6 +198,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 if (isAllFieldsValid()) {
                     getData(IApiEvent.REQUEST_LOGIN_CODE);
                 }
+                break;
+
+            case R.id.bt_guest_user:
+
+                Intent intentGuest = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(intentGuest);
+                finish();
                 break;
 
             case R.id.bt_sign_up:

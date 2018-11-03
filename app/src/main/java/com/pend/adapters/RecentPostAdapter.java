@@ -63,6 +63,13 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
 
         final GetPostsResponseModel.GetPostsDetails postsDetails = mPostList.get(position);
 
+        int userId = -1;
+        try {
+            userId = Integer.parseInt(SharedPrefUtils.getUserId(mContext));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         holder.tvCommentCount.setText(String.valueOf(postsDetails.commentCount));
         holder.tvLikeCount.setText(String.valueOf(postsDetails.likeCount));
         holder.tvDislikeCount.setText(String.valueOf(postsDetails.unlikeCount));
@@ -99,6 +106,7 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
                     .into(holder.ivUser);
         }
 
+        int finalUserId = userId;
         holder.tvUserName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,6 +134,10 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
                     if (text.length() > 0) {
 
                         holder.etAddAComment.setText("");
+
+                        if (finalUserId == -1) {
+                            OtherUtil.showAlertDialog(mContext.getString(R.string.guest_user_message), mContext, (dialog, which) -> dialog.dismiss());
+                        } else
                         mIRecentPostAdapterCallBack.onSendClick(position, text);
                     }
                     return true;
@@ -133,6 +145,7 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
                 return false;
             }
         });
+
         holder.ivSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,12 +154,15 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
                 if (text.length() > 0) {
 
                     holder.etAddAComment.setText("");
+
+                    if (finalUserId == -1) {
+                        OtherUtil.showAlertDialog(mContext.getString(R.string.guest_user_message), mContext, (dialog, which) -> dialog.dismiss());
+                    } else
                     mIRecentPostAdapterCallBack.onSendClick(position, text);
                 }
             }
         });
 
-        int userId = Integer.parseInt(SharedPrefUtils.getUserId(mContext));
         if (userId == postsDetails.userID) {
             holder.ivMenu.setVisibility(View.VISIBLE);
             holder.ivMenu.setOnClickListener(new View.OnClickListener() {
@@ -162,6 +178,9 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         holder.ivComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (finalUserId == -1) {
+                    OtherUtil.showAlertDialog(mContext.getString(R.string.guest_user_message), mContext, (dialog, which) -> dialog.dismiss());
+                } else
                 mIRecentPostAdapterCallBack.onCommentIconClick(position);
             }
         });
@@ -169,7 +188,9 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         holder.ivLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (postsDetails.isLike) {
+                if (finalUserId == -1) {
+                    OtherUtil.showAlertDialog(mContext.getString(R.string.guest_user_message), mContext, (dialog, which) -> dialog.dismiss());
+                } else if (postsDetails.isLike) {
                     mIRecentPostAdapterCallBack.onLikeOrDislikeClick(position, false, false);
                 } else {
                     mIRecentPostAdapterCallBack.onLikeOrDislikeClick(position, true, false);
@@ -179,7 +200,9 @@ public class RecentPostAdapter extends RecyclerView.Adapter<RecentPostAdapter.Vi
         holder.ivDislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (postsDetails.isUnLike) {
+                if (finalUserId == -1) {
+                    OtherUtil.showAlertDialog(mContext.getString(R.string.guest_user_message), mContext, (dialog, which) -> dialog.dismiss());
+                } else if (postsDetails.isUnLike) {
                     mIRecentPostAdapterCallBack.onLikeOrDislikeClick(position, false, false);
                 } else {
                     mIRecentPostAdapterCallBack.onLikeOrDislikeClick(position, false, true);

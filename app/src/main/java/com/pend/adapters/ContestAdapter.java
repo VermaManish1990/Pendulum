@@ -312,6 +312,7 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     viewHolder.tvMirror1View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_sky_blue_view));
                 } else {
                     viewHolder.tvMirror1View.setWidth(width / 4);
+                    viewHolder.tvMirror1View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
                     viewHolder.tvMirror1View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
                 }
 
@@ -321,6 +322,7 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     viewHolder.tvMirror2View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_pink_view));
                 } else {
                     viewHolder.tvMirror2View.setWidth(width / 4);
+                    viewHolder.tvMirror2View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
                     viewHolder.tvMirror2View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
                 }
 
@@ -330,16 +332,20 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     viewHolder.tvMirror3View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_royal_blue_view));
                 } else {
                     viewHolder.tvMirror3View.setWidth(width / 4);
+                    viewHolder.tvMirror3View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
                     viewHolder.tvMirror3View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
                 }
             } else {
                 viewHolder.tvMirror1View.setWidth(width / 4);
+                viewHolder.tvMirror1View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
                 viewHolder.tvMirror1View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
 
                 viewHolder.tvMirror2View.setWidth(width / 4);
+                viewHolder.tvMirror2View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
                 viewHolder.tvMirror2View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
 
                 viewHolder.tvMirror3View.setWidth(width / 4);
+                viewHolder.tvMirror3View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
                 viewHolder.tvMirror3View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
 
             }
@@ -352,8 +358,20 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         viewHolder.tvCreatedBy.setOnClickListener(v -> onCreatedByUserClick(contestDetails.createdUserID));
 
         viewHolder.rlBottomView.setOnClickListener(v -> {
-            DialogFragment votingDialogFragment = ContestVotingWith3OptionDialogFragment.newInstance(mIsVoted, contestDetails);
-            votingDialogFragment.show(((BaseActivity) mContext).getSupportFragmentManager(), "ContestVotingWith3OptionDialogFragment");
+
+            int userId = -1;
+            try {
+                userId = Integer.parseInt(SharedPrefUtils.getUserId(mContext));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if(userId == -1){
+                OtherUtil.showAlertDialog(mContext.getString(R.string.guest_user_message), mContext, (dialog, which) -> dialog.dismiss());
+            }else{
+                DialogFragment votingDialogFragment = ContestVotingWith3OptionDialogFragment.newInstance(mIsVoted, contestDetails);
+                votingDialogFragment.show(((BaseActivity) mContext).getSupportFragmentManager(), "ContestVotingWith3OptionDialogFragment");
+            }
         });
 
         viewHolder.tvShareOnFacebook.setOnClickListener(new View.OnClickListener() {

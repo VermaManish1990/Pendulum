@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
 import com.pend.BaseResponseModel;
@@ -176,6 +177,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                         LoggerUtil.d(TAG, baseResponseModel.statusCode);
 
                         SharedPrefUtils.setUserLoggedIn(SettingActivity.this, false);
+                        SharedPrefUtils.setUserId(SettingActivity.this, "-1");
+                        SharedPrefUtils.setLocation(SettingActivity.this, new LatLng(0.0, 0.0));
+                        SharedPrefUtils.setProfileImageUrl(SettingActivity.this, null);
+
                         Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

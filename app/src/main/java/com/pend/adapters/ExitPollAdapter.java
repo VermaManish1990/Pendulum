@@ -72,6 +72,7 @@ public class ExitPollAdapter extends RecyclerView.Adapter<ExitPollAdapter.ViewHo
                         holder.tvAdmireView.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_green_view));
                     } else {
                         holder.tvAdmireView.setWidth(width / 4);
+                        holder.tvAdmireView.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
                         holder.tvAdmireView.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
                     }
 
@@ -81,6 +82,7 @@ public class ExitPollAdapter extends RecyclerView.Adapter<ExitPollAdapter.ViewHo
                         holder.tvHateView.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_red_view));
                     } else {
                         holder.tvHateView.setWidth(width / 4);
+                        holder.tvHateView.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
                         holder.tvHateView.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
                     }
 
@@ -90,16 +92,20 @@ public class ExitPollAdapter extends RecyclerView.Adapter<ExitPollAdapter.ViewHo
                         holder.tvCanTSayView.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_yellow_view));
                     } else {
                         holder.tvCanTSayView.setWidth(width / 4);
+                        holder.tvCanTSayView.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
                         holder.tvCanTSayView.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
                     }
                 } else {
                     holder.tvAdmireView.setWidth(width / 4);
+                    holder.tvAdmireView.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
                     holder.tvAdmireView.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
 
                     holder.tvHateView.setWidth(width / 4);
+                    holder.tvHateView.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
                     holder.tvHateView.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
 
                     holder.tvCanTSayView.setWidth(width / 4);
+                    holder.tvCanTSayView.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
                     holder.tvCanTSayView.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
                 }
 

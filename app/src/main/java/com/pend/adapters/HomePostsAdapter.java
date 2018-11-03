@@ -59,6 +59,13 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
     public void onBindViewHolder(@NonNull final HomePostsAdapter.ViewHolder holder, final int position) {
         final GetPostsResponseModel.GetPostsDetails postsDetails = mPostsDetailsList.get(position);
 
+        int userId = -1;
+        try {
+            userId = Integer.parseInt(SharedPrefUtils.getUserId(mContext));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         holder.tvComment.setText(String.valueOf(postsDetails.commentCount));
         holder.tvLike.setText(String.valueOf(postsDetails.likeCount));
         holder.tvDislike.setText(String.valueOf(postsDetails.unlikeCount));
@@ -127,6 +134,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                     .into(holder.ivUser);
         }
 
+        int finalUserId = userId;
         holder.etAddAComment.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // If the event is a key-down event on the "enter" button
@@ -138,13 +146,18 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                     if (text.length() > 0) {
 
                         holder.etAddAComment.setText("");
-                        mIHomePostsAdapterCallBack.onSendClick(position, text);
+
+                        if (finalUserId == -1) {
+                            OtherUtil.showAlertDialog(mContext.getString(R.string.guest_user_message), mContext, (dialog, which) -> dialog.dismiss());
+                        } else
+                            mIHomePostsAdapterCallBack.onSendClick(position, text);
                     }
                     return true;
                 }
                 return false;
             }
         });
+
         holder.ivSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,12 +166,15 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                 if (text.length() > 0) {
 
                     holder.etAddAComment.setText("");
-                    mIHomePostsAdapterCallBack.onSendClick(position, text);
+
+                    if (finalUserId == -1) {
+                        OtherUtil.showAlertDialog(mContext.getString(R.string.guest_user_message), mContext, (dialog, which) -> dialog.dismiss());
+                    } else
+                        mIHomePostsAdapterCallBack.onSendClick(position, text);
                 }
             }
         });
 
-        int userId = Integer.parseInt(SharedPrefUtils.getUserId(mContext));
         if (userId == postsDetails.userID) {
             holder.ivMenu.setVisibility(View.VISIBLE);
             holder.ivMenu.setOnClickListener(new View.OnClickListener() {
@@ -174,14 +190,19 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         holder.llComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mIHomePostsAdapterCallBack.onCommentClick(position);
+                if (finalUserId == -1) {
+                    OtherUtil.showAlertDialog(mContext.getString(R.string.guest_user_message), mContext, (dialog, which) -> dialog.dismiss());
+                } else
+                    mIHomePostsAdapterCallBack.onCommentClick(position);
             }
         });
 
         holder.llLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (postsDetails.isLike) {
+                if (finalUserId == -1) {
+                    OtherUtil.showAlertDialog(mContext.getString(R.string.guest_user_message), mContext, (dialog, which) -> dialog.dismiss());
+                } else if (postsDetails.isLike) {
                     mIHomePostsAdapterCallBack.onLikeOrDislikeClick(position, false, false);
                 } else {
                     mIHomePostsAdapterCallBack.onLikeOrDislikeClick(position, true, false);
@@ -191,7 +212,9 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         holder.llDislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (postsDetails.isUnLike) {
+                if (finalUserId == -1) {
+                    OtherUtil.showAlertDialog(mContext.getString(R.string.guest_user_message), mContext, (dialog, which) -> dialog.dismiss());
+                } else if (postsDetails.isUnLike) {
                     mIHomePostsAdapterCallBack.onLikeOrDislikeClick(position, false, false);
                 } else {
                     mIHomePostsAdapterCallBack.onLikeOrDislikeClick(position, false, true);
@@ -223,7 +246,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    }else {
+                    } else {
                         OtherUtil.showAlertDialog("You can not share post on facebook without image.", mContext, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

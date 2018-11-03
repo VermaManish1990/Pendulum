@@ -24,6 +24,7 @@ import com.pend.BaseActivity;
 import com.pend.BaseResponseModel;
 import com.pend.R;
 import com.pend.activity.login.ProfileActivity;
+import com.pend.activity.mirror.ExitPollScreenActivity;
 import com.pend.adapters.CommentsAdapter;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
@@ -35,6 +36,7 @@ import com.pend.models.PostLikeResponseModel;
 import com.pend.util.DateUtil;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
+import com.pend.util.OtherUtil;
 import com.pend.util.PaginationScrollListener;
 import com.pend.util.RequestPostDataUtil;
 import com.pend.util.SharedPrefUtils;
@@ -80,6 +82,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
     private String mCommentText;
     private boolean mIsUpdateComment;
     private ImageView mIvUser;
+    private int mUserId;
 
     public static CommentsDialogFragment newInstance(GetPostsResponseModel.GetPostsDetails postsDetails) {
         CommentsDialogFragment fragment = new CommentsDialogFragment();
@@ -111,6 +114,12 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_comments, container, false);
 
+        mUserId = -1;
+        try {
+            mUserId = Integer.parseInt(SharedPrefUtils.getUserId(mContext));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         initUI(view);
 
         if (mPostDetails != null) {
@@ -153,7 +162,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
         mIsUpdateComment = false;
         mCommentList = new ArrayList<>();
 
-        if(SharedPrefUtils.getProfileImageUrl(mContext)!=null && !Objects.equals(SharedPrefUtils.getProfileImageUrl(mContext), "")){
+        if (SharedPrefUtils.getProfileImageUrl(mContext) != null && !Objects.equals(SharedPrefUtils.getProfileImageUrl(mContext), "")) {
             Picasso.with(mContext)
                     .load(SharedPrefUtils.getProfileImageUrl(mContext))
                     .into(mIvUser);
@@ -167,7 +176,10 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
                     // Perform action on key press
 
                     mCommentText = mEtAddAComment.getText().toString().trim();
-                    if (mCommentText.length() > 0) {
+
+                    if (mUserId == -1) {
+                        OtherUtil.showAlertDialog(getString(R.string.guest_user_message), mContext, (dialog, which) -> dialog.dismiss());
+                    } else if (mCommentText.length() > 0) {
                         if (mIsUpdateComment) {
                             mIsUpdateComment = false;
                             getData(IApiEvent.REQUEST_UPDATE_COMMENT_CODE);
@@ -452,7 +464,7 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
                 return;
             }
             mContext.showProgressDialog();
-        }else {
+        } else {
             return;
         }
 
@@ -553,35 +565,52 @@ public class CommentsDialogFragment extends DialogFragment implements IScreen, V
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_like:
-                if (mPostDetails.isLike) {
-                    mIsLike = false;
-                    mIsUnLike = false;
+
+                if (mUserId == -1) {
+                    OtherUtil.showAlertDialog(getString(R.string.guest_user_message), mContext, (dialog, which) -> dialog.dismiss());
                 } else {
-                    mIsLike = true;
-                    mIsUnLike = false;
+
+                    if (mPostDetails.isLike) {
+                        mIsLike = false;
+                        mIsUnLike = false;
+                    } else {
+                        mIsLike = true;
+                        mIsUnLike = false;
+                    }
+                    getData(IApiEvent.REQUEST_POST_LIKE_CODE);
                 }
-                getData(IApiEvent.REQUEST_POST_LIKE_CODE);
                 break;
 
             case R.id.iv_dislike:
-                if (mPostDetails.isUnLike) {
-                    mIsLike = false;
-                    mIsUnLike = false;
+                if (mUserId == -1) {
+                    OtherUtil.showAlertDialog(getString(R.string.guest_user_message), mContext, (dialog, which) -> dialog.dismiss());
                 } else {
-                    mIsLike = false;
-                    mIsUnLike = true;
+
+                    if (mPostDetails.isUnLike) {
+                        mIsLike = false;
+                        mIsUnLike = false;
+                    } else {
+                        mIsLike = false;
+                        mIsUnLike = true;
+                    }
+                    getData(IApiEvent.REQUEST_POST_LIKE_CODE);
                 }
-                getData(IApiEvent.REQUEST_POST_LIKE_CODE);
                 break;
 
             case R.id.iv_send:
-                mCommentText = mEtAddAComment.getText().toString().trim();
-                if (mCommentText.length() > 0) {
-                    if (mIsUpdateComment) {
-                        mIsUpdateComment = false;
-                        getData(IApiEvent.REQUEST_UPDATE_COMMENT_CODE);
-                    } else {
-                        getData(IApiEvent.REQUEST_ADD_COMMENT_CODE);
+
+                if (mUserId == -1) {
+                    OtherUtil.showAlertDialog(getString(R.string.guest_user_message), mContext, (dialog, which) -> dialog.dismiss());
+                } else {
+
+                    mCommentText = mEtAddAComment.getText().toString().trim();
+                    if (mCommentText.length() > 0) {
+                        if (mIsUpdateComment) {
+                            mIsUpdateComment = false;
+                            getData(IApiEvent.REQUEST_UPDATE_COMMENT_CODE);
+                        } else {
+                            getData(IApiEvent.REQUEST_ADD_COMMENT_CODE);
+                        }
                     }
                 }
                 break;

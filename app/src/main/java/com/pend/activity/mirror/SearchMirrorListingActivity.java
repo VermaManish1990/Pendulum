@@ -61,6 +61,7 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
     private int mPageNumber;
     private boolean mIsLoading;
     private boolean mIsHasNextPage;
+    private int mUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,13 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
             if (localBundle.containsKey(Constants.SEARCH_TEXT_KEY)) {
                 mSearchText = localBundle.getString(Constants.SEARCH_TEXT_KEY, null);
             }
+        }
+
+        mUserId = -1;
+        try {
+            mUserId = Integer.parseInt(SharedPrefUtils.getUserId(this));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         initUI();
@@ -288,8 +296,13 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
 
             case R.id.iv_profile:
                 hideReveal();
-                Intent intentProfile = new Intent(this, ProfileActivity.class);
-                startActivity(intentProfile);
+
+                if (mUserId == -1) {
+                    OtherUtil.showAlertDialog(getString(R.string.guest_user_message), this, (dialog, which) -> dialog.dismiss());
+                } else {
+                    Intent intentProfile = new Intent(this, ProfileActivity.class);
+                    startActivity(intentProfile);
+                }
                 break;
 
             case R.id.fl_mirror:

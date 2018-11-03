@@ -126,6 +126,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     private GoogleApiClient gac;
     private LocationRequest locationRequest;
     private static boolean isFirstLaunch = true;
+    private int mUserId;
 
 
     @Override
@@ -135,6 +136,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
         FacebookSdk.setApplicationId(getString(R.string.facebook_app_id));
         FacebookSdk.sdkInitialize(getApplicationContext());
+
+        mUserId = -1;
+        try {
+            mUserId = Integer.parseInt(SharedPrefUtils.getUserId(HomeActivity.this));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         initUI();
         setInitialData();
@@ -589,9 +597,15 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 break;
 
             case R.id.iv_profile:
+
                 hideReveal();
-                Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-                startActivity(intent);
+
+                if (mUserId == -1) {
+                    OtherUtil.showAlertDialog(getString(R.string.guest_user_message), this, (dialog, which) -> dialog.dismiss());
+                } else {
+                    Intent intentProfile = new Intent(this, ProfileActivity.class);
+                    startActivity(intentProfile);
+                }
                 break;
 
             case R.id.fl_mirror:
