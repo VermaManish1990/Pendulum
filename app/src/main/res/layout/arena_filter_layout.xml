@@ -182,7 +182,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:buttonTint="@android:color/black"
-                android:text="Both"
+                android:text="All"
                 android:textColor="@color/fontPrimary80" />
 
         </RadioGroup>

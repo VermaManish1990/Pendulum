@@ -1,6 +1,7 @@
 package com.pend.arena.view;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pend.R;
+import com.pend.activity.login.ProfileActivity;
 import com.pend.arena.model.Message;
 import com.pend.arena.model.get_chat_room.GetChatRoomResponse;
 import com.pend.arena.model.user_chat.ResponseData;
@@ -60,6 +62,7 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
     private TextView headerName;
     private String userFullName,userImage;
     private CircleImageView headerImage;
+    private RelativeLayout profilePic;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +74,7 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
         sendButton = (Button) findViewById(R.id.send_button);
         headerName=(TextView) findViewById(R.id.header_name);
         headerImage=(CircleImageView)findViewById(R.id.header_image);
+        profilePic=(RelativeLayout) findViewById(R.id.profile_pic);
 
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.parent_layout);
 
@@ -176,6 +180,16 @@ public class ChatActivity extends Activity implements ChatPresenter.ChatPresente
                 if (!hasFocus) {
                     hideKeyboard(v);
                 }
+            }
+        });
+
+        profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChatActivity.this, ProfileActivity.class);
+                intent.putExtra(Constants.USER_ID_KEY, selectedUserID);
+                intent.putExtra(Constants.IS_OTHER_PROFILE, true);
+                startActivity(intent);
             }
         });
 

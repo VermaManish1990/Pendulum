@@ -239,7 +239,9 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                    Log.e("userId",item.getUserID()+"");
                     intent.putExtra(Constants.USER_ID_KEY, item.getUserID());
+                    intent.putExtra(Constants.IS_OTHER_PROFILE, true);
                     startActivity(intent);
                 }
             });
@@ -249,7 +251,7 @@ public class ChatFragment extends Fragment implements ArenaHomePresenter.ArenaHo
                 public void onClick(View v) {
 
                     Intent intent = new Intent(getActivity(), ChatActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                   // intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     Bundle bundle = new Bundle();
                     bundle.putInt(Constants.CHAT_ROOM_ID, item.getChatRoomID());
                     bundle.putInt(Constants.SELECTED_USER_ID, item.getUserID());

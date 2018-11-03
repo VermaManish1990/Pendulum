@@ -14,6 +14,11 @@
         android:background="@android:color/black"
         android:padding="@dimen/_10sdp">
 
+        <RelativeLayout
+            android:id="@+id/profile_pic"
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_height="wrap_content">
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="40dp"
             android:layout_alignParentLeft="true"
@@ -31,6 +36,7 @@
             android:textColor="@android:color/white"
             android:text="Name"/>
 
+    </RelativeLayout>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
