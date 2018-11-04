@@ -311,9 +311,9 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     viewHolder.tvMirror1View.setWidth(contestDetails.option1Per * (width / max));
                     viewHolder.tvMirror1View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_sky_blue_view));
                 } else {
-                    viewHolder.tvMirror1View.setWidth(width / 4);
-                    viewHolder.tvMirror1View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
-                    viewHolder.tvMirror1View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+//                    viewHolder.tvMirror1View.setWidth(width / 4);
+//                    viewHolder.tvMirror1View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
+//                    viewHolder.tvMirror1View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
                 }
 
                 if (contestDetails.option2Per != 0) {
@@ -321,9 +321,9 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     viewHolder.tvMirror2View.setWidth(contestDetails.option2Per * (width / max));
                     viewHolder.tvMirror2View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_pink_view));
                 } else {
-                    viewHolder.tvMirror2View.setWidth(width / 4);
-                    viewHolder.tvMirror2View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
-                    viewHolder.tvMirror2View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+//                    viewHolder.tvMirror2View.setWidth(width / 4);
+//                    viewHolder.tvMirror2View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
+//                    viewHolder.tvMirror2View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
                 }
 
                 if (contestDetails.option3Per != 0) {
@@ -331,22 +331,22 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     viewHolder.tvMirror3View.setWidth(contestDetails.option3Per * (width / max));
                     viewHolder.tvMirror3View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_royal_blue_view));
                 } else {
-                    viewHolder.tvMirror3View.setWidth(width / 4);
-                    viewHolder.tvMirror3View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
-                    viewHolder.tvMirror3View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+//                    viewHolder.tvMirror3View.setWidth(width / 4);
+//                    viewHolder.tvMirror3View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
+//                    viewHolder.tvMirror3View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
                 }
             } else {
-                viewHolder.tvMirror1View.setWidth(width / 4);
-                viewHolder.tvMirror1View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
-                viewHolder.tvMirror1View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
-
-                viewHolder.tvMirror2View.setWidth(width / 4);
-                viewHolder.tvMirror2View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
-                viewHolder.tvMirror2View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
-
-                viewHolder.tvMirror3View.setWidth(width / 4);
-                viewHolder.tvMirror3View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
-                viewHolder.tvMirror3View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+//                viewHolder.tvMirror1View.setWidth(width / 4);
+//                viewHolder.tvMirror1View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
+//                viewHolder.tvMirror1View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+//
+//                viewHolder.tvMirror2View.setWidth(width / 4);
+//                viewHolder.tvMirror2View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
+//                viewHolder.tvMirror2View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+//
+//                viewHolder.tvMirror3View.setWidth(width / 4);
+//                viewHolder.tvMirror3View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
+//                viewHolder.tvMirror3View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
 
             }
 
