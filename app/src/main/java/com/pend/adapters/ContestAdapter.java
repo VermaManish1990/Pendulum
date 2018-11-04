@@ -24,6 +24,7 @@ import com.facebook.share.widget.ShareDialog;
 import com.pend.BaseActivity;
 import com.pend.R;
 import com.pend.activity.login.ProfileActivity;
+import com.pend.activity.mirror.MirrorDetailsActivity;
 import com.pend.fragments.ContestVotingWith2OptionDialogFragment;
 import com.pend.fragments.ContestVotingWith3OptionDialogFragment;
 import com.pend.interfaces.Constants;
@@ -216,8 +217,19 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         viewHolder.viewProgressBarProfile.setOnClickListener(v -> {
 
-            DialogFragment votingDialogFragment = ContestVotingWith2OptionDialogFragment.newInstance(mIsVoted, contestDetails);
-            votingDialogFragment.show(((BaseActivity) mContext).getSupportFragmentManager(), "ContestVotingWith3OptionDialogFragment");
+            int userId = -1;
+            try {
+                userId = Integer.parseInt(SharedPrefUtils.getUserId(mContext));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (userId == -1) {
+                OtherUtil.showAlertDialog(mContext.getString(R.string.guest_user_message), mContext, (dialog, which) -> dialog.dismiss());
+            } else {
+                DialogFragment votingDialogFragment = ContestVotingWith2OptionDialogFragment.newInstance(mIsVoted, contestDetails);
+                votingDialogFragment.show(((BaseActivity) mContext).getSupportFragmentManager(), "ContestVotingWith3OptionDialogFragment");
+            }
 
         });
 
@@ -279,6 +291,18 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     .into(viewHolder.ivProfile);
         }
 
+        if (contestDetails.relatedMirrorID != 0) {
+            viewHolder.ivProfile.setOnClickListener(v -> {
+                onMirrorClick(contestDetails.relatedMirrorID);
+            });
+            viewHolder.tvName.setOnClickListener(v -> {
+                onMirrorClick(contestDetails.relatedMirrorID);
+            });
+        } else {
+            viewHolder.ivProfile.setVisibility(View.GONE);
+            viewHolder.tvName.setVisibility(View.GONE);
+        }
+
         String createdBy = String.valueOf("Created by: <b>" + (contestDetails.createdUserName != null ? contestDetails.createdUserName : "") + "</b>");
         viewHolder.tvCreatedBy.setText(Html.fromHtml(createdBy));
         viewHolder.tvName.setText(contestDetails.relatedMirrorName != null ? contestDetails.relatedMirrorName : "");
@@ -311,9 +335,9 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     viewHolder.tvMirror1View.setWidth(contestDetails.option1Per * (width / max));
                     viewHolder.tvMirror1View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_sky_blue_view));
                 } else {
-//                    viewHolder.tvMirror1View.setWidth(width / 4);
-//                    viewHolder.tvMirror1View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
-//                    viewHolder.tvMirror1View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+                    viewHolder.tvMirror1View.setWidth(width / 4);
+                    viewHolder.tvMirror1View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
+                    viewHolder.tvMirror1View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
                 }
 
                 if (contestDetails.option2Per != 0) {
@@ -321,9 +345,9 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     viewHolder.tvMirror2View.setWidth(contestDetails.option2Per * (width / max));
                     viewHolder.tvMirror2View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_pink_view));
                 } else {
-//                    viewHolder.tvMirror2View.setWidth(width / 4);
-//                    viewHolder.tvMirror2View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
-//                    viewHolder.tvMirror2View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+                    viewHolder.tvMirror2View.setWidth(width / 4);
+                    viewHolder.tvMirror2View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
+                    viewHolder.tvMirror2View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
                 }
 
                 if (contestDetails.option3Per != 0) {
@@ -331,22 +355,22 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     viewHolder.tvMirror3View.setWidth(contestDetails.option3Per * (width / max));
                     viewHolder.tvMirror3View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_royal_blue_view));
                 } else {
-//                    viewHolder.tvMirror3View.setWidth(width / 4);
-//                    viewHolder.tvMirror3View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
-//                    viewHolder.tvMirror3View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+                    viewHolder.tvMirror3View.setWidth(width / 4);
+                    viewHolder.tvMirror3View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
+                    viewHolder.tvMirror3View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
                 }
             } else {
-//                viewHolder.tvMirror1View.setWidth(width / 4);
-//                viewHolder.tvMirror1View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
-//                viewHolder.tvMirror1View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
-//
-//                viewHolder.tvMirror2View.setWidth(width / 4);
-//                viewHolder.tvMirror2View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
-//                viewHolder.tvMirror2View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
-//
-//                viewHolder.tvMirror3View.setWidth(width / 4);
-//                viewHolder.tvMirror3View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
-//                viewHolder.tvMirror3View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+                viewHolder.tvMirror1View.setWidth(width / 4);
+                viewHolder.tvMirror1View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
+                viewHolder.tvMirror1View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+
+                viewHolder.tvMirror2View.setWidth(width / 4);
+                viewHolder.tvMirror2View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
+                viewHolder.tvMirror2View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
+
+                viewHolder.tvMirror3View.setWidth(width / 4);
+                viewHolder.tvMirror3View.setTextColor(mContext.getResources().getColor(R.color.fontPrimary40));
+                viewHolder.tvMirror3View.setBackground(mContext.getResources().getDrawable(R.drawable.custom_rounded_grey_border));
 
             }
 
@@ -366,9 +390,9 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 e.printStackTrace();
             }
 
-            if(userId == -1){
+            if (userId == -1) {
                 OtherUtil.showAlertDialog(mContext.getString(R.string.guest_user_message), mContext, (dialog, which) -> dialog.dismiss());
-            }else{
+            } else {
                 DialogFragment votingDialogFragment = ContestVotingWith3OptionDialogFragment.newInstance(mIsVoted, contestDetails);
                 votingDialogFragment.show(((BaseActivity) mContext).getSupportFragmentManager(), "ContestVotingWith3OptionDialogFragment");
             }
@@ -413,6 +437,17 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         });
 
+    }
+
+    /**
+     * Method is used to go to Mirror details screen.
+     *
+     * @param relatedMirrorID relatedMirrorID
+     */
+    private void onMirrorClick(int relatedMirrorID) {
+        Intent intent = new Intent(mContext, MirrorDetailsActivity.class);
+        intent.putExtra(Constants.MIRROR_ID_KEY, relatedMirrorID);
+        mContext.startActivity(intent);
     }
 
     /**

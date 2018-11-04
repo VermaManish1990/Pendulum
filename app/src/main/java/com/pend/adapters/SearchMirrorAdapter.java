@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.pend.R;
 import com.pend.models.SearchMirrorResponseModel;
 import com.pend.util.LoggerUtil;
+import com.pend.util.OtherUtil;
+import com.pend.util.SharedPrefUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -84,11 +86,19 @@ public class SearchMirrorAdapter extends RecyclerView.Adapter<SearchMirrorAdapte
                     .into(holder.ivProfile);
         }
 
-        holder.btCreateMirror.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mISearchMirrorAdapterCallBack.onMirrorClick(position);
+        holder.btCreateMirror.setOnClickListener(v -> {
+
+            int userId = -1;
+            try {
+                userId = Integer.parseInt(SharedPrefUtils.getUserId(mContext));
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+            if (userId == -1) {
+                OtherUtil.showAlertDialog(mContext.getString(R.string.guest_user_message), mContext, (dialog, which) -> dialog.dismiss());
+            } else
+                mISearchMirrorAdapterCallBack.onMirrorClick(position);
         });
     }
 
