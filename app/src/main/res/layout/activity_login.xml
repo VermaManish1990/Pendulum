@@ -118,6 +118,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="@dimen/_20sdp"
         android:text="@string/guest_user"
+        android:visibility="gone"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/textSize15" />
 
