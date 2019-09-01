@@ -3,6 +3,7 @@ package com.pend;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.provider.Settings;
+import android.util.Log;
 
 import com.pend.interfaces.Constants;
 import com.pendulum.application.BaseApplication;
@@ -30,11 +31,15 @@ public class PendulumApplication extends BaseApplication {
 
     public final String getSecurityKey() {
         String securityKey = getDeviceId() + Constants.SECURITY_CONSTANT;
-        return getMd5Encryption(securityKey);
+
+        String eString  =getMd5Encryption(securityKey);
+        Log.e("securityKey",eString);
+        return  eString;
     }
 
     public String getDeviceId() {
         @SuppressLint("HardwareIds") String deviceId = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+        Log.e("deviceId",deviceId);
         return deviceId;
     }
 }

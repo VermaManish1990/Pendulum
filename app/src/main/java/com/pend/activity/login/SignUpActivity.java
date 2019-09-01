@@ -17,6 +17,8 @@ import com.pend.R;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
+import com.pend.models.SendOTPResponseModel;
+import com.pend.models.SignupResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
 import com.pend.util.OtherUtil;
@@ -36,13 +38,14 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private TextInputLayout mInputLayoutPassword;
     private TextInputLayout mInputLayoutConfirmPassword;
     private EditText mEtName;
-//    private EditText mEtMobileNumber;
+    private EditText mEtMobileNumber;
     private EditText mEtEmail;
     private EditText mEtPassword;
     private EditText mEtConfirmPassword;
     private boolean mIsChecked = true;
     private String mPassword;
-//    private String mPhoneNumber;
+    private String mPhoneNumber;
+    private Integer mUserID;
     private String mUserEmail;
     private String mFullName;
     private View mRootView;
@@ -62,8 +65,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
         mRootView = findViewById(R.id.root_view);
         mEtName = findViewById(R.id.et_name);
-//        mEtMobileNumber = findViewById(R.id.et_mobile_number);
-        mEtEmail = findViewById(R.id.et_email);
+        mEtMobileNumber = findViewById(R.id.et_mobile_number);
+   //     mEtEmail = findViewById(R.id.et_email);
         mEtPassword = findViewById(R.id.et_password);
         mEtConfirmPassword = findViewById(R.id.et_confirm_password);
 
@@ -74,8 +77,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         mInputLayoutConfirmPassword = findViewById(R.id.input_layout_confirm_password);
 
         mEtName.addTextChangedListener(SignUpActivity.this);
-//        mEtMobileNumber.addTextChangedListener(SignUpActivity.this);
-        mEtEmail.addTextChangedListener(SignUpActivity.this);
+       mEtMobileNumber.addTextChangedListener(SignUpActivity.this);
+ //       mEtEmail.addTextChangedListener(SignUpActivity.this);
         mEtPassword.addTextChangedListener(SignUpActivity.this);
         mEtConfirmPassword.addTextChangedListener(SignUpActivity.this);
 
@@ -99,14 +102,43 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         switch (actionID) {
             case IApiEvent.REQUEST_SIGN_UP_CODE:
                 if (status) {
-                    BaseResponseModel baseResponseModel = (BaseResponseModel) serviceResponse;
+                    SignupResponseModel baseResponseModel = (SignupResponseModel) serviceResponse;
                     if (baseResponseModel != null && baseResponseModel.status) {
                         LoggerUtil.d(TAG, baseResponseModel.statusCode);
 
-                        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        startActivity(intent);
-                        finish();
+
+                        mPhoneNumber = baseResponseModel.Data.user.userPhone;
+                        mUserID = baseResponseModel.Data.user.userID;
+                      //  Intent intent = new Intent(SignUpActivity.this, VerifyCodeActivity.class);
+                       // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                       // startActivity(intent);
+                       // finish();
+                        getData(IApiEvent.REQUEST_SEND_OTP);
+
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                    }
+                } else {
+                    OtherUtil.showErrorMessage(this,serviceResponse);
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+
+
+                }
+                break;
+            case IApiEvent.REQUEST_SEND_OTP:
+                if (status) {
+                    SendOTPResponseModel baseResponseModel = (SendOTPResponseModel) serviceResponse;
+                    if (baseResponseModel != null && baseResponseModel.status) {
+                        LoggerUtil.d(TAG, baseResponseModel.statusCode);
+
+                        if(baseResponseModel.Data!=null&&baseResponseModel.Data.Status.equalsIgnoreCase("success")) {
+                            Intent intent = new Intent(SignUpActivity.this, VerifyCodeActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            intent.putExtra("userID", mUserID);
+                            intent.putExtra("sessionID", baseResponseModel.Data.Details);
+                            startActivity(intent);
+                            finish();
+                        }
 
                     } else {
                         LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
@@ -140,14 +172,30 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         switch (actionID) {
             case IApiEvent.REQUEST_SIGN_UP_CODE:
 
-                JsonObject requestObject = RequestPostDataUtil.signUpApiRegParam(mFullName, mUserEmail, mPassword);
+                JsonObject requestObject = RequestPostDataUtil.signUpApiRegParam(mFullName, mPhoneNumber, mPassword);
                 String request = requestObject.toString();
-                RequestManager.addRequest(new GsonObjectRequest<BaseResponseModel>(IWebServices.REQUEST_SIGN_UP_URL, NetworkUtil.getHeaders(this),
-                        request, BaseResponseModel.class, new
+                RequestManager.addRequest(new GsonObjectRequest<SignupResponseModel>(IWebServices.REQUEST_SIGN_UP_URL, NetworkUtil.getHeaders(this),
+                        request, SignupResponseModel.class, new
                         VolleyErrorListener(this, actionID)) {
 
                     @Override
-                    protected void deliverResponse(BaseResponseModel response) {
+                    protected void deliverResponse(SignupResponseModel response) {
+                        updateUi(true, actionID, response);
+
+                    }
+                });
+                break;
+
+            case IApiEvent.REQUEST_SEND_OTP:
+
+                 requestObject = RequestPostDataUtil.sendOtpApiRegParam( mPhoneNumber, mUserID);
+                 request = requestObject.toString();
+                RequestManager.addRequest(new GsonObjectRequest<SendOTPResponseModel>(IWebServices.REQUEST_SEND_OTP, NetworkUtil.getHeaders(this),
+                        request, SendOTPResponseModel.class, new
+                        VolleyErrorListener(this, actionID)) {
+
+                    @Override
+                    protected void deliverResponse(SendOTPResponseModel response) {
                         updateUi(true, actionID, response);
 
                     }
@@ -198,11 +246,11 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
         if (mEtName.hasFocus()) {
             checkValidationForName();
-        } /*else if (mEtMobileNumber.hasFocus()) {
+        } else if (mEtMobileNumber.hasFocus()) {
             checkValidationForMobileNumber();
-        } */else if (mEtEmail.hasFocus()) {
+        } /*else if (mEtEmail.hasFocus()) {
             checkValidationForEmail();
-        } else if (mEtPassword.hasFocus()) {
+        }*/ else if (mEtPassword.hasFocus()) {
             checkValidationForPassword();
         } else if (mEtConfirmPassword.hasFocus()) {
             checkValidationForConfirmPassword();
@@ -223,8 +271,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private boolean isAllFieldsValid() {
         mIsChecked = true;
         checkValidationForName();
-//        checkValidationForMobileNumber();
-        checkValidationForEmail();
+        checkValidationForMobileNumber();
+//        checkValidationForEmail();
         checkValidationForPassword();
         checkValidationForConfirmPassword();
         return mIsChecked;
@@ -247,20 +295,20 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     /**
      * This method will check validation for Mobile Number.
      */
-//    private void checkValidationForMobileNumber() {
-//        if (mEtMobileNumber.getText().toString().trim().length() == 0) {
-//            mInputLayoutMobileNumber.setError(getString(R.string.please_enter_phone_number));
-//            mInputLayoutMobileNumber.setErrorEnabled(true);
-//            mIsChecked = false;
-//        } else if (mEtMobileNumber.getText().toString().trim().length() < 10) {
-//            mInputLayoutMobileNumber.setError(getString(R.string.please_enter_valid_phone_number));
-//            mInputLayoutMobileNumber.setErrorEnabled(true);
-//            mIsChecked = false;
-//        } else {
-//            mPhoneNumber = mEtMobileNumber.getText().toString().trim();
-//            mInputLayoutMobileNumber.setErrorEnabled(false);
-//        }
-//    }
+   private void checkValidationForMobileNumber() {
+        if (mEtMobileNumber.getText().toString().trim().length() == 0) {
+           mInputLayoutMobileNumber.setError(getString(R.string.please_enter_phone_number));
+           mInputLayoutMobileNumber.setErrorEnabled(true);
+            mIsChecked = false;
+       } else if (mEtMobileNumber.getText().toString().trim().length() < 10) {
+            mInputLayoutMobileNumber.setError(getString(R.string.please_enter_valid_phone_number));
+            mInputLayoutMobileNumber.setErrorEnabled(true);
+            mIsChecked = false;
+        } else {
+            mPhoneNumber = mEtMobileNumber.getText().toString().trim();
+            mInputLayoutMobileNumber.setErrorEnabled(false);
+        }
+    }
 
     /**
      * This method will check validation for Email Id.
@@ -279,6 +327,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             mInputLayoutEmail.setErrorEnabled(false);
         }
     }
+
 
     /**
      * This method will check validation for Name.

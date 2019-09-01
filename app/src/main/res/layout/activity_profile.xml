@@ -14,13 +14,24 @@
         android:orientation="vertical"
         android:weightSum="9">
 
-        <com.pend.widget.CustomViewPager
-            android:id="@+id/viewpager_profile"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3">
 
+        <com.pend.widget.CustomViewPager
+            android:id="@+id/viewpager_profile"
+            android:layout_height="match_parent"
+             android:layout_width="match_parent"
+            >
+
         </com.pend.widget.CustomViewPager>
+
+            <ImageView
+                android:id="@+id/imagePlaceholder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"

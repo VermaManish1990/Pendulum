@@ -61,5 +61,8 @@ public class GetContestsResponseModel extends BaseResponseModel {
         public int option1TextCount;
         public int option2TextCount;
         public int option3TextCount;
+
+        public int TypeOneOptions;
+        public int typeTwoOptions;
     }
 }

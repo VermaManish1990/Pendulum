@@ -7,6 +7,8 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
@@ -57,6 +59,8 @@ import com.pendulum.volley.ext.GsonObjectRequest;
 import com.pendulum.volley.ext.RequestManager;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class EditMyProfileActivity extends BaseActivity implements TextWatcher, View.OnClickListener, UploadImageAdapter.IUploadImageAdapterCallback {
@@ -523,6 +527,7 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
         String imagePath = null;
         if (resultCode == Activity.RESULT_OK) {
             Uri selectedImage = null;
+            Bitmap selectedImage2=null;
             switch (requestCode) {
                 case Constants.REQUEST_SELECT_IMAGE_FROM_ALBUM:
 
@@ -542,7 +547,14 @@ public class EditMyProfileActivity extends BaseActivity implements TextWatcher, 
             }
 
             if (selectedImage != null) {
-                mEncodedImage = OtherUtil.getBase64Format(selectedImage.getPath());
+                try {
+                    final Uri imageUri = data.getData();
+                    final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                    selectedImage2 = BitmapFactory.decodeStream(imageStream);
+               } catch (IOException e) {
+                    e.printStackTrace();
+               }
+                mEncodedImage = OtherUtil.getBase64FormatFromBitmap(selectedImage2);
                 if (mEncodedImage != null) {
                     getData(IApiEvent.REQUEST_ADD_USER_IMAGE_CODE);
                 }

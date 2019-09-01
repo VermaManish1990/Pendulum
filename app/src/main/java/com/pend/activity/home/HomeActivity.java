@@ -63,10 +63,12 @@ import com.pend.arena.api.ApiClient;
 import com.pend.arena.api.URL;
 import com.pend.arena.view.ArenaActivity;
 import com.pend.fragments.CommentsDialogFragment;
+import com.pend.fragments.HomeCommentsDialogFragment;
 import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.AddAndUpdateCommentResponseModel;
+import com.pend.models.GetNewsFeedDataModel;
 import com.pend.models.GetPostsResponseModel;
 import com.pend.models.PostLikeResponseModel;
 import com.pend.models.SearchInNewsFeedResponseModel;
@@ -92,13 +94,13 @@ import retrofit2.http.POST;
 
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener, HomePostsAdapter.IHomePostsAdapterCallBack,
-        CommentsDialogFragment.ICommentsDialogCallBack, SearchInNewsFeedAdapter.IMirrorSearchAdapterCallBack, TextWatcher,
+        HomeCommentsDialogFragment.ICommentsDialogCallBack, SearchInNewsFeedAdapter.IMirrorSearchAdapterCallBack, TextWatcher,
         LocationListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
     private RecyclerView mRecyclerViewPost;
-    private ArrayList<GetPostsResponseModel.GetPostsDetails> mPostsDetailsList;
+    private ArrayList<GetNewsFeedDataModel.NewsFeedList> mPostsDetailsList;
     private ArrayList<SearchInNewsFeedResponseModel.MirrorDetails> mMirrorList;
     private int mPageNumber = 1;
     private int mMirrorId;
@@ -278,11 +280,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         switch (actionID) {
             case IApiEvent.REQUEST_GET_POSTS_CODE:
                 if (status) {
-                    GetPostsResponseModel postsResponseModel = (GetPostsResponseModel) serviceResponse;
+                    GetNewsFeedDataModel postsResponseModel = (GetNewsFeedDataModel) serviceResponse;
                     if (postsResponseModel != null && postsResponseModel.status) {
                         LoggerUtil.d(TAG, postsResponseModel.statusCode);
 
-                        if (postsResponseModel.Data != null && postsResponseModel.Data.postList != null) {
+                        if (postsResponseModel.Data != null && postsResponseModel.Data.newsFeedList != null) {
 
                             mTvDataNotAvailable.setVisibility(View.GONE);
                             mRecyclerViewMirror.setVisibility(View.GONE);
@@ -291,7 +293,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                             mIsHasNextPage = !postsResponseModel.Data.hasNextPage;
 
                             HomePostsAdapter homePostsAdapter = (HomePostsAdapter) mRecyclerViewPost.getAdapter();
-                            mPostsDetailsList.addAll(postsResponseModel.Data.postList);
+                            mPostsDetailsList.addAll(postsResponseModel.Data.newsFeedList);
                             homePostsAdapter.setPostsDetailsList(mPostsDetailsList);
                             homePostsAdapter.notifyDataSetChanged();
                         } else {
@@ -372,13 +374,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         if (postLikeResponseModel.Data != null && postLikeResponseModel.Data.likeData != null) {
 
                             int position = 0;
-                            for (GetPostsResponseModel.GetPostsDetails postsDetails : mPostsDetailsList) {
-                                if (postsDetails.postID == postLikeResponseModel.Data.likeData.postID) {
+                            for (GetNewsFeedDataModel.NewsFeedList postsDetails : mPostsDetailsList) {
+                                if (postsDetails.postData!=null&&postsDetails.postData.postID == postLikeResponseModel.Data.likeData.postID) {
 
-                                    postsDetails.isLike = postLikeResponseModel.Data.likeData.isLike;
-                                    postsDetails.isUnLike = postLikeResponseModel.Data.likeData.isUnLike;
-                                    postsDetails.likeCount = postLikeResponseModel.Data.likeData.likeCount;
-                                    postsDetails.unlikeCount = postLikeResponseModel.Data.likeData.unlikeCount;
+                                    postsDetails.postData.isLike = postLikeResponseModel.Data.likeData.isLike;
+                                    postsDetails.postData.isUnLike = postLikeResponseModel.Data.likeData.isUnLike;
+                                    postsDetails.postData.likeCount = postLikeResponseModel.Data.likeData.likeCount;
+                                    postsDetails.postData.unlikeCount = postLikeResponseModel.Data.likeData.unlikeCount;
 
                                     position = mPostsDetailsList.indexOf(postsDetails);
                                     break;
@@ -404,8 +406,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         LoggerUtil.d(TAG, baseResponseModel.statusCode);
 
                         int index = 0;
-                        for (GetPostsResponseModel.GetPostsDetails postsDetails : mPostsDetailsList) {
-                            if (mPostId == postsDetails.postID) {
+                        for (GetNewsFeedDataModel.NewsFeedList postsDetails : mPostsDetailsList) {
+                            if (mPostId == postsDetails.postData.postID) {
                                 index = mPostsDetailsList.indexOf(postsDetails);
                             }
                         }
@@ -434,14 +436,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         if (addAndUpdateCommentResponseModel.Data != null && addAndUpdateCommentResponseModel.Data.commentData != null) {
 
                             int position = 0;
-                            for (GetPostsResponseModel.GetPostsDetails tempPostDetails : mPostsDetailsList) {
-                                if (tempPostDetails.postID == addAndUpdateCommentResponseModel.Data.commentData.postID) {
+                            for (GetNewsFeedDataModel.NewsFeedList tempPostDetails : mPostsDetailsList) {
+                                if (tempPostDetails.postData!=null&&tempPostDetails.postData.postID == addAndUpdateCommentResponseModel.Data.commentData.postID) {
 
-                                    tempPostDetails.commentCount += 1;
-                                    tempPostDetails.commentUserImageName = addAndUpdateCommentResponseModel.Data.commentData.imageName;
-                                    tempPostDetails.commentUserImageURL = addAndUpdateCommentResponseModel.Data.commentData.commentUserImageURL;
-                                    tempPostDetails.commentUserFullName = addAndUpdateCommentResponseModel.Data.commentData.userFullName;
-                                    tempPostDetails.commentText = addAndUpdateCommentResponseModel.Data.commentData.commentText;
+                                    tempPostDetails.postData.commentCount += 1;
+                                    tempPostDetails.postData.commentUserImageName = addAndUpdateCommentResponseModel.Data.commentData.imageName;
+                                    tempPostDetails.postData.commentUserImageURL = addAndUpdateCommentResponseModel.Data.commentData.commentUserImageURL;
+                                    tempPostDetails.postData.commentUserFullName = addAndUpdateCommentResponseModel.Data.commentData.userFullName;
+                                    tempPostDetails.postData.commentText = addAndUpdateCommentResponseModel.Data.commentData.commentText;
                                     position = mPostsDetailsList.indexOf(tempPostDetails);
                                     break;
                                 }
@@ -496,17 +498,20 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
                 //TODO Change mirrorId.
                 mMirrorId = 147;
-                String getPostsUrl = IWebServices.REQUEST_GET_POSTS_URL + Constants.PARAM_USER_ID + "=" + userId
-                        + "&" + Constants.PARAM_MIRROR_ID + "=" + mMirrorId
-                        + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
-                RequestManager.addRequest(new GsonObjectRequest<GetPostsResponseModel>(getPostsUrl, NetworkUtil.getHeaders(this),
-                        null, GetPostsResponseModel.class, new VolleyErrorListener(this, actionID)) {
+                //String getPostsUrl = IWebServices.REQUEST_GET_POSTS_URL + Constants.PARAM_USER_ID + "=" + userId
+                String getPostsUrl = IWebServices.REQUEST_GET_NEWS_FEED_DATA + Constants.PARAM_USER_ID + "=" + userId
+                   + "&" + Constants.PARAM_PAGE_NUMBER + "=" + String.valueOf(mPageNumber);
+                Log.e("userId",userId+"");
+                RequestManager.addRequest(new GsonObjectRequest<GetNewsFeedDataModel>(getPostsUrl, NetworkUtil.getHeaders(this),
+                        null, GetNewsFeedDataModel.class, new VolleyErrorListener(this, actionID)) {
+
 
                     @Override
-                    protected void deliverResponse(GetPostsResponseModel response) {
+                    protected void deliverResponse(GetNewsFeedDataModel response) {
                         updateUi(true, actionID, response);
                     }
                 });
+
                 break;
 
             case IApiEvent.REQUEST_SEARCH_NEWS_FEED_MIRROR_CODE:
@@ -732,9 +737,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onCommentClick(int position) {
-        CommentsDialogFragment commentsDialogFragment = CommentsDialogFragment.newInstance(mPostsDetailsList.get(position));
+   /*     CommentsDialogFragment commentsDialogFragment = CommentsDialogFragment.newInstance(mPostsDetailsList.get(position));
         commentsDialogFragment.show(getSupportFragmentManager(), "CommentsDialogFragment");
-    }
+   *//*     CommentsDialogFragment commentsDialogFragment = CommentsDialogFragment.newInstance(mPostsDetailsList.get(position));
+        commentsDialogFragment.show(getSupportFragmentManager(), "CommentsDialogFragment");
+   */ }
 
     @Override
     public void onMenuClick(final int position, View view) {
@@ -756,7 +763,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         return true;
 
                     case Constants.REMOVE_POST:
-                        mPostId = mPostsDetailsList.get(position).postID;
+                        mPostId = mPostsDetailsList.get(position).postData.postID;
                         getData(IApiEvent.REQUEST_REMOVE_POST_CODE);
                         return true;
                 }
@@ -769,7 +776,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onSendClick(int position, String commentText) {
         mCommentText = commentText;
-        mPostId = mPostsDetailsList.get(position).postID;
+        mPostId = mPostsDetailsList.get(position).postData.postID;
         getData(IApiEvent.REQUEST_ADD_COMMENT_CODE);
     }
 
@@ -791,7 +798,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onLikeOrDislikeClick(int position, boolean isLike, boolean isUnLike) {
 
-        mPostId = mPostsDetailsList.get(position).postID;
+        mPostId = mPostsDetailsList.get(position).postData.postID;
         mIsLike = isLike;
         mIsUnLike = isUnLike;
 
@@ -799,21 +806,21 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
-    public void onPostUpdate(GetPostsResponseModel.GetPostsDetails postDetails) {
+    public void onPostUpdate(GetNewsFeedDataModel.NewsFeedList.PostData  postDetails) {
         int position = 0;
-        for (GetPostsResponseModel.GetPostsDetails tempPostDetails : mPostsDetailsList) {
-            if (tempPostDetails.postID == postDetails.postID) {
+        for (GetNewsFeedDataModel.NewsFeedList tempPostDetails : mPostsDetailsList) {
+            if (tempPostDetails.postData.postID!=null&&tempPostDetails.postData.postID == postDetails.postID) {
 
-                tempPostDetails.isUnLike = postDetails.isUnLike;
-                tempPostDetails.isLike = postDetails.isLike;
-                tempPostDetails.likeCount = postDetails.likeCount;
-                tempPostDetails.unlikeCount = postDetails.unlikeCount;
+                tempPostDetails.postData.isUnLike = postDetails.isUnLike;
+                tempPostDetails.postData.isLike = postDetails.isLike;
+                tempPostDetails.postData.likeCount = postDetails.likeCount;
+                tempPostDetails.postData.unlikeCount = postDetails.unlikeCount;
 
-                tempPostDetails.commentCount = postDetails.commentCount;
-                tempPostDetails.commentUserImageName = postDetails.commentUserImageName;
-                tempPostDetails.commentUserImageURL = postDetails.commentUserImageURL;
-                tempPostDetails.commentUserFullName = postDetails.commentUserFullName;
-                tempPostDetails.commentText = postDetails.commentText;
+                tempPostDetails.postData.commentCount = postDetails.commentCount;
+                tempPostDetails.postData.commentUserImageName = postDetails.commentUserImageName;
+                tempPostDetails.postData.commentUserImageURL = postDetails.commentUserImageURL;
+                tempPostDetails.postData.commentUserFullName = postDetails.commentUserFullName;
+                tempPostDetails.postData.commentText = postDetails.commentText;
                 position = mPostsDetailsList.indexOf(tempPostDetails);
                 break;
             }

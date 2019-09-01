@@ -108,6 +108,15 @@ public class ContestVotingWith3OptionDialogFragment extends DialogFragment imple
                 mRbOption2.setText(mContestDetails.option2MirrorName != null ? mContestDetails.option2MirrorName : "");
                 mRbOption3.setText(mContestDetails.option3MirrorName != null ? mContestDetails.option3MirrorName : "");
             }
+
+            if(mContestDetails.TypeOneOptions==2||mContestDetails.typeTwoOptions==2)
+            {
+                mRbOption3.setVisibility(View.GONE);
+            }
+            else
+            {
+                mRbOption3.setVisibility(View.VISIBLE);
+            }
         }
     }
 

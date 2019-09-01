@@ -21,7 +21,7 @@
     <string name="don_t_show_me_in_open_search">Don\'t show me in open search</string>
     <string name="about">About</string>
     <string name="log_out">Log out</string>
-    <string name="password_small">Password</string>
+    <string name="password_small">Password is small(4 minimum)</string>
     <string name="phone_number">Phone number</string>
     <string name="contest">Contest</string>
     <string name="see_more">See more</string>
@@ -116,8 +116,10 @@
     <string name="_3">3.</string>
     <string name="create">Create</string>
     <string name="post_remove_successfully">Post remove successfully</string>
-    <string name="facebook_app_id">249781929087963</string>
+    <string name="facebook_app_id">2080260612221483</string>
+    <!--<string name="facebook_app_id">249781929087963</string>-->
     <!--<string name="facebook_app_id">309234176325874</string>-->
+    <string name="fb_login_protocol_scheme">fb2080260612221483</string>
     <string name="create_post">Create post</string>
     <string name="post_info">Post info</string>
     <string name="can_t_add_a_post">Can\'t add a post</string>
@@ -166,5 +168,14 @@
     <string name="please_fill_at_least_2_option_field">Please fill at least 2 option field.</string>
     <string name="please_enter_related_mirror_field">Please enter related mirror field.</string>
     <string name="guest_user">Guest user</string>
-
+    <string name="verify_code">Verify Code</string>
+    <string name="enter_code">ENTER CODE</string>
+    <string name="please_enter_code">please enter Code</string>
+    <string name="please_enter_valid_code">please enter valid code</string>
+    <string name="invalid_code">Invalid Code Entered</string>
+    <string name="please_enter_mobile_number">Please enter mobile number</string>
+    <string name="please_enter_valid_mobile_number">Please enter valid mobile number</string>
+    <string name="send_otp">Send OTP</string>
+    <string name="enter_mobile_number">Enter Mobile Number</string>
+    <string name="set_password" >Set Password</string>
 </resources>

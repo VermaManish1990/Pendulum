@@ -22,7 +22,7 @@
         app:civ_border_width="2dp" />
 
     <ImageView
-        android:id="@+id/iv_profile_logo"
+        android:id="@+id/iv_profile_logoiv_profile_logo"
         android:layout_width="@dimen/_105sdp"
         android:layout_height="@dimen/_105sdp"
         android:layout_above="@+id/input_layout_email"
@@ -36,14 +36,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:hint="@string/email_id"
+        android:hint="@string/phone_number_capital"
         android:textColorHint="@color/button_color">
 
         <EditText
+
             android:id="@+id/et_email"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
+            android:inputType="number"
             android:maxLength="55"
             android:singleLine="true"
             android:textColor="@color/colorAccent"
@@ -100,11 +102,24 @@
         android:textColor="@color/white"
         android:textSize="@dimen/textSize17" />
 
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bt_sign_in"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="@dimen/_25sdp"
+
+        />
+
+
     <TextView
         android:id="@+id/bt_sign_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bt_sign_in"
+        android:layout_below="@+id/login_button"
         android:layout_marginTop="@dimen/_20sdp"
         android:text="@string/need_account"
         android:textColor="@color/colorAccent"
@@ -114,7 +129,7 @@
         android:id="@+id/bt_guest_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bt_sign_in"
+        android:layout_below="@+id/login_button"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="@dimen/_20sdp"
         android:text="@string/guest_user"

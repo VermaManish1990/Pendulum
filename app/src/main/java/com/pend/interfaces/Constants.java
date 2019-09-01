@@ -50,6 +50,8 @@ public interface Constants {
     int ALL_PERMISSION_REQUEST_CODE = 3;
     int LOCATION_REQUEST_CODE = 4;
     String EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    String MOBILE_NUMBER_PATTERN = "\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}";
+
 
     String UPDATE_POST = "Update Post";
     String REMOVE_POST = "Remove Post";

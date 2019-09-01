@@ -7,14 +7,27 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
 import com.pend.BaseResponseModel;
 import com.pend.R;
 import com.pend.activity.home.HomeActivity;
+import com.pend.activity.mirror.MirrorActivity;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
 import com.pend.models.LoginResponseModel;
@@ -27,17 +40,27 @@ import com.pend.util.VolleyErrorListener;
 import com.pendulum.utils.ConnectivityUtils;
 import com.pendulum.volley.ext.GsonObjectRequest;
 import com.pendulum.volley.ext.RequestManager;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, TextWatcher {
     private final String TAG = LoginActivity.class.getSimpleName();
     private String mUserName;
     private String mPassword;
+    private String age;
+    private String gender;
     private EditText mEtEmail;
     private EditText mEtPassword;
     private boolean mIsChecked = true;
     private TextInputLayout mInputLayoutEmail;
     private TextInputLayout mInputLayoutPassword;
     private View mRootView;
+    LoginButton loginButton;
+    CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +68,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         setContentView(R.layout.activity_login);
 
         initUI();
+
+        initFB();
     }
 
     @Override
@@ -52,6 +77,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         mRootView = findViewById(R.id.root_view);
         mEtEmail = findViewById(R.id.et_email);
         mEtPassword = findViewById(R.id.et_password);
+        loginButton = findViewById(R.id.login_button);
         findViewById(R.id.bt_sign_in).setOnClickListener(this);
         findViewById(R.id.tv_forgot_password).setOnClickListener(this);
         findViewById(R.id.bt_sign_up).setOnClickListener(this);
@@ -107,7 +133,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 break;
 
             case IApiEvent.REQUEST_FORGOT_PASSWORD_CODE:
-                if (status) {
+               if (status) {
                     BaseResponseModel baseResponseModel = (BaseResponseModel) serviceResponse;
                     if (baseResponseModel != null && baseResponseModel.status) {
                         LoggerUtil.d(TAG, baseResponseModel.statusCode);
@@ -118,6 +144,43 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 } else {
                     OtherUtil.showErrorMessage(this, serviceResponse);
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                }
+
+                break;
+            case IApiEvent.REQUEST_LOGIN_WITH_FB:
+                if (status) {
+                    LoginResponseModel loginResponseModel = (LoginResponseModel) serviceResponse;
+                    if (loginResponseModel != null && loginResponseModel.status) {
+                        LoggerUtil.d(TAG, loginResponseModel.statusCode);
+
+                        if (loginResponseModel.Data != null) {
+
+                            if (loginResponseModel.Data.imageData != null && loginResponseModel.Data.imageData.size() > 0) {
+
+                                SharedPrefUtils.setProfileImageUrl(LoginActivity.this, loginResponseModel.Data.imageData.get(0).imageURL);
+                            }
+                            if (loginResponseModel.Data.userData != null) {
+
+                                SharedPrefUtils.setUserLoggedIn(LoginActivity.this, true);
+                                SharedPrefUtils.setUserId(LoginActivity.this, String.valueOf(loginResponseModel.Data.userData.userID));
+                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                        OtherUtil.showAlertDialog(getString(R.string.invalid_credential), this, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+                } else {
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                    OtherUtil.showErrorMessage(this, serviceResponse);
                 }
                 break;
 
@@ -178,6 +241,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 });
                 break;
 
+            case IApiEvent.REQUEST_LOGIN_WITH_FB:
+
+                //TODO Change emailId
+                requestObject = RequestPostDataUtil.loginWithFB(mUserName,"24","Female");
+                request = requestObject.toString();
+                RequestManager.addRequest(new GsonObjectRequest<LoginResponseModel>(IWebServices.REQUEST_LOGIN_WITH_FB, NetworkUtil.getHeaders(this),
+                        request, LoginResponseModel.class, new
+                        VolleyErrorListener(this, actionID)) {
+
+
+                    @Override
+                    protected void deliverResponse(LoginResponseModel response) {
+                        updateUi(true, actionID, response);
+
+                    }
+                });
+                break;
+
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));
                 break;
@@ -202,7 +283,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
             case R.id.bt_guest_user:
 
-                Intent intentGuest = new Intent(LoginActivity.this, HomeActivity.class);
+                Intent intentGuest = new Intent(LoginActivity.this, MirrorActivity.class);
                 startActivity(intentGuest);
                 finish();
                 break;
@@ -217,8 +298,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
             case R.id.tv_forgot_password:
 
-                Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
-
+              //  Snackbar.make(mRootView, getString(R.string.under_development), Snackbar.LENGTH_LONG).show();
+                Intent intentpassword = new Intent(LoginActivity.this,SendOTPForgotPasswordActivity.class);
+                startActivity(intentpassword);
 //                getData(IApiEvent.REQUEST_LOGIN_CODE);
 
                 break;
@@ -266,7 +348,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
      */
     void checkValidationForEmail() {
         if (mEtEmail.getText().toString().trim().length() == 0) {
-            mInputLayoutEmail.setError(getString(R.string.please_enter_mail_id));
+            mInputLayoutEmail.setError(getString(R.string.please_enter_phone_number));
             mInputLayoutEmail.setErrorEnabled(true);
             mIsChecked = false;
         } /*else if (!mEtEmail.getText().toString().trim().matches(Constants.EMAIL_PATTERN)) {
@@ -291,5 +373,105 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             mPassword = mEtPassword.getText().toString();
             mInputLayoutPassword.setErrorEnabled(false);
         }
+    }
+
+
+    // Facebook Login
+   @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    private void getUserProfile(AccessToken currentAccessToken) {
+        GraphRequest request = GraphRequest.newMeRequest(
+                currentAccessToken, new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        Log.d("TAG", object.toString());
+                        try {
+                            String first_name = object.getString("first_name");
+                            String last_name = object.getString("last_name");
+                            String email = object.getString("email");
+                            String id = object.getString("id");
+                            String image_url = "https://graph.facebook.com/" + id + "/picture?type=normal";
+
+                             mUserName=email;
+                            getData(IApiEvent.REQUEST_LOGIN_WITH_FB);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "first_name,last_name,email,id");
+        request.setParameters(parameters);
+        request.executeAsync();
+
+    }
+
+    void initFB()
+    {
+        boolean loggedOut = AccessToken.getCurrentAccessToken() == null;
+
+        if (!loggedOut) {
+         /*   Picasso.with(this).load(Profile.getCurrentProfile().getProfilePictureUri(200, 200)).into(imageView);*/
+          /*  Log.d("TAG", "Username is: " + Profile.getCurrentProfile().getName());*/
+
+            //Using Graph API
+            getUserProfile(AccessToken.getCurrentAccessToken());
+        }
+
+
+        AccessTokenTracker fbTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken accessToken, AccessToken accessToken2) {
+                if (accessToken2 == null) {
+                 /*   txtUsername.setText(null);
+                    txtEmail.setText(null);
+                    imageView.setImageResource(0);
+                    Toast.make Text(getApplicationContext(),"User Logged Out.",Toast.LENGTH_LONG).show();
+              */  }
+            }
+        };
+        fbTracker.startTracking();
+
+        loginButton.setReadPermissions(Arrays.asList("email", "public_profile"));
+        callbackManager = CallbackManager.Factory.create();
+
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                // App code
+                //loginResult.getAccessToken();
+                //loginResult.getRecentlyDeniedPermissions()
+                //loginResult.getRecentlyGrantedPermissions()
+                boolean loggedOut = AccessToken.getCurrentAccessToken() == null;
+
+               /* if (!loggedOut) {
+                    //Using Graph API
+                    getUserProfile(AccessToken.getCurrentAccessToken());
+                }
+*/           if (!loggedOut) {
+                    //Using Graph API
+                    getUserProfile(AccessToken.getCurrentAccessToken());
+                }
+
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+            }
+        });
     }
 }

@@ -3,7 +3,7 @@ package com.pend.interfaces;
 public interface IWebServices {
 
 //    String BASE_URL = "http://pendulumapp-dev.ap-south-1.elasticbeanstalk.com/";
-    String BASE_URL = "http://13.233.35.202/";
+    String BASE_URL = "http://103.87.174.201:1015/";
 
     String REQUEST_SIGN_UP_URL = BASE_URL + "api/UserSignUp";
     String REQUEST_LOGIN_URL = BASE_URL + "api/UserLogin";
@@ -55,4 +55,17 @@ public interface IWebServices {
     String REQUEST_GET_TRENDING_CONTESTS_URL = BASE_URL + "api/GetTrendingContests?";
     String REQUEST_GET_FOLLOWING_CONTESTS_URL = BASE_URL + "api/GetFollowingContests?";
     String REQUEST_CONTESTS_VOTE_URL = BASE_URL + "api/ContestVote";
+
+    String REQUEST_GET_NEWS_FEED_DATA=BASE_URL+"/api/GetNewsFeedDataForUser?";
+
+    String REQUEST_SEND_OTP=BASE_URL+"/api/SendOTP";
+    String REQUEST_VERIFY_OTP=BASE_URL+"/api/VerifyOTP";
+
+
+    String REQUEST_FORGOT_PASSWORD_SEND_OTP=BASE_URL+"/api/ForgotPasswordSendOtp";
+    String REQUEST_FORGOT_PASSWORD_VERIFY_OTP=BASE_URL+"/api/ForgotPasswordVerifyOtp";
+    String REQUEST_FORGOT_PASSWORD=BASE_URL+"/api/ForgotPassword";
+
+    String REQUEST_LOGIN_WITH_FB=BASE_URL+"/api/LoginWithFB";
+
 }

@@ -26,18 +26,17 @@ public class RequestPostDataUtil {
      * Method is used to get Request Parameters for Sign Up Api.
      *
      * @param userFullName userFullName
-     * @param userEmail    userEmail
      * @param userPhone    userPhone
      * @param userPassword userPassword
      * @return JsonObject
      */
-    public static JsonObject signUpApiRegParam(String userFullName, String userEmail, String userPassword) {
+    public static JsonObject signUpApiRegParam(String userFullName, String userPhone, String userPassword) {
         LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "signUpApiRegParam");
 
         JsonObject requestParameters = new JsonObject();
         requestParameters.addProperty("userFullName", userFullName);
-        requestParameters.addProperty("userEmail", userEmail);
-//        requestParameters.addProperty("userPhone", userPhone);
+     //   requestParameters.addProperty("userEmail", userEmail);
+       requestParameters.addProperty("userPhone", userPhone);
         requestParameters.addProperty("userPassword", userPassword);
 
         LoggerUtil.d(RequestPostDataUtil.class.getSimpleName(), requestParameters.toString());
@@ -486,4 +485,118 @@ public class RequestPostDataUtil {
         LoggerUtil.d(RequestPostDataUtil.class.getSimpleName(), requestParameters.toString());
         return requestParameters;
     }
+
+    /**
+     * Method us used to get Request Parameters for Verify Code Api.
+     *
+     * @param otpSessionID unique username id
+     * @param OTP code
+     * @param userID user id
+     * @return JsonObject
+     */
+    public static JsonObject verifyCodeApiRegParam(String otpSessionID, String OTP,Integer userID) {
+        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "verifyCodeApiRegParam");
+
+        JsonObject requestParameters = new JsonObject();
+        requestParameters.addProperty("otpSessionID", otpSessionID);
+        requestParameters.addProperty("OTP", OTP);
+        requestParameters.addProperty("userID", userID);
+
+        LoggerUtil.d(RequestPostDataUtil.class.getSimpleName(), requestParameters.toString());
+        return requestParameters;
+    }
+
+
+    /**
+     * Method us used to get Request Parameters for Send otp Api.
+     *
+     * @param phoneNo userPhone
+     * @return JsonObject
+     */
+    public static JsonObject sendOtpForgotPasswordApiRegParam(String phoneNo) {
+        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "sendOtpApiForgotPassword");
+
+        JsonObject requestParameters = new JsonObject();
+        requestParameters.addProperty("phoneNo", phoneNo);
+
+        LoggerUtil.d(RequestPostDataUtil.class.getSimpleName(), requestParameters.toString());
+        return requestParameters;
+    }
+
+    /**
+     * Method us used to get Request Parameters for Send otp Api.
+     *
+     * @param otpSessionID otpSessionID
+     * @param OTP OTP
+     * @return JsonObject
+     */
+    public static JsonObject verifyOtpForgotPasswordApiRegParam(String otpSessionID, String OTP) {
+        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "sendOtpApiRegParam");
+
+        JsonObject requestParameters = new JsonObject();
+        requestParameters.addProperty("otpSessionID", otpSessionID);
+        requestParameters.addProperty("OTP", OTP);
+
+        LoggerUtil.d(RequestPostDataUtil.class.getSimpleName(), requestParameters.toString());
+        return requestParameters;
+    }
+
+    /**
+     * Method us used to get Request Parameters for Send otp Api.
+     *
+     * @param userPhone userPhone
+     * @param userPassword userPassword
+     * @return JsonObject
+     */
+    public static JsonObject forgotPasswordApiRegParam(String userPhone,String userPassword) {
+        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "sendOtpApiRegParam");
+
+        JsonObject requestParameters = new JsonObject();
+        requestParameters.addProperty("userPhone", userPhone);
+        requestParameters.addProperty("userPassword", userPassword);
+
+        LoggerUtil.d(RequestPostDataUtil.class.getSimpleName(), requestParameters.toString());
+        return requestParameters;
+    }
+
+    /**
+     * Method us used to get Request Parameters for Send otp Api.
+     *
+     * @param phoneNo userPhone
+     * @param userID user id
+     * @return JsonObject
+     */
+    public static JsonObject sendOtpApiRegParam(String phoneNo,Integer userID) {
+        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "sendOtpApiRegParam");
+
+        JsonObject requestParameters = new JsonObject();
+        requestParameters.addProperty("phoneNo", phoneNo);
+        requestParameters.addProperty("userID", userID);
+
+        LoggerUtil.d(RequestPostDataUtil.class.getSimpleName(), requestParameters.toString());
+        return requestParameters;
+    }
+
+    /**
+     * Method us used to get Request Parameters for loginWithFB Api.
+     *
+     * @param userEmail userEmail
+     * @param userAge userAge
+     * @param userGender userGender
+     * @return JsonObject
+     */
+    public static JsonObject loginWithFB(String userEmail,String userAge,String userGender) {
+        LoggerUtil.v(RequestPostDataUtil.class.getSimpleName(), "loginWithFB");
+
+        JsonObject requestParameters = new JsonObject();
+        requestParameters.addProperty("userEmail", userEmail);
+        requestParameters.addProperty("userAge", userAge);
+        requestParameters.addProperty("userGender", userGender);
+
+        LoggerUtil.d(RequestPostDataUtil.class.getSimpleName(), requestParameters.toString());
+        return requestParameters;
+    }
+
+
+
 }

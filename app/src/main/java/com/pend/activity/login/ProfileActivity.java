@@ -76,7 +76,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private View mFlQuarterBlackView;
     private View mFlMenuView;
     private ImageView mIvProfile;
-    private ImageView mIvMessage;
+    private ImageView mIvMessage,imagePlaceholder;
     private int mUserId;
     private boolean mIsOtherProfile;
     private View mRlSettingAndEditView;
@@ -125,6 +125,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         mIvMessage = findViewById(R.id.iv_message);
         mRlSettingAndEditView = findViewById(R.id.rl_setting_and_edit);
         mRecyclerViewTimeSheet = findViewById(R.id.recycler_view_time_sheet);
+        imagePlaceholder=findViewById(R.id.imagePlaceholder);
 
         View quarterView = findViewById(R.id.quarter_view);
         mRlQuarterView = quarterView.findViewById(R.id.rl_quarter_view);
@@ -200,14 +201,25 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                         if (mUserProfileResponseModel.Data != null && mUserProfileResponseModel.Data.imageData != null && mUserProfileResponseModel.Data.imageData.size() > 0) {
 
                             mViewpagerProfile.setVisibility(View.VISIBLE);
+                            imagePlaceholder.setVisibility(View.GONE);
                             mViewpagerProfile.setAdapter(new ProfileViewPagerAdapter(this, mUserProfileResponseModel.Data.imageData));
                         } else {
+
+
                             mViewpagerProfile.setVisibility(View.GONE);
-                            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                            imagePlaceholder.setVisibility(View.VISIBLE);
+                            Picasso.with(this)
+                                    .load(R.drawable.pplaceholder)
+//                .placeholder(R.drawable.ic_placeholder)   // optional
+//                .error(R.drawable.ic_error_fallback)      // optional
+//                .resize(250, 200)                        // optional
+//                .rotate(90)                             // optional
+                                    .into(imagePlaceholder);
+                       /*     LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                                     LinearLayout.LayoutParams.MATCH_PARENT,
                                     LinearLayout.LayoutParams.MATCH_PARENT
                             );
-                            mBottomContent.setLayoutParams(param);
+                            mBottomContent.setLayoutParams(param);*/
                         }
 
                         if (mUserProfileResponseModel.Data != null && mUserProfileResponseModel.Data.userData != null) {

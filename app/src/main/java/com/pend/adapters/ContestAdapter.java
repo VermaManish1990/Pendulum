@@ -437,6 +437,18 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         });
 
+        if(contestDetails.typeTwoOptions==2||contestDetails.TypeOneOptions==2)
+        {
+            viewHolder.tvMirror3View.setVisibility(View.GONE);
+            viewHolder.tvMirror3Name.setVisibility(View.GONE);
+        }
+        else {
+             {
+                viewHolder.tvMirror3View.setVisibility(View.VISIBLE);
+                viewHolder.tvMirror3Name.setVisibility(View.VISIBLE);
+            }
+        }
+
     }
 
     /**

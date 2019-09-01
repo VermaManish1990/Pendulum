@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonObject;
 import com.pend.BaseActivity;
@@ -176,6 +178,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     if (baseResponseModel != null && baseResponseModel.status) {
                         LoggerUtil.d(TAG, baseResponseModel.statusCode);
 
+                        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+                        if(accessToken != null){
+                            LoginManager.getInstance().logOut();
+                        }
                         SharedPrefUtils.setUserLoggedIn(SettingActivity.this, false);
                         SharedPrefUtils.setUserId(SettingActivity.this, "-1");
                         SharedPrefUtils.setLocation(SettingActivity.this, new LatLng(0.0, 0.0));

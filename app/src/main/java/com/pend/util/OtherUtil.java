@@ -24,6 +24,11 @@ import com.pend.R;
 import com.pend.models.ErrorResponseModel;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -113,15 +118,56 @@ public class OtherUtil {
      */
     public static String getBase64Format(String imagePath) {
 
-        try {
-            Bitmap bm = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imagePath), 720, 480, false);
-//            Bitmap bm = BitmapFactory.decodeFile(imagePath);
+     /*   try {
+    //        Bitmap bm = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imagePath), 720, 480, false);
+            Bitmap bm = BitmapFactory.decodeFile(imagePath);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bm.compress(Bitmap.CompressFormat.PNG, 0, baos); //bm is the bitmap object
+            bm.compress(Bitmap.CompressFormat.PNG, 100, baos); //bm is the bitmap object
             byte[] byteArrayImage = baos.toByteArray();
 
             return Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
         } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }*/
+    /*    try {
+            InputStream inputStream = new FileInputStream(imagePath);
+            System.out.println("Image Path "+imagePath);//You can get an inputStream using any IO API
+            byte[] bytes;
+            byte[] buffer = new byte[8192];
+            int bytesRead;
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                output.write(buffer, 0, bytesRead);
+            }
+
+            bytes = output.toByteArray();
+            String encodedString = Base64.encodeToString(bytes, Base64.DEFAULT);
+            return encodedString;
+        }catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }*/
+
+        try {
+
+            File imagefile = new File(imagePath);
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(imagefile);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            Bitmap bm = BitmapFactory.decodeStream(fis);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] b = baos.toByteArray();
+            String encImage = Base64.encodeToString(b, Base64.DEFAULT);
+            //Base64.de
+            return encImage;
+        }
+        catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -137,7 +183,7 @@ public class OtherUtil {
 
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 0, baos); //bm is the bitmap object
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos); //bm is the bitmap object
             byte[] byteArrayImage = baos.toByteArray();
 
             return Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
