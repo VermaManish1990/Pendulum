@@ -25,17 +25,17 @@
         android:id="@+id/iv_profile_logoiv_profile_logo"
         android:layout_width="@dimen/_105sdp"
         android:layout_height="@dimen/_105sdp"
-        android:layout_above="@+id/input_layout_email"
-        android:layout_centerHorizontal="true"
+       android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/_30sdp"
         android:contentDescription="@string/image"
         android:src="@drawable/logo" />
 
     <android.support.design.widget.TextInputLayout
+        android:layout_below="@+id/iv_profile_logoiv_profile_logo"
         android:id="@+id/input_layout_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:hint="@string/phone_number_capital"
         android:textColorHint="@color/button_color">
 
@@ -108,8 +108,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bt_sign_in"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/_25sdp"
 
         />
