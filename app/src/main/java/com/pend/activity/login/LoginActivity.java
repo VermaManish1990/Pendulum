@@ -28,8 +28,10 @@ import com.pend.BaseResponseModel;
 import com.pend.R;
 import com.pend.activity.home.HomeActivity;
 import com.pend.activity.mirror.MirrorActivity;
+import com.pend.interfaces.Constants;
 import com.pend.interfaces.IApiEvent;
 import com.pend.interfaces.IWebServices;
+import com.pend.models.GetNewsFeedDataModel;
 import com.pend.models.LoginResponseModel;
 import com.pend.util.LoggerUtil;
 import com.pend.util.NetworkUtil;
@@ -61,6 +63,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private View mRootView;
     LoginButton loginButton;
     CallbackManager callbackManager;
+    int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,10 +113,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                             if (loginResponseModel.Data.userData != null) {
 
                                 SharedPrefUtils.setUserLoggedIn(LoginActivity.this, true);
+                                userId=loginResponseModel.Data.userData.userID;
                                 SharedPrefUtils.setUserId(LoginActivity.this, String.valueOf(loginResponseModel.Data.userData.userID));
-                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                startActivity(intent);
-                                finish();
+                                getData(IApiEvent.REQUEST_GET_NEWS_FEED_DATA);
+
                             }
                         }
 
@@ -162,10 +165,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                             if (loginResponseModel.Data.userData != null) {
 
                                 SharedPrefUtils.setUserLoggedIn(LoginActivity.this, true);
+                                userId=loginResponseModel.Data.userData.userID;
                                 SharedPrefUtils.setUserId(LoginActivity.this, String.valueOf(loginResponseModel.Data.userData.userID));
-                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                startActivity(intent);
-                                finish();
+                              //  Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                               // startActivity(intent);
+                                //finish();
+                                getData(IApiEvent.REQUEST_GET_NEWS_FEED_DATA);
                             }
                         }
 
@@ -182,6 +187,30 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                     OtherUtil.showErrorMessage(this, serviceResponse);
                 }
+                break;
+            case IApiEvent.REQUEST_GET_NEWS_FEED_DATA:
+                if (status) {
+                    GetNewsFeedDataModel baseResponseModel = (GetNewsFeedDataModel) serviceResponse;
+                    if (baseResponseModel != null && baseResponseModel.status) {
+                        LoggerUtil.d(TAG, baseResponseModel.statusCode);
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                    } else {
+                        LoggerUtil.d(TAG, getString(R.string.server_error_from_api));
+                        Intent intent = new Intent(LoginActivity.this, MirrorActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                } else {
+                   // OtherUtil.showErrorMessage(this, serviceResponse);
+                    LoggerUtil.d(TAG, getString(R.string.status_is_false));
+                    Intent intent = new Intent(LoginActivity.this, MirrorActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
                 break;
 
             default:
@@ -258,6 +287,23 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     }
                 });
                 break;
+
+            case IApiEvent.REQUEST_GET_NEWS_FEED_DATA:
+
+                String getPostsUrl = IWebServices.REQUEST_GET_NEWS_FEED_DATA + Constants.PARAM_USER_ID + "=" + userId
+                        + "&" + Constants.PARAM_PAGE_NUMBER + "= 1" ;
+                Log.e("userId",userId+"");
+                RequestManager.addRequest(new GsonObjectRequest<GetNewsFeedDataModel>(getPostsUrl, NetworkUtil.getHeaders(this),
+                        null, GetNewsFeedDataModel.class, new VolleyErrorListener(this, actionID)) {
+
+
+                    @Override
+                    protected void deliverResponse(GetNewsFeedDataModel response) {
+                        updateUi(true, actionID, response);
+
+
+                    }
+                });
 
             default:
                 LoggerUtil.d(TAG, getString(R.string.wrong_case_selection));

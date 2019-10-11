@@ -60,7 +60,7 @@
             android:layout_toStartOf="@+id/iv_menu"
             android:contentDescription="@string/image"
             android:padding="@dimen/_4sdp"
-            android:src="@drawable/share" />
+            android:src="@drawable/facebook" />
 
         <ImageView
             android:id="@+id/iv_menu"
@@ -68,6 +68,7 @@
             android:layout_height="@dimen/_20sdp"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/_10sdp"
+            android:visibility="invisible"
             android:contentDescription="@string/image"
             android:src="@drawable/menu" />
 

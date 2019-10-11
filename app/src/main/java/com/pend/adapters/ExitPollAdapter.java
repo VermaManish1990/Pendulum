@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.share.model.ShareContent;
@@ -193,7 +194,7 @@ public class ExitPollAdapter extends RecyclerView.Adapter<ExitPollAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final View rootView;
-        private final TextView tvShareOnFacebook;
+        private final ImageView tvShareOnFacebook;
         private final TextView tvAdmireView;
         private final TextView tvHateView;
         private final TextView tvCanTSayView;

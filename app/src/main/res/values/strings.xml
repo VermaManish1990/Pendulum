@@ -15,7 +15,8 @@
     <string name="save">Save</string>
     <string name="account">Account</string>
     <string name="email">Email</string>
-    <string name="mirror">Mirror</string>
+    <string name="mirror">Page</string>
+    <string name="mirrors">Pages</string>
     <string name="invisibility_in_reflection">Invisibility in Reflection</string>
     <string name="arena">Arena</string>
     <string name="don_t_show_me_in_open_search">Don\'t show me in open search</string>
@@ -26,7 +27,7 @@
     <string name="contest">Contest</string>
     <string name="see_more">See more</string>
     <string name="no_result_found">No result found.</string>
-    <string name="create_mirror">Create mirror</string>
+    <string name="create_mirror">Create page</string>
     <string name="search_result">Search result</string>
     <string name="share_on_facebook">Share on Facebook</string>
     <string name="tap_here_to_vote">Tap here to vote</string>
@@ -85,9 +86,9 @@
     <string name="trending">Trending</string>
     <string name="following">Following</string>
     <string name="introduced">Introduced</string>
-    <string name="enter_mirror_name">Enter mirror name</string>
+    <string name="enter_mirror_name">Enter page name</string>
     <string name="search">Search</string>
-    <string name="what_you_feel_about_this_celebrity">What you feel about this mirror?</string>
+    <string name="what_you_feel_about_this_celebrity">What you feel about this page?</string>
     <string name="admire">Admire</string>
     <string name="hate">Hate</string>
     <string name="can_t_say">Can\'t say</string>
@@ -106,10 +107,10 @@
     <string name="add_a_comment">Add a comment</string>
     <string name="anonymous">anonymous</string>
     <string name="search_text_is_not_valid">search text is not valid</string>
-    <string name="search_for_mirror">Search for mirror</string>
-    <string name="mirror_created_successfully">Mirror created successfully</string>
+    <string name="search_for_mirror">Search for page</string>
+    <string name="mirror_created_successfully">Page created successfully</string>
     <string name="enter_question">Enter question</string>
-    <string name="related_mirror">Related mirror</string>
+    <string name="related_mirror">Related page</string>
     <string name="options">Options</string>
     <string name="_1">1.</string>
     <string name="_2">2.</string>
@@ -134,7 +135,7 @@
     <string name="remove_comment">Remove Comment</string>
     <string name="invalid_credential">Invalid credential</string>
     <string name="logout_message">Are you sure you want to log out?</string>
-    <string name="create_mirror_message">Are you sure you want to create this mirror</string>
+    <string name="create_mirror_message">Are you sure you want to create this page</string>
     <string name="facebook_error_message">Please install facebook to share post</string>
     <string name="home">Home</string>
     <string name="exit_polls">Exit Polls</string>
@@ -145,12 +146,12 @@
     <string name="sender_name">sender name</string>
     <string name="message">message</string>
     <string name="time">time</string>
-    <string name="_mirror_">(mirror)</string>
+    <string name="_mirror_">(pages)</string>
     <string name="current_location">Current Location</string>
     <string name="guest_user_message">You are a guest user. Please sign up to use pendulum feature.</string>
-    <string name="please_vote_on_mirror_to_create_a_post">Please vote on mirror to create a post</string>
-    <string name="please_vote_on_mirror_to_see_reflection">Please vote on mirror to see Reflection</string>
-    <string name="please_enter_valid_mirror_name">"Please enter valid mirror name."</string>
+    <string name="please_vote_on_mirror_to_create_a_post">Please vote on page to create a post</string>
+    <string name="please_vote_on_mirror_to_see_reflection">Please vote on page to see Reflection</string>
+    <string name="please_enter_valid_mirror_name">"Please enter valid page name."</string>
     <string name="about_team"><b> Team Pendulum </b>\n
 1. Manish Verma\n
 2. Shubham Chauhan\n
@@ -162,11 +163,11 @@
 8. Pardeep Chaudhary\n
 9. Sourav Pathania\n
 10. Nivedan Bhardwaj</string>
-    <string name="find_another_mirror">Find another mirror</string>
+    <string name="find_another_mirror">Find another page</string>
     <string name="please_fill_all_option">Please fill all option.</string>
-    <string name="please_vote_on_mirror_to_cast_vote_in_this_exit_poll">Please vote on mirror to cast vote in this exit poll.</string>
+    <string name="please_vote_on_mirror_to_cast_vote_in_this_exit_poll">Please vote on page to cast vote in this exit poll.</string>
     <string name="please_fill_at_least_2_option_field">Please fill at least 2 option field.</string>
-    <string name="please_enter_related_mirror_field">Please enter related mirror field.</string>
+    <string name="please_enter_related_mirror_field">Please enter related page field.</string>
     <string name="guest_user">Guest user</string>
     <string name="verify_code">Verify Code</string>
     <string name="enter_code">ENTER CODE</string>

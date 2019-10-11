@@ -315,6 +315,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 //                    homePostsAdapter.notifyDataSetChanged();
 //                    OtherUtil.showErrorMessage(this, serviceResponse);
 
+               //     Intent intent =new Intent(this,MirrorActivity.class);
+                //    startActivity(intent);
+
                     LoggerUtil.d(TAG, getString(R.string.status_is_false));
                 }
 
@@ -656,6 +659,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         }
         mRecyclerViewMirror.setVisibility(View.VISIBLE);
         mRecyclerViewPost.setVisibility(View.GONE);
+        if(mSearchText.length()>0)
         getData(IApiEvent.REQUEST_SEARCH_NEWS_FEED_MIRROR_CODE);
     }
 
@@ -758,7 +762,26 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                     case Constants.UPDATE_POST:
                         intent = new Intent(HomeActivity.this, CreatePostActivity.class);
                         intent.putExtra(Constants.MIRROR_ID_KEY, mMirrorId);
-                        intent.putExtra(Constants.POST_DETAILS_KEY, mPostsDetailsList.get(position));
+
+                        GetPostsResponseModel.GetPostsDetails details= new GetPostsResponseModel.GetPostsDetails();
+                        details.commentCount=mPostsDetailsList.get(position).postData.commentCount;
+                        details.commentText =mPostsDetailsList.get(position).postData.commentText;
+                        details.commentUserFullName =mPostsDetailsList.get(position).postData.commentUserFullName;
+                        details.commentUserImageName =mPostsDetailsList.get(position).postData.commentUserImageName;
+                        details.createdDatetime=mPostsDetailsList.get(position).postData.createdDatetime;
+                        details.imageName =mPostsDetailsList.get(position).postData.imageName;
+                        details.imageURL =mPostsDetailsList.get(position).postData.imageURL;
+                        details.isLike =mPostsDetailsList.get(position).postData.isLike;
+                        details.isUnLike=mPostsDetailsList.get(position).postData.isUnLike;
+                        details.likeCount=mPostsDetailsList.get(position).postData.likeCount;
+                        details.postID=mPostsDetailsList.get(position).postData.postID;
+                        details.postInfo=mPostsDetailsList.get(position).postData.postInfo;
+                        details.unlikeCount=mPostsDetailsList.get(position).postData.unlikeCount;
+                        details.userFullName=mPostsDetailsList.get(position).postData.userFullName;
+                        details.userID=mPostsDetailsList.get(position).postData.userID;
+                        details.userImageName=mPostsDetailsList.get(position).postData.userImageName;
+
+                        intent.putExtra(Constants.POST_DETAILS_KEY, details);
                         startActivity(intent);
                         return true;
 
@@ -886,8 +909,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
         if (mIsSearchData) {
             mIsSearchData = false;
-            mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.cross_white));
-            searchMirrorData();
+            if(mSearchText.length()>0) {
+                mIvSearch.setImageDrawable(getResources().getDrawable(R.drawable.cross_white));
+                searchMirrorData();
+            }
         } else {
             mIsSearchData = true;
             mEtSearch.setText("");
