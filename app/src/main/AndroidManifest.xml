@@ -132,11 +132,15 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyADi39uh3V29QilnbHJSzezB9ksN8E8_6k" />
 
+       <!-- <provider
+            android:name="com.facebook.FacebookContentProvider"2080260612221483
+            android:authorities="com.facebook.app.FacebookContentProvider249781929087963"
+            android:exported="true" />-->
+
         <provider
             android:name="com.facebook.FacebookContentProvider"
-            android:authorities="com.facebook.app.FacebookContentProvider249781929087963"
-            android:exported="true" />
-
+        android:authorities="com.facebook.app.FacebookContentProvider2080260612221483"
+        android:exported="true" />
         <activity android:name=".activity.contest.RelatedContestActivity"></activity>
         <activity android:name=".activity.login.VerifyCodeActivity"></activity>
         <activity android:name=".activity.login.SendOTPForgotPasswordActivity"></activity>

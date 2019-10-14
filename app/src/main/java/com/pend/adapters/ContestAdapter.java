@@ -106,7 +106,7 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private final ImageView ivRightProfile;
         private final ImageView ivComment;
 
-        private final TextView tvShareOnFacebook;
+        private final ImageView tvShareOnFacebook;
         private final TextView tvTitle;
         private final TextView tvLeftName;
         private final TextView tvRightName;
@@ -140,7 +140,7 @@ public class ContestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private final ImageView ivComment;
 
         private final TextView tvName;
-        private final TextView tvShareOnFacebook;
+        private final ImageView tvShareOnFacebook;
         private final TextView tvTitle;
         private final TextView tvMirror1View;
         private final TextView tvMirror2View;

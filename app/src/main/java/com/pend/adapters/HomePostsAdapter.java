@@ -124,7 +124,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         private final ImageView ivRightProfile;
         private final ImageView ivComment;
 
-        private final TextView tvShareOnFacebook;
+        private final ImageView tvShareOnFacebook;
         private final TextView tvTitle;
         private final TextView tvLeftName;
         private final TextView tvRightName;

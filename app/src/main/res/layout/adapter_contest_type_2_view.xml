@@ -39,17 +39,15 @@
             android:textSize="@dimen/_11sdp"
             android:textStyle="bold" />
 
-        <TextView
+        <ImageView
             android:id="@+id/tv_share_on_facebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/custom_rounded_grey_border"
             android:gravity="center"
             android:padding="@dimen/_5sdp"
-            android:text="@string/share_on_facebook"
-            android:textAllCaps="false"
+            android:src="@drawable/facebook"
             android:textColor="@color/fontPrimary40"
             android:textSize="@dimen/_9sdp" />
 
@@ -180,6 +178,7 @@
         android:textSize="@dimen/_9sdp" />
 
     <ImageView
+        android:visibility="invisible"
         android:id="@+id/iv_comment"
         android:layout_width="@dimen/_15sdp"
         android:layout_height="@dimen/_15sdp"
@@ -190,6 +189,7 @@
         android:src="@drawable/group" />
 
     <TextView
+        android:visibility="invisible"
         android:id="@+id/tv_comment_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

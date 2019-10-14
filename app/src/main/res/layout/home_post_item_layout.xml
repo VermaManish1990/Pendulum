@@ -63,7 +63,7 @@
             android:paddingTop="@dimen/_3sdp"
             android:layout_marginEnd="@dimen/_5sdp"
             android:layout_toStartOf="@+id/iv_menu"
-            android:src="@drawable/share" />
+            android:src="@drawable/facebook" />
 
         <ImageView
             android:id="@+id/iv_menu"
