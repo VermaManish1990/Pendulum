@@ -258,8 +258,11 @@ public class SearchMirrorListingActivity extends BaseActivity implements View.On
 
             case IApiEvent.REQUEST_CREATE_MIRROR_CODE:
 
+                String mirrorInfo=mMirrorDetails.mirrorInfo;
+                if(mirrorInfo==null||mirrorInfo.equals(""))
+                    mirrorInfo="NA";
                 JsonObject requestObject = RequestPostDataUtil.createMirrorApiRegParam(userId, String.valueOf(mMirrorDetails.mirrorUniqueID), mMirrorDetails.mirrorName,
-                        mMirrorDetails.imageUrl, mMirrorDetails.mirrorInfo, mMirrorDetails.mirrorWikiLink);
+                        mMirrorDetails.imageUrl, mirrorInfo, mMirrorDetails.mirrorWikiLink);
                 String request = requestObject.toString();
                 RequestManager.addRequest(new GsonObjectRequest<CreateMirrorResponseModel>(IWebServices.REQUEST_CREATE_MIRROR_URL, NetworkUtil.getHeaders(this),
                         request, CreateMirrorResponseModel.class, new VolleyErrorListener(this, actionID)) {
